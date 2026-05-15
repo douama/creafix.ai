@@ -55,7 +55,7 @@ export function BeforeAfter() {
             transition={{ duration: 0.5, delay: 0.05 }}
             className="mt-3 font-display text-3xl font-bold tracking-tight text-balance md:text-4xl"
           >
-            Avant Monetiq AI{" "}
+            Avant CreaFix AI{" "}
             <span className="gradient-text">vs Après</span>
           </motion.h2>
           <motion.p

@@ -79,7 +79,7 @@ export function Demonetized() {
             transition={{ duration: 0.5, delay: 0.1 }}
             className="mt-3 text-sm text-muted-foreground md:text-base"
           >
-            La plupart des créateurs ignorent au moins 2 de ces pièges. Monetiq
+            La plupart des créateurs ignorent au moins 2 de ces pièges. CreaFix
             AI les détecte tous, sur chaque vidéo.
           </motion.p>
         </div>

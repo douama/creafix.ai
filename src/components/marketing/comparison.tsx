@@ -17,7 +17,7 @@ const FEATURES: { label: string; us: Cell; tt: Cell; meta: Cell; yt: Cell }[] = 
 ];
 
 const COLS = [
-  { key: "us" as const, name: "Monetiq AI", highlight: true },
+  { key: "us" as const, name: "CreaFix AI", highlight: true },
   { key: "tt" as const, name: "TikTok Studio", highlight: false },
   { key: "meta" as const, name: "Meta CS", highlight: false },
   { key: "yt" as const, name: "YouTube Studio", highlight: false },
@@ -44,7 +44,7 @@ export function Comparison() {
             transition={{ duration: 0.5, delay: 0.05 }}
             className="mt-3 font-display text-3xl font-bold tracking-tight text-balance md:text-4xl"
           >
-            Pourquoi Monetiq AI{" "}
+            Pourquoi CreaFix AI{" "}
             <span className="gradient-text">change la donne</span>.
           </motion.h2>
           <motion.p
@@ -54,7 +54,7 @@ export function Comparison() {
             transition={{ duration: 0.5, delay: 0.1 }}
             className="mt-3 text-sm text-muted-foreground md:text-base"
           >
-            Les outils natifs te montrent ce que tu fais. Monetiq AI te dit ce
+            Les outils natifs te montrent ce que tu fais. CreaFix AI te dit ce
             qu&apos;il faut faire — et combien tu vas gagner.
           </motion.p>
         </div>

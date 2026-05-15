@@ -343,7 +343,7 @@ function RevenueCalculatorCard() {
           <b className="text-foreground">
             ${loss.toLocaleString("fr-FR")}/mois
           </b>{" "}
-          de revenus laissés sur la table avec ce profil. Monetiq AI te montre
+          de revenus laissés sur la table avec ce profil. CreaFix AI te montre
           comment les récupérer.
         </p>
         <Button asChild size="sm" variant="brand" className="group mt-3 w-full">
