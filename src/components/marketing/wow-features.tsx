@@ -78,15 +78,14 @@ const wowFeatures: WowFeature[] = [
     badge: "Made in Africa",
     title: "African Trend Engine",
     desc:
-      "Le seul moteur de tendances réellement entraîné sur les contenus africains : Sénégal, Côte d'Ivoire, Nigeria, Afrique du Sud, Maroc, RDC, Ghana, Cameroun, Mali.",
+      "Le seul moteur de tendances réellement entraîné sur les contenus africains. Hashtags, sons et formats — par pays, en temps réel.",
     bullets: [
       "Refresh toutes les 15 minutes",
-      "Hashtags + sons + formats par pays",
+      "9 pays : SN, CI, CM, ML, NG, GH, ZA, MA, CD",
       "Détection des trends naissantes",
     ],
     metric: { value: "9 pays", label: "couverts" },
     tone: "electric",
-    span: "wide",
     visual: "globe",
   },
   {
@@ -274,13 +273,13 @@ function WowCard({ feature, index }: { feature: WowFeature; index: number }) {
           </div>
         )}
 
-        {isWide && feature.visual === "globe" && (
-          <div className="mt-auto pt-5">
-            <div className="flex flex-wrap gap-1.5">
+        {feature.visual === "globe" && (
+          <div className="mt-auto pt-4">
+            <div className="flex flex-wrap gap-1">
               {["🇸🇳", "🇨🇮", "🇨🇲", "🇲🇱", "🇳🇬", "🇬🇭", "🇿🇦", "🇲🇦", "🇨🇩"].map((flag) => (
                 <span
                   key={flag}
-                  className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-border bg-card/60 text-base transition-transform hover:scale-110"
+                  className="inline-flex h-6 w-6 items-center justify-center rounded-md border border-border bg-card/60 text-[11px] transition-transform hover:scale-110"
                 >
                   {flag}
                 </span>
