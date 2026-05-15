@@ -1,8 +1,7 @@
 "use client";
 
-import * as React from "react";
 import Image from "next/image";
-import { ChevronLeft, ChevronRight, Quote, Star, TrendingUp } from "lucide-react";
+import { Quote, Star, TrendingUp, Verified } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { PlatformIcon, PLATFORM_BRAND_COLORS } from "@/components/brand/platform-icon";
 import type { PlatformId } from "@/lib/platforms";
@@ -11,15 +10,15 @@ import { cn } from "@/lib/utils";
 type Review = {
   name: string;
   role: string;
-  country: string;       // 🇸🇳 Dakar
-  avatar: string;        // URL Unsplash
+  country: string;
+  avatar: string;
   quote: string;
   rating: number;
   platforms: PlatformId[];
   metric: string;
 };
 
-const reviews: Review[] = [
+const REVIEWS: Review[] = [
   {
     name: "Aïssata Diop",
     role: "TikTokeuse cuisine",
@@ -28,7 +27,7 @@ const reviews: Review[] = [
     quote: "En 2 semaines, mon RPM a triplé. CreaFix AI m'a dit exactement quels sons éviter et quels hooks utiliser.",
     rating: 5,
     platforms: ["TIKTOK", "INSTAGRAM"],
-    metric: "RPM ×3 en 14 jours",
+    metric: "RPM ×3 en 14 j",
   },
   {
     name: "Ibrahim Sow",
@@ -95,7 +94,7 @@ const reviews: Review[] = [
     role: "Football content",
     country: "🇸🇳 Dakar",
     avatar: "https://images.unsplash.com/photo-1564564321837-a57b7070ac4f?w=200&h=200&fit=crop&crop=faces&q=80",
-    quote: "Je publie sur 4 plateformes à la fois. CreaFix me dit où je gagne le plus — j'ai pivoté vers YouTube et tripler mes revenus.",
+    quote: "Je publie sur 4 plateformes à la fois. CreaFix me dit où je gagne le plus — j'ai pivoté vers YouTube et triplé mes revenus.",
     rating: 5,
     platforms: ["YOUTUBE", "TIKTOK", "FACEBOOK", "X"],
     metric: "Revenus ×3 après pivot",
@@ -122,123 +121,73 @@ const reviews: Review[] = [
   },
 ];
 
+// Distribue les reviews sur 3 colonnes
+const COLS = [
+  REVIEWS.filter((_, i) => i % 3 === 0),
+  REVIEWS.filter((_, i) => i % 3 === 1),
+  REVIEWS.filter((_, i) => i % 3 === 2),
+];
+
 export function Testimonials() {
   const t = useTranslations("testimonials");
-  const scrollerRef = React.useRef<HTMLDivElement>(null);
-  const [activeIndex, setActiveIndex] = React.useState(0);
-  const [paused, setPaused] = React.useState(false);
-
-  React.useEffect(() => {
-    if (paused) return;
-    const id = setInterval(() => {
-      setActiveIndex((i) => (i + 1) % reviews.length);
-    }, 5000);
-    return () => clearInterval(id);
-  }, [paused]);
-
-  React.useEffect(() => {
-    const el = scrollerRef.current;
-    if (!el) return;
-    const card = el.children[activeIndex] as HTMLElement | undefined;
-    if (card) {
-      el.scrollTo({
-        left: card.offsetLeft - el.offsetLeft - 16,
-        behavior: "smooth",
-      });
-    }
-  }, [activeIndex]);
 
   return (
-    <section
-      className="relative overflow-hidden py-10 md:py-14"
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
-    >
-      {/* Halo d'ambiance */}
-      <div className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[500px] w-[1100px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-radial-fade opacity-50 blur-3xl" />
+    <section className="relative overflow-hidden py-10 md:py-14">
+      <div className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[500px] w-[1100px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-radial-fade opacity-40 blur-3xl" />
 
       <div className="container">
-        {/* Header premium */}
         <div className="mx-auto max-w-2xl text-center">
-          <div className="inline-flex items-center gap-1.5 rounded-full border border-amber-500/30 bg-amber-500/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-amber-500 dark:text-amber-300">
+          <div className="inline-flex items-center gap-1.5 rounded-full border border-amber-500/30 bg-amber-500/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-amber-500 dark:text-amber-300">
             <Star className="h-3 w-3 fill-amber-500" />
-            4.9 / 5 — Trusted by creators
+            4.9 / 5 · 2 300+ créateurs
           </div>
-          <h2 className="mt-3 font-display text-3xl font-bold tracking-tight md:text-5xl">
+          <h2 className="mt-3 font-display text-3xl font-bold tracking-tight text-balance md:text-5xl">
             {t("titlePart1")} <span className="gradient-text">{t("titleHighlight")}</span>{" "}
             {t("titlePart2")}
           </h2>
-          <div className="mt-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-muted-foreground">
-            <span className="flex items-center gap-1.5">
-              <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
-              <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
-              <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
-              <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
-              <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
-              <b className="text-foreground">4.9/5</b>
+          <div className="mt-3 flex flex-wrap items-center justify-center gap-x-5 gap-y-1.5 text-[11px] text-muted-foreground">
+            <span className="inline-flex items-center gap-1">
+              {Array.from({ length: 5 }).map((_, i) => (
+                <Star key={i} className="h-3 w-3 fill-amber-400 text-amber-400" />
+              ))}
+              <b className="ml-0.5 text-foreground">4.9/5</b>
             </span>
             <span>·</span>
-            <span><b className="text-foreground">2 300+</b> créateurs</span>
+            <span>
+              <b className="text-foreground">9 pays</b> couverts
+            </span>
             <span>·</span>
-            <span><b className="text-foreground">9 pays</b> couverts</span>
-            <span>·</span>
-            <span><b className="text-foreground">10</b> témoignages récents</span>
+            <span>
+              <b className="text-foreground">{REVIEWS.length}</b> avis vérifiés
+            </span>
           </div>
         </div>
 
-        <div className="relative mt-12">
-          {/* Boutons navigation flottants */}
-          <button
-            onClick={() => setActiveIndex((i) => (i - 1 + reviews.length) % reviews.length)}
-            aria-label="Précédent"
-            className="absolute -left-3 top-1/2 z-20 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-border bg-background/90 shadow-lg backdrop-blur transition-all hover:scale-110 hover:bg-card hover:shadow-xl md:flex"
-          >
-            <ChevronLeft className="h-4 w-4" />
-          </button>
-          <button
-            onClick={() => setActiveIndex((i) => (i + 1) % reviews.length)}
-            aria-label="Suivant"
-            className="absolute -right-3 top-1/2 z-20 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-border bg-background/90 shadow-lg backdrop-blur transition-all hover:scale-110 hover:bg-card hover:shadow-xl md:flex"
-          >
-            <ChevronRight className="h-4 w-4" />
-          </button>
+        <div className="relative mt-10 h-[640px] overflow-hidden md:h-[720px]">
+          {/* Fade haut + bas pour effet infini */}
+          <div className="pointer-events-none absolute inset-x-0 top-0 z-10 h-24 bg-gradient-to-b from-background to-transparent" />
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-24 bg-gradient-to-t from-background to-transparent" />
 
-          {/* Fade edges (gauche + droite) */}
-          <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-background to-transparent md:w-24" />
-          <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-background to-transparent md:w-24" />
-
-          {/* Slider */}
-          <div
-            ref={scrollerRef}
-            className="no-scrollbar flex snap-x snap-mandatory gap-5 overflow-x-auto px-4 pb-4 md:px-8"
-          >
-            {reviews.map((r, i) => (
-              <ReviewCard key={r.name} review={r} isActive={i === activeIndex} />
+          <div className="mx-auto grid h-full max-w-6xl grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {COLS.map((col, i) => (
+              <div key={i} className="relative h-full overflow-hidden">
+                <div
+                  className={cn(
+                    "marquee-pause flex flex-col gap-4 will-change-transform",
+                    i === 1 ? "marquee-down marquee-slow" : "marquee-up",
+                    i === 2 && "marquee-slow",
+                    // Cache la 2e/3e colonne sur mobile (1 seule colonne)
+                    i === 1 && "hidden sm:flex",
+                    i === 2 && "hidden lg:flex",
+                  )}
+                >
+                  {/* Duplique pour boucle infinie */}
+                  {[...col, ...col].map((r, idx) => (
+                    <ReviewCard key={`${r.name}-${idx}`} review={r} />
+                  ))}
+                </div>
+              </div>
             ))}
-          </div>
-
-          {/* Progress dots */}
-          <div className="mt-6 flex items-center justify-center gap-1.5">
-            {reviews.map((_, i) => (
-              <button
-                key={i}
-                onClick={() => setActiveIndex(i)}
-                aria-label={`Aller au témoignage ${i + 1}`}
-                className={cn(
-                  "h-1.5 rounded-full transition-all duration-300",
-                  activeIndex === i
-                    ? "w-10 bg-gradient-to-r from-[#7B61FF] to-[#FF8A00]"
-                    : "w-1.5 bg-muted-foreground/25 hover:bg-muted-foreground/50",
-                )}
-              />
-            ))}
-          </div>
-
-          {/* Counter */}
-          <div className="mt-2 text-center text-xs text-muted-foreground">
-            <span className="font-mono">
-              <b className="text-foreground">{String(activeIndex + 1).padStart(2, "0")}</b> / {String(reviews.length).padStart(2, "0")}
-            </span>
           </div>
         </div>
       </div>
@@ -246,37 +195,25 @@ export function Testimonials() {
   );
 }
 
-function ReviewCard({ review, isActive }: { review: Review; isActive: boolean }) {
+function ReviewCard({ review }: { review: Review }) {
   const primaryColor = PLATFORM_BRAND_COLORS[review.platforms[0]];
 
   return (
-    <article
-      className={cn(
-        "group relative flex w-[90%] shrink-0 snap-center flex-col overflow-hidden rounded-2xl border bg-card/40 backdrop-blur transition-all duration-500 sm:w-[65%] md:w-[48%] lg:w-[36%]",
-        isActive
-          ? "border-foreground/30 bg-card/70 shadow-2xl shadow-[#7B61FF]/10 scale-100"
-          : "border-border opacity-75 scale-95 hover:opacity-100",
-      )}
-    >
-      {/* Halo de couleur primaire de la plateforme principale */}
+    <article className="group relative shrink-0 overflow-hidden rounded-2xl border border-border bg-card/40 p-5 backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:border-foreground/30 hover:bg-card/70 hover:shadow-2xl">
       <div
-        className="pointer-events-none absolute -right-20 -top-20 h-56 w-56 rounded-full opacity-30 blur-3xl transition-opacity duration-500 group-hover:opacity-50"
+        className="pointer-events-none absolute -right-12 -top-12 h-32 w-32 rounded-full opacity-0 blur-2xl transition-opacity duration-300 group-hover:opacity-30"
         style={{ backgroundColor: primaryColor }}
       />
 
-      {/* Top accent bar gradient */}
-      <div className="h-1 w-full gradient-brand" />
-
-      <div className="flex flex-col gap-4 p-6">
-        {/* Header : guillemet + étoiles + plateformes */}
+      <div className="relative">
         <div className="flex items-start justify-between gap-3">
-          <Quote className="h-7 w-7 shrink-0 text-[#7B61FF]/40" strokeWidth={1.5} />
+          <Quote className="h-5 w-5 shrink-0 text-[#7B61FF]/50" strokeWidth={2} />
           <div className="flex items-center gap-0.5">
             {Array.from({ length: 5 }).map((_, i) => (
               <Star
                 key={i}
                 className={cn(
-                  "h-3.5 w-3.5",
+                  "h-3 w-3",
                   i < review.rating
                     ? "fill-amber-400 text-amber-400"
                     : "fill-muted/40 text-muted-foreground/30",
@@ -286,47 +223,43 @@ function ReviewCard({ review, isActive }: { review: Review; isActive: boolean })
           </div>
         </div>
 
-        {/* Quote */}
-        <p className="flex-1 text-[15px] leading-relaxed text-foreground/90">
-          &ldquo;{review.quote}&rdquo;
+        <p className="mt-3 text-[13.5px] leading-relaxed text-foreground/90">
+          “{review.quote}”
         </p>
 
-        {/* Metric chip */}
-        <div className="inline-flex w-fit items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-1 text-xs font-semibold text-emerald-500 dark:text-emerald-300">
-          <TrendingUp className="h-3 w-3" />
+        <div className="mt-3 inline-flex w-fit items-center gap-1 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2 py-0.5 text-[10px] font-semibold text-emerald-500 dark:text-emerald-300">
+          <TrendingUp className="h-2.5 w-2.5" />
           {review.metric}
         </div>
 
-        {/* Footer : profil + plateformes officielles */}
-        <div className="flex items-center gap-3 border-t border-border pt-4">
-          <div className="relative h-12 w-12 shrink-0">
-            <div
-              className="absolute -inset-0.5 rounded-full opacity-60 blur-sm"
-              style={{ backgroundColor: primaryColor }}
-            />
+        <div className="mt-4 flex items-center gap-3 border-t border-border/60 pt-3">
+          <div className="relative h-9 w-9 shrink-0">
             <Image
               src={review.avatar}
               alt={review.name}
               fill
-              sizes="48px"
-              className="relative rounded-full object-cover ring-2 ring-background"
+              sizes="36px"
+              className="rounded-full object-cover ring-2 ring-background"
             />
           </div>
           <div className="min-w-0 flex-1">
-            <div className="truncate text-sm font-semibold">{review.name}</div>
-            <div className="truncate text-xs text-muted-foreground">
+            <div className="flex items-center gap-1 truncate text-xs font-semibold">
+              {review.name}
+              <Verified className="h-3 w-3 shrink-0 fill-[#00C2FF] text-background dark:text-background" />
+            </div>
+            <div className="truncate text-[10px] text-muted-foreground">
               {review.role} · {review.country}
             </div>
-            <div className="mt-1.5 flex items-center gap-1.5">
-              {review.platforms.map((p) => (
-                <PlatformIcon
-                  key={p}
-                  id={p}
-                  className="h-3.5 w-3.5"
-                  style={{ color: PLATFORM_BRAND_COLORS[p] }}
-                />
-              ))}
-            </div>
+          </div>
+          <div className="flex shrink-0 items-center gap-1">
+            {review.platforms.slice(0, 3).map((p) => (
+              <PlatformIcon
+                key={p}
+                id={p}
+                className="h-3 w-3"
+                style={{ color: PLATFORM_BRAND_COLORS[p] }}
+              />
+            ))}
           </div>
         </div>
       </div>

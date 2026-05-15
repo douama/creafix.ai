@@ -311,10 +311,36 @@
     background: radial-gradient(circle, rgba(123,97,255,0.6), transparent);
   }
 
+  /* ─── Marquee testimonials (scroll infinite vertical) ─── */
+  @keyframes marquee-up {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-50%); }
+  }
+  @keyframes marquee-down {
+    0% { transform: translateY(-50%); }
+    100% { transform: translateY(0); }
+  }
+  .marquee-up {
+    animation: marquee-up 50s linear infinite;
+    will-change: transform;
+  }
+  .marquee-down {
+    animation: marquee-down 60s linear infinite;
+    will-change: transform;
+  }
+  .marquee-slow {
+    animation-duration: 70s;
+  }
+  .marquee-pause:hover {
+    animation-play-state: paused;
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .aurora-blob,
     .shimmer-border::before,
-    .particle {
+    .particle,
+    .marquee-up,
+    .marquee-down {
       animation: none !important;
     }
   }
