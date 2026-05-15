@@ -26,7 +26,7 @@ export function FAQ() {
 
   return (
     <section id="faq" className="relative py-12 md:py-16">
-      <div className="container max-w-5xl">
+      <div className="container">
         <div className="mx-auto max-w-2xl text-center">
           <div className="inline-flex items-center gap-1.5 rounded-full border border-[#7B61FF]/30 bg-[#7B61FF]/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-[#7B61FF]">
             <HelpCircle className="h-3 w-3" /> FAQ

@@ -7,6 +7,11 @@ import {
   resolveLocaleFromCountry,
   type Locale,
 } from "@/i18n/config";
+import {
+  isValidCurrency,
+  resolveCurrencyFromCountry,
+  type CurrencyCode,
+} from "@/lib/pricing";
 
 /**
  * Middleware CreaFix AI :
@@ -16,8 +21,9 @@ import {
  *  - Headers de sécurité de base
  */
 export async function middleware(request: NextRequest) {
-  // 1. Détection de la locale
+  // 1. Détection de la locale + devise via géo-IP
   const cookieLocale = request.cookies.get("NEXT_LOCALE")?.value;
+  const cookieCurrency = request.cookies.get("NEXT_CURRENCY")?.value;
   const country =
     request.headers.get("x-vercel-ip-country") ??
     request.headers.get("cf-ipcountry") ??
@@ -33,16 +39,30 @@ export async function middleware(request: NextRequest) {
     locale = resolveLocaleFromAcceptLanguage(accept) ?? defaultLocale;
   }
 
+  let currency: CurrencyCode;
+  if (isValidCurrency(cookieCurrency)) {
+    currency = cookieCurrency;
+  } else {
+    currency = resolveCurrencyFromCountry(country);
+  }
+
   // 2. Session Supabase (si configurée)
   const hasSupabase =
     !!process.env.NEXT_PUBLIC_SUPABASE_URL && !!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
   const response = hasSupabase ? await updateSession(request) : NextResponse.next();
 
-  // 3. Si le cookie locale n'existait pas, on l'écrit (auto-détecté)
+  // 3. Persiste cookies si absents (auto-détectés)
   if (!isValidLocale(cookieLocale)) {
     response.cookies.set("NEXT_LOCALE", locale, {
-      maxAge: 60 * 60 * 24 * 365, // 1 an
+      maxAge: 60 * 60 * 24 * 365,
+      path: "/",
+      sameSite: "lax",
+    });
+  }
+  if (!isValidCurrency(cookieCurrency)) {
+    response.cookies.set("NEXT_CURRENCY", currency, {
+      maxAge: 60 * 60 * 24 * 365,
       path: "/",
       sameSite: "lax",
     });
