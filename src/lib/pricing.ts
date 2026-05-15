@@ -91,7 +91,7 @@ export const CURRENCIES: Record<CurrencyCode, CurrencyConfig> = {
     symbolPosition: "after",
     flag: "🇲🇦",
     locale: "fr-MA",
-    pricing: { free: 0, pro: 159, agency: 799, enterprise: 0 },
+    pricing: { free: 0, pro: 160, agency: 790, enterprise: 0 },
     countries: ["MA"],
   },
   NGN: {
@@ -101,7 +101,7 @@ export const CURRENCIES: Record<CurrencyCode, CurrencyConfig> = {
     symbolPosition: "before",
     flag: "🇳🇬",
     locale: "en-NG",
-    pricing: { free: 0, pro: 14_500, agency: 79_900, enterprise: 0 },
+    pricing: { free: 0, pro: 3_990, agency: 19_900, enterprise: 0 },
     countries: ["NG"],
   },
   GHS: {
@@ -121,7 +121,7 @@ export const CURRENCIES: Record<CurrencyCode, CurrencyConfig> = {
     symbolPosition: "before",
     flag: "🇿🇦",
     locale: "en-ZA",
-    pricing: { free: 0, pro: 299, agency: 1_499, enterprise: 0 },
+    pricing: { free: 0, pro: 290, agency: 1_490, enterprise: 0 },
     countries: ["ZA", "NA", "LS", "SZ"],
   },
   EGP: {
