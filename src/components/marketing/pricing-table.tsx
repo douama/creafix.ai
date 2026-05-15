@@ -72,12 +72,12 @@ export function PricingTable({ currency }: { currency: CurrencyCode }) {
                 <h3 className="font-display text-xl font-bold">{t(`${plan.key}.name`)}</h3>
                 <p className="mt-1 text-sm text-muted-foreground">{t(`${plan.key}.desc`)}</p>
 
-                <div className="mt-5 flex items-baseline gap-1.5">
-                  <span className="font-display text-3xl font-bold leading-none md:text-4xl">
+                <div className="mt-5 flex flex-wrap items-baseline gap-x-1.5 gap-y-0.5">
+                  <span className="font-display text-2xl font-bold leading-none md:text-3xl">
                     {price}
                   </span>
                   {plan.key !== "enterprise" && (
-                    <span className="text-sm text-muted-foreground">
+                    <span className="text-xs text-muted-foreground md:text-sm">
                       {t(`${plan.key}.unit`)}
                     </span>
                   )}
