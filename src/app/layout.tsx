@@ -18,46 +18,47 @@ const sora = Sora({
 
 export const metadata: Metadata = {
   title: {
-    default: "Monetiq AI — Audit IA de monétisation pour créateurs africains",
-    template: "%s · Monetiq AI",
+    default: "CreaFix AI — Fix your content. Scale your revenue.",
+    template: "%s · CreaFix AI",
   },
   description:
-    "La première plateforme IA dédiée aux créateurs africains pour auditer, optimiser et accélérer la monétisation Facebook & TikTok. Score IA, anti-ban, idées virales, estimation revenus en FCFA et plus.",
-  metadataBase: new URL("https://monetiq.ai"),
+    "CreaFix AI audits, fixes and scales your TikTok & Facebook monetization automatically. Shadowban detection, viral score, RPM predictor, AI content repair.",
+  metadataBase: new URL("https://creafix.ai"),
   keywords: [
-    "monétisation Facebook",
-    "TikTok Afrique",
-    "créateurs Afrique",
-    "audit IA",
-    "RPM Afrique",
-    "CPM Sénégal",
-    "Mobile Money",
+    "CreaFix AI",
+    "shadowban detector",
+    "viral score AI",
+    "RPM predictor",
+    "TikTok monetization",
+    "Facebook monetization",
+    "AI content repair",
+    "African creators",
   ],
   openGraph: {
-    title: "Monetiq AI — Le SEMrush des créateurs africains",
+    title: "CreaFix AI — Turn Your Content Into Revenue With AI",
     description:
-      "Connecte tes pages Facebook & comptes TikTok. Reçois un audit IA complet, des scores, un plan d'action et des idées virales adaptées à l'Afrique.",
-    url: "https://monetiq.ai",
-    siteName: "Monetiq AI",
-    locale: "fr_FR",
+      "Audit, fix and scale your TikTok & Facebook monetization automatically. Built for creators worldwide, optimized for African markets.",
+    url: "https://creafix.ai",
+    siteName: "CreaFix AI",
+    locale: "en_US",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Monetiq AI",
-    description: "Audit IA de monétisation sociale pour l'Afrique.",
+    title: "CreaFix AI",
+    description: "Fix your content. Scale your revenue.",
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0B0B14",
+  themeColor: "#0B0F19",
   width: "device-width",
   initialScale: 1,
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="fr" className={`${inter.variable} ${sora.variable}`} suppressHydrationWarning>
+    <html lang="en" className={`${inter.variable} ${sora.variable}`} suppressHydrationWarning>
       <body className="min-h-screen font-sans">
         <ThemeProvider
           attribute="class"

@@ -29,7 +29,7 @@ const perks = [
   {
     icon: Palette,
     title: "Marque blanche complète",
-    desc: "Ton logo, tes couleurs, ton sous-domaine. Les clients ne voient pas Monetiq.",
+    desc: "Ton logo, tes couleurs, ton sous-domaine. Les clients ne voient pas CreaFix.",
   },
   {
     icon: FileBarChart2,
@@ -44,7 +44,7 @@ const perks = [
   {
     icon: Webhook,
     title: "API + Webhooks",
-    desc: "Intègre Monetiq dans tes outils internes (Notion, Slack, Linear, etc.).",
+    desc: "Intègre CreaFix dans tes outils internes (Notion, Slack, Linear, etc.).",
   },
   {
     icon: Sparkles,

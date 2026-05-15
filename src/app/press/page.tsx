@@ -5,7 +5,7 @@ import { PageShell, PageHero, PageSection } from "@/components/marketing/page-sh
 
 export const metadata = {
   title: "Presse",
-  description: "Press kit, communiqués, et contact média de Monetiq AI.",
+  description: "Press kit, communiqués, et contact média de CreaFix AI.",
 };
 
 const press = [
@@ -18,7 +18,7 @@ const press = [
   {
     source: "Techpoint Africa",
     date: "Avril 2026",
-    title: "Monetiq AI raises pre-seed to bring AI to African creator economy",
+    title: "CreaFix AI raises pre-seed to bring AI to African creator economy",
     href: "#",
   },
   {
@@ -67,8 +67,8 @@ export default function PressPage() {
         >
           <div>
             <Button asChild variant="brand">
-              <Link href="mailto:press@monetiq.ai">
-                <Mail className="mr-1 h-4 w-4" /> press@monetiq.ai
+              <Link href="mailto:press@creafix.ai">
+                <Mail className="mr-1 h-4 w-4" /> press@creafix.ai
               </Link>
             </Button>
           </div>
@@ -141,8 +141,8 @@ export default function PressPage() {
 
       <p className="mt-10 text-center text-sm text-muted-foreground">
         Demandes presse :{" "}
-        <a href="mailto:press@monetiq.ai" className="text-violet-500 underline">
-          press@monetiq.ai
+        <a href="mailto:press@creafix.ai" className="text-violet-500 underline">
+          press@creafix.ai
         </a>{" "}
         · Réponse sous 24h ouvrées
       </p>

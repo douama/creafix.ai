@@ -2,7 +2,7 @@ import { LegalShell } from "@/components/marketing/legal-shell";
 
 export const metadata = {
   title: "Mentions légales",
-  description: "Informations légales relatives à l'éditeur du site Monetiq AI.",
+  description: "Informations légales relatives à l'éditeur du site CreaFix AI.",
 };
 
 export default function LegalNoticePage() {
@@ -11,7 +11,7 @@ export default function LegalNoticePage() {
       <h2>Éditeur du site</h2>
       <ul>
         <li>
-          <strong>Raison sociale :</strong> Monetiq AI SARL
+          <strong>Raison sociale :</strong> CreaFix AI SARL
         </li>
         <li>
           <strong>Forme juridique :</strong> Société à responsabilité limitée de droit
@@ -30,7 +30,7 @@ export default function LegalNoticePage() {
           <strong>RCCM :</strong> à compléter
         </li>
         <li>
-          <strong>Email :</strong> <a href="mailto:hello@monetiq.ai">hello@monetiq.ai</a>
+          <strong>Email :</strong> <a href="mailto:hello@creafix.ai">hello@creafix.ai</a>
         </li>
       </ul>
 
@@ -53,7 +53,7 @@ export default function LegalNoticePage() {
       <p>
         L'ensemble des éléments composant le site (textes, graphismes, logos, icônes, images,
         sons, vidéos, code, logiciels, organisation, structure et orchestration des agents IA)
-        sont la propriété exclusive de Monetiq AI SARL ou de ses concédants. Toute reproduction,
+        sont la propriété exclusive de CreaFix AI SARL ou de ses concédants. Toute reproduction,
         représentation, modification ou exploitation non autorisée est interdite et engage la
         responsabilité civile et pénale du contrevenant.
       </p>
@@ -79,7 +79,7 @@ export default function LegalNoticePage() {
 
       <h2>Crédits</h2>
       <p>
-        Design et développement : équipe Monetiq AI. Iconographie : Lucide. Polices : Inter
+        Design et développement : équipe CreaFix AI. Iconographie : Lucide. Polices : Inter
         et Sora (Google Fonts).
       </p>
     </LegalShell>

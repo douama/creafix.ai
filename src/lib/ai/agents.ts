@@ -1,5 +1,5 @@
 /**
- * Monetiq AI — Multi-agents orchestrator
+ * CreaFix AI — Multi-agents orchestrator
  *
  * Chaque agent encapsule un prompt système, un modèle LLM préféré et une logique
  * de scoring/extraction. Les agents sont composés par `runAudit()` pour produire

@@ -6,7 +6,7 @@ import { FAQ } from "@/components/marketing/faq";
 
 export const metadata = {
   title: "Questions fréquentes",
-  description: "Tout ce que tu dois savoir avant de te lancer sur Monetiq AI.",
+  description: "Tout ce que tu dois savoir avant de te lancer sur CreaFix AI.",
 };
 
 export default function FAQPage() {

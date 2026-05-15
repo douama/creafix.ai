@@ -15,7 +15,7 @@ export default function HelpPage() {
       <div className="grid gap-4 md:grid-cols-3">
         <Channel icon={MessageCircle} title="Chat IA" desc="24/7 · réponse instantanée" cta="Ouvrir le chat" />
         <Channel icon={Phone}         title="WhatsApp"    desc="+221 77 000 00 00"        cta="Écrire sur WhatsApp" />
-        <Channel icon={Send}          title="Email"        desc="hello@monetiq.ai"        cta="Envoyer un email" />
+        <Channel icon={Send}          title="Email"        desc="hello@creafix.ai"        cta="Envoyer un email" />
       </div>
 
       <Card>

@@ -3,53 +3,59 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
+  Activity,
+  Bot,
+  Building2,
+  Code2,
+  CreditCard,
+  FileBarChart2,
+  Flame,
+  HelpCircle,
   LayoutDashboard,
   Search,
-  Sparkles,
-  Coins,
-  ShieldAlert,
-  TrendingUp,
-  FileBarChart2,
-  Building2,
   Settings,
-  CreditCard,
-  Bot,
-  HelpCircle,
+  ShieldOff,
+  Sparkles,
+  TrendingUp,
+  Wand2,
 } from "lucide-react";
 import { Logo } from "@/components/brand/logo";
 import { cn } from "@/lib/utils";
 
 const nav = [
   {
-    title: "Tableau de bord",
+    title: "Overview",
     items: [
-      { href: "/dashboard", label: "Vue d'ensemble", icon: LayoutDashboard },
-      { href: "/dashboard/audits", label: "Audits IA", icon: Search },
-      { href: "/dashboard/revenue", label: "Revenus & estimations", icon: Coins },
-      { href: "/dashboard/trends", label: "Tendances Afrique", icon: TrendingUp },
+      { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
+      { href: "/dashboard/analytics", label: "Analytics", icon: Activity },
+      { href: "/dashboard/audits", label: "AI Audit", icon: Search },
     ],
   },
   {
-    title: "Création IA",
+    title: "WOW AI",
     items: [
-      { href: "/dashboard/generator", label: "Idées virales", icon: Sparkles },
-      { href: "/dashboard/agents", label: "Agents IA", icon: Bot },
-      { href: "/dashboard/anti-ban", label: "Anti-Ban", icon: ShieldAlert },
+      { href: "/dashboard/generator", label: "Viral Lab", icon: Flame },
+      { href: "/dashboard/revenue", label: "Revenue Predictor", icon: TrendingUp },
+      { href: "/dashboard/trends", label: "Trend Scanner", icon: Sparkles },
+      { href: "/dashboard/anti-ban", label: "Shadowban Guard", icon: ShieldOff },
+      { href: "/dashboard/ai-studio", label: "AI Studio", icon: Wand2 },
+      { href: "/dashboard/agents", label: "AI Agents", icon: Bot },
     ],
   },
   {
     title: "Pro",
     items: [
-      { href: "/dashboard/reports", label: "Rapports PDF", icon: FileBarChart2 },
-      { href: "/dashboard/agency", label: "Mode Agence", icon: Building2 },
-      { href: "/dashboard/billing", label: "Facturation", icon: CreditCard },
+      { href: "/dashboard/reports", label: "Reports", icon: FileBarChart2 },
+      { href: "/dashboard/agency", label: "Agency Mode", icon: Building2 },
+      { href: "/dashboard/api", label: "API & Webhooks", icon: Code2 },
+      { href: "/dashboard/billing", label: "Billing", icon: CreditCard },
     ],
   },
   {
-    title: "Compte",
+    title: "Account",
     items: [
-      { href: "/dashboard/settings", label: "Paramètres", icon: Settings },
-      { href: "/dashboard/help", label: "Aide & support", icon: HelpCircle },
+      { href: "/dashboard/settings", label: "Settings", icon: Settings },
+      { href: "/dashboard/help", label: "Help & support", icon: HelpCircle },
     ],
   },
 ];
@@ -61,7 +67,7 @@ export function Sidebar() {
     <aside className="sticky top-0 hidden h-screen w-64 shrink-0 border-r border-border bg-background/40 backdrop-blur-xl md:flex md:flex-col">
       <div className="px-5 py-5">
         <Link href="/dashboard">
-          <Logo />
+          <Logo showTagline={false} />
         </Link>
       </div>
 
@@ -91,11 +97,13 @@ export function Sidebar() {
                     <item.icon
                       className={cn(
                         "h-4 w-4 shrink-0",
-                        active ? "text-violet-300" : "text-muted-foreground",
+                        active ? "text-[#7B61FF]" : "text-muted-foreground",
                       )}
                     />
                     <span>{item.label}</span>
-                    {active && <span className="ml-auto h-1.5 w-1.5 rounded-full bg-violet-400" />}
+                    {active && (
+                      <span className="ml-auto h-1.5 w-1.5 rounded-full bg-[#7B61FF]" />
+                    )}
                   </Link>
                 );
               })}
@@ -104,18 +112,18 @@ export function Sidebar() {
         ))}
       </nav>
 
-      <div className="m-3 rounded-2xl border border-violet-500/30 bg-gradient-to-br from-violet-500/15 to-orange-500/10 p-4">
-        <div className="text-xs font-semibold uppercase tracking-wider text-violet-200">
-          Plan Créateur
+      <div className="m-3 rounded-2xl border border-[#7B61FF]/30 bg-gradient-to-br from-[#7B61FF]/15 to-[#FF8A00]/10 p-4">
+        <div className="text-xs font-semibold uppercase tracking-wider text-[#7B61FF]">
+          Free Plan
         </div>
         <div className="mt-2 text-sm">
-          Passe en <b>Pro</b> pour les audits illimités.
+          Upgrade to <b>Pro</b> for unlimited audits.
         </div>
         <Link
           href="/dashboard/billing"
           className="mt-3 inline-flex w-full items-center justify-center rounded-lg bg-foreground px-3 py-1.5 text-xs font-medium text-background hover:bg-foreground/90"
         >
-          Upgrade →
+          Upgrade · $29/mo →
         </Link>
       </div>
     </aside>

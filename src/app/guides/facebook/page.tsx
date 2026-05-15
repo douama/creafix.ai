@@ -121,7 +121,7 @@ export default function FacebookGuidePage() {
 
       <PageSection
         title="3. Les optimisations qui font vraiment la différence"
-        subtitle="Données issues de 2 300 créateurs accompagnés par Monetiq."
+        subtitle="Données issues de 2 300 créateurs accompagnés par CreaFix."
       >
         <div className="grid gap-3 md:grid-cols-2">
           {[
@@ -168,7 +168,7 @@ export default function FacebookGuidePage() {
           Découvre où tu en es vraiment.
         </h2>
         <p className="mx-auto mt-3 max-w-xl text-sm text-muted-foreground md:text-base">
-          Connecte ta page Facebook à Monetiq AI. En 60 secondes, on te dit combien il te
+          Connecte ta page Facebook à CreaFix AI. En 60 secondes, on te dit combien il te
           manque pour devenir éligible aux In-Stream Ads.
         </p>
         <div className="mt-5">

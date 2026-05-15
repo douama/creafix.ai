@@ -69,7 +69,7 @@ const categories = [
 const channels = [
   { icon: MessageCircle, name: "Chat IA", desc: "24/7 · réponse instantanée", cta: "Ouvrir le chat", href: "#" },
   { icon: Phone, name: "WhatsApp", desc: "+221 77 000 00 00", cta: "Écrire sur WhatsApp", href: "https://wa.me/221770000000" },
-  { icon: Send, name: "Email", desc: "hello@monetiq.ai", cta: "Envoyer un email", href: "mailto:hello@monetiq.ai" },
+  { icon: Send, name: "Email", desc: "hello@creafix.ai", cta: "Envoyer un email", href: "mailto:hello@creafix.ai" },
 ];
 
 export default function HelpPage() {

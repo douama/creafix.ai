@@ -35,7 +35,7 @@ export default function AgentsPage() {
                   <div>
                     <div className="font-medium">{a.name}</div>
                     <div className="text-xs text-muted-foreground">
-                      Modèle propriétaire Monetiq
+                      Modèle propriétaire CreaFix
                     </div>
                   </div>
                 </div>

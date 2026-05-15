@@ -2,7 +2,7 @@ import { LegalShell } from "@/components/marketing/legal-shell";
 
 export const metadata = {
   title: "Politique cookies",
-  description: "Comment Monetiq AI utilise les cookies et technologies similaires.",
+  description: "Comment CreaFix AI utilise les cookies et technologies similaires.",
 };
 
 const cookies = [
@@ -36,7 +36,7 @@ export default function CookiesPage() {
   return (
     <LegalShell title="Politique cookies" updatedAt="15 mai 2026" slug="cookies">
       <p>
-        Cette page explique quels cookies et technologies similaires Monetiq AI utilise, dans
+        Cette page explique quels cookies et technologies similaires CreaFix AI utilise, dans
         quel but, et comment les contrôler.
       </p>
 
@@ -92,7 +92,7 @@ export default function CookiesPage() {
       <h2>Contact</h2>
       <p>
         Question sur les cookies ?{" "}
-        <a href="mailto:privacy@monetiq.ai">privacy@monetiq.ai</a>.
+        <a href="mailto:privacy@creafix.ai">privacy@creafix.ai</a>.
       </p>
     </LegalShell>
   );

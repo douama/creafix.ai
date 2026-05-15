@@ -1,8 +1,8 @@
 {
-  "name": "monetiq-ai",
+  "name": "creafix-ai",
   "version": "0.1.0",
   "private": true,
-  "description": "Monetiq AI — Plateforme IA d'audit de monétisation sociale pour créateurs africains",
+  "description": "CreaFix AI — Plateforme IA d'audit de monétisation sociale pour créateurs africains",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

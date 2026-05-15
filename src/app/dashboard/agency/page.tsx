@@ -99,7 +99,7 @@ export default function AgencyPage() {
             </div>
             <div className="rounded-xl border border-border bg-card/40 p-4 text-sm">
               <div className="text-xs uppercase tracking-wider text-muted-foreground">Sous-domaine</div>
-              <div className="mt-2 font-mono text-xs">tonagence.monetiq.ai</div>
+              <div className="mt-2 font-mono text-xs">tonagence.creafix.ai</div>
               <Button size="sm" variant="outline" className="mt-3 w-full">
                 Personnaliser
               </Button>

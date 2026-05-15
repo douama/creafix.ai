@@ -8,7 +8,7 @@ export default function LoginPage() {
       <CardHeader className="space-y-1.5 text-center">
         <CardTitle className="font-display text-2xl">Bon retour 👋</CardTitle>
         <p className="text-sm text-muted-foreground">
-          Connecte-toi pour accéder à ton dashboard Monetiq AI.
+          Connecte-toi pour accéder à ton dashboard CreaFix AI.
         </p>
       </CardHeader>
       <CardContent className="space-y-4">

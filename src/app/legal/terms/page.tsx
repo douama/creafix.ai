@@ -2,7 +2,7 @@ import { LegalShell } from "@/components/marketing/legal-shell";
 
 export const metadata = {
   title: "Conditions générales d'utilisation",
-  description: "Les CGU encadrant l'utilisation du service Monetiq AI.",
+  description: "Les CGU encadrant l'utilisation du service CreaFix AI.",
 };
 
 export default function TermsPage() {
@@ -11,14 +11,14 @@ export default function TermsPage() {
       <h2>1. Objet</h2>
       <p>
         Les présentes Conditions Générales d'Utilisation (« CGU ») régissent l'accès et
-        l'utilisation de la plateforme Monetiq AI (le « Service ») éditée par Monetiq AI SARL
-        (« Monetiq », « nous »). En créant un compte ou en utilisant le Service, l'utilisateur
+        l'utilisation de la plateforme CreaFix AI (le « Service ») éditée par CreaFix AI SARL
+        (« CreaFix », « nous »). En créant un compte ou en utilisant le Service, l'utilisateur
         (« vous ») accepte sans réserve les présentes CGU.
       </p>
 
       <h2>2. Description du Service</h2>
       <p>
-        Monetiq AI est une plateforme d'audit IA, d'optimisation et de génération de contenu
+        CreaFix AI est une plateforme d'audit IA, d'optimisation et de génération de contenu
         à destination des créateurs sociaux et agences médias. Elle permet notamment :
       </p>
       <ul>
@@ -38,11 +38,11 @@ export default function TermsPage() {
 
       <h2>4. Données sociales connectées</h2>
       <p>
-        Lorsque vous connectez une page Facebook ou un compte TikTok via OAuth, Monetiq accède
+        Lorsque vous connectez une page Facebook ou un compte TikTok via OAuth, CreaFix accède
         uniquement aux scopes que vous autorisez explicitement (lecture de métriques publiques
         et privées de la page). <strong>Les tokens sont chiffrés en base et jamais partagés
         avec un tiers</strong>. Vous pouvez révoquer l'accès à tout moment depuis votre dashboard
-        Meta ou TikTok, ainsi que depuis votre tableau de bord Monetiq.
+        Meta ou TikTok, ainsi que depuis votre tableau de bord CreaFix.
       </p>
 
       <h2>5. Abonnements et paiement</h2>
@@ -59,7 +59,7 @@ export default function TermsPage() {
 
       <h2>6. Propriété intellectuelle</h2>
       <p>
-        Monetiq conserve l'intégralité des droits sur le Service, sa marque, ses interfaces,
+        CreaFix conserve l'intégralité des droits sur le Service, sa marque, ses interfaces,
         son code et son orchestration IA. Vous conservez la propriété de vos contenus uploadés
         et des outputs IA générés à partir de vos prompts, à condition d'avoir un abonnement
         actif. La résiliation de votre compte n'efface pas les contenus que vous avez déjà
@@ -80,21 +80,21 @@ export default function TermsPage() {
       <p>
         Le Service vise une disponibilité de 99,9 % en moyenne mensuelle. En cas d'incident, le
         statut public est disponible sur{" "}
-        <a href="/status">monetiq.ai/status</a>. Les abonnés Agence bénéficient d'un SLA renforcé
+        <a href="/status">creafix.ai/status</a>. Les abonnés Agence bénéficient d'un SLA renforcé
         contractuel.
       </p>
 
       <h2>9. Responsabilité</h2>
       <p>
-        Monetiq fournit le Service « tel quel ». Les estimations de revenus, scores IA et
+        CreaFix fournit le Service « tel quel ». Les estimations de revenus, scores IA et
         recommandations sont fournies à titre indicatif et ne constituent pas un conseil
-        financier ou juridique. La responsabilité totale de Monetiq est limitée au montant payé
+        financier ou juridique. La responsabilité totale de CreaFix est limitée au montant payé
         par l'utilisateur sur les 12 derniers mois.
       </p>
 
       <h2>10. Résiliation</h2>
       <p>
-        Vous pouvez supprimer votre compte à tout moment depuis vos paramètres. Monetiq peut
+        Vous pouvez supprimer votre compte à tout moment depuis vos paramètres. CreaFix peut
         suspendre ou résilier un compte en cas de violation des CGU, après notification quand
         cela est possible.
       </p>
@@ -109,7 +109,7 @@ export default function TermsPage() {
       <h2>12. Contact</h2>
       <p>
         Pour toute question relative aux présentes CGU :{" "}
-        <a href="mailto:legal@monetiq.ai">legal@monetiq.ai</a>.
+        <a href="mailto:legal@creafix.ai">legal@creafix.ai</a>.
       </p>
     </LegalShell>
   );

@@ -23,7 +23,7 @@ export default function FeaturesPage() {
         <PageHero
           eyebrow={
             <>
-              <Sparkles className="h-3 w-3 text-amber-400" /> Tout l'arsenal Monetiq AI
+              <Sparkles className="h-3 w-3 text-amber-400" /> Tout l'arsenal CreaFix AI
             </>
           }
           title={

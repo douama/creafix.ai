@@ -35,7 +35,7 @@ export function LegalShell({
             </>
           }
           title={title}
-          subtitle="Pour toute question concernant ce document, écris à legal@monetiq.ai."
+          subtitle="Pour toute question concernant ce document, écris à legal@creafix.ai."
         />
       }
     >

@@ -1,5 +1,5 @@
 /**
- * Types Supabase pour Monetiq AI.
+ * Types Supabase pour CreaFix AI.
  *
  * Note : les tables vivent dans le schéma Postgres `monetiq` côté serveur,
  * mais on les expose sous la clé TypeScript `public` ici. Pourquoi ?

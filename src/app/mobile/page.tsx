@@ -15,7 +15,7 @@ import { PageShell, PageHero, PageSection } from "@/components/marketing/page-sh
 
 export const metadata = {
   title: "App mobile",
-  description: "L'app Monetiq AI pour iOS et Android — bientôt disponible.",
+  description: "L'app CreaFix AI pour iOS et Android — bientôt disponible.",
 };
 
 const screens = [
@@ -57,7 +57,7 @@ export default function MobilePage() {
           }
           title={
             <>
-              Monetiq AI dans ta <span className="gradient-text">poche</span>.
+              CreaFix AI dans ta <span className="gradient-text">poche</span>.
             </>
           }
           subtitle="Audit, anti-ban, idées virales et notifications — directement depuis ton téléphone. Bêta privée ouverte pour les abonnés Pro et Agence."
@@ -96,7 +96,7 @@ export default function MobilePage() {
               <div className="flex h-8 w-8 items-center justify-center rounded-lg gradient-brand text-xs font-bold text-white">
                 M
               </div>
-              <div className="text-xs font-semibold">Monetiq</div>
+              <div className="text-xs font-semibold">CreaFix</div>
               <Badge variant="success" className="ml-auto h-5 px-1.5 text-[10px]">
                 Live
               </Badge>

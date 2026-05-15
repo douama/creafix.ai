@@ -2,7 +2,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { updateSession } from "@/lib/supabase/middleware";
 
 /**
- * Middleware Monetiq AI :
+ * Middleware CreaFix AI :
  *  - Rafraîchit la session Supabase à chaque navigation
  *  - Redirige vers /login si la route /dashboard est demandée sans session
  *  - Ajoute les headers de sécurité de base

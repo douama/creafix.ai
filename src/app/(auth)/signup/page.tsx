@@ -11,7 +11,7 @@ export default function SignupPage() {
           <Sparkles className="h-3 w-3" /> Audit IA gratuit · sans carte
         </div>
         <CardTitle className="mt-3 font-display text-2xl">
-          Crée ton compte Monetiq AI
+          Crée ton compte CreaFix AI
         </CardTitle>
         <p className="text-sm text-muted-foreground">
           60 secondes pour débloquer ton plan de monétisation.

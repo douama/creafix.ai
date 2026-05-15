@@ -2,14 +2,14 @@ import { LegalShell } from "@/components/marketing/legal-shell";
 
 export const metadata = {
   title: "Politique de confidentialité",
-  description: "Comment Monetiq AI traite et protège vos données personnelles.",
+  description: "Comment CreaFix AI traite et protège vos données personnelles.",
 };
 
 export default function PrivacyPage() {
   return (
     <LegalShell title="Politique de confidentialité" updatedAt="15 mai 2026" slug="privacy">
       <p>
-        Cette politique explique comment Monetiq AI SARL (« nous ») collecte, utilise et protège
+        Cette politique explique comment CreaFix AI SARL (« nous ») collecte, utilise et protège
         les données personnelles des utilisateurs du Service. Elle s'applique en complément du
         RGPD européen, de la loi sénégalaise n°2008-12 sur la protection des données personnelles
         et de toute législation équivalente dans les pays d'utilisation.
@@ -17,9 +17,9 @@ export default function PrivacyPage() {
 
       <h2>1. Responsable de traitement</h2>
       <p>
-        Monetiq AI SARL, dont le siège est situé Almadies, Dakar (Sénégal), est responsable
+        CreaFix AI SARL, dont le siège est situé Almadies, Dakar (Sénégal), est responsable
         du traitement des données collectées via le Service. Contact :{" "}
-        <a href="mailto:privacy@monetiq.ai">privacy@monetiq.ai</a>.
+        <a href="mailto:privacy@creafix.ai">privacy@creafix.ai</a>.
       </p>
 
       <h2>2. Données collectées</h2>
@@ -99,7 +99,7 @@ export default function PrivacyPage() {
       </ul>
       <p>
         Pour exercer vos droits :{" "}
-        <a href="mailto:privacy@monetiq.ai">privacy@monetiq.ai</a> — réponse sous 30 jours.
+        <a href="mailto:privacy@creafix.ai">privacy@creafix.ai</a> — réponse sous 30 jours.
       </p>
 
       <h2>9. Transferts internationaux</h2>

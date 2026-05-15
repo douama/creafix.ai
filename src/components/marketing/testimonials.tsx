@@ -8,7 +8,7 @@ const items = [
     name: "Mariam D.",
     role: "TikTokeuse · 380K · Côte d'Ivoire",
     quote:
-      "En 2 semaines, mon RPM a triplé. Monetiq AI m'a dit exactement quels sons éviter et quels hooks utiliser pour mon audience d'Abidjan.",
+      "En 2 semaines, mon RPM a triplé. CreaFix AI m'a dit exactement quels sons éviter et quels hooks utiliser pour mon audience d'Abidjan.",
   },
   {
     name: "Ibou & The Crew",

@@ -5,14 +5,14 @@ import { PageShell, PageHero, PageSection } from "@/components/marketing/page-sh
 
 export const metadata = {
   title: "Partenaires",
-  description: "Devenir partenaire Monetiq AI : ambassadeurs, agences certifiées, intégrations.",
+  description: "Devenir partenaire CreaFix AI : ambassadeurs, agences certifiées, intégrations.",
 };
 
 const programs = [
   {
     icon: Star,
     title: "Programme ambassadeur",
-    desc: "Recommande Monetiq, gagne 30% de commission récurrente sur chaque abonnement actif.",
+    desc: "Recommande CreaFix, gagne 30% de commission récurrente sur chaque abonnement actif.",
     perks: ["30% à vie", "Dashboard temps réel", "Liens trackés", "Paiement Wave/OM/USD"],
     color: "from-amber-500 to-orange-600",
     cta: "Rejoindre le programme",
@@ -142,8 +142,8 @@ export default function PartnersPage() {
             </Link>
           </Button>
           <Button asChild size="lg" variant="outline">
-            <Link href="mailto:partners@monetiq.ai">
-              <Coins className="mr-1 h-4 w-4" /> partners@monetiq.ai
+            <Link href="mailto:partners@creafix.ai">
+              <Coins className="mr-1 h-4 w-4" /> partners@creafix.ai
             </Link>
           </Button>
         </div>

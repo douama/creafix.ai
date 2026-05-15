@@ -14,10 +14,10 @@ const offices = [
 ];
 
 const channels = [
-  { icon: Mail, label: "hello@monetiq.ai", href: "mailto:hello@monetiq.ai", note: "Général · 24h" },
+  { icon: Mail, label: "hello@creafix.ai", href: "mailto:hello@creafix.ai", note: "Général · 24h" },
   { icon: Phone, label: "+221 77 000 00 00", href: "tel:+221770000000", note: "WhatsApp · 9h-21h" },
-  { icon: Send, label: "press@monetiq.ai", href: "mailto:press@monetiq.ai", note: "Presse" },
-  { icon: MessageCircle, label: "support@monetiq.ai", href: "mailto:support@monetiq.ai", note: "Support technique" },
+  { icon: Send, label: "press@creafix.ai", href: "mailto:press@creafix.ai", note: "Presse" },
+  { icon: MessageCircle, label: "support@creafix.ai", href: "mailto:support@creafix.ai", note: "Support technique" },
 ];
 
 export default function ContactPage() {

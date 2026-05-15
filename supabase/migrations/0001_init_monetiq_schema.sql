@@ -1,7 +1,7 @@
 -- ╔══════════════════════════════════════════════════════════════╗
--- ║  Monetiq AI — Migration initiale                              ║
+-- ║  CreaFix AI — Migration initiale                              ║
 -- ║                                                                ║
--- ║  À appliquer dans le projet Supabase "Monetiq AI" :          ║
+-- ║  À appliquer dans le projet Supabase "CreaFix AI" :          ║
 -- ║    Dashboard → SQL Editor → New query → coller → Run         ║
 -- ║                                                                ║
 -- ║  Le schéma est isolé dans `monetiq` (pas dans `public`).     ║
@@ -9,7 +9,7 @@
 -- ╚══════════════════════════════════════════════════════════════╝
 
 CREATE SCHEMA IF NOT EXISTS monetiq;
-COMMENT ON SCHEMA monetiq IS 'SaaS Monetiq AI — Audit IA de monétisation Facebook/TikTok pour créateurs africains';
+COMMENT ON SCHEMA monetiq IS 'SaaS CreaFix AI — Audit IA de monétisation Facebook/TikTok pour créateurs africains';
 
 -- ──────────────────────────────────────────────
 -- Types énumérés

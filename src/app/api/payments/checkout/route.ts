@@ -26,7 +26,7 @@ export async function POST(req: Request) {
       userId: "demo_user",
       amount: price.amount,
       currency: price.currency,
-      description: `Abonnement Monetiq AI · ${plan}`,
+      description: `Abonnement CreaFix AI · ${plan}`,
       successUrl: `${process.env.NEXTAUTH_URL}/dashboard/billing?success=true`,
       cancelUrl: `${process.env.NEXTAUTH_URL}/dashboard/billing?canceled=true`,
       provider,

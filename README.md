@@ -1,4 +1,4 @@
-# Monetiq AI
+# CreaFix AI
 
 **Le SEMrush + TubeBuddy + TikTok Studio + Meta Monetization Manager de l'Afrique.**
 
@@ -194,4 +194,4 @@ pnpm start
 
 ## 📝 Licence
 
-Proprietary © Monetiq AI · Built with ❤ for Africa.
+Proprietary © CreaFix AI · Built with ❤ for Africa.

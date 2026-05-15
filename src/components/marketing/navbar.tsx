@@ -42,7 +42,7 @@ export function Navbar() {
               : "bg-card/40 backdrop-blur-md",
           )}
         >
-          <Link href="/" aria-label="Monetiq AI">
+          <Link href="/" aria-label="CreaFix AI">
             <Logo />
           </Link>
 

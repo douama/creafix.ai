@@ -3,7 +3,7 @@ import { PageShell, PageHero, PageSection } from "@/components/marketing/page-sh
 
 export const metadata = {
   title: "Statut",
-  description: "Statut en temps réel de tous les services Monetiq AI.",
+  description: "Statut en temps réel de tous les services CreaFix AI.",
 };
 
 const services = [
@@ -142,8 +142,8 @@ export default function StatusPage() {
 
       <p className="mt-8 text-center text-xs text-muted-foreground">
         S'abonner aux notifications d'incident :{" "}
-        <a href="mailto:status@monetiq.ai?subject=subscribe" className="text-violet-500 underline">
-          status@monetiq.ai
+        <a href="mailto:status@creafix.ai?subject=subscribe" className="text-violet-500 underline">
+          status@creafix.ai
         </a>
       </p>
     </PageShell>

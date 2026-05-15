@@ -68,7 +68,7 @@ export default function AboutPage() {
               On veut que <span className="gradient-text">1 million de créateurs africains</span> vivent de leur passion.
             </>
           }
-          subtitle="Monetiq AI a été créé à Dakar par des créateurs, pour des créateurs. On parle de tes problèmes parce qu'on les a vécus."
+          subtitle="CreaFix AI a été créé à Dakar par des créateurs, pour des créateurs. On parle de tes problèmes parce qu'on les a vécus."
         />
       }
     >
@@ -80,7 +80,7 @@ export default function AboutPage() {
             internationaux compliqués, outils étrangers qui ne parlent pas FCFA.
             <br />
             <br />
-            On a construit Monetiq AI pour que personne d'autre n'ait à le subir. »
+            On a construit CreaFix AI pour que personne d'autre n'ait à le subir. »
           </p>
           <div className="mt-6 flex items-center gap-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-full gradient-brand text-sm font-bold text-white">

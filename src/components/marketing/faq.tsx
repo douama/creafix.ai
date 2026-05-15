@@ -6,8 +6,8 @@ import { cn } from "@/lib/utils";
 
 const faqs = [
   {
-    q: "Monetiq AI fonctionne-t-il pour les pages avec peu d'abonnés ?",
-    a: "Oui. Même avec 0 abonné, Monetiq AI analyse ton contenu, ta niche et ton audience cible pour t'indiquer exactement quoi changer afin de devenir éligible à la monétisation Facebook et au Creator Rewards TikTok.",
+    q: "CreaFix AI fonctionne-t-il pour les pages avec peu d'abonnés ?",
+    a: "Oui. Même avec 0 abonné, CreaFix AI analyse ton contenu, ta niche et ton audience cible pour t'indiquer exactement quoi changer afin de devenir éligible à la monétisation Facebook et au Creator Rewards TikTok.",
   },
   {
     q: "Mes données sont-elles en sécurité ?",

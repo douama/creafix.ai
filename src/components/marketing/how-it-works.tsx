@@ -37,7 +37,7 @@ export function HowItWorks() {
             3 étapes. <span className="gradient-text">60 secondes</span>.
           </h2>
           <p className="mt-3 text-sm text-muted-foreground">
-            Pas besoin d'être expert. Monetiq AI fait le travail à ta place.
+            Pas besoin d'être expert. CreaFix AI fait le travail à ta place.
           </p>
         </div>
 

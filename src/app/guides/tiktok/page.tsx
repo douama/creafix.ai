@@ -140,7 +140,7 @@ export default function TikTokGuidePage() {
 
       <section className="mt-14 rounded-3xl border border-pink-500/30 bg-gradient-to-br from-pink-500/10 to-violet-500/5 p-8 text-center md:p-12">
         <h2 className="font-display text-2xl font-bold md:text-3xl">
-          Connecte ton TikTok à Monetiq AI.
+          Connecte ton TikTok à CreaFix AI.
         </h2>
         <p className="mx-auto mt-3 max-w-xl text-sm text-muted-foreground md:text-base">
           Audit FYP, score viral, hashtags optimisés et idées personnalisées en 60 secondes.

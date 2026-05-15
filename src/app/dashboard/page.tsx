@@ -29,7 +29,7 @@ export default function DashboardHomePage() {
             Bonjour Sobé 👋
           </h1>
           <p className="mt-1 text-sm text-muted-foreground">
-            Voici ta vue d'ensemble Monetiq AI — mise à jour il y a 3 minutes.
+            Voici ta vue d'ensemble CreaFix AI — mise à jour il y a 3 minutes.
           </p>
         </div>
         <div className="flex gap-2">
