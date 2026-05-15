@@ -1,6 +1,10 @@
 "use client";
 
+import { useTranslations } from "next-intl";
+
 export function LogosStrip() {
+  const t = useTranslations("logos");
+
   const items = [
     "Facebook",
     "TikTok",
@@ -17,7 +21,7 @@ export function LogosStrip() {
     <section className="border-y border-border/60 py-7">
       <div className="container">
         <p className="text-center text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
-          Intégré aux plateformes et moyens de paiement que tu utilises déjà
+          {t("headline")}
         </p>
         <div className="mt-4 grid grid-cols-3 items-center gap-y-3 sm:grid-cols-5 md:grid-cols-9">
           {items.map((i) => (

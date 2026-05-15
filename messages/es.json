@@ -1,0 +1,365 @@
+{
+  "common": {
+    "tagline": "Repara tu contenido. Escala tus ingresos.",
+    "learnMore": "Saber más",
+    "getStarted": "Empezar",
+    "startFreeAudit": "Auditoría gratuita",
+    "analyzeAccount": "Analizar mi cuenta",
+    "login": "Iniciar sesión",
+    "signup": "Prueba gratis",
+    "contact": "Contacto",
+    "upgrade": "Mejorar",
+    "freePlan": "Plan Gratis",
+    "viewPricing": "Ver precios"
+  },
+  "nav": {
+    "features": "Funcionalidades",
+    "how": "Cómo funciona",
+    "pricing": "Precios",
+    "faq": "Preguntas",
+    "blog": "Blog",
+    "openMenu": "Abrir menú"
+  },
+  "hero": {
+    "badge": "Repara tu contenido. Escala tus ingresos.",
+    "titlePart1": "Convierte tu contenido en",
+    "titleHighlight": "ingresos",
+    "titlePart2": "con IA.",
+    "subtitle": "CreaFix AI audita, corrige y escala tu monetización en TikTok & Facebook automáticamente. Diseñado para creadores de todo el mundo, optimizado para mercados africanos e hispanos.",
+    "trustNoCard": "Sin tarjeta",
+    "trustFast": "Auditoría en 60s",
+    "trustCreators": "+2 300 creadores",
+    "stats": {
+      "videos": "Videos analizados",
+      "accuracy": "Precisión IA",
+      "lift": "Aumento medio",
+      "countries": "Países"
+    }
+  },
+  "logos": {
+    "headline": "Integrado con las plataformas y métodos de pago que ya usas"
+  },
+  "wow": {
+    "eyebrow": "5 features que cambian el juego",
+    "titlePart1": "Mientras tus competidores",
+    "titleHighlight": "publican a ciegas",
+    "titlePart2": ", tú sabes.",
+    "subtitle": "5 herramientas IA inéditas, diseñadas para anticipar, corregir y amplificar — no solo medir.",
+    "footer1": "Orquestación propietaria",
+    "footer2": "Respuesta media < 60s",
+    "footer3": "Cifrado E2E",
+    "shadowban": {
+      "badge": "Exclusivo",
+      "title": "Shadowban Detector",
+      "desc": "Detección automática de caídas anormales de alcance, contenido bloqueado y señales débiles en TikTok y Facebook antes de que te des cuenta.",
+      "bullet1": "Detecta 12 firmas de shadowban distintas",
+      "bullet2": "Compara tu alcance con tu base 30 días",
+      "bullet3": "Alerta WhatsApp + email en menos de 2h",
+      "metric": "12 señales",
+      "metricLabel": "detectadas"
+    },
+    "viral": {
+      "badge": "Antes de publicar",
+      "title": "Viral Score AI",
+      "desc": "Puntuación de viralidad de 0 a 100 calculada antes incluso de publicar — nunca más pierdas un día con un flop.",
+      "bullet1": "Analiza hook, miniatura, duración, hashtags",
+      "bullet2": "Benchmark sobre 10M+ videos históricos",
+      "bullet3": "Recomendaciones accionables en 1 clic",
+      "metric": "0-100",
+      "metricLabel": "puntaje viral"
+    },
+    "rpm": {
+      "badge": "Predictivo",
+      "title": "RPM Predictor",
+      "desc": "Predice exactamente cuánto generará cada video, por país, antes de publicarlo. Optimiza miniaturas y títulos para el RPM, no solo las vistas.",
+      "bullet1": "Modelo entrenado con CPM reales por país",
+      "bullet2": "Comparación lado a lado Facebook vs TikTok",
+      "bullet3": "Simulador What-If: nicho, país, audiencia",
+      "metric": "±15%",
+      "metricLabel": "margen de error"
+    },
+    "trend": {
+      "badge": "Made in Africa",
+      "title": "African Trend Engine",
+      "desc": "El único motor de tendencias realmente entrenado con contenido africano. Hashtags, sonidos y formatos — por país, en tiempo real.",
+      "bullet1": "Actualización cada 15 minutos",
+      "bullet2": "9 países: SN, CI, CM, ML, NG, GH, ZA, MA, CD",
+      "bullet3": "Detección de tendencias emergentes",
+      "metric": "9 países",
+      "metricLabel": "cubiertos"
+    },
+    "repair": {
+      "badge": "Auto-fix",
+      "title": "AI Content Repair",
+      "desc": "La IA corrige automáticamente tus hooks débiles, mala retención, CTAs blandos y subtítulos mal alineados — con un solo clic.",
+      "bullet1": "Regenera un hook más llamativo",
+      "bullet2": "Reescribe el guion para mejorar retención",
+      "bullet3": "Regenera subtítulos precisos burned-in",
+      "metric": "1 clic",
+      "metricLabel": "auto reparación"
+    }
+  },
+  "features": {
+    "eyebrow": "Diseñado para creadores",
+    "titlePart1": "Todo lo que necesitas para",
+    "titleHighlight": "desbloquear tu monetización",
+    "titlePart2": ".",
+    "subtitle": "9 herramientas diseñadas con y para los creadores — reunidas en una sola plataforma.",
+    "audit": {
+      "title": "Auditoría IA Facebook & TikTok",
+      "desc": "Análisis profundo de cada página — 40+ señales: cumplimiento, watch time, CTR, retención, copyright.",
+      "metric": "40+",
+      "metricLabel": "señales analizadas"
+    },
+    "antiban": {
+      "title": "IA Anti-Ban",
+      "desc": "Predice los riesgos de baneo y desmonetización antes de publicar.",
+      "metric": "24/7",
+      "metricLabel": "vigilancia"
+    },
+    "score": {
+      "title": "Puntuación IA",
+      "desc": "Un puntaje sobre 100. Compárate con los mejores creadores de tu país.",
+      "metric": "96%",
+      "metricLabel": "precisión"
+    },
+    "ideas": {
+      "title": "Ideas virales",
+      "desc": "Hooks, guiones, captions adaptados a tu país y nicho.",
+      "metric": "+340%",
+      "metricLabel": "vistas medias"
+    },
+    "generator": {
+      "title": "Generador de contenido",
+      "desc": "Imágenes, voz, subtítulos y miniaturas generados en segundos.",
+      "metric": "<5s",
+      "metricLabel": "generación"
+    },
+    "estimate": {
+      "title": "Estimación de ingresos",
+      "desc": "CPM/RPM reales por país: Senegal, CI, Camerún, Mali, Nigeria, Ghana, Marruecos, RDC, ZA.",
+      "metric": "9",
+      "metricLabel": "países africanos"
+    },
+    "agency": {
+      "title": "Modo Agencia",
+      "desc": "Multi-clientes, marca blanca, informes PDF personalizados, branding propio.",
+      "metric": "∞",
+      "metricLabel": "clientes gestionados"
+    },
+    "reports": {
+      "title": "Informes IA premium",
+      "desc": "Roadmap de crecimiento, checklist de elegibilidad, gráficos exportables.",
+      "metric": "PDF",
+      "metricLabel": "exportable"
+    },
+    "mobile": {
+      "title": "Optimizado móvil & low data",
+      "desc": "Pensado para creadores móviles y conexiones débiles.",
+      "metric": "App",
+      "metricLabel": "Flutter próximamente"
+    }
+  },
+  "how": {
+    "titlePart1": "3 pasos.",
+    "titleHighlight": "60 segundos",
+    "titlePart2": ".",
+    "subtitle": "No necesitas ser experto. CreaFix AI hace el trabajo por ti.",
+    "step1Title": "Conecta tus cuentas",
+    "step1Desc": "Conexión segura vía OAuth Meta (Facebook) y TikTok. Sin compartir contraseña. Revocable en cualquier momento.",
+    "step2Title": "La IA lo escanea todo",
+    "step2Desc": "Nuestros 7 agentes IA analizan tu contenido, audiencia, cumplimiento, riesgo de ban y oportunidades de ingresos.",
+    "step3Title": "Recibe tu plan de acción",
+    "step3Desc": "Puntuación IA, recomendaciones precisas, ideas virales, guiones, miniaturas y roadmap listo para ejecutar."
+  },
+  "agents": {
+    "eyebrow": "Multi-agentes IA · orquestados",
+    "titlePart1": "7 cerebros IA especializados.",
+    "titlePart2": "Una sola misión:",
+    "titleHighlight": "tus ingresos",
+    "titlePart3": ".",
+    "subtitle": "Cada agente es ultra especializado. El orquestador los hace colaborar en segundo plano para entregar una auditoría completa en menos de 60 segundos.",
+    "live": "Live",
+    "footer1": "Orquestación propietaria",
+    "footer2": "Respuesta media < 60s",
+    "footer3": "Datos cifrados E2E",
+    "categories": {
+      "analyse": "Análisis",
+      "creation": "Creación",
+      "growth": "Crecimiento"
+    },
+    "audit": {
+      "name": "Audit Agent",
+      "desc": "Analiza 40+ señales de cumplimiento Facebook & TikTok para producir un puntaje sobre 100 e identificar exactamente lo que bloquea tu monetización.",
+      "metric": "96%",
+      "metricLabel": "precisión detección"
+    },
+    "viral": {
+      "name": "Viral Agent",
+      "desc": "Detecta patrones virales por país y nicho, predice los hooks ganadores.",
+      "metric": "+340%",
+      "metricLabel": "vistas medias"
+    },
+    "monetization": {
+      "name": "Monetization Agent",
+      "desc": "Optimiza RPM, CPM y elegibilidad para programas Ads & Creator Rewards.",
+      "metric": "×2.4",
+      "metricLabel": "RPM medio"
+    },
+    "antiban": {
+      "name": "Anti-Ban Agent",
+      "desc": "Predice y neutraliza los riesgos de baneo antes de publicar.",
+      "metric": "24/7",
+      "metricLabel": "vigilancia"
+    },
+    "trend": {
+      "name": "Trend Agent",
+      "desc": "Tendencias africanas en tiempo real — sonidos, hashtags, formatos por país.",
+      "metric": "9",
+      "metricLabel": "países vigilados"
+    },
+    "thumbnail": {
+      "name": "Thumbnail Agent",
+      "desc": "Genera 6 miniaturas optimizadas para CTR con A/B testing integrado.",
+      "metric": "+22%",
+      "metricLabel": "CTR medio"
+    },
+    "script": {
+      "name": "Script Agent",
+      "desc": "Hooks, guiones cortos, CTAs y captions optimizados SEO multilingüe.",
+      "metric": "12s",
+      "metricLabel": "generación"
+    }
+  },
+  "testimonials": {
+    "titlePart1": "Ellos",
+    "titleHighlight": "desbloquearon",
+    "titlePart2": "su monetización."
+  },
+  "pricing": {
+    "titlePart1": "Precios",
+    "titleHighlight": "transparentes",
+    "titlePart2": ", simples.",
+    "subtitle": "Paga en USD, EUR o Mobile Money africano (Wave, Orange Money, MTN MoMo). Cancela cuando quieras.",
+    "promo": "-50% para los primeros 1 000 creadores",
+    "paymentsAccepted": "Pagos aceptados:",
+    "mostPopular": "Más popular",
+    "free": {
+      "name": "Gratis",
+      "unit": "/para siempre",
+      "desc": "Prueba CreaFix AI sin riesgo.",
+      "cta": "Empezar gratis",
+      "f1": "3 auditorías gratuitas",
+      "f2": "1 página Facebook + 1 cuenta TikTok",
+      "f3": "Viral Score básico",
+      "f4": "Trend Engine limitado (1 país)",
+      "f5": "Soporte comunitario"
+    },
+    "pro": {
+      "name": "Pro",
+      "unit": "/mes",
+      "desc": "Para creadores que quieren crecer.",
+      "cta": "Prueba 7 días gratis",
+      "f1": "Auditorías ilimitadas",
+      "f2": "5 cuentas conectadas",
+      "f3": "Shadowban Detector + RPM Predictor",
+      "f4": "African Trend Engine completo (9 países)",
+      "f5": "AI Content Repair (50 fixes / mes)",
+      "f6": "Viral Score AI antes de publicar",
+      "f7": "Informes PDF exportables",
+      "f8": "Soporte email prioritario"
+    },
+    "agency": {
+      "name": "Agencia",
+      "unit": "/mes",
+      "desc": "Gestiona varios creadores en marca blanca.",
+      "cta": "Prueba 7 días gratis",
+      "f1": "Cuentas & creadores ilimitados",
+      "f2": "Marca blanca + subdominio",
+      "f3": "Enlaces compartibles clientes",
+      "f4": "API + Webhooks",
+      "f5": "AI Content Repair ilimitado",
+      "f6": "Soporte WhatsApp prioritario",
+      "f7": "Programa embajador (30% de por vida)",
+      "f8": "Manager dedicado"
+    },
+    "enterprise": {
+      "name": "Enterprise",
+      "unit": "",
+      "desc": "Para grupos media y plataformas.",
+      "cta": "Contactar ventas",
+      "f1": "Todo ilimitado",
+      "f2": "Contrato SLA & soporte 24/7",
+      "f3": "Integraciones personalizadas",
+      "f4": "Opción on-premise",
+      "f5": "Infraestructura dedicada",
+      "f6": "Modelos IA entrenados a medida",
+      "f7": "Reviews trimestrales",
+      "f8": "Cumplimiento multi-región",
+      "price": "A medida"
+    }
+  },
+  "faq": {
+    "titlePart1": "Preguntas",
+    "titleHighlight": "frecuentes",
+    "titlePart2": ".",
+    "subtitle": "Todo lo que necesitas saber antes de empezar.",
+    "items": {
+      "q1": "¿CreaFix AI funciona con páginas con pocos seguidores?",
+      "a1": "Sí. Incluso con 0 seguidores, CreaFix AI analiza tu contenido, nicho y audiencia objetivo para decirte exactamente qué cambiar para ser elegible a la monetización de Facebook y TikTok Creator Rewards.",
+      "q2": "¿Mis datos están seguros?",
+      "a2": "100%. Usamos OAuth oficial de Meta y TikTok. Nunca almacenamos tu contraseña. Puedes revocar el acceso en cualquier momento.",
+      "q3": "¿Puedo pagar en USD o Mobile Money?",
+      "a3": "Sí. Aceptamos Stripe (tarjetas), PayPal, Wave, Orange Money, MTN MoMo, Moov Money y Free Money. Los precios se muestran en USD, EUR y monedas locales.",
+      "q4": "¿Cómo estima la IA mis ingresos?",
+      "a4": "Combinamos datos reales de CPM/RPM por país africano, tu watch time, CTR, retención y calidad de audiencia para una estimación con ±15% de precisión.",
+      "q5": "¿Funciona para mi agencia?",
+      "a5": "El plan Agencia te permite gestionar clientes ilimitados, exportar informes PDF en marca blanca, compartir enlaces privados y usar tu propio branding.",
+      "q6": "¿Hay una app móvil?",
+      "a6": "Sí — una app Flutter (Android + iOS) está en beta privada con notificaciones push, subida de videos y análisis en tiempo real. Disponible para suscriptores Pro y Agencia en acceso anticipado."
+    }
+  },
+  "cta": {
+    "title1": "¿Listo para desbloquear",
+    "title2": "tus ingresos creador?",
+    "subtitle": "Auditoría IA gratis en 60 segundos. Sin tarjeta. Sin compromiso. La forma más simple de convertir tus vistas en ingresos.",
+    "button": "Empezar mi auditoría gratis",
+    "trust": "+2 300 creadores ya confían en nosotros · 9 países"
+  },
+  "footer": {
+    "tagline": "La plataforma IA de auditoría de monetización social, diseñada para creadores.",
+    "product": "Producto",
+    "resources": "Recursos",
+    "company": "Empresa",
+    "legal": "Legal",
+    "links": {
+      "features": "Funcionalidades",
+      "pricing": "Precios",
+      "faq": "Preguntas",
+      "agency": "Modo Agencia",
+      "mobile": "App móvil",
+      "blog": "Blog creadores",
+      "guideFb": "Guía monetización FB",
+      "guideTt": "Guía TikTok África",
+      "help": "Centro de ayuda",
+      "status": "Estado",
+      "about": "Sobre nosotros",
+      "careers": "Empleo",
+      "partners": "Socios",
+      "press": "Prensa",
+      "contact": "Contacto",
+      "terms": "Términos",
+      "privacy": "Privacidad",
+      "cookies": "Cookies",
+      "legalNotice": "Aviso legal"
+    },
+    "tagline2": "Built with ❤ for Africa"
+  },
+  "locale": {
+    "switch": "Idioma",
+    "fr": "Francés",
+    "en": "Inglés",
+    "es": "Español",
+    "pt": "Portugués"
+  }
+}

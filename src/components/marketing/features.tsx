@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useTranslations } from "next-intl";
 import {
   ArrowUpRight,
   Brain,
@@ -28,92 +29,20 @@ type Tone =
   | "indigo"
   | "teal";
 
-type Feature = {
-  icon: LucideIcon;
-  title: string;
-  desc: string;
-  tone: Tone;
-  metric?: string;
-  metricLabel?: string;
-  span?: "default" | "wide";
-  visual?: "signal" | "map" | "none";
-};
+type FeatureKey =
+  | "audit" | "antiban" | "score" | "ideas" | "generator"
+  | "estimate" | "agency" | "reports" | "mobile";
 
-const features: Feature[] = [
-  {
-    icon: Brain,
-    title: "Audit IA Facebook & TikTok",
-    desc:
-      "Analyse profonde de chaque page — 40+ signaux : conformité, watch time, CTR, rétention, copyright.",
-    tone: "violet",
-    metric: "40+",
-    metricLabel: "signaux analysés",
-  },
-  {
-    icon: ShieldAlert,
-    title: "IA Anti-Ban",
-    desc: "Prédit les risques de bannissement et démonétisation avant publication.",
-    tone: "rose",
-    metric: "24/7",
-    metricLabel: "surveillance",
-  },
-  {
-    icon: TrendingUp,
-    title: "Score monétisation IA",
-    desc: "Un score sur 100. Compare-toi aux meilleurs créateurs de ton pays.",
-    tone: "emerald",
-    metric: "96%",
-    metricLabel: "précision",
-  },
-  {
-    icon: Sparkles,
-    title: "Idées virales Afrique",
-    desc: "Hooks, scripts, légendes adaptés à ton pays et ta niche.",
-    tone: "amber",
-    metric: "+340%",
-    metricLabel: "vues moyennes",
-  },
-  {
-    icon: PlayCircle,
-    title: "Générateur de contenu",
-    desc: "Images, voix-off, sous-titres et miniatures générés en quelques secondes.",
-    tone: "sky",
-    metric: "<5s",
-    metricLabel: "génération",
-  },
-  {
-    icon: Coins,
-    title: "Estimation revenus FCFA",
-    desc:
-      "CPM/RPM réels par pays : Sénégal, CI, Cameroun, Mali, Nigeria, Ghana, Maroc, RDC, RSA.",
-    tone: "orange",
-    metric: "9",
-    metricLabel: "pays africains",
-  },
-  {
-    icon: Building2,
-    title: "Mode Agence",
-    desc: "Multi-clients, marque blanche, rapports PDF personnalisés, branding agence.",
-    tone: "fuchsia",
-    metric: "∞",
-    metricLabel: "clients gérés",
-  },
-  {
-    icon: FileBarChart2,
-    title: "Rapports IA premium",
-    desc: "Roadmap croissance, checklist éligibilité, graphiques exportables.",
-    tone: "indigo",
-    metric: "PDF",
-    metricLabel: "exportable",
-  },
-  {
-    icon: Smartphone,
-    title: "Optimisé mobile & low data",
-    desc: "Pensé pour les créateurs mobiles et les connexions faibles.",
-    tone: "teal",
-    metric: "App",
-    metricLabel: "Flutter à venir",
-  },
+const featureSchema: { key: FeatureKey; icon: LucideIcon; tone: Tone }[] = [
+  { key: "audit",     icon: Brain,         tone: "violet" },
+  { key: "antiban",   icon: ShieldAlert,   tone: "rose" },
+  { key: "score",     icon: TrendingUp,    tone: "emerald" },
+  { key: "ideas",     icon: Sparkles,      tone: "amber" },
+  { key: "generator", icon: PlayCircle,    tone: "sky" },
+  { key: "estimate",  icon: Coins,         tone: "orange" },
+  { key: "agency",    icon: Building2,     tone: "fuchsia" },
+  { key: "reports",   icon: FileBarChart2, tone: "indigo" },
+  { key: "mobile",    icon: Smartphone,    tone: "teal" },
 ];
 
 const toneClasses: Record<
@@ -195,6 +124,8 @@ const toneClasses: Record<
 };
 
 export function Features() {
+  const t = useTranslations("features");
+
   return (
     <section id="features" className="relative py-14 md:py-20">
       <div className="container">
@@ -206,7 +137,7 @@ export function Features() {
             transition={{ duration: 0.5 }}
             className="inline-flex items-center gap-1.5 rounded-full border border-border bg-card/50 px-3 py-1 text-xs text-muted-foreground"
           >
-            <Globe className="h-3 w-3" /> Pensé pour l'Afrique
+            <Globe className="h-3 w-3" /> {t("eyebrow")}
           </motion.div>
           <motion.h2
             initial={{ opacity: 0, y: 16 }}
@@ -215,8 +146,9 @@ export function Features() {
             transition={{ duration: 0.6, delay: 0.05 }}
             className="mt-3 font-display text-3xl font-bold tracking-tight text-balance md:text-4xl"
           >
-            Tout ce qu'il te faut pour{" "}
-            <span className="gradient-text">débloquer ta monétisation</span>.
+            {t("titlePart1")}{" "}
+            <span className="gradient-text">{t("titleHighlight")}</span>
+            {t("titlePart2")}
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 16 }}
@@ -225,15 +157,14 @@ export function Features() {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="mt-3 text-sm text-muted-foreground"
           >
-            9 outils conçus avec et pour les créateurs africains — réunis dans une seule
-            plateforme.
+            {t("subtitle")}
           </motion.p>
         </div>
 
         {/* Grille 3 colonnes égales — 9 features = 3 × 3 parfait */}
         <div className="mt-10 grid auto-rows-fr gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {features.map((f, i) => (
-            <FeatureCard key={f.title} feature={f} index={i} />
+          {featureSchema.map((f, i) => (
+            <FeatureCard key={f.key} feature={f} index={i} />
           ))}
         </div>
       </div>
@@ -241,8 +172,17 @@ export function Features() {
   );
 }
 
-function FeatureCard({ feature, index }: { feature: Feature; index: number }) {
-  const t = toneClasses[feature.tone];
+function FeatureCard({
+  feature,
+  index,
+}: {
+  feature: { key: FeatureKey; icon: LucideIcon; tone: Tone };
+  index: number;
+}) {
+  const t = useTranslations("features");
+  const tc = useTranslations("common");
+  const tone = toneClasses[feature.tone];
+  const Icon = feature.icon;
 
   return (
     <motion.div
@@ -259,7 +199,7 @@ function FeatureCard({ feature, index }: { feature: Feature; index: number }) {
       <div
         className={cn(
           "pointer-events-none absolute -right-14 -top-14 h-44 w-44 rounded-full bg-gradient-to-br opacity-30 blur-2xl transition-opacity duration-500 group-hover:opacity-80",
-          t.gradient,
+          tone.gradient,
         )}
       />
 
@@ -273,34 +213,34 @@ function FeatureCard({ feature, index }: { feature: Feature; index: number }) {
           <div
             className={cn(
               "flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br shadow-lg transition-transform group-hover:scale-105",
-              t.iconBg,
+              tone.iconBg,
               "ring-2 ring-offset-2 ring-offset-background",
-              t.ring,
+              tone.ring,
             )}
           >
-            <feature.icon className="h-5 w-5 text-white" />
+            <Icon className="h-5 w-5 text-white" />
           </div>
-          {feature.metric && (
-            <div className="text-right">
-              <div className={cn("font-display text-lg font-bold leading-none", t.text)}>
-                {feature.metric}
-              </div>
-              <div className="mt-0.5 text-[10px] uppercase tracking-wider text-muted-foreground">
-                {feature.metricLabel}
-              </div>
+          <div className="text-right">
+            <div className={cn("font-display text-lg font-bold leading-none", tone.text)}>
+              {t(`${feature.key}.metric`)}
             </div>
-          )}
+            <div className="mt-0.5 text-[10px] uppercase tracking-wider text-muted-foreground">
+              {t(`${feature.key}.metricLabel`)}
+            </div>
+          </div>
         </div>
 
         <div className="mt-4">
           <h3 className="font-display text-base font-semibold leading-snug md:text-lg">
-            {feature.title}
+            {t(`${feature.key}.title`)}
           </h3>
-          <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">{feature.desc}</p>
+          <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
+            {t(`${feature.key}.desc`)}
+          </p>
         </div>
 
         <div className="mt-auto pt-4 flex items-center gap-1.5 text-xs font-medium text-muted-foreground transition-colors group-hover:text-foreground">
-          <span>En savoir plus</span>
+          <span>{tc("learnMore")}</span>
           <ArrowUpRight className="h-3 w-3 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
         </div>
       </div>

@@ -2,20 +2,17 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
+import { Menu, X } from "lucide-react";
 import { Logo } from "@/components/brand/logo";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { LocaleSwitch } from "@/components/locale-switch";
 import { cn } from "@/lib/utils";
-import { Menu, X } from "lucide-react";
-
-const links = [
-  { href: "#features", label: "Fonctionnalités" },
-  { href: "#how", label: "Comment ça marche" },
-  { href: "#pricing", label: "Tarifs" },
-  { href: "#faq", label: "FAQ" },
-];
 
 export function Navbar() {
+  const t = useTranslations("nav");
+  const tc = useTranslations("common");
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -25,6 +22,13 @@ export function Navbar() {
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  const links = [
+    { href: "/features", label: t("features") },
+    { href: "#how", label: t("how") },
+    { href: "/pricing", label: t("pricing") },
+    { href: "/faq", label: t("faq") },
+  ];
 
   return (
     <header
@@ -39,11 +43,11 @@ export function Navbar() {
             "flex items-center justify-between rounded-2xl border border-border px-4 py-2.5 transition-all",
             scrolled
               ? "bg-background/70 backdrop-blur-xl shadow-xl shadow-black/30"
-              : "bg-card/40 backdrop-blur-md",
+              : "bg-card/50 backdrop-blur-md",
           )}
         >
           <Link href="/" aria-label="CreaFix AI">
-            <Logo />
+            <Logo showTagline={false} />
           </Link>
 
           <div className="hidden items-center gap-1 md:flex">
@@ -59,18 +63,19 @@ export function Navbar() {
           </div>
 
           <div className="hidden items-center gap-2 md:flex">
+            <LocaleSwitch />
             <ThemeToggle className="h-9 w-9" />
             <Button asChild variant="ghost" size="sm">
-              <Link href="/login">Connexion</Link>
+              <Link href="/login">{tc("login")}</Link>
             </Button>
             <Button asChild variant="brand" size="sm">
-              <Link href="/signup">Essai gratuit</Link>
+              <Link href="/signup">{tc("signup")}</Link>
             </Button>
           </div>
 
           <button
             className="rounded-lg p-2 md:hidden hover:bg-muted/40"
-            aria-label="Ouvrir le menu"
+            aria-label={t("openMenu")}
             onClick={() => setOpen((v) => !v)}
           >
             {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
@@ -90,12 +95,16 @@ export function Navbar() {
                   {l.label}
                 </Link>
               ))}
+              <div className="mt-2 flex items-center gap-2">
+                <LocaleSwitch />
+                <ThemeToggle className="h-9 w-9" />
+              </div>
               <div className="mt-2 flex gap-2">
                 <Button asChild variant="outline" size="sm" className="flex-1">
-                  <Link href="/login">Connexion</Link>
+                  <Link href="/login">{tc("login")}</Link>
                 </Button>
                 <Button asChild variant="brand" size="sm" className="flex-1">
-                  <Link href="/signup">Essai gratuit</Link>
+                  <Link href="/signup">{tc("signup")}</Link>
                 </Button>
               </div>
             </div>

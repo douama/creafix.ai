@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useTranslations } from "next-intl";
 import {
   ArrowUpRight,
   Eye,
@@ -14,99 +15,26 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-type WowFeature = {
+type WowKey = "shadowban" | "viral" | "rpm" | "trend" | "repair";
+
+type WowSchema = {
+  key: WowKey;
   icon: LucideIcon;
-  badge: string;
-  title: string;
-  desc: string;
-  bullets: string[];
-  metric: { value: string; label: string };
   tone: "violet" | "electric" | "orange" | "rose" | "emerald";
   span?: "wide" | "default";
-  visual?: "signal" | "globe" | "score" | "repair";
+  visual?: "signal" | "globe";
 };
 
-const wowFeatures: WowFeature[] = [
-  {
-    icon: ShieldOff,
-    badge: "Exclusif",
-    title: "Shadowban Detector",
-    desc:
-      "Détection automatique des baisses anormales de reach, contenus bloqués, et signaux faibles côté TikTok et Facebook avant que tu ne réalises le problème.",
-    bullets: [
-      "Détecte 12 signatures de shadowban distinctes",
-      "Compare ton reach à ta baseline 30 jours",
-      "Alerte WhatsApp + email en moins de 2 h",
-    ],
-    metric: { value: "12 signaux", label: "détectés" },
-    tone: "rose",
-    span: "wide",
-    visual: "signal",
-  },
-  {
-    icon: Flame,
-    badge: "Avant publication",
-    title: "Viral Score AI",
-    desc:
-      "Un score de viralité de 0 à 100 calculé avant même de poster ta vidéo — pour ne plus jamais perdre une journée sur un flop.",
-    bullets: [
-      "Analyse hook, thumbnail, durée, hashtags",
-      "Benchmark sur 10M+ vidéos historiques",
-      "Recommandations actionnables en 1 clic",
-    ],
-    metric: { value: "0-100", label: "score viral" },
-    tone: "orange",
-    visual: "score",
-  },
-  {
-    icon: TrendingUp,
-    badge: "Prédictif",
-    title: "RPM Predictor",
-    desc:
-      "Prédis exactement combien chaque vidéo va générer, par pays, avant de la publier. Optimise tes thumbnails et titres pour le RPM, pas juste les vues.",
-    bullets: [
-      "Modèle entraîné sur les CPM réels par pays",
-      "Comparaison side-by-side Facebook vs TikTok",
-      "Simulateur What-If : niche, pays, audience",
-    ],
-    metric: { value: "±15%", label: "marge d'erreur" },
-    tone: "emerald",
-    visual: "score",
-  },
-  {
-    icon: Globe2,
-    badge: "Made in Africa",
-    title: "African Trend Engine",
-    desc:
-      "Le seul moteur de tendances réellement entraîné sur les contenus africains. Hashtags, sons et formats — par pays, en temps réel.",
-    bullets: [
-      "Refresh toutes les 15 minutes",
-      "9 pays : SN, CI, CM, ML, NG, GH, ZA, MA, CD",
-      "Détection des trends naissantes",
-    ],
-    metric: { value: "9 pays", label: "couverts" },
-    tone: "electric",
-    visual: "globe",
-  },
-  {
-    icon: Wand2,
-    badge: "Auto-fix",
-    title: "AI Content Repair",
-    desc:
-      "L'IA corrige automatiquement tes hooks faibles, ta mauvaise rétention, tes CTA mous et tes sous-titres mal calés — en un seul clic.",
-    bullets: [
-      "Re-génère un hook plus accrocheur",
-      "Réécrit le script pour la rétention",
-      "Régénère des sous-titres précis & burned-in",
-    ],
-    metric: { value: "1 clic", label: "réparation auto" },
-    tone: "violet",
-    visual: "repair",
-  },
+const wowSchema: WowSchema[] = [
+  { key: "shadowban", icon: ShieldOff,   tone: "rose",     span: "wide", visual: "signal" },
+  { key: "viral",     icon: Flame,       tone: "orange" },
+  { key: "rpm",       icon: TrendingUp,  tone: "emerald" },
+  { key: "trend",     icon: Globe2,      tone: "electric", visual: "globe" },
+  { key: "repair",    icon: Wand2,       tone: "violet" },
 ];
 
 const toneClasses: Record<
-  WowFeature["tone"],
+  WowSchema["tone"],
   { gradient: string; icon: string; text: string; ring: string }
 > = {
   violet: {
@@ -142,6 +70,8 @@ const toneClasses: Record<
 };
 
 export function WowFeatures() {
+  const t = useTranslations("wow");
+
   return (
     <section id="wow" className="relative py-14 md:py-20">
       <div className="container">
@@ -153,7 +83,7 @@ export function WowFeatures() {
             transition={{ duration: 0.5 }}
             className="inline-flex items-center gap-1.5 rounded-full border border-[#FF8A00]/30 bg-[#FF8A00]/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-[#FF8A00]"
           >
-            <Sparkles className="h-3 w-3" /> 5 features qui changent la donne
+            <Sparkles className="h-3 w-3" /> {t("eyebrow")}
           </motion.div>
           <motion.h2
             initial={{ opacity: 0, y: 16 }}
@@ -162,7 +92,8 @@ export function WowFeatures() {
             transition={{ duration: 0.6, delay: 0.05 }}
             className="mt-3 font-display text-3xl font-bold tracking-tight text-balance md:text-4xl"
           >
-            Pendant que tes concurrents <span className="gradient-text">postent à l'aveugle</span>, toi tu sais.
+            {t("titlePart1")} <span className="gradient-text">{t("titleHighlight")}</span>
+            {t("titlePart2")}
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 16 }}
@@ -171,13 +102,13 @@ export function WowFeatures() {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="mt-3 text-sm text-muted-foreground md:text-base"
           >
-            5 outils IA inédits, conçus pour anticiper, corriger et amplifier — pas juste mesurer.
+            {t("subtitle")}
           </motion.p>
         </div>
 
         <div className="mt-10 grid auto-rows-fr gap-4 sm:grid-cols-2 lg:grid-cols-6">
-          {wowFeatures.map((f, i) => (
-            <WowCard key={f.title} feature={f} index={i} />
+          {wowSchema.map((f, i) => (
+            <WowCard key={f.key} schema={f} index={i} />
           ))}
         </div>
       </div>
@@ -185,9 +116,12 @@ export function WowFeatures() {
   );
 }
 
-function WowCard({ feature, index }: { feature: WowFeature; index: number }) {
-  const t = toneClasses[feature.tone];
-  const isWide = feature.span === "wide";
+function WowCard({ schema, index }: { schema: WowSchema; index: number }) {
+  const t = useTranslations("wow");
+  const tc = useTranslations("common");
+  const tone = toneClasses[schema.tone];
+  const isWide = schema.span === "wide";
+  const Icon = schema.icon;
 
   return (
     <motion.article
@@ -204,7 +138,7 @@ function WowCard({ feature, index }: { feature: WowFeature; index: number }) {
       <div
         className={cn(
           "pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full bg-gradient-to-br opacity-40 blur-3xl transition-opacity duration-500 group-hover:opacity-90",
-          t.gradient,
+          tone.gradient,
         )}
       />
 
@@ -213,44 +147,44 @@ function WowCard({ feature, index }: { feature: WowFeature; index: number }) {
           <span
             className={cn(
               "inline-flex items-center rounded-full border px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider",
-              t.text,
-              "border-current/30 bg-current/10",
+              tone.text,
             )}
             style={{
               borderColor: "currentColor",
-              borderWidth: "1px",
-              opacity: 0.9,
+              backgroundColor: "color-mix(in srgb, currentColor 10%, transparent)",
             }}
           >
-            <span style={{ opacity: 1, color: "currentColor" }}>{feature.badge}</span>
+            {t(`${schema.key}.badge`)}
           </span>
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br shadow-lg ring-2 ring-offset-2 ring-offset-background transition-transform group-hover:scale-110"
-            style={{
-              backgroundImage: `linear-gradient(135deg, var(--tw-gradient-from), var(--tw-gradient-to))`,
-            }}
-          >
-            <div className={cn("flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br", t.icon, t.ring)}>
-              <feature.icon className="h-5 w-5 text-white" />
-            </div>
+          <div className={cn("flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br shadow-lg ring-2 ring-offset-2 ring-offset-background transition-transform group-hover:scale-110", tone.icon, tone.ring)}>
+            <Icon className="h-5 w-5 text-white" />
           </div>
         </div>
 
         <h3 className="mt-5 font-display text-xl font-bold leading-tight md:text-2xl">
-          {feature.title}
+          {t(`${schema.key}.title`)}
         </h3>
-        <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{feature.desc}</p>
+        <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+          {t(`${schema.key}.desc`)}
+        </p>
 
         <ul className="mt-4 space-y-1.5">
-          {feature.bullets.map((b) => (
-            <li key={b} className="flex items-start gap-2 text-xs text-muted-foreground">
-              <span className={cn("mt-1 h-1 w-1 shrink-0 rounded-full", t.text)} style={{ backgroundColor: "currentColor" }} />
-              <span>{b}</span>
+          {(["bullet1", "bullet2", "bullet3"] as const).map((b) => (
+            <li
+              key={b}
+              className="flex items-start gap-2 text-xs text-muted-foreground"
+            >
+              <span
+                className={cn("mt-1 h-1 w-1 shrink-0 rounded-full", tone.text)}
+                style={{ backgroundColor: "currentColor" }}
+              />
+              <span>{t(`${schema.key}.${b}`)}</span>
             </li>
           ))}
         </ul>
 
-        {/* Visuel propre à chaque carte wide */}
-        {isWide && feature.visual === "signal" && (
+        {/* Visuel signal (shadowban wide uniquement) */}
+        {isWide && schema.visual === "signal" && (
           <div className="mt-auto pt-5">
             <div className="flex h-10 items-end gap-1">
               {[88, 92, 85, 90, 78, 65, 48, 32, 22, 18, 14, 12, 16, 24, 38].map((v, i) => (
@@ -266,14 +200,11 @@ function WowCard({ feature, index }: { feature: WowFeature; index: number }) {
                 />
               ))}
             </div>
-            <div className="mt-1.5 flex justify-between text-[10px] text-muted-foreground">
-              <span className="text-emerald-500">Reach normal</span>
-              <span className="text-rose-500">↓ Anomalie détectée</span>
-            </div>
           </div>
         )}
 
-        {feature.visual === "globe" && (
+        {/* Drapeaux pour African Trend Engine */}
+        {schema.visual === "globe" && (
           <div className="mt-auto pt-4">
             <div className="flex flex-wrap gap-1">
               {["🇸🇳", "🇨🇮", "🇨🇲", "🇲🇱", "🇳🇬", "🇬🇭", "🇿🇦", "🇲🇦", "🇨🇩"].map((flag) => (
@@ -290,15 +221,15 @@ function WowCard({ feature, index }: { feature: WowFeature; index: number }) {
 
         <div className="mt-5 flex items-end justify-between gap-3 border-t border-border pt-4">
           <div>
-            <div className={cn("font-display text-xl font-bold leading-none", t.text)}>
-              {feature.metric.value}
+            <div className={cn("font-display text-xl font-bold leading-none", tone.text)}>
+              {t(`${schema.key}.metric`)}
             </div>
             <div className="mt-1 text-[10px] uppercase tracking-wider text-muted-foreground">
-              {feature.metric.label}
+              {t(`${schema.key}.metricLabel`)}
             </div>
           </div>
           <span className="inline-flex items-center gap-1 text-xs font-medium text-muted-foreground transition-colors group-hover:text-foreground">
-            <Eye className="h-3 w-3" /> En savoir plus
+            <Eye className="h-3 w-3" /> {tc("learnMore")}
             <ArrowUpRight className="h-3 w-3 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
           </span>
         </div>

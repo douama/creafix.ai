@@ -1,59 +1,68 @@
-import Link from "next/link";
-import { Logo } from "@/components/brand/logo";
-import { Github, Instagram, Twitter, Youtube } from "lucide-react";
+"use client";
 
-const cols = [
+import Link from "next/link";
+import { useTranslations } from "next-intl";
+import { Github, Instagram, Twitter, Youtube } from "lucide-react";
+import { Logo } from "@/components/brand/logo";
+
+type LinkKey =
+  | "features" | "pricing" | "faq" | "agency" | "mobile"
+  | "blog" | "guideFb" | "guideTt" | "help" | "status"
+  | "about" | "careers" | "partners" | "press" | "contact"
+  | "terms" | "privacy" | "cookies" | "legalNotice";
+
+const colsSchema: { titleKey: "product" | "resources" | "company" | "legal"; links: { key: LinkKey; href: string }[] }[] = [
   {
-    title: "Produit",
+    titleKey: "product",
     links: [
-      { label: "Fonctionnalités", href: "/features" },
-      { label: "Tarifs", href: "/pricing" },
-      { label: "FAQ", href: "/faq" },
-      { label: "Mode Agence", href: "/agency" },
-      { label: "App mobile", href: "/mobile" },
+      { key: "features", href: "/features" },
+      { key: "pricing", href: "/pricing" },
+      { key: "faq", href: "/faq" },
+      { key: "agency", href: "/agency" },
+      { key: "mobile", href: "/mobile" },
     ],
   },
   {
-    title: "Ressources",
+    titleKey: "resources",
     links: [
-      { label: "Blog créateurs", href: "/blog" },
-      { label: "Guide monétisation FB", href: "/guides/facebook" },
-      { label: "Guide TikTok Afrique", href: "/guides/tiktok" },
-      { label: "Centre d'aide", href: "/help" },
-      { label: "Status", href: "/status" },
+      { key: "blog", href: "/blog" },
+      { key: "guideFb", href: "/guides/facebook" },
+      { key: "guideTt", href: "/guides/tiktok" },
+      { key: "help", href: "/help" },
+      { key: "status", href: "/status" },
     ],
   },
   {
-    title: "Entreprise",
+    titleKey: "company",
     links: [
-      { label: "À propos", href: "/about" },
-      { label: "Carrières", href: "/careers" },
-      { label: "Partenaires", href: "/partners" },
-      { label: "Presse", href: "/press" },
-      { label: "Contact", href: "/contact" },
+      { key: "about", href: "/about" },
+      { key: "careers", href: "/careers" },
+      { key: "partners", href: "/partners" },
+      { key: "press", href: "/press" },
+      { key: "contact", href: "/contact" },
     ],
   },
   {
-    title: "Légal",
+    titleKey: "legal",
     links: [
-      { label: "CGU", href: "/legal/terms" },
-      { label: "Politique de confidentialité", href: "/legal/privacy" },
-      { label: "Cookies", href: "/legal/cookies" },
-      { label: "Mentions légales", href: "/legal/legal" },
+      { key: "terms", href: "/legal/terms" },
+      { key: "privacy", href: "/legal/privacy" },
+      { key: "cookies", href: "/legal/cookies" },
+      { key: "legalNotice", href: "/legal/legal" },
     ],
   },
 ];
 
 export function Footer() {
+  const t = useTranslations("footer");
+
   return (
     <footer className="border-t border-border py-10">
       <div className="container">
         <div className="grid gap-8 md:grid-cols-6">
           <div className="md:col-span-2">
             <Logo />
-            <p className="mt-4 max-w-xs text-sm text-muted-foreground">
-              La plateforme IA d'audit de monétisation sociale pensée pour les créateurs africains.
-            </p>
+            <p className="mt-4 max-w-xs text-sm text-muted-foreground">{t("tagline")}</p>
             <div className="mt-5 flex gap-2">
               {[Twitter, Instagram, Youtube, Github].map((Icon, i) => (
                 <a
@@ -67,17 +76,17 @@ export function Footer() {
             </div>
           </div>
 
-          {cols.map((c) => (
-            <div key={c.title}>
-              <div className="text-sm font-semibold">{c.title}</div>
+          {colsSchema.map((c) => (
+            <div key={c.titleKey}>
+              <div className="text-sm font-semibold">{t(c.titleKey)}</div>
               <ul className="mt-4 space-y-2.5">
                 {c.links.map((l) => (
-                  <li key={l.label}>
+                  <li key={l.key}>
                     <Link
                       href={l.href}
                       className="text-sm text-muted-foreground transition-colors hover:text-foreground"
                     >
-                      {l.label}
+                      {t(`links.${l.key}`)}
                     </Link>
                   </li>
                 ))}
@@ -87,7 +96,7 @@ export function Footer() {
         </div>
 
         <div className="mt-8 flex flex-col items-start justify-between gap-4 border-t border-border pt-6 text-xs text-muted-foreground md:flex-row md:items-center">
-          <span>© {new Date().getFullYear()} CreaFix AI · Built with ❤ for Africa</span>
+          <span>© {new Date().getFullYear()} CreaFix AI · {t("tagline2")}</span>
           <span>Dakar · Abidjan · Lagos · Casablanca</span>
         </div>
       </div>
