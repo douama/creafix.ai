@@ -225,6 +225,99 @@
       0 0 0 1px hsl(var(--primary) / 0.35),
       0 0 60px hsl(var(--primary) / 0.25);
   }
+
+  /* ─── Aurora background animé (dark premium) ─── */
+  .aurora-blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.5;
+    pointer-events: none;
+    will-change: transform;
+  }
+  .dark .aurora-blob {
+    opacity: 0.55;
+  }
+  .light .aurora-blob {
+    opacity: 0.18;
+  }
+
+  @keyframes aurora-1 {
+    0%, 100% { transform: translate3d(-10%, -20%, 0) scale(1); }
+    50% { transform: translate3d(15%, 10%, 0) scale(1.15); }
+  }
+  @keyframes aurora-2 {
+    0%, 100% { transform: translate3d(20%, 30%, 0) scale(1.1); }
+    50% { transform: translate3d(-10%, -10%, 0) scale(0.95); }
+  }
+  @keyframes aurora-3 {
+    0%, 100% { transform: translate3d(-30%, 40%, 0) scale(0.9); }
+    50% { transform: translate3d(20%, -20%, 0) scale(1.2); }
+  }
+
+  /* ─── Animated conic gradient border ─── */
+  @keyframes spin-slow {
+    to { transform: rotate(360deg); }
+  }
+  .shimmer-border {
+    position: relative;
+    isolation: isolate;
+  }
+  .shimmer-border::before {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    z-index: -1;
+    border-radius: inherit;
+    background: conic-gradient(
+      from 0deg,
+      transparent 0deg,
+      #7B61FF 60deg,
+      #00C2FF 120deg,
+      #FF8A00 180deg,
+      transparent 240deg
+    );
+    animation: spin-slow 6s linear infinite;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .shimmer-border:hover::before,
+  .shimmer-border[data-active="true"]::before {
+    opacity: 0.9;
+  }
+  .shimmer-border::after {
+    content: "";
+    position: absolute;
+    inset: 1px;
+    z-index: -1;
+    border-radius: inherit;
+    background-color: hsl(var(--background));
+  }
+
+  /* ─── Floating particles (subtil) ─── */
+  @keyframes float-particle {
+    0%, 100% { transform: translateY(0) translateX(0); opacity: 0.4; }
+    50% { transform: translateY(-30px) translateX(10px); opacity: 0.8; }
+  }
+  .particle {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: radial-gradient(circle, rgba(255,255,255,0.9), transparent);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+  .light .particle {
+    background: radial-gradient(circle, rgba(123,97,255,0.6), transparent);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .aurora-blob,
+    .shimmer-border::before,
+    .particle {
+      animation: none !important;
+    }
+  }
 }
 
 @layer utilities {

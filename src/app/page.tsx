@@ -1,6 +1,9 @@
+import { AuroraBg } from "@/components/marketing/aurora-bg";
 import { Navbar } from "@/components/marketing/navbar";
 import { Hero } from "@/components/marketing/hero";
 import { SocialProof } from "@/components/marketing/social-proof";
+import { LiveActivity } from "@/components/marketing/live-activity";
+import { SampleAudit } from "@/components/marketing/sample-audit";
 import { RevenueLeakScanner } from "@/components/marketing/revenue-leak";
 import { PlatformsSection } from "@/components/marketing/platforms-section";
 import { WowFeatures } from "@/components/marketing/wow-features";
@@ -20,10 +23,13 @@ import { Footer } from "@/components/marketing/footer";
 export default function HomePage() {
   return (
     <>
+      <AuroraBg />
       <Navbar />
       <main>
         <Hero />
         <SocialProof />
+        <LiveActivity />
+        <SampleAudit />
         <RevenueLeakScanner />
         <PlatformsSection />
         <WowFeatures />

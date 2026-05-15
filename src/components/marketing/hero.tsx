@@ -7,6 +7,7 @@ import { ArrowRight, Sparkles, ShieldCheck, TrendingUp, Zap } from "lucide-react
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { DashboardPreview } from "./dashboard-preview";
+import { UrlAuditInput } from "./url-audit-input";
 
 export function Hero() {
   const t = useTranslations("hero");
@@ -39,14 +40,17 @@ export function Hero() {
             {t("subtitle")}
           </p>
 
-          <div className="mt-6 flex flex-col items-center justify-center gap-2.5 sm:flex-row">
-            <Button asChild size="lg" variant="brand" className="group w-full sm:w-auto">
+          <UrlAuditInput />
+
+          <div className="mt-4 flex flex-col items-center justify-center gap-2.5 sm:flex-row">
+            <Button asChild size="sm" variant="ghost" className="group text-muted-foreground hover:text-foreground">
               <Link href="/signup">
                 {t("ctaPrimary")}
-                <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+                <ArrowRight className="ml-1 h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
               </Link>
             </Button>
-            <Button asChild size="lg" variant="outline" className="w-full sm:w-auto">
+            <span className="text-xs text-muted-foreground/60">·</span>
+            <Button asChild size="sm" variant="ghost" className="text-muted-foreground hover:text-foreground">
               <Link href="#revenue-leak">{t("ctaSecondary")}</Link>
             </Button>
           </div>
