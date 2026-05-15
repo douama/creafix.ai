@@ -159,7 +159,7 @@ export function AgentsShowcase() {
           </motion.p>
         </div>
 
-        <div className="mx-auto mt-10 grid max-w-6xl gap-4 lg:grid-cols-3">
+        <div className="mt-10 grid gap-4 lg:grid-cols-3">
           {/* Audit Agent — carte hero */}
           <motion.article
             initial={{ opacity: 0, y: 20 }}

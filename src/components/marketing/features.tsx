@@ -235,7 +235,7 @@ export function Features() {
         </div>
 
         {/* Grille bento : 6 colonnes. Wide = col-span-4, normal = col-span-2 */}
-        <div className="mx-auto mt-10 grid max-w-6xl auto-rows-fr gap-4 sm:grid-cols-2 lg:grid-cols-6">
+        <div className="mt-10 grid auto-rows-fr gap-4 sm:grid-cols-2 lg:grid-cols-6">
           {features.map((f, i) => (
             <FeatureCard key={f.title} feature={f} index={i} />
           ))}
