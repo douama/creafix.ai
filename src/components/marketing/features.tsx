@@ -48,8 +48,6 @@ const features: Feature[] = [
     tone: "violet",
     metric: "40+",
     metricLabel: "signaux analysés",
-    span: "wide",
-    visual: "signal",
   },
   {
     icon: ShieldAlert,
@@ -91,8 +89,6 @@ const features: Feature[] = [
     tone: "orange",
     metric: "9",
     metricLabel: "pays africains",
-    span: "wide",
-    visual: "map",
   },
   {
     icon: Building2,
@@ -234,8 +230,8 @@ export function Features() {
           </motion.p>
         </div>
 
-        {/* Grille bento : 6 colonnes. Wide = col-span-4, normal = col-span-2 */}
-        <div className="mt-10 grid auto-rows-fr gap-4 sm:grid-cols-2 lg:grid-cols-6">
+        {/* Grille 3 colonnes égales — 9 features = 3 × 3 parfait */}
+        <div className="mt-10 grid auto-rows-fr gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {features.map((f, i) => (
             <FeatureCard key={f.title} feature={f} index={i} />
           ))}
@@ -247,7 +243,6 @@ export function Features() {
 
 function FeatureCard({ feature, index }: { feature: Feature; index: number }) {
   const t = toneClasses[feature.tone];
-  const isWide = feature.span === "wide";
 
   return (
     <motion.div
@@ -258,7 +253,6 @@ function FeatureCard({ feature, index }: { feature: Feature; index: number }) {
       className={cn(
         "group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-card/40 p-5 backdrop-blur transition-all duration-300",
         "hover:-translate-y-0.5 hover:border-foreground/15 hover:bg-card/70 hover:shadow-xl",
-        isWide ? "sm:col-span-2 lg:col-span-4" : "lg:col-span-2",
       )}
     >
       {/* Glow tonal */}
@@ -305,43 +299,7 @@ function FeatureCard({ feature, index }: { feature: Feature; index: number }) {
           <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">{feature.desc}</p>
         </div>
 
-        {/* Visual mini pour cartes wide */}
-        {isWide && feature.visual === "signal" && (
-          <div className="mt-auto pt-4">
-            <div className="flex h-9 items-end gap-1">
-              {[34, 48, 62, 56, 70, 84, 78, 92, 88, 95, 90, 96, 88, 92, 80, 94, 72, 88].map(
-                (v, i) => (
-                  <div
-                    key={i}
-                    className={cn(
-                      "flex-1 rounded-t-sm bg-gradient-to-t opacity-80 transition-opacity group-hover:opacity-100",
-                      t.signalFrom,
-                      t.signalTo,
-                    )}
-                    style={{ height: `${v}%` }}
-                  />
-                ),
-              )}
-            </div>
-          </div>
-        )}
-
-        {isWide && feature.visual === "map" && (
-          <div className="mt-auto pt-4">
-            <div className="flex flex-wrap gap-1.5">
-              {["🇸🇳", "🇨🇮", "🇨🇲", "🇲🇱", "🇳🇬", "🇬🇭", "🇿🇦", "🇲🇦", "🇨🇩"].map((flag, i) => (
-                <span
-                  key={i}
-                  className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-border bg-card/60 text-base transition-transform hover:scale-110"
-                >
-                  {flag}
-                </span>
-              ))}
-            </div>
-          </div>
-        )}
-
-        <div className="mt-4 flex items-center gap-1.5 text-xs font-medium text-muted-foreground transition-colors group-hover:text-foreground">
+        <div className="mt-auto pt-4 flex items-center gap-1.5 text-xs font-medium text-muted-foreground transition-colors group-hover:text-foreground">
           <span>En savoir plus</span>
           <ArrowUpRight className="h-3 w-3 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
         </div>
