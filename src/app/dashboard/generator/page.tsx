@@ -106,7 +106,7 @@ export default function GeneratorPage() {
                   "rounded-full border px-3 py-1 text-xs transition-colors",
                   niche === n
                     ? "border-violet-500/50 bg-violet-500/15 text-violet-200"
-                    : "border-white/10 bg-white/[0.02] text-muted-foreground hover:bg-white/[0.05]",
+                    : "border-border bg-card/40 text-muted-foreground hover:bg-card/70",
                 )}
               >
                 {n}
@@ -138,7 +138,7 @@ export default function GeneratorPage() {
         <TabsContent value="ideas">
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             {seedIdeas.map((idea) => (
-              <Card key={idea.title} className="group transition-colors hover:bg-white/[0.05]">
+              <Card key={idea.title} className="group transition-colors hover:bg-card/70">
                 <CardContent className="space-y-3 p-5">
                   <div className="flex items-center justify-between">
                     <Badge variant="brand">{idea.score} viral</Badge>
@@ -178,7 +178,7 @@ export default function GeneratorPage() {
                   ].map((h) => (
                     <li
                       key={h}
-                      className="flex items-center justify-between rounded-xl border border-white/10 bg-white/[0.02] px-4 py-2.5 text-sm"
+                      className="flex items-center justify-between rounded-xl border border-border bg-card/40 px-4 py-2.5 text-sm"
                     >
                       <span>{h}</span>
                       <button className="text-muted-foreground hover:text-foreground">
@@ -193,7 +193,7 @@ export default function GeneratorPage() {
                 <div className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                   Script complet
                 </div>
-                <pre className="mt-2 whitespace-pre-wrap rounded-xl border border-white/10 bg-white/[0.02] p-4 text-sm leading-relaxed">{`[0–3s · Hook]
+                <pre className="mt-2 whitespace-pre-wrap rounded-xl border border-border bg-card/40 p-4 text-sm leading-relaxed">{`[0–3s · Hook]
 Tu as Wave ? Regarde ça avant de payer encore une fois.
 
 [3–10s · Promesse]
@@ -233,7 +233,7 @@ Like si t'as appris quelque chose, abonne-toi pour les 5 prochaines astuces.`}</
                 {Array.from({ length: 6 }).map((_, i) => (
                   <div
                     key={i}
-                    className="group relative aspect-video overflow-hidden rounded-xl border border-white/10"
+                    className="group relative aspect-video overflow-hidden rounded-xl border border-border"
                   >
                     <div className="absolute inset-0 gradient-brand opacity-90" />
                     <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.3),transparent_60%)]" />
@@ -271,7 +271,7 @@ Like si t'as appris quelque chose, abonne-toi pour les 5 prochaines astuces.`}</
                 ].map((v) => (
                   <button
                     key={v.name}
-                    className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/[0.02] p-3 text-left hover:bg-white/[0.05]"
+                    className="flex items-center gap-3 rounded-xl border border-border bg-card/40 p-3 text-left hover:bg-card/70"
                   >
                     <div className="flex h-10 w-10 items-center justify-center rounded-full gradient-brand text-white">
                       {v.name[0]}
@@ -300,7 +300,7 @@ Like si t'as appris quelque chose, abonne-toi pour les 5 prochaines astuces.`}</
               ].map((s) => (
                 <div
                   key={s.title}
-                  className="flex items-center justify-between rounded-xl border border-white/10 bg-white/[0.02] p-3"
+                  className="flex items-center justify-between rounded-xl border border-border bg-card/40 p-3"
                 >
                   <div className="flex items-center gap-3">
                     <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-pink-500/15 ring-1 ring-pink-400/30">

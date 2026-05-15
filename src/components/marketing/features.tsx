@@ -85,7 +85,7 @@ export function Features() {
     <section id="features" className="relative py-24 md:py-32">
       <div className="container">
         <div className="mx-auto max-w-2xl text-center">
-          <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 text-xs text-muted-foreground">
+          <div className="inline-flex items-center gap-2 rounded-full border border-border bg-card/50 px-3 py-1 text-xs text-muted-foreground">
             <Globe className="h-3 w-3" /> Pensé pour l'Afrique
           </div>
           <h2 className="mt-4 font-display text-4xl font-bold tracking-tight text-balance md:text-5xl">
@@ -104,13 +104,13 @@ export function Features() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-60px" }}
               transition={{ duration: 0.5, delay: i * 0.04 }}
-              className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.02] p-6 backdrop-blur-md transition-all hover:border-white/20 hover:bg-white/[0.04]"
+              className="group relative overflow-hidden rounded-2xl border border-border bg-card/40 p-6 backdrop-blur-md transition-all hover:border-border hover:bg-card/60"
             >
               <div
                 className={`pointer-events-none absolute -right-10 -top-10 h-40 w-40 rounded-full bg-gradient-to-br ${f.accent} blur-2xl transition-opacity group-hover:opacity-100`}
               />
               <div className="relative">
-                <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-white/10 bg-white/[0.04]">
+                <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-border bg-card/60">
                   <f.icon className="h-5 w-5" />
                 </div>
                 <h3 className="mt-4 font-display text-lg font-semibold">{f.title}</h3>

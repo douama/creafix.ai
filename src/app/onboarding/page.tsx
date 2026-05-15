@@ -84,7 +84,7 @@ function Profile() {
           (r) => (
             <button
               key={r}
-              className="rounded-xl border border-white/10 bg-white/[0.02] p-4 text-left text-sm hover:bg-white/[0.05] hover:border-violet-500/30"
+              className="rounded-xl border border-border bg-card/40 p-4 text-left text-sm hover:bg-card/70 hover:border-violet-500/30"
             >
               <div className="font-medium">{r}</div>
             </button>
@@ -109,7 +109,7 @@ function Platform() {
         ].map(({ icon: Icon, label, cls }) => (
           <button
             key={label}
-            className="flex flex-col items-center gap-3 rounded-xl border border-white/10 bg-white/[0.02] p-6 text-center hover:bg-white/[0.05]"
+            className="flex flex-col items-center gap-3 rounded-xl border border-border bg-card/40 p-6 text-center hover:bg-card/70"
           >
             <div
               className={cn(
@@ -139,7 +139,7 @@ function Niche() {
         {niches.map((n) => (
           <button
             key={n}
-            className="rounded-full border border-white/10 bg-white/[0.02] px-4 py-1.5 text-sm hover:border-violet-500/30 hover:bg-violet-500/[0.06]"
+            className="rounded-full border border-border bg-card/40 px-4 py-1.5 text-sm hover:border-violet-500/30 hover:bg-violet-500/[0.06]"
           >
             {n}
           </button>
@@ -171,7 +171,7 @@ function Country() {
         {countries.map((c) => (
           <button
             key={c.name}
-            className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/[0.02] px-4 py-3 text-left text-sm hover:bg-white/[0.05] hover:border-violet-500/30"
+            className="flex items-center gap-2 rounded-xl border border-border bg-card/40 px-4 py-3 text-left text-sm hover:bg-card/70 hover:border-violet-500/30"
           >
             <span className="text-base">{c.flag}</span>
             <span>{c.name}</span>
@@ -190,7 +190,7 @@ function Connect() {
         Connecte ton premier compte pour lancer l'audit IA en 30s. Tu peux aussi le faire plus tard.
       </p>
       <div className="grid gap-3 md:grid-cols-2">
-        <button className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/[0.02] p-4 hover:bg-white/[0.05]">
+        <button className="flex items-center gap-3 rounded-xl border border-border bg-card/40 p-4 hover:bg-card/70">
           <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-500/15 ring-1 ring-blue-400/30">
             <Facebook className="h-5 w-5 text-blue-400" />
           </div>
@@ -199,7 +199,7 @@ function Connect() {
             <div className="text-xs text-muted-foreground">OAuth Meta</div>
           </div>
         </button>
-        <button className="flex items-center gap-3 rounded-xl border border-white/10 bg-white/[0.02] p-4 hover:bg-white/[0.05]">
+        <button className="flex items-center gap-3 rounded-xl border border-border bg-card/40 p-4 hover:bg-card/70">
           <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-pink-500/15 ring-1 ring-pink-400/30">
             <Music2 className="h-5 w-5 text-pink-400" />
           </div>

@@ -90,7 +90,7 @@ export default function AntiBanPage() {
             ].map((r) => (
               <div
                 key={r}
-                className="flex items-center gap-2 rounded-xl border border-white/10 bg-white/[0.02] px-3 py-2 text-sm"
+                className="flex items-center gap-2 rounded-xl border border-border bg-card/40 px-3 py-2 text-sm"
               >
                 <CheckCircle2 className="h-4 w-4 text-emerald-400" />
                 <span>{r}</span>
@@ -105,7 +105,7 @@ export default function AntiBanPage() {
 
 function Bar({ label, value, tone }: { label: string; value: number; tone: "emerald" | "amber" | "rose" }) {
   return (
-    <div className="rounded-xl border border-white/10 bg-white/[0.02] p-3">
+    <div className="rounded-xl border border-border bg-card/40 p-3">
       <div className="flex items-center justify-between text-xs">
         <span className="text-muted-foreground">{label}</span>
         <span className="font-medium">{value}%</span>
@@ -129,7 +129,7 @@ function Alert({
       ? "border-rose-500/30 bg-rose-500/[0.06]"
       : severity === "medium"
         ? "border-amber-500/30 bg-amber-500/[0.06]"
-        : "border-white/10 bg-white/[0.02]";
+        : "border-border bg-card/40";
   const icon =
     severity === "high" ? (
       <ShieldAlert className="h-4 w-4 text-rose-400" />

@@ -15,7 +15,7 @@ export function LogosStrip() {
   ];
 
   return (
-    <section className="border-y border-white/5 py-10">
+    <section className="border-y border-border/60 py-10">
       <div className="container">
         <p className="text-center text-xs uppercase tracking-[0.18em] text-muted-foreground">
           Intégré avec les plateformes & outils que tu utilises déjà

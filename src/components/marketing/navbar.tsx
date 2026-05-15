@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Logo } from "@/components/brand/logo";
 import { Button } from "@/components/ui/button";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { cn } from "@/lib/utils";
 import { Menu, X } from "lucide-react";
 
@@ -35,10 +36,10 @@ export function Navbar() {
       <div className="container">
         <nav
           className={cn(
-            "flex items-center justify-between rounded-2xl border border-white/8 px-4 py-2.5 transition-all",
+            "flex items-center justify-between rounded-2xl border border-border px-4 py-2.5 transition-all",
             scrolled
               ? "bg-background/70 backdrop-blur-xl shadow-xl shadow-black/30"
-              : "bg-white/[0.02] backdrop-blur-md",
+              : "bg-card/40 backdrop-blur-md",
           )}
         >
           <Link href="/" aria-label="Monetiq AI">
@@ -50,7 +51,7 @@ export function Navbar() {
               <Link
                 key={l.href}
                 href={l.href}
-                className="rounded-lg px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-white/5 hover:text-foreground"
+                className="rounded-lg px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-muted/40 hover:text-foreground"
               >
                 {l.label}
               </Link>
@@ -58,6 +59,7 @@ export function Navbar() {
           </div>
 
           <div className="hidden items-center gap-2 md:flex">
+            <ThemeToggle className="h-9 w-9" />
             <Button asChild variant="ghost" size="sm">
               <Link href="/login">Connexion</Link>
             </Button>
@@ -67,7 +69,7 @@ export function Navbar() {
           </div>
 
           <button
-            className="rounded-lg p-2 md:hidden hover:bg-white/5"
+            className="rounded-lg p-2 md:hidden hover:bg-muted/40"
             aria-label="Ouvrir le menu"
             onClick={() => setOpen((v) => !v)}
           >
@@ -76,14 +78,14 @@ export function Navbar() {
         </nav>
 
         {open && (
-          <div className="mt-2 rounded-2xl border border-white/10 bg-background/90 p-4 backdrop-blur-xl md:hidden">
+          <div className="mt-2 rounded-2xl border border-border bg-background/90 p-4 backdrop-blur-xl md:hidden">
             <div className="flex flex-col gap-1">
               {links.map((l) => (
                 <Link
                   key={l.href}
                   href={l.href}
                   onClick={() => setOpen(false)}
-                  className="rounded-lg px-3 py-2.5 text-sm text-muted-foreground hover:bg-white/5 hover:text-foreground"
+                  className="rounded-lg px-3 py-2.5 text-sm text-muted-foreground hover:bg-muted/40 hover:text-foreground"
                 >
                   {l.label}
                 </Link>

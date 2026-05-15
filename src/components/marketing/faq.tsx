@@ -50,11 +50,11 @@ export function FAQ() {
           {faqs.map((f, i) => (
             <div
               key={f.q}
-              className="overflow-hidden rounded-2xl border border-white/10 bg-white/[0.02] backdrop-blur-md"
+              className="overflow-hidden rounded-2xl border border-border bg-card/40 backdrop-blur-md"
             >
               <button
                 onClick={() => setOpen(open === i ? null : i)}
-                className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left transition-colors hover:bg-white/[0.03]"
+                className="flex w-full items-center justify-between gap-4 px-5 py-4 text-left transition-colors hover:bg-card/50"
               >
                 <span className="font-medium">{f.q}</span>
                 <ChevronDown

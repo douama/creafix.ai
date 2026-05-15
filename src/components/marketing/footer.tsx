@@ -46,7 +46,7 @@ const cols = [
 
 export function Footer() {
   return (
-    <footer className="border-t border-white/10 py-16">
+    <footer className="border-t border-border py-16">
       <div className="container">
         <div className="grid gap-10 md:grid-cols-6">
           <div className="md:col-span-2">
@@ -59,7 +59,7 @@ export function Footer() {
                 <a
                   key={i}
                   href="#"
-                  className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/10 bg-white/[0.02] text-muted-foreground transition-colors hover:bg-white/[0.06] hover:text-foreground"
+                  className="flex h-9 w-9 items-center justify-center rounded-lg border border-border bg-card/40 text-muted-foreground transition-colors hover:bg-card/80 hover:text-foreground"
                 >
                   <Icon className="h-4 w-4" />
                 </a>
@@ -86,7 +86,7 @@ export function Footer() {
           ))}
         </div>
 
-        <div className="mt-12 flex flex-col items-start justify-between gap-4 border-t border-white/10 pt-6 text-xs text-muted-foreground md:flex-row md:items-center">
+        <div className="mt-12 flex flex-col items-start justify-between gap-4 border-t border-border pt-6 text-xs text-muted-foreground md:flex-row md:items-center">
           <span>© {new Date().getFullYear()} Monetiq AI · Built with ❤ for Africa</span>
           <span>Dakar · Abidjan · Lagos · Casablanca</span>
         </div>

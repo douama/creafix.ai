@@ -177,7 +177,7 @@ export default function DashboardHomePage() {
             ].map((r) => (
               <div
                 key={r.title}
-                className="flex items-start gap-3 rounded-xl border border-white/10 bg-white/[0.02] p-3.5 hover:bg-white/[0.04]"
+                className="flex items-start gap-3 rounded-xl border border-border bg-card/40 p-3.5 hover:bg-card/60"
               >
                 <r.icon
                   className={
@@ -251,7 +251,7 @@ function Detail({
           ? "text-rose-300 bg-rose-500/10"
           : "text-violet-300 bg-violet-500/10";
   return (
-    <div className="rounded-lg border border-white/10 bg-white/[0.02] p-2">
+    <div className="rounded-lg border border-border bg-card/40 p-2">
       <div className="text-[10px] uppercase tracking-wider text-muted-foreground">{label}</div>
       <div className={`mt-1 inline-flex items-center rounded px-1.5 py-0.5 text-xs ${toneCls}`}>
         {value}
@@ -274,7 +274,7 @@ function ConnectedAccount({
   const Icon = platform === "facebook" ? Facebook : Music2;
   const cls = platform === "facebook" ? "bg-blue-500/15 text-blue-400 ring-blue-400/30" : "bg-pink-500/15 text-pink-400 ring-pink-400/30";
   return (
-    <div className="rounded-xl border border-white/10 bg-white/[0.02] p-3">
+    <div className="rounded-xl border border-border bg-card/40 p-3">
       <div className="flex items-center gap-3">
         <div className={`flex h-9 w-9 items-center justify-center rounded-lg ring-1 ${cls}`}>
           <Icon className="h-4 w-4" />
@@ -308,13 +308,13 @@ function RiskRow({
       ? "border-rose-500/30 bg-rose-500/10 text-rose-200"
       : severity === "medium"
         ? "border-amber-500/30 bg-amber-500/10 text-amber-200"
-        : "border-white/10 bg-white/[0.03] text-muted-foreground";
+        : "border-border bg-card/50 text-muted-foreground";
   const dot =
     severity === "high"
       ? "bg-rose-400"
       : severity === "medium"
         ? "bg-amber-400"
-        : "bg-white/30";
+        : "bg-foreground/30";
   return (
     <div className={`flex items-center justify-between rounded-xl border px-3.5 py-3 ${cls}`}>
       <div className="flex items-center gap-2.5">

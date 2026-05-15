@@ -169,7 +169,7 @@ export default function AuditDetailPage({ params }: { params: { id: string } }) 
                 items: ["Activer In-Stream Ads", "Lancer campagne pays Sénégal+CI", "Reporting client"],
               },
             ].map((b) => (
-              <div key={b.w} className="rounded-xl border border-white/10 bg-white/[0.02] p-4">
+              <div key={b.w} className="rounded-xl border border-border bg-card/40 p-4">
                 <div className="text-xs font-semibold uppercase tracking-wider text-violet-300">
                   {b.w}
                 </div>
@@ -204,7 +204,7 @@ function Issue({
       ? "border-rose-500/30 bg-rose-500/[0.06]"
       : severity === "medium"
         ? "border-amber-500/30 bg-amber-500/[0.06]"
-        : "border-white/10 bg-white/[0.02]";
+        : "border-border bg-card/40";
   return (
     <div className={`flex items-start gap-3 rounded-xl border p-3.5 ${cls}`}>
       <AlertTriangle

@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, Sora } from "next/font/google";
 import { Toaster } from "sonner";
+import { ThemeProvider } from "@/components/theme-provider";
 import "./globals.css";
 
 const inter = Inter({
@@ -56,17 +57,23 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="fr" className={`${inter.variable} ${sora.variable} dark`} suppressHydrationWarning>
+    <html lang="fr" className={`${inter.variable} ${sora.variable}`} suppressHydrationWarning>
       <body className="min-h-screen font-sans">
-        {children}
-        <Toaster
-          theme="dark"
-          position="top-right"
-          toastOptions={{
-            className:
-              "!bg-white/[0.04] !border !border-white/10 !backdrop-blur-xl !text-foreground",
-          }}
-        />
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {children}
+          <Toaster
+            position="top-right"
+            toastOptions={{
+              className:
+                "!border !backdrop-blur-xl !text-foreground",
+            }}
+          />
+        </ThemeProvider>
       </body>
     </html>
   );

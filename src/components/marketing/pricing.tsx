@@ -83,7 +83,7 @@ export function Pricing() {
               className={`relative flex flex-col rounded-3xl border p-7 backdrop-blur-xl transition-all ${
                 p.highlight
                   ? "border-violet-500/40 bg-gradient-to-b from-violet-500/[0.08] to-transparent shadow-2xl shadow-violet-500/20"
-                  : "border-white/10 bg-white/[0.02]"
+                  : "border-border bg-card/40"
               }`}
             >
               {p.highlight && (
@@ -133,7 +133,7 @@ export function Pricing() {
             (p) => (
               <span
                 key={p}
-                className="rounded-full border border-white/10 bg-white/[0.03] px-2.5 py-1"
+                className="rounded-full border border-border bg-card/50 px-2.5 py-1"
               >
                 {p}
               </span>

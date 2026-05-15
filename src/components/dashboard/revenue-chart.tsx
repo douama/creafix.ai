@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import {
   Area,
   AreaChart,
@@ -9,6 +10,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import { useTheme } from "next-themes";
 import { compact } from "@/lib/utils";
 
 const data = [
@@ -30,6 +32,17 @@ const data = [
 ];
 
 export function RevenueChart() {
+  const { resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
+  const isLight = mounted && resolvedTheme === "light";
+  const axisColor = isLight ? "rgba(15,23,42,0.55)" : "rgba(255,255,255,0.5)";
+  const gridColor = isLight ? "rgba(15,23,42,0.08)" : "rgba(255,255,255,0.06)";
+  const tooltipBg = isLight ? "rgba(255,255,255,0.96)" : "rgba(15,15,25,0.92)";
+  const tooltipBorder = isLight ? "rgba(15,23,42,0.12)" : "rgba(255,255,255,0.10)";
+  const tooltipFg = isLight ? "#0f172a" : "#ffffff";
+
   return (
     <div className="h-72 w-full">
       <ResponsiveContainer width="100%" height="100%">
@@ -41,36 +54,39 @@ export function RevenueChart() {
               <stop offset="100%" stopColor="#F97316" stopOpacity={0} />
             </linearGradient>
           </defs>
-          <CartesianGrid strokeDasharray="2 4" stroke="rgba(255,255,255,0.06)" />
+          <CartesianGrid strokeDasharray="2 4" stroke={gridColor} />
           <XAxis
             dataKey="day"
-            stroke="rgba(255,255,255,0.4)"
-            tick={{ fill: "rgba(255,255,255,0.5)", fontSize: 11 }}
+            stroke={axisColor}
+            tick={{ fill: axisColor, fontSize: 11 }}
             tickLine={false}
             axisLine={false}
           />
           <YAxis
             tickFormatter={(v) => compact(Number(v))}
-            stroke="rgba(255,255,255,0.4)"
-            tick={{ fill: "rgba(255,255,255,0.5)", fontSize: 11 }}
+            stroke={axisColor}
+            tick={{ fill: axisColor, fontSize: 11 }}
             tickLine={false}
             axisLine={false}
           />
           <Tooltip
             contentStyle={{
-              background: "rgba(15,15,25,0.92)",
-              border: "1px solid rgba(255,255,255,0.1)",
+              background: tooltipBg,
+              border: `1px solid ${tooltipBorder}`,
               borderRadius: 12,
               backdropFilter: "blur(20px)",
-              color: "white",
+              color: tooltipFg,
+              boxShadow: isLight ? "0 12px 32px -16px rgba(15,23,42,0.2)" : undefined,
             }}
+            labelStyle={{ color: tooltipFg }}
+            itemStyle={{ color: tooltipFg }}
             formatter={(v: number) => [`${v.toLocaleString("fr-FR")} FCFA`, "Revenus"]}
             labelFormatter={(l) => `Jour ${l}`}
           />
           <Area
             type="monotone"
             dataKey="revenue"
-            stroke="#A78BFA"
+            stroke={isLight ? "#7C3AED" : "#A78BFA"}
             strokeWidth={2.5}
             fill="url(#revG)"
           />

@@ -20,7 +20,7 @@ export function Hero() {
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
           className="mx-auto max-w-3xl text-center"
         >
-          <Badge variant="outline" className="mb-6 gap-1.5 border-white/15 bg-white/[0.04] px-3 py-1.5">
+          <Badge variant="outline" className="mb-6 gap-1.5 border-border bg-card/60 px-3 py-1.5">
             <Sparkles className="h-3.5 w-3.5 text-amber-400" />
             <span className="text-xs">Construit pour l'Afrique · Disponible FR & EN</span>
           </Badge>

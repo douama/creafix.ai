@@ -58,7 +58,7 @@ export function Sidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="sticky top-0 hidden h-screen w-64 shrink-0 border-r border-white/10 bg-background/40 backdrop-blur-xl md:flex md:flex-col">
+    <aside className="sticky top-0 hidden h-screen w-64 shrink-0 border-r border-border bg-background/40 backdrop-blur-xl md:flex md:flex-col">
       <div className="px-5 py-5">
         <Link href="/dashboard">
           <Logo />
@@ -84,8 +84,8 @@ export function Sidebar() {
                     className={cn(
                       "group flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-colors",
                       active
-                        ? "bg-white/[0.07] text-foreground"
-                        : "text-muted-foreground hover:bg-white/[0.04] hover:text-foreground",
+                        ? "bg-card/80 text-foreground"
+                        : "text-muted-foreground hover:bg-card/60 hover:text-foreground",
                     )}
                   >
                     <item.icon
@@ -113,7 +113,7 @@ export function Sidebar() {
         </div>
         <Link
           href="/dashboard/billing"
-          className="mt-3 inline-flex w-full items-center justify-center rounded-lg bg-white px-3 py-1.5 text-xs font-medium text-black hover:bg-white/90"
+          className="mt-3 inline-flex w-full items-center justify-center rounded-lg bg-foreground px-3 py-1.5 text-xs font-medium text-background hover:bg-foreground/90"
         >
           Upgrade →
         </Link>

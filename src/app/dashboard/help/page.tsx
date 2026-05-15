@@ -38,7 +38,7 @@ export default function HelpPage() {
             <a
               key={t}
               href="#"
-              className="rounded-xl border border-white/10 bg-white/[0.02] px-4 py-3 text-sm hover:bg-white/[0.05]"
+              className="rounded-xl border border-border bg-card/40 px-4 py-3 text-sm hover:bg-card/70"
             >
               → {t}
             </a>

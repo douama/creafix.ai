@@ -74,14 +74,14 @@ export default function AuditsPage() {
 
       <Card>
         <CardContent className="p-0">
-          <div className="flex items-center gap-3 border-b border-white/10 px-5 py-3">
+          <div className="flex items-center gap-3 border-b border-border px-5 py-3">
             <Search className="h-4 w-4 text-muted-foreground" />
             <input
               placeholder="Rechercher un audit, un compte, un pays…"
               className="h-9 w-full bg-transparent text-sm placeholder:text-muted-foreground focus:outline-none"
             />
           </div>
-          <div className="divide-y divide-white/5">
+          <div className="divide-y divide-border/60">
             {audits.map((a) => {
               const Icon = a.platform === "facebook" ? Facebook : Music2;
               const platCls =
@@ -92,7 +92,7 @@ export default function AuditsPage() {
                 <Link
                   key={a.id}
                   href={`/dashboard/audits/${a.id}`}
-                  className="grid grid-cols-12 items-center gap-3 px-5 py-4 transition-colors hover:bg-white/[0.03]"
+                  className="grid grid-cols-12 items-center gap-3 px-5 py-4 transition-colors hover:bg-card/50"
                 >
                   <div className="col-span-5 flex items-center gap-3">
                     <div className={`flex h-9 w-9 items-center justify-center rounded-lg ring-1 ${platCls}`}>

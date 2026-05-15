@@ -47,7 +47,7 @@ export default function AgencyPage() {
           {clients.map((c) => (
             <div
               key={c.name}
-              className="grid grid-cols-12 items-center gap-3 rounded-xl border border-white/10 bg-white/[0.02] p-3 hover:bg-white/[0.04]"
+              className="grid grid-cols-12 items-center gap-3 rounded-xl border border-border bg-card/40 p-3 hover:bg-card/60"
             >
               <div className="col-span-5 flex items-center gap-3">
                 <div className="flex h-9 w-9 items-center justify-center rounded-lg gradient-brand text-white">
@@ -83,21 +83,21 @@ export default function AgencyPage() {
         </CardHeader>
         <CardContent>
           <div className="grid gap-4 md:grid-cols-3">
-            <div className="rounded-xl border border-white/10 bg-white/[0.02] p-4 text-sm">
+            <div className="rounded-xl border border-border bg-card/40 p-4 text-sm">
               <div className="text-xs uppercase tracking-wider text-muted-foreground">Logo</div>
               <div className="mt-2">Upload PNG/SVG · max 2MB</div>
               <Button size="sm" variant="outline" className="mt-3 w-full">
                 Importer un logo
               </Button>
             </div>
-            <div className="rounded-xl border border-white/10 bg-white/[0.02] p-4 text-sm">
+            <div className="rounded-xl border border-border bg-card/40 p-4 text-sm">
               <div className="text-xs uppercase tracking-wider text-muted-foreground">
                 Couleur primaire
               </div>
               <div className="mt-2 h-10 w-full rounded-lg bg-gradient-to-r from-violet-500 to-orange-500" />
               <div className="mt-2 text-xs text-muted-foreground">#7C3AED → #F97316</div>
             </div>
-            <div className="rounded-xl border border-white/10 bg-white/[0.02] p-4 text-sm">
+            <div className="rounded-xl border border-border bg-card/40 p-4 text-sm">
               <div className="text-xs uppercase tracking-wider text-muted-foreground">Sous-domaine</div>
               <div className="mt-2 font-mono text-xs">tonagence.monetiq.ai</div>
               <Button size="sm" variant="outline" className="mt-3 w-full">

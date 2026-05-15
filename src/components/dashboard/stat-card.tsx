@@ -22,7 +22,7 @@ export function StatCard({
         <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
           {label}
         </span>
-        <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-white/10 bg-white/[0.04]">
+        <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-border bg-card/60">
           <Icon className="h-4 w-4 text-violet-300" />
         </div>
       </div>
@@ -36,7 +36,7 @@ export function StatCard({
                 ? "bg-emerald-500/10 text-emerald-300"
                 : trend === "down"
                   ? "bg-rose-500/10 text-rose-300"
-                  : "bg-white/[0.05] text-muted-foreground",
+                  : "bg-card/70 text-muted-foreground",
             )}
           >
             {trend === "up" ? <ArrowUpRight className="h-3 w-3" /> : <ArrowDownRight className="h-3 w-3" />}

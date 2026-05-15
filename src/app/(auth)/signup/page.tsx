@@ -5,7 +5,7 @@ import { AuthForm } from "@/components/auth/auth-form";
 
 export default function SignupPage() {
   return (
-    <Card className="border-white/12 bg-white/[0.04] backdrop-blur-2xl">
+    <Card className="border-border bg-card/60 backdrop-blur-2xl">
       <CardHeader className="space-y-1.5 text-center">
         <div className="mx-auto inline-flex items-center gap-1.5 rounded-full border border-amber-500/30 bg-amber-500/10 px-3 py-1 text-xs text-amber-200">
           <Sparkles className="h-3 w-3" /> Audit IA gratuit · sans carte

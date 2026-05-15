@@ -36,9 +36,9 @@ export function AgentsShowcase() {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.45, delay: i * 0.05 }}
-              className="group flex items-start gap-4 rounded-2xl border border-white/10 bg-white/[0.02] p-5 backdrop-blur-md transition-all hover:border-violet-500/30 hover:bg-violet-500/[0.04]"
+              className="group flex items-start gap-4 rounded-2xl border border-border bg-card/40 p-5 backdrop-blur-md transition-all hover:border-violet-500/30 hover:bg-violet-500/[0.04]"
             >
-              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-gradient-to-br from-violet-500/15 to-orange-500/10">
+              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-border bg-gradient-to-br from-violet-500/15 to-orange-500/10">
                 <a.icon className="h-5 w-5" />
               </div>
               <div>

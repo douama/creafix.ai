@@ -15,7 +15,7 @@ export function DashboardPreview() {
   return (
     <div className="relative">
       <div className="glow-ring absolute inset-0 rounded-3xl" />
-      <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-[#0E0E1A] to-[#1A1230] p-1">
+      <div className="relative overflow-hidden rounded-3xl border border-border bg-gradient-to-br from-[#0E0E1A] to-[#1A1230] p-1">
         <div className="rounded-[1.4rem] bg-background/40 p-5 backdrop-blur-2xl md:p-7">
           <div className="flex items-center justify-between gap-4">
             <div className="flex items-center gap-3">

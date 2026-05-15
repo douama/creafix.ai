@@ -150,8 +150,8 @@ export default function RevenuePage() {
                 <div
                   key={c}
                   className={cn(
-                    "rounded-xl border bg-white/[0.02] p-4",
-                    c === country ? "border-violet-500/40 bg-violet-500/[0.06]" : "border-white/10",
+                    "rounded-xl border bg-card/40 p-4",
+                    c === country ? "border-violet-500/40 bg-violet-500/[0.06]" : "border-border",
                   )}
                 >
                   <div className="flex items-center justify-between text-sm">
@@ -204,7 +204,7 @@ function Pill({
         "inline-flex items-center rounded-full border px-3 py-1 text-xs transition-colors",
         active
           ? "border-violet-500/50 bg-violet-500/15 text-violet-100"
-          : "border-white/10 bg-white/[0.02] text-muted-foreground hover:bg-white/[0.05]",
+          : "border-border bg-card/40 text-muted-foreground hover:bg-card/70",
       )}
     >
       {children}
@@ -214,7 +214,7 @@ function Pill({
 
 function Stat({ label, value }: { label: string; value: string }) {
   return (
-    <div className="rounded-lg border border-white/10 bg-white/[0.02] p-2.5">
+    <div className="rounded-lg border border-border bg-card/40 p-2.5">
       <div className="text-[10px] uppercase tracking-wider text-muted-foreground">{label}</div>
       <div className="mt-1 text-sm font-semibold">{value}</div>
     </div>

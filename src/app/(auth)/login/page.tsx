@@ -4,7 +4,7 @@ import { AuthForm } from "@/components/auth/auth-form";
 
 export default function LoginPage() {
   return (
-    <Card className="border-white/12 bg-white/[0.04] backdrop-blur-2xl">
+    <Card className="border-border bg-card/60 backdrop-blur-2xl">
       <CardHeader className="space-y-1.5 text-center">
         <CardTitle className="font-display text-2xl">Bon retour 👋</CardTitle>
         <p className="text-sm text-muted-foreground">

@@ -8,7 +8,7 @@ export function CTA() {
   return (
     <section className="relative py-24 md:py-32">
       <div className="container">
-        <div className="relative overflow-hidden rounded-[2rem] border border-white/10 p-10 md:p-16">
+        <div className="relative overflow-hidden rounded-[2rem] border border-border p-10 md:p-16">
           <div className="absolute inset-0 -z-10 gradient-brand opacity-90" />
           <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.18),transparent_60%)]" />
           <div className="absolute -bottom-24 -left-24 -z-10 h-72 w-72 rounded-full bg-orange-500/40 blur-3xl" />

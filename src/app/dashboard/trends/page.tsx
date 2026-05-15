@@ -41,7 +41,7 @@ export default function TrendsPage() {
             {trends.map((t) => (
               <div
                 key={t.tag}
-                className="flex items-center justify-between rounded-xl border border-white/10 bg-white/[0.02] p-3"
+                className="flex items-center justify-between rounded-xl border border-border bg-card/40 p-3"
               >
                 <div>
                   <div className="font-medium">{t.tag}</div>
@@ -68,7 +68,7 @@ export default function TrendsPage() {
             {sounds.map((s) => (
               <div
                 key={s.title}
-                className="flex items-center justify-between rounded-xl border border-white/10 bg-white/[0.02] p-3"
+                className="flex items-center justify-between rounded-xl border border-border bg-card/40 p-3"
               >
                 <div className="flex items-center gap-3">
                   <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-pink-500/15 ring-1 ring-pink-400/30">

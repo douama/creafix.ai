@@ -62,7 +62,7 @@ export default function BillingPage() {
           <CardTitle>Historique de paiements</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="divide-y divide-white/5 text-sm">
+          <div className="divide-y divide-border/60 text-sm">
             {[
               { d: "01/05/2026", a: "0 FCFA",     m: "Plan Créateur" },
               { d: "01/04/2026", a: "9 900 FCFA", m: "Pro · Wave" },
@@ -112,11 +112,11 @@ function Method({
   return (
     <div
       className={`flex items-center justify-between rounded-xl border p-3 ${
-        active ? "border-violet-500/40 bg-violet-500/[0.06]" : "border-white/10 bg-white/[0.02]"
+        active ? "border-violet-500/40 bg-violet-500/[0.06]" : "border-border bg-card/40"
       }`}
     >
       <div className="flex items-center gap-3">
-        <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-white/10 bg-white/[0.04]">
+        <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-border bg-card/60">
           <Icon className="h-4 w-4" />
         </div>
         <div>

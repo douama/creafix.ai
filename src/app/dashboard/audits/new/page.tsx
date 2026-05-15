@@ -75,7 +75,7 @@ export default function NewAuditPage() {
             <OptionCard icon={Sparkles} title="Mode agence" desc="Multi-comptes" />
           </div>
 
-          <div className="mt-7 flex items-center justify-between gap-3 border-t border-white/10 pt-5">
+          <div className="mt-7 flex items-center justify-between gap-3 border-t border-border pt-5">
             <div className="flex items-center gap-2 text-xs text-muted-foreground">
               <ShieldCheck className="h-3.5 w-3.5" /> Connexion OAuth chiffrée · Aucune donnée vendue
             </div>
@@ -141,7 +141,7 @@ function PlatformCard({
         "flex items-center gap-4 rounded-2xl border p-4 text-left transition-all",
         active
           ? "border-violet-500/50 bg-violet-500/5 shadow-lg shadow-violet-500/15"
-          : "border-white/10 bg-white/[0.02] hover:bg-white/[0.04]",
+          : "border-border bg-card/40 hover:bg-card/60",
       )}
     >
       <div className={cn("flex h-11 w-11 items-center justify-center rounded-xl ring-1", ring)}>
@@ -172,7 +172,7 @@ function OptionCard({
         "rounded-xl border p-3 text-sm",
         active
           ? "border-violet-500/40 bg-violet-500/[0.06]"
-          : "border-white/10 bg-white/[0.02]",
+          : "border-border bg-card/40",
       )}
     >
       <div className="flex items-center gap-2">

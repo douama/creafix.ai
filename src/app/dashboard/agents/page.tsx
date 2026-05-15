@@ -29,7 +29,7 @@ export default function AgentsPage() {
             <CardContent className="space-y-4 p-5">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-white/10 bg-gradient-to-br from-violet-500/15 to-orange-500/10">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-border bg-gradient-to-br from-violet-500/15 to-orange-500/10">
                     <a.icon className="h-5 w-5" />
                   </div>
                   <div>
