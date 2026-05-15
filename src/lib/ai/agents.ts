@@ -10,7 +10,7 @@
  * comme le ferait l'IA, afin que le reste de l'app puisse être testé.
  */
 
-import type { Platform } from "@prisma/client";
+type Platform = "FACEBOOK" | "TIKTOK" | "INSTAGRAM" | "YOUTUBE";
 
 export type AgentName =
   | "audit"
