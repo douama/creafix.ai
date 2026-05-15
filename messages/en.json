@@ -39,6 +39,19 @@
   "logos": {
     "headline": "Integrated with the platforms and payment methods you already use"
   },
+  "preview": {
+    "title": "AI Audit",
+    "subtitle": "Facebook Page · 184K followers · Senegal",
+    "live": "Live · 1 min",
+    "scoreMonet": "Monetization score",
+    "scoreViral": "Viral score",
+    "scoreRisk": "Ban risk",
+    "revenue": "Estimated revenue (30 d)",
+    "recommendations": "AI recommendations",
+    "reco1": "Enable In-Stream Ads — 96% of criteria met",
+    "reco2": "3 videos with copyright audio to replace",
+    "reco3": "New niche detected: mobile money finance · CPM ×2.4"
+  },
   "wow": {
     "eyebrow": "5 features that change the game",
     "titlePart1": "While your competitors",

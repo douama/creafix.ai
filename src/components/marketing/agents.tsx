@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useTranslations } from "next-intl";
 import {
   Activity,
   Bot,
@@ -17,84 +18,41 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-type Agent = {
+type AgentKey =
+  | "audit"
+  | "viral"
+  | "monetization"
+  | "antiban"
+  | "trend"
+  | "thumbnail"
+  | "script";
+
+type AgentSchema = {
+  key: AgentKey;
   icon: LucideIcon;
-  name: string;
   short: string;
-  desc: string;
-  metric: { value: string; label: string };
   category: "analyse" | "creation" | "growth";
   tone: "violet" | "orange" | "rose" | "emerald" | "sky" | "amber" | "fuchsia";
 };
 
-const audit: Agent = {
+const auditSchema: AgentSchema = {
+  key: "audit",
   icon: Bot,
-  name: "Audit Agent",
   short: "Audit",
-  desc: "Analyse 40+ signaux de conformité Facebook & TikTok pour produire un score sur 100 et identifier exactement ce qui bloque ta monétisation.",
-  metric: { value: "96%", label: "précision détection" },
   category: "analyse",
   tone: "violet",
 };
 
-const others: Agent[] = [
-  {
-    icon: Flame,
-    name: "Viral Agent",
-    short: "Viral",
-    desc: "Détecte les patterns viraux par pays et niche, prédit les hooks gagnants.",
-    metric: { value: "+340%", label: "vues moyennes" },
-    category: "growth",
-    tone: "orange",
-  },
-  {
-    icon: Coins,
-    name: "Monetization Agent",
-    short: "Monetization",
-    desc: "Optimise RPM, CPM et éligibilité aux programmes Ads & Creator Rewards.",
-    metric: { value: "×2.4", label: "RPM moyen" },
-    category: "growth",
-    tone: "emerald",
-  },
-  {
-    icon: ShieldAlert,
-    name: "Anti-Ban Agent",
-    short: "Anti-Ban",
-    desc: "Prédit et neutralise les risques de bannissement avant publication.",
-    metric: { value: "24/7", label: "surveillance" },
-    category: "analyse",
-    tone: "rose",
-  },
-  {
-    icon: TrendingUp,
-    name: "Trend Agent",
-    short: "Trend",
-    desc: "Tendances africaines temps réel — sons, hashtags, formats par pays.",
-    metric: { value: "9", label: "pays surveillés" },
-    category: "analyse",
-    tone: "sky",
-  },
-  {
-    icon: ImageIcon,
-    name: "Thumbnail Agent",
-    short: "Thumbnail",
-    desc: "Génère 6 miniatures optimisées CTR avec A/B testing intégré.",
-    metric: { value: "+22%", label: "CTR moyen" },
-    category: "creation",
-    tone: "fuchsia",
-  },
-  {
-    icon: FileText,
-    name: "Script Agent",
-    short: "Script",
-    desc: "Hooks, scripts courts, CTA et légendes optimisées SEO multilingue.",
-    metric: { value: "12s", label: "génération" },
-    category: "creation",
-    tone: "amber",
-  },
+const othersSchema: AgentSchema[] = [
+  { key: "viral",        icon: Flame,       short: "Viral",        category: "growth",  tone: "orange" },
+  { key: "monetization", icon: Coins,       short: "Monetization", category: "growth",  tone: "emerald" },
+  { key: "antiban",      icon: ShieldAlert, short: "Anti-Ban",     category: "analyse", tone: "rose" },
+  { key: "trend",        icon: TrendingUp,  short: "Trend",        category: "analyse", tone: "sky" },
+  { key: "thumbnail",    icon: ImageIcon,   short: "Thumbnail",    category: "creation", tone: "fuchsia" },
+  { key: "script",       icon: FileText,    short: "Script",       category: "creation", tone: "amber" },
 ];
 
-const toneRing: Record<Agent["tone"], string> = {
+const toneRing: Record<AgentSchema["tone"], string> = {
   violet: "from-violet-500/30 to-violet-500/0 ring-violet-500/30",
   orange: "from-orange-500/30 to-orange-500/0 ring-orange-500/30",
   rose: "from-rose-500/30 to-rose-500/0 ring-rose-500/30",
@@ -104,7 +62,7 @@ const toneRing: Record<Agent["tone"], string> = {
   fuchsia: "from-fuchsia-500/30 to-fuchsia-500/0 ring-fuchsia-500/30",
 };
 
-const toneText: Record<Agent["tone"], string> = {
+const toneText: Record<AgentSchema["tone"], string> = {
   violet: "text-violet-500 dark:text-violet-300",
   orange: "text-orange-500 dark:text-orange-300",
   rose: "text-rose-500 dark:text-rose-300",
@@ -114,13 +72,9 @@ const toneText: Record<Agent["tone"], string> = {
   fuchsia: "text-fuchsia-500 dark:text-fuchsia-300",
 };
 
-const categoryLabel: Record<Agent["category"], string> = {
-  analyse: "Analyse",
-  creation: "Création",
-  growth: "Croissance",
-};
-
 export function AgentsShowcase() {
+  const t = useTranslations("agents");
+
   return (
     <section className="relative py-14 md:py-20">
       <div className="absolute inset-0 -z-10 grid-bg opacity-40" />
@@ -134,7 +88,7 @@ export function AgentsShowcase() {
             transition={{ duration: 0.5 }}
             className="inline-flex items-center gap-1.5 rounded-full border border-violet-500/30 bg-violet-500/10 px-3 py-1 text-xs font-medium text-violet-500 dark:text-violet-200"
           >
-            <Bot className="h-3 w-3" /> Multi-agents IA · orchestrés
+            <Bot className="h-3 w-3" /> {t("eyebrow")}
           </motion.div>
           <motion.h2
             initial={{ opacity: 0, y: 16 }}
@@ -143,9 +97,11 @@ export function AgentsShowcase() {
             transition={{ duration: 0.6, delay: 0.05 }}
             className="mt-4 font-display text-3xl font-bold leading-[1.1] tracking-tight md:text-4xl"
           >
-            7 cerveaux IA spécialisés.
+            {t("titlePart1")}
             <br />
-            Une seule mission : <span className="gradient-text">tes revenus</span>.
+            {t("titlePart2")}{" "}
+            <span className="gradient-text">{t("titleHighlight")}</span>
+            {t("titlePart3")}
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 16 }}
@@ -154,8 +110,7 @@ export function AgentsShowcase() {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="mt-3 text-sm text-balance text-muted-foreground md:text-base"
           >
-            Chaque agent est ultra spécialisé. L'orchestrateur les fait collaborer
-            en arrière-plan pour produire un audit complet en moins de 60 secondes.
+            {t("subtitle")}
           </motion.p>
         </div>
 
@@ -172,38 +127,37 @@ export function AgentsShowcase() {
 
             <div className="relative flex h-full flex-col">
               <div className="flex items-center justify-between">
-                <CategoryBadge category={audit.category} />
+                <CategoryBadge category={auditSchema.category} />
                 <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2 py-0.5 text-[10px] font-medium text-emerald-500 dark:text-emerald-300">
                   <span className="relative flex h-1.5 w-1.5">
                     <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
                     <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-500" />
                   </span>
-                  Live
+                  {t("live")}
                 </span>
               </div>
 
               <div className="mt-5 flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-violet-500 via-violet-500 to-orange-500 shadow-2xl shadow-violet-500/40 ring-4 ring-violet-500/20">
-                <audit.icon className="h-5 w-5 text-white" />
+                <auditSchema.icon className="h-5 w-5 text-white" />
               </div>
 
               <h3 className="mt-4 font-display text-xl font-bold tracking-tight">
-                {audit.name}
+                {t("audit.name")}
               </h3>
               <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
-                {audit.desc}
+                {t("audit.desc")}
               </p>
 
               <div className="mt-auto pt-6">
                 <div className="rounded-xl border border-border bg-background/40 p-3.5 backdrop-blur">
                   <div className="font-display text-2xl font-bold leading-none">
-                    {audit.metric.value}
+                    {t("audit.metric")}
                   </div>
                   <div className="mt-1 text-[11px] text-muted-foreground">
-                    {audit.metric.label}
+                    {t("audit.metricLabel")}
                   </div>
                 </div>
 
-                {/* Mini-viz : barres de signal */}
                 <div className="mt-3 flex h-10 items-end gap-1">
                   {[34, 48, 62, 56, 70, 84, 78, 92, 88, 95, 90, 96].map((v, i) => (
                     <div
@@ -213,25 +167,18 @@ export function AgentsShowcase() {
                     />
                   ))}
                 </div>
-                <div className="mt-1 flex justify-between text-[10px] text-muted-foreground">
-                  <span>40 signaux analysés</span>
-                  <span className="flex items-center gap-1 text-emerald-500 dark:text-emerald-400">
-                    <Sparkles className="h-3 w-3" /> confiance 96%
-                  </span>
-                </div>
               </div>
             </div>
           </motion.article>
 
-          {/* 6 cartes secondaires en grille 2×3 */}
+          {/* 6 cartes secondaires */}
           <div className="grid gap-4 sm:grid-cols-2 lg:col-span-2 lg:grid-cols-3">
-            {others.map((a, i) => (
-              <AgentCard key={a.name} agent={a} index={i} />
+            {othersSchema.map((a, i) => (
+              <AgentCard key={a.key} schema={a} index={i} />
             ))}
           </div>
         </div>
 
-        {/* Footer info orchestration — sans mentions de fournisseurs */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -241,15 +188,15 @@ export function AgentsShowcase() {
         >
           <span className="flex items-center gap-2 text-xs">
             <Activity className="h-3.5 w-3.5 text-violet-500" />
-            <b>Orchestration</b> propriétaire
+            <b>{t("footer1")}</b>
           </span>
           <span className="h-3 w-px bg-border" />
           <span className="flex items-center gap-2 text-xs text-muted-foreground">
-            <Zap className="h-3.5 w-3.5 text-amber-500" /> Réponse moyenne &lt; 60 s
+            <Zap className="h-3.5 w-3.5 text-amber-500" /> {t("footer2")}
           </span>
           <span className="h-3 w-px bg-border" />
           <span className="flex items-center gap-2 text-xs text-muted-foreground">
-            <CheckCircle2 className="h-3.5 w-3.5 text-emerald-500" /> Données chiffrées E2E
+            <CheckCircle2 className="h-3.5 w-3.5 text-emerald-500" /> {t("footer3")}
           </span>
         </motion.div>
       </div>
@@ -257,7 +204,10 @@ export function AgentsShowcase() {
   );
 }
 
-function AgentCard({ agent, index }: { agent: Agent; index: number }) {
+function AgentCard({ schema, index }: { schema: AgentSchema; index: number }) {
+  const t = useTranslations("agents");
+  const Icon = schema.icon;
+
   return (
     <motion.article
       initial={{ opacity: 0, y: 20 }}
@@ -272,14 +222,14 @@ function AgentCard({ agent, index }: { agent: Agent; index: number }) {
       <div
         className={cn(
           "pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full bg-gradient-to-br opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-100",
-          toneRing[agent.tone],
+          toneRing[schema.tone],
         )}
       />
 
       <div className="relative flex items-center justify-between">
-        <CategoryBadge category={agent.category} />
+        <CategoryBadge category={schema.category} />
         <span className="text-[10px] uppercase tracking-wider text-muted-foreground">
-          {agent.short}
+          {schema.short}
         </span>
       </div>
 
@@ -288,24 +238,28 @@ function AgentCard({ agent, index }: { agent: Agent; index: number }) {
           className={cn(
             "flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border bg-gradient-to-br ring-1",
             "border-border",
-            toneRing[agent.tone],
+            toneRing[schema.tone],
           )}
         >
-          <agent.icon className={cn("h-4.5 w-4.5", toneText[agent.tone])} />
+          <Icon className={cn("h-4 w-4", toneText[schema.tone])} />
         </div>
         <div>
-          <h3 className="font-display text-sm font-semibold leading-tight">{agent.name}</h3>
-          <p className="mt-1 text-xs leading-relaxed text-muted-foreground line-clamp-2">{agent.desc}</p>
+          <h3 className="font-display text-sm font-semibold leading-tight">
+            {t(`${schema.key}.name`)}
+          </h3>
+          <p className="mt-1 text-xs leading-relaxed text-muted-foreground line-clamp-2">
+            {t(`${schema.key}.desc`)}
+          </p>
         </div>
       </div>
 
       <div className="relative mt-4 flex items-end justify-between gap-3 border-t border-border pt-3">
         <div>
-          <div className={cn("font-display text-lg font-bold leading-none", toneText[agent.tone])}>
-            {agent.metric.value}
+          <div className={cn("font-display text-lg font-bold leading-none", toneText[schema.tone])}>
+            {t(`${schema.key}.metric`)}
           </div>
           <div className="mt-0.5 text-[10px] uppercase tracking-wider text-muted-foreground">
-            {agent.metric.label}
+            {t(`${schema.key}.metricLabel`)}
           </div>
         </div>
       </div>
@@ -313,7 +267,8 @@ function AgentCard({ agent, index }: { agent: Agent; index: number }) {
   );
 }
 
-function CategoryBadge({ category }: { category: Agent["category"] }) {
+function CategoryBadge({ category }: { category: AgentSchema["category"] }) {
+  const t = useTranslations("agents.categories");
   const cls =
     category === "analyse"
       ? "border-sky-500/30 bg-sky-500/10 text-sky-500 dark:text-sky-300"
@@ -327,7 +282,7 @@ function CategoryBadge({ category }: { category: Agent["category"] }) {
         cls,
       )}
     >
-      {categoryLabel[category]}
+      {t(category)}
     </span>
   );
 }

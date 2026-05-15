@@ -39,6 +39,19 @@
   "logos": {
     "headline": "Integrado con las plataformas y métodos de pago que ya usas"
   },
+  "preview": {
+    "title": "Auditoría IA",
+    "subtitle": "Página Facebook · 184K seguidores · Senegal",
+    "live": "En vivo · 1 min",
+    "scoreMonet": "Score de monetización",
+    "scoreViral": "Score viral",
+    "scoreRisk": "Riesgo de baneo",
+    "revenue": "Ingresos estimados (30 d)",
+    "recommendations": "Recomendaciones IA",
+    "reco1": "Activar In-Stream Ads — 96% de criterios alcanzados",
+    "reco2": "3 videos con audio copyright para reemplazar",
+    "reco3": "Nuevo nicho detectado: finanzas mobile money · CPM ×2.4"
+  },
   "wow": {
     "eyebrow": "5 features que cambian el juego",
     "titlePart1": "Mientras tus competidores",
@@ -50,7 +63,7 @@
     "footer3": "Cifrado E2E",
     "shadowban": {
       "badge": "Exclusivo",
-      "title": "Shadowban Detector",
+      "title": "Detector de Shadowban",
       "desc": "Detección automática de caídas anormales de alcance, contenido bloqueado y señales débiles en TikTok y Facebook antes de que te des cuenta.",
       "bullet1": "Detecta 12 firmas de shadowban distintas",
       "bullet2": "Compara tu alcance con tu base 30 días",
@@ -60,7 +73,7 @@
     },
     "viral": {
       "badge": "Antes de publicar",
-      "title": "Viral Score AI",
+      "title": "Score Viral IA",
       "desc": "Puntuación de viralidad de 0 a 100 calculada antes incluso de publicar — nunca más pierdas un día con un flop.",
       "bullet1": "Analiza hook, miniatura, duración, hashtags",
       "bullet2": "Benchmark sobre 10M+ videos históricos",
@@ -70,7 +83,7 @@
     },
     "rpm": {
       "badge": "Predictivo",
-      "title": "RPM Predictor",
+      "title": "Predictor de RPM",
       "desc": "Predice exactamente cuánto generará cada video, por país, antes de publicarlo. Optimiza miniaturas y títulos para el RPM, no solo las vistas.",
       "bullet1": "Modelo entrenado con CPM reales por país",
       "bullet2": "Comparación lado a lado Facebook vs TikTok",
@@ -79,8 +92,8 @@
       "metricLabel": "margen de error"
     },
     "trend": {
-      "badge": "Made in Africa",
-      "title": "African Trend Engine",
+      "badge": "Hecho en África",
+      "title": "Motor de Tendencias Africanas",
       "desc": "El único motor de tendencias realmente entrenado con contenido africano. Hashtags, sonidos y formatos — por país, en tiempo real.",
       "bullet1": "Actualización cada 15 minutos",
       "bullet2": "9 países: SN, CI, CM, ML, NG, GH, ZA, MA, CD",
@@ -89,8 +102,8 @@
       "metricLabel": "cubiertos"
     },
     "repair": {
-      "badge": "Auto-fix",
-      "title": "AI Content Repair",
+      "badge": "Auto-corrección",
+      "title": "Reparación IA de Contenido",
       "desc": "La IA corrige automáticamente tus hooks débiles, mala retención, CTAs blandos y subtítulos mal alineados — con un solo clic.",
       "bullet1": "Regenera un hook más llamativo",
       "bullet2": "Reescribe el guion para mejorar retención",

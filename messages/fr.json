@@ -39,6 +39,19 @@
   "logos": {
     "headline": "Intégré aux plateformes et moyens de paiement que tu utilises déjà"
   },
+  "preview": {
+    "title": "Audit IA",
+    "subtitle": "Page Facebook · 184K abonnés · Sénégal",
+    "live": "En direct · 1 min",
+    "scoreMonet": "Score monétisation",
+    "scoreViral": "Score viral",
+    "scoreRisk": "Risque ban",
+    "revenue": "Revenus estimés (30 j)",
+    "recommendations": "Recommandations IA",
+    "reco1": "Activer In-Stream Ads — éligibilité atteinte à 96%",
+    "reco2": "3 vidéos avec audio sous copyright à remplacer",
+    "reco3": "Nouvelle niche détectée : finance mobile money · CPM ×2.4"
+  },
   "wow": {
     "eyebrow": "5 features qui changent la donne",
     "titlePart1": "Pendant que tes concurrents",
@@ -50,51 +63,51 @@
     "footer3": "Chiffrement E2E",
     "shadowban": {
       "badge": "Exclusif",
-      "title": "Shadowban Detector",
-      "desc": "Détection automatique des baisses anormales de reach, contenus bloqués, et signaux faibles côté TikTok et Facebook avant que tu ne réalises le problème.",
+      "title": "Détecteur de Shadowban",
+      "desc": "Détection automatique des baisses anormales de portée, contenus bloqués, et signaux faibles côté TikTok et Facebook avant que tu ne réalises le problème.",
       "bullet1": "Détecte 12 signatures de shadowban distinctes",
-      "bullet2": "Compare ton reach à ta baseline 30 jours",
+      "bullet2": "Compare ta portée à ta référence 30 jours",
       "bullet3": "Alerte WhatsApp + email en moins de 2h",
       "metric": "12 signaux",
       "metricLabel": "détectés"
     },
     "viral": {
       "badge": "Avant publication",
-      "title": "Viral Score AI",
+      "title": "Score Viral IA",
       "desc": "Un score de viralité de 0 à 100 calculé avant même de poster ta vidéo — pour ne plus jamais perdre une journée sur un flop.",
-      "bullet1": "Analyse hook, thumbnail, durée, hashtags",
-      "bullet2": "Benchmark sur 10M+ vidéos historiques",
+      "bullet1": "Analyse accroche, miniature, durée, hashtags",
+      "bullet2": "Comparatif sur 10M+ vidéos historiques",
       "bullet3": "Recommandations actionnables en 1 clic",
       "metric": "0-100",
       "metricLabel": "score viral"
     },
     "rpm": {
       "badge": "Prédictif",
-      "title": "RPM Predictor",
-      "desc": "Prédis exactement combien chaque vidéo va générer, par pays, avant de la publier. Optimise tes thumbnails et titres pour le RPM, pas juste les vues.",
+      "title": "Prédicteur de RPM",
+      "desc": "Prédis exactement combien chaque vidéo va générer, par pays, avant de la publier. Optimise tes miniatures et titres pour le RPM, pas juste les vues.",
       "bullet1": "Modèle entraîné sur les CPM réels par pays",
-      "bullet2": "Comparaison side-by-side Facebook vs TikTok",
-      "bullet3": "Simulateur What-If : niche, pays, audience",
+      "bullet2": "Comparaison côte à côte Facebook vs TikTok",
+      "bullet3": "Simulateur de scénarios : niche, pays, audience",
       "metric": "±15%",
       "metricLabel": "marge d'erreur"
     },
     "trend": {
-      "badge": "Made in Africa",
-      "title": "African Trend Engine",
+      "badge": "Fait en Afrique",
+      "title": "Moteur de Tendances Africaines",
       "desc": "Le seul moteur de tendances réellement entraîné sur les contenus africains. Hashtags, sons et formats — par pays, en temps réel.",
-      "bullet1": "Refresh toutes les 15 minutes",
+      "bullet1": "Rafraîchissement toutes les 15 minutes",
       "bullet2": "9 pays : SN, CI, CM, ML, NG, GH, ZA, MA, CD",
-      "bullet3": "Détection des trends naissantes",
+      "bullet3": "Détection des tendances naissantes",
       "metric": "9 pays",
       "metricLabel": "couverts"
     },
     "repair": {
-      "badge": "Auto-fix",
-      "title": "AI Content Repair",
-      "desc": "L'IA corrige automatiquement tes hooks faibles, ta mauvaise rétention, tes CTA mous et tes sous-titres mal calés — en un seul clic.",
-      "bullet1": "Re-génère un hook plus accrocheur",
+      "badge": "Correction auto",
+      "title": "Réparation IA du Contenu",
+      "desc": "L'IA corrige automatiquement tes accroches faibles, ta mauvaise rétention, tes CTA mous et tes sous-titres mal calés — en un seul clic.",
+      "bullet1": "Re-génère une accroche plus percutante",
       "bullet2": "Réécrit le script pour la rétention",
-      "bullet3": "Régénère des sous-titres précis & burned-in",
+      "bullet3": "Régénère des sous-titres précis & intégrés",
       "metric": "1 clic",
       "metricLabel": "réparation auto"
     }
