@@ -1,8 +1,9 @@
 # CreaFix AI
 
-**Le SEMrush + TubeBuddy + TikTok Studio + Meta Monetization Manager de l'Afrique.**
+**Fix your content. Scale your revenue.**
 
-Plateforme IA d'audit de monétisation sociale pour créateurs africains, agences médias, influenceurs, pages Facebook, TikTokers et médias digitaux.
+Plateforme IA d'audit de monétisation pour créateurs et agences médias, sur **9 plateformes** :
+YouTube · Facebook · Instagram · TikTok · X · Snapchat · Twitch · Pinterest · LinkedIn.
 
 ![banner](https://images.unsplash.com/photo-1611162616305-c69b3fa7fbe0?w=1600)
 

@@ -22,7 +22,7 @@ export default function TermsPage() {
         à destination des créateurs sociaux et agences médias. Elle permet notamment :
       </p>
       <ul>
-        <li>D'auditer des pages Facebook et comptes TikTok via OAuth officiel ;</li>
+        <li>D'auditer des comptes sur 9 plateformes (YouTube, Facebook, Instagram, TikTok, X, Snapchat, Twitch, Pinterest, LinkedIn) via OAuth officiel ;</li>
         <li>De générer un score de monétisation, des recommandations et un plan d'action ;</li>
         <li>De générer du contenu (idées, scripts, miniatures, voix-off) via IA ;</li>
         <li>D'estimer les revenus publicitaires par pays africain ;</li>
@@ -38,9 +38,9 @@ export default function TermsPage() {
 
       <h2>4. Données sociales connectées</h2>
       <p>
-        Lorsque vous connectez une page Facebook ou un compte TikTok via OAuth, CreaFix accède
-        uniquement aux scopes que vous autorisez explicitement (lecture de métriques publiques
-        et privées de la page). <strong>Les tokens sont chiffrés en base et jamais partagés
+        Lorsque vous connectez un compte (YouTube, Facebook, Instagram, TikTok, X, Snapchat,
+        Twitch, Pinterest ou LinkedIn) via OAuth officiel, CreaFix accède uniquement aux scopes
+        que vous autorisez explicitement (lecture de métriques publiques et privées du compte). <strong>Les tokens sont chiffrés en base et jamais partagés
         avec un tiers</strong>. Vous pouvez révoquer l'accès à tout moment depuis votre dashboard
         Meta ou TikTok, ainsi que depuis votre tableau de bord CreaFix.
       </p>

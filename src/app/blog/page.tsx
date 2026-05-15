@@ -6,29 +6,29 @@ import { PageShell, PageHero, PageSection } from "@/components/marketing/page-sh
 export const metadata = {
   title: "Blog créateurs",
   description:
-    "Conseils, études de cas et tendances pour monétiser ton audience africaine sur Facebook et TikTok.",
+    "Conseils, études de cas et tendances pour monétiser ton audience sur YouTube, Facebook, Instagram, TikTok, X, Snapchat, Twitch, Pinterest et LinkedIn.",
 };
 
 const articles = [
   {
-    cat: "Monétisation",
-    title: "Comment activer In-Stream Ads sur ta page Facebook en 2026",
+    cat: "Multi-plateformes",
+    title: "RPM en 2026 : combien tu gagnes vraiment sur YouTube, TikTok, Instagram, X, Twitch ?",
     excerpt:
-      "Le guide complet pour passer la barre des critères Meta, même depuis le Sénégal ou le Cameroun.",
-    minutes: 8,
-    date: "12 mai 2026",
-    slug: "/blog/in-stream-ads-2026",
+      "Comparatif complet des RPM réels par plateforme et par pays africain. Données de 12 000 créateurs analysés.",
+    minutes: 9,
+    date: "14 mai 2026",
+    slug: "/blog/rpm-comparison-2026",
     accent: "from-violet-500/30 to-violet-500/0",
   },
   {
-    cat: "Étude de cas",
-    title: "De 0 à 1 million de vues en 30 jours : le playbook d'Aïssata D.",
+    cat: "YouTube",
+    title: "Devenir éligible YouTube Partner Program depuis l'Afrique en 2026",
     excerpt:
-      "Comment une créatrice de Dakar a transformé sa niche cuisine en machine virale.",
-    minutes: 12,
-    date: "8 mai 2026",
-    slug: "/blog/aissata-playbook",
-    accent: "from-orange-500/30 to-orange-500/0",
+      "1 000 abonnés + 4 000 h. Les vrais critères, les pièges, et comment accélérer ton parcours YPP.",
+    minutes: 11,
+    date: "12 mai 2026",
+    slug: "/blog/youtube-ypp-africa",
+    accent: "from-red-500/30 to-red-500/0",
   },
   {
     cat: "TikTok",
@@ -36,39 +36,79 @@ const articles = [
     excerpt:
       "Mise à jour hebdomadaire des tendances par pays — détectées par notre Trend Agent.",
     minutes: 5,
-    date: "5 mai 2026",
+    date: "10 mai 2026",
     slug: "/blog/hashtags-tiktok-afrique",
-    accent: "from-sky-500/30 to-sky-500/0",
+    accent: "from-pink-500/30 to-pink-500/0",
+  },
+  {
+    cat: "Instagram",
+    title: "Reels Play Bonus : les pays africains éligibles et comment t'y inscrire",
+    excerpt:
+      "Le programme de bonus Reels n'est ouvert que dans certains pays. Voici la liste à jour et les contournements.",
+    minutes: 7,
+    date: "8 mai 2026",
+    slug: "/blog/instagram-reels-play-africa",
+    accent: "from-fuchsia-500/30 to-fuchsia-500/0",
+  },
+  {
+    cat: "Twitch",
+    title: "Devenir Twitch Affiliate puis Partner depuis Dakar ou Abidjan",
+    excerpt:
+      "50 followers + 8h de stream / 7 jours / mois = Affiliate. Le chemin complet en français.",
+    minutes: 8,
+    date: "6 mai 2026",
+    slug: "/blog/twitch-affiliate-africa",
+    accent: "from-purple-500/30 to-purple-500/0",
+  },
+  {
+    cat: "Facebook",
+    title: "Comment activer In-Stream Ads sur ta page Facebook en 2026",
+    excerpt:
+      "Le guide complet pour passer la barre des critères Meta, même depuis le Sénégal ou le Cameroun.",
+    minutes: 8,
+    date: "4 mai 2026",
+    slug: "/blog/in-stream-ads-2026",
+    accent: "from-blue-500/30 to-blue-500/0",
   },
   {
     cat: "Anti-Ban",
-    title: "5 erreurs qui font shadowban ton compte TikTok (et comment les corriger)",
+    title: "5 erreurs qui font shadowban tes comptes (TikTok, Instagram, X)",
     excerpt:
-      "Notre Anti-Ban Agent a analysé 12 000 comptes. Voici les patterns les plus communs.",
+      "Notre Anti-Ban Agent a analysé 12 000 comptes sur 9 plateformes. Voici les patterns les plus communs.",
     minutes: 6,
     date: "1 mai 2026",
-    slug: "/blog/shadowban-tiktok",
+    slug: "/blog/shadowban-9-platforms",
     accent: "from-rose-500/30 to-rose-500/0",
   },
   {
-    cat: "Revenus",
-    title: "Combien gagne réellement un créateur sénégalais avec 100K abonnés ?",
+    cat: "X (Twitter)",
+    title: "Creator Subscriptions sur X : combien ça rapporte vraiment ?",
     excerpt:
-      "Étude basée sur 247 comptes sénégalais. Médiane, fourchettes, sources de revenus détaillées.",
-    minutes: 10,
+      "Étude sur 200 créateurs africains qui ont basculé en mode Subscriptions sur X.",
+    minutes: 6,
+    date: "28 avril 2026",
+    slug: "/blog/x-creator-subscriptions",
+    accent: "from-zinc-500/30 to-zinc-500/0",
+  },
+  {
+    cat: "Étude de cas",
+    title: "De 0 à 1 million de vues en 30 jours : le playbook d'Aïssata D.",
+    excerpt:
+      "Comment une créatrice de Dakar a transformé sa niche cuisine en machine virale (TikTok + Instagram).",
+    minutes: 12,
     date: "25 avril 2026",
-    slug: "/blog/revenus-createur-senegal",
-    accent: "from-emerald-500/30 to-emerald-500/0",
+    slug: "/blog/aissata-playbook",
+    accent: "from-orange-500/30 to-orange-500/0",
   },
   {
     cat: "Agence",
-    title: "Lancer son agence sociale en Afrique : le guide complet 2026",
+    title: "Lancer son agence multi-plateformes en Afrique : le guide 2026",
     excerpt:
-      "Modèle économique, pricing, acquisition client, outils. Tout ce qu'il faut savoir.",
+      "Gérer des créateurs sur 9 plateformes : modèle économique, pricing, outils, acquisition.",
     minutes: 15,
     date: "20 avril 2026",
-    slug: "/blog/lancer-agence-sociale",
-    accent: "from-fuchsia-500/30 to-fuchsia-500/0",
+    slug: "/blog/lancer-agence-multi-plateformes",
+    accent: "from-emerald-500/30 to-emerald-500/0",
   },
 ];
 

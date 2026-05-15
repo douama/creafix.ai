@@ -80,8 +80,18 @@ function Profile() {
       <p className="text-sm text-muted-foreground">
         On va personnaliser ton expérience selon ton profil.
       </p>
-      <div className="grid gap-3 md:grid-cols-2">
-        {["Créateur solo", "Influenceur", "Page Facebook", "TikTokeur", "Média digital", "Agence"].map(
+      <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-3">
+        {[
+          "Créateur solo",
+          "Influenceur",
+          "YouTubeur",
+          "TikTokeur",
+          "Streamer Twitch",
+          "Page Facebook",
+          "Compte Instagram",
+          "Média digital",
+          "Agence",
+        ].map(
           (r) => (
             <button
               key={r}

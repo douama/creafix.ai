@@ -62,7 +62,7 @@ export default function AuditsPage() {
         <div>
           <h1 className="font-display text-3xl font-bold tracking-tight">Audits IA</h1>
           <p className="mt-1 text-sm text-muted-foreground">
-            Historique de tous tes scans Facebook & TikTok.
+            Historique de tous tes audits multi-plateformes (9 plateformes monétisables).
           </p>
         </div>
         <Button asChild variant="brand">

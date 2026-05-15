@@ -25,7 +25,7 @@
     "titlePart1": "Convierte tu contenido en",
     "titleHighlight": "ingresos",
     "titlePart2": "con IA.",
-    "subtitle": "CreaFix AI audita, corrige y escala tu monetización en TikTok & Facebook automáticamente. Diseñado para creadores de todo el mundo, optimizado para mercados africanos e hispanos.",
+    "subtitle": "CreaFix AI audita, corrige y escala tu monetización en 9 plataformas — YouTube, Facebook, Instagram, TikTok, X, Snapchat, Twitch, Pinterest, LinkedIn — automáticamente.",
     "trustNoCard": "Sin tarjeta",
     "trustFast": "Auditoría en 60s",
     "trustCreators": "+2 300 creadores",
@@ -75,7 +75,7 @@
     "shadowban": {
       "badge": "Exclusivo",
       "title": "Detector de Shadowban",
-      "desc": "Detección automática de caídas anormales de alcance, contenido bloqueado y señales débiles en TikTok y Facebook antes de que te des cuenta.",
+      "desc": "Detección automática de caídas anormales de alcance, contenido bloqueado y señales débiles en las 9 plataformas antes de que te des cuenta.",
       "bullet1": "Detecta 12 firmas de shadowban distintas",
       "bullet2": "Compara tu alcance con tu base 30 días",
       "bullet3": "Alerta WhatsApp + email en menos de 2h",
@@ -97,7 +97,7 @@
       "title": "Predictor de RPM",
       "desc": "Predice exactamente cuánto generará cada video, por país, antes de publicarlo. Optimiza miniaturas y títulos para el RPM, no solo las vistas.",
       "bullet1": "Modelo entrenado con CPM reales por país",
-      "bullet2": "Comparación lado a lado Facebook vs TikTok",
+      "bullet2": "Comparación lado a lado entre las 9 plataformas",
       "bullet3": "Simulador What-If: nicho, país, audiencia",
       "metric": "±15%",
       "metricLabel": "margen de error"
@@ -130,8 +130,8 @@
     "titlePart2": ".",
     "subtitle": "9 herramientas diseñadas con y para los creadores — reunidas en una sola plataforma.",
     "audit": {
-      "title": "Auditoría IA Facebook & TikTok",
-      "desc": "Análisis profundo de cada página — 40+ señales: cumplimiento, watch time, CTR, retención, copyright.",
+      "title": "Auditoría IA multi-plataforma",
+      "desc": "Análisis profundo de cada cuenta en las 9 plataformas — 40+ señales: cumplimiento, watch time, CTR, retención, copyright.",
       "metric": "40+",
       "metricLabel": "señales analizadas"
     },
@@ -190,7 +190,7 @@
     "titlePart2": ".",
     "subtitle": "No necesitas ser experto. CreaFix AI hace el trabajo por ti.",
     "step1Title": "Conecta tus cuentas",
-    "step1Desc": "Conexión segura vía OAuth Meta (Facebook) y TikTok. Sin compartir contraseña. Revocable en cualquier momento.",
+    "step1Desc": "OAuth oficial de las 9 plataformas (YouTube, Facebook, Instagram, TikTok, X, Snapchat, Twitch, Pinterest, LinkedIn). Sin compartir contraseña. Revocable en cualquier momento.",
     "step2Title": "La IA lo escanea todo",
     "step2Desc": "Nuestros 7 agentes IA analizan tu contenido, audiencia, cumplimiento, riesgo de ban y oportunidades de ingresos.",
     "step3Title": "Recibe tu plan de acción",
@@ -214,7 +214,7 @@
     },
     "audit": {
       "name": "Audit Agent",
-      "desc": "Analiza 40+ señales de cumplimiento Facebook & TikTok para producir un puntaje sobre 100 e identificar exactamente lo que bloquea tu monetización.",
+      "desc": "Analiza 40+ señales de cumplimiento en las 9 plataformas para producir un puntaje sobre 100 e identificar exactamente lo que bloquea tu monetización.",
       "metric": "96%",
       "metricLabel": "precisión detección"
     },
@@ -274,7 +274,7 @@
       "desc": "Prueba CreaFix AI sin riesgo.",
       "cta": "Empezar gratis",
       "f1": "3 auditorías gratuitas",
-      "f2": "1 página Facebook + 1 cuenta TikTok",
+      "f2": "1 cuenta en cualquier plataforma (YouTube, FB, IG, TikTok, X…)",
       "f3": "Viral Score básico",
       "f4": "Trend Engine limitado (1 país)",
       "f5": "Soporte comunitario"
