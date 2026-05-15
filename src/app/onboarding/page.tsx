@@ -7,6 +7,7 @@ import { Logo } from "@/components/brand/logo";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
+import { platformList } from "@/lib/platforms";
 import { cn } from "@/lib/utils";
 
 const steps = ["Profil", "Plateforme", "Niche", "Pays", "Connexion"];
@@ -96,30 +97,50 @@ function Profile() {
 }
 
 function Platform() {
+  const GLYPHS: Record<string, string> = {
+    YOUTUBE: "▶",
+    FACEBOOK: "f",
+    INSTAGRAM: "◎",
+    TIKTOK: "♪",
+    X: "𝕏",
+    SNAPCHAT: "👻",
+    TWITCH: "▰",
+    PINTEREST: "P",
+    LINKEDIN: "in",
+  };
   return (
     <div className="space-y-4">
-      <h2 className="font-display text-2xl font-bold">Quelle plateforme veux-tu auditer ?</h2>
+      <h2 className="font-display text-2xl font-bold">Quelles plateformes veux-tu auditer ?</h2>
       <p className="text-sm text-muted-foreground">
-        Tu pourras en ajouter d'autres plus tard.
+        Sélectionne une ou plusieurs plateformes — tu pourras en ajouter d'autres plus tard.
       </p>
-      <div className="grid gap-3 md:grid-cols-2">
-        {[
-          { icon: Facebook, label: "Facebook", cls: "blue" },
-          { icon: Music2, label: "TikTok", cls: "pink" },
-        ].map(({ icon: Icon, label, cls }) => (
+      <div className="grid gap-2.5 sm:grid-cols-3 md:grid-cols-5">
+        {platformList.map((p) => (
           <button
-            key={label}
-            className="flex flex-col items-center gap-3 rounded-xl border border-border bg-card/40 p-6 text-center hover:bg-card/70"
+            key={p.id}
+            disabled={p.status === "soon"}
+            className={cn(
+              "group relative flex flex-col items-center gap-2 rounded-xl border border-border bg-card/40 p-3 text-center hover:bg-card/70 hover:border-foreground/15",
+              p.status === "soon" && "opacity-50",
+            )}
           >
             <div
               className={cn(
-                "flex h-14 w-14 items-center justify-center rounded-2xl ring-1",
-                cls === "blue" ? "bg-blue-500/15 text-blue-400 ring-blue-400/30" : "bg-pink-500/15 text-pink-400 ring-pink-400/30",
+                "flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br text-white shadow-md ring-1",
+                p.bgGradient,
+                p.ringClass,
               )}
             >
-              <Icon className="h-6 w-6" />
+              <span className="font-display text-sm font-extrabold leading-none">
+                {GLYPHS[p.id]}
+              </span>
             </div>
-            <div className="font-medium">{label}</div>
+            <div className="text-xs font-medium">{p.name}</div>
+            {p.status !== "live" && (
+              <span className="absolute -top-1.5 right-1 rounded-full bg-amber-500/20 px-1.5 py-0.5 text-[9px] font-semibold text-amber-500">
+                {p.status === "beta" ? "Bêta" : "Bientôt"}
+              </span>
+            )}
           </button>
         ))}
       </div>

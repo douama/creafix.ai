@@ -52,6 +52,17 @@
     "reco2": "3 videos with copyright audio to replace",
     "reco3": "New niche detected: mobile money finance · CPM ×2.4"
   },
+  "platforms": {
+    "eyebrow": "9 monetizable platforms",
+    "titlePart1": "Audit and monetize on",
+    "titleHighlight": "all",
+    "titlePart2": "the platforms that pay.",
+    "subtitle": "YouTube, Facebook, Instagram, TikTok, X, Snapchat, Twitch, Pinterest, LinkedIn — one tool to rule them all.",
+    "statusLive": "Live",
+    "statusBeta": "Beta",
+    "statusSoon": "Soon",
+    "morePrograms": "more programs"
+  },
   "wow": {
     "eyebrow": "5 features that change the game",
     "titlePart1": "While your competitors",

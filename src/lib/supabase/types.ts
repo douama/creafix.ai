@@ -22,7 +22,16 @@ export type Json =
 
 type UserRole = "CREATOR" | "INFLUENCER" | "AGENCY" | "ADMIN";
 type Plan = "FREE" | "PRO" | "AGENCY";
-type Platform = "FACEBOOK" | "TIKTOK" | "INSTAGRAM" | "YOUTUBE";
+type Platform =
+  | "FACEBOOK"
+  | "TIKTOK"
+  | "INSTAGRAM"
+  | "YOUTUBE"
+  | "X"
+  | "SNAPCHAT"
+  | "TWITCH"
+  | "PINTEREST"
+  | "LINKEDIN";
 type AuditStatus = "PENDING" | "RUNNING" | "COMPLETED" | "FAILED";
 type AuditMode = "QUICK" | "COMPLETE" | "AGENCY";
 type ContentKind =
