@@ -4,10 +4,11 @@ import { Hero } from "@/components/marketing/hero";
 import { SocialProof } from "@/components/marketing/social-proof";
 import { LiveActivity } from "@/components/marketing/live-activity";
 import { SampleAudit } from "@/components/marketing/sample-audit";
+import { LiveDashboard } from "@/components/marketing/live-dashboard";
 import { RevenueLeakScanner } from "@/components/marketing/revenue-leak";
 import { PlatformsSection } from "@/components/marketing/platforms-section";
 import { WowFeatures } from "@/components/marketing/wow-features";
-import { AfricaNiche } from "@/components/marketing/africa-niche";
+import { AfricanTrendEngine } from "@/components/marketing/african-trend-engine";
 import { Demonetized } from "@/components/marketing/demonetized";
 import { Features } from "@/components/marketing/features";
 import { HowItWorks } from "@/components/marketing/how-it-works";
@@ -30,10 +31,11 @@ export default function HomePage() {
         <SocialProof />
         <LiveActivity />
         <SampleAudit />
+        <LiveDashboard />
         <RevenueLeakScanner />
         <PlatformsSection />
         <WowFeatures />
-        <AfricaNiche />
+        <AfricanTrendEngine />
         <Demonetized />
         <Features />
         <HowItWorks />

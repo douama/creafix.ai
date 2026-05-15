@@ -1,8 +1,8 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   AlertTriangle,
   Eye,
@@ -12,6 +12,8 @@ import {
   TrendingDown,
   ArrowRight,
   Zap,
+  RotateCw,
+  Loader2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -72,9 +74,33 @@ export function RevenueLeakScanner() {
 }
 
 function ShadowbanDetectorCard() {
-  // Animation des barres au scroll
-  const [reach, setReach] = useState(0);
-  const [viral, setViral] = useState(0);
+  const [phase, setPhase] = useState<"idle" | "scanning" | "done">("idle");
+  const [progress, setProgress] = useState(0);
+  const [scanKey, setScanKey] = useState(0);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  function runScan() {
+    setPhase("scanning");
+    setProgress(0);
+    if (intervalRef.current) clearInterval(intervalRef.current);
+    const start = Date.now();
+    const SCAN_MS = 1800;
+    intervalRef.current = setInterval(() => {
+      const p = Math.min(100, ((Date.now() - start) / SCAN_MS) * 100);
+      setProgress(p);
+      if (p >= 100) {
+        if (intervalRef.current) clearInterval(intervalRef.current);
+        setPhase("done");
+        setScanKey((k) => k + 1);
+      }
+    }, 40);
+  }
+
+  useEffect(() => {
+    return () => {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    };
+  }, []);
 
   return (
     <motion.div
@@ -83,12 +109,24 @@ function ShadowbanDetectorCard() {
       viewport={{ once: true, margin: "-40px" }}
       transition={{ duration: 0.5 }}
       onViewportEnter={() => {
-        setReach(42);
-        setViral(88);
+        if (phase === "idle") runScan();
       }}
       className="relative overflow-hidden rounded-2xl border border-rose-500/30 bg-gradient-to-br from-rose-500/[0.06] via-card/40 to-card/40 p-6 backdrop-blur-xl"
     >
       <div className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full bg-rose-500/20 blur-3xl" />
+
+      {/* Scan line overlay pendant scanning */}
+      <AnimatePresence>
+        {phase === "scanning" && (
+          <motion.div
+            initial={{ y: "-100%", opacity: 0 }}
+            animate={{ y: "200%", opacity: [0, 1, 1, 0] }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1.6, ease: "linear" }}
+            className="pointer-events-none absolute inset-x-0 top-0 z-10 h-24 bg-gradient-to-b from-transparent via-rose-500/30 to-transparent"
+          />
+        )}
+      </AnimatePresence>
 
       <div className="relative flex items-start justify-between gap-3">
         <div className="flex items-center gap-3">
@@ -104,70 +142,192 @@ function ShadowbanDetectorCard() {
             </p>
           </div>
         </div>
-        <span className="inline-flex shrink-0 items-center gap-1 rounded-full border border-rose-500/40 bg-rose-500/15 px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-rose-500 dark:text-rose-300">
-          <span className="relative flex h-1.5 w-1.5">
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-rose-500 opacity-70" />
-            <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-rose-500" />
+
+        {phase === "done" ? (
+          <button
+            type="button"
+            onClick={runScan}
+            className="group inline-flex shrink-0 items-center gap-1 rounded-full border border-rose-500/40 bg-rose-500/15 px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-rose-500 transition-colors hover:bg-rose-500/25 dark:text-rose-300"
+          >
+            <RotateCw className="h-2.5 w-2.5 transition-transform group-hover:rotate-180" />
+            Re-scan
+          </button>
+        ) : (
+          <span className="inline-flex shrink-0 items-center gap-1 rounded-full border border-rose-500/40 bg-rose-500/15 px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-rose-500 dark:text-rose-300">
+            {phase === "scanning" ? (
+              <>
+                <Loader2 className="h-2.5 w-2.5 animate-spin" />
+                Scan…
+              </>
+            ) : (
+              <>
+                <span className="h-1.5 w-1.5 rounded-full bg-rose-500" />
+                Prêt
+              </>
+            )}
           </span>
-          Risque élevé
-        </span>
+        )}
       </div>
 
-      <div className="relative mt-6 space-y-4">
-        <MetricBar
-          icon={Eye}
-          label="Reach Health"
-          value={reach}
-          color="#F43F5E"
-          suffix="%"
-        />
-        <MetricBar
-          icon={Flame}
-          label="Viral Potential"
-          value={viral}
-          color="#10B981"
-          suffix="%"
-        />
+      {/* Progress bar pendant scanning */}
+      <AnimatePresence mode="wait">
+        {phase === "scanning" && (
+          <motion.div
+            key="progress"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="relative mt-5"
+          >
+            <div className="flex items-center justify-between text-[10px] uppercase tracking-wider text-muted-foreground">
+              <span>Analyse en cours…</span>
+              <span className="font-display font-bold text-foreground">
+                {Math.round(progress)}%
+              </span>
+            </div>
+            <div className="mt-1.5 h-1 w-full overflow-hidden rounded-full bg-muted/30">
+              <div
+                className="h-full rounded-full bg-gradient-to-r from-rose-500 to-amber-500 transition-[width] duration-100 ease-linear"
+                style={{ width: `${progress}%` }}
+              />
+            </div>
+            <div className="mt-3 space-y-1 text-[11px] text-muted-foreground">
+              <ScanLog stepProgress={progress} threshold={20}>
+                Inspection de 312 vidéos
+              </ScanLog>
+              <ScanLog stepProgress={progress} threshold={45}>
+                Détection des signatures de shadowban
+              </ScanLog>
+              <ScanLog stepProgress={progress} threshold={70}>
+                Comparaison portée vs référence 30 j
+              </ScanLog>
+              <ScanLog stepProgress={progress} threshold={92}>
+                Calcul des revenus perdus
+              </ScanLog>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
-        <div className="grid grid-cols-2 gap-3 pt-1">
-          <div className="rounded-xl border border-border bg-background/60 p-3">
-            <div className="flex items-center gap-1.5 text-[10px] uppercase tracking-wider text-muted-foreground">
-              <AlertTriangle className="h-3 w-3 text-rose-500" />
-              Monetization Risk
-            </div>
-            <div className="mt-1 font-display text-lg font-bold text-rose-500 dark:text-rose-300">
-              HIGH
-            </div>
-          </div>
-          <div className="rounded-xl border border-border bg-background/60 p-3">
-            <div className="flex items-center gap-1.5 text-[10px] uppercase tracking-wider text-muted-foreground">
-              <TrendingDown className="h-3 w-3 text-rose-500" />
-              Lost Revenue
-            </div>
-            <div className="mt-1 font-display text-lg font-bold text-rose-500 dark:text-rose-300">
-              -$430/mo
-            </div>
-          </div>
-        </div>
-      </div>
+      {/* Résultats — visibles quand done */}
+      <AnimatePresence mode="wait">
+        {phase === "done" && (
+          <motion.div
+            key={`results-${scanKey}`}
+            initial="hidden"
+            animate="show"
+            variants={{
+              hidden: { opacity: 0 },
+              show: {
+                opacity: 1,
+                transition: { staggerChildren: 0.08, delayChildren: 0.05 },
+              },
+            }}
+            className="relative mt-6 space-y-4"
+          >
+            <RevealItem>
+              <MetricBar
+                icon={Eye}
+                label="Reach Health"
+                value={42}
+                color="#F43F5E"
+                suffix="%"
+              />
+            </RevealItem>
+            <RevealItem>
+              <MetricBar
+                icon={Flame}
+                label="Viral Potential"
+                value={88}
+                color="#10B981"
+                suffix="%"
+              />
+            </RevealItem>
 
-      <div className="relative mt-5 border-t border-border pt-4">
-        <ul className="space-y-1.5 text-xs text-muted-foreground">
-          <li className="flex items-start gap-2">
-            <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-rose-500" />
-            3 vidéos avec musique sous copyright détectées
-          </li>
-          <li className="flex items-start gap-2">
-            <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-amber-500" />
-            Portée -68% vs ta moyenne 30 jours
-          </li>
-          <li className="flex items-start gap-2">
-            <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-amber-500" />
-            Watch time sous le seuil de monétisation (47%)
-          </li>
-        </ul>
-      </div>
+            <RevealItem>
+              <div className="grid grid-cols-2 gap-3 pt-1">
+                <div className="rounded-xl border border-border bg-background/60 p-3">
+                  <div className="flex items-center gap-1.5 text-[10px] uppercase tracking-wider text-muted-foreground">
+                    <AlertTriangle className="h-3 w-3 text-rose-500" />
+                    Monetization Risk
+                  </div>
+                  <div className="mt-1 font-display text-lg font-bold text-rose-500 dark:text-rose-300">
+                    HIGH
+                  </div>
+                </div>
+                <div className="rounded-xl border border-border bg-background/60 p-3">
+                  <div className="flex items-center gap-1.5 text-[10px] uppercase tracking-wider text-muted-foreground">
+                    <TrendingDown className="h-3 w-3 text-rose-500" />
+                    Lost Revenue
+                  </div>
+                  <div className="mt-1 font-display text-lg font-bold text-rose-500 dark:text-rose-300">
+                    -$430/mo
+                  </div>
+                </div>
+              </div>
+            </RevealItem>
+
+            <RevealItem>
+              <div className="border-t border-border pt-4">
+                <ul className="space-y-1.5 text-xs text-muted-foreground">
+                  <li className="flex items-start gap-2">
+                    <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-rose-500" />
+                    3 vidéos avec musique sous copyright détectées
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-amber-500" />
+                    Portée -68% vs ta moyenne 30 jours
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-amber-500" />
+                    Watch time sous le seuil de monétisation (47%)
+                  </li>
+                </ul>
+              </div>
+            </RevealItem>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.div>
+  );
+}
+
+function RevealItem({ children }: { children: React.ReactNode }) {
+  return (
+    <motion.div
+      variants={{
+        hidden: { opacity: 0, y: 8 },
+        show: { opacity: 1, y: 0, transition: { duration: 0.4 } },
+      }}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+function ScanLog({
+  stepProgress,
+  threshold,
+  children,
+}: {
+  stepProgress: number;
+  threshold: number;
+  children: React.ReactNode;
+}) {
+  const reached = stepProgress >= threshold;
+  return (
+    <div
+      className={`flex items-center gap-2 transition-opacity duration-300 ${
+        reached ? "opacity-100" : "opacity-30"
+      }`}
+    >
+      <span
+        className={`h-1.5 w-1.5 rounded-full transition-colors ${
+          reached ? "bg-emerald-500" : "bg-muted-foreground/30"
+        }`}
+      />
+      <span className={reached ? "text-foreground" : ""}>{children}</span>
+    </div>
   );
 }
 
