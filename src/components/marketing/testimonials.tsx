@@ -26,15 +26,15 @@ const items = [
 
 export function Testimonials() {
   return (
-    <section className="relative py-24 md:py-32">
+    <section className="relative py-14 md:py-20">
       <div className="container">
         <div className="mx-auto max-w-2xl text-center">
-          <h2 className="font-display text-4xl font-bold tracking-tight md:text-5xl">
+          <h2 className="font-display text-2xl font-bold tracking-tight md:text-4xl">
             Ils ont <span className="gradient-text">débloqué</span> leur monétisation.
           </h2>
         </div>
 
-        <div className="mt-14 grid gap-5 md:grid-cols-3">
+        <div className="mt-10 grid gap-5 md:grid-cols-3">
           {items.map((t, i) => (
             <motion.div
               key={t.name}

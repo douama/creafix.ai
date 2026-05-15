@@ -94,54 +94,31 @@ src/
 ├── lib/
 │   ├── ai/
 │   │   ├── agents.ts      # 7 agents (audit, viral, monetization, anti-ban, trend, thumbnail, script)
-│   │   └── providers.ts   # Abstraction LLM (Claude/GPT/Gemini)
+│   │   └── providers.ts   # Couche abstraite multi-fournisseurs LLM (privée)
 │   ├── payments/
 │   │   └── providers.ts   # Stripe + Mobile Money agrégateurs
-│   ├── africa-cpm.ts      # Données CPM/RPM 9 pays africains
-│   ├── auth.ts            # NextAuth config
-│   ├── prisma.ts          # Client Prisma singleton
+│   ├── supabase/          # Client browser + server + admin + middleware
+│   ├── africa-cpm.ts      # Données CPM/RPM 9 pays africains (fallback)
 │   └── utils.ts           # cn(), formatCurrency, …
-├── middleware.ts          # Headers sécurité + auth guard
-└── prisma/
-    ├── schema.prisma
-    └── seed.ts
+├── middleware.ts          # Sessions Supabase + headers sécurité
+└── supabase/migrations/   # Schéma SQL (10 tables, RLS, triggers, seed)
 ```
 
 ---
 
-## 🤖 Brancher l'IA en production
+## 🤖 Stack IA
 
-Dans `src/lib/ai/providers.ts`, branche les SDK officiels :
+L'orchestration multi-agents et le routage des modèles sont des éléments
+**propriétaires** documentés en interne uniquement. La couche
+`src/lib/ai/providers.ts` expose une API neutre (`chat()`,
+`generateImage()`, `generateVoice()`, `generateVideo()`) — les
+implémentations concrètes vivent dans la branche privée de l'équipe.
 
-```ts
-import Anthropic from "@anthropic-ai/sdk";
-
-const client = new Anthropic();
-const result = await client.messages.create({
-  model: "claude-opus-4-7",
-  max_tokens: 4096,
-  system: [
-    {
-      type: "text",
-      text: SYSTEM_PROMPT,
-      cache_control: { type: "ephemeral" }, // prompt caching = -90% coûts
-    },
-  ],
-  messages,
-});
+Pour brancher tes propres clés en local :
+```bash
+# .env.local — renseigne les fournisseurs que tu utilises
+# (clés API, modèles, baseURL si self-hosted)
 ```
-
-**Modèles recommandés par agent :**
-
-| Agent           | Modèle conseillé          | Pourquoi |
-|-----------------|---------------------------|----------|
-| Audit           | claude-opus-4-7           | Raisonnement long, score multi-dimension |
-| Viral           | claude-sonnet-4-6         | Rapide + créatif, idéal idées |
-| Monetization    | claude-opus-4-7           | Calculs + règles Meta/TikTok |
-| Anti-Ban        | claude-sonnet-4-6         | Classification rapide |
-| Trend           | gemini-2.5-flash          | Très bas coût, haute fréquence |
-| Thumbnail       | gpt-image-1 / Stability   | Génération image |
-| Script          | claude-sonnet-4-6         | Style africain conversationnel |
 
 ---
 

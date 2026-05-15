@@ -62,13 +62,13 @@ const plans = [
 
 export function Pricing() {
   return (
-    <section id="pricing" className="relative py-24 md:py-32">
+    <section id="pricing" className="relative py-14 md:py-20">
       <div className="container">
         <div className="mx-auto max-w-2xl text-center">
-          <h2 className="font-display text-4xl font-bold tracking-tight md:text-5xl">
+          <h2 className="font-display text-2xl font-bold tracking-tight md:text-4xl">
             Des tarifs <span className="gradient-text">accessibles à l'Afrique</span>.
           </h2>
-          <p className="mt-4 text-muted-foreground">
+          <p className="mt-3 text-sm text-muted-foreground">
             Paie en FCFA, en Naira, en Dirham, en USD ou via Mobile Money — comme tu veux.
           </p>
           <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-xs text-emerald-300">
@@ -76,7 +76,7 @@ export function Pricing() {
           </div>
         </div>
 
-        <div className="mt-14 grid gap-6 md:grid-cols-3">
+        <div className="mt-10 grid gap-6 md:grid-cols-3">
           {plans.map((p) => (
             <div
               key={p.name}
@@ -97,7 +97,7 @@ export function Pricing() {
               <p className="mt-1 text-sm text-muted-foreground">{p.desc}</p>
 
               <div className="mt-6 flex items-baseline gap-2">
-                <span className="font-display text-5xl font-bold">
+                <span className="font-display text-4xl font-bold">
                   {p.priceXof.toLocaleString("fr-FR")}
                 </span>
                 <span className="text-muted-foreground">FCFA</span>

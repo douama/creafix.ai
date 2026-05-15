@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 
 export function CTA() {
   return (
-    <section className="relative py-24 md:py-32">
+    <section className="relative py-14 md:py-20">
       <div className="container">
         <div className="relative overflow-hidden rounded-[2rem] border border-border p-10 md:p-16">
           <div className="absolute inset-0 -z-10 gradient-brand opacity-90" />
@@ -15,7 +15,7 @@ export function CTA() {
 
           <div className="relative grid items-center gap-8 md:grid-cols-2">
             <div>
-              <h2 className="font-display text-4xl font-bold leading-tight text-white text-balance md:text-5xl">
+              <h2 className="font-display text-2xl font-bold leading-tight text-white text-balance md:text-4xl">
                 Prêt à débloquer
                 <br />
                 tes revenus créateur ?

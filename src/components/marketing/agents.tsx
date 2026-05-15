@@ -22,7 +22,6 @@ type Agent = {
   name: string;
   short: string;
   desc: string;
-  model: string;
   metric: { value: string; label: string };
   category: "analyse" | "creation" | "growth";
   tone: "violet" | "orange" | "rose" | "emerald" | "sky" | "amber" | "fuchsia";
@@ -32,8 +31,7 @@ const audit: Agent = {
   icon: Bot,
   name: "Audit Agent",
   short: "Audit",
-  desc: "Analyse 40+ signaux de conformité Facebook & TikTok pour produire un score IA sur 100 et identifier précisément ce qui bloque ta monétisation.",
-  model: "Claude Opus 4.7",
+  desc: "Analyse 40+ signaux de conformité Facebook & TikTok pour produire un score sur 100 et identifier exactement ce qui bloque ta monétisation.",
   metric: { value: "96%", label: "précision détection" },
   category: "analyse",
   tone: "violet",
@@ -45,7 +43,6 @@ const others: Agent[] = [
     name: "Viral Agent",
     short: "Viral",
     desc: "Détecte les patterns viraux par pays et niche, prédit les hooks gagnants.",
-    model: "Claude Sonnet 4.6",
     metric: { value: "+340%", label: "vues moyennes" },
     category: "growth",
     tone: "orange",
@@ -54,8 +51,7 @@ const others: Agent[] = [
     icon: Coins,
     name: "Monetization Agent",
     short: "Monetization",
-    desc: "Optimise RPM, CPM et éligibilité aux programmes In-Stream Ads et Creator Rewards.",
-    model: "Claude Opus 4.7",
+    desc: "Optimise RPM, CPM et éligibilité aux programmes Ads & Creator Rewards.",
     metric: { value: "×2.4", label: "RPM moyen" },
     category: "growth",
     tone: "emerald",
@@ -65,7 +61,6 @@ const others: Agent[] = [
     name: "Anti-Ban Agent",
     short: "Anti-Ban",
     desc: "Prédit et neutralise les risques de bannissement avant publication.",
-    model: "Claude Sonnet 4.6",
     metric: { value: "24/7", label: "surveillance" },
     category: "analyse",
     tone: "rose",
@@ -75,7 +70,6 @@ const others: Agent[] = [
     name: "Trend Agent",
     short: "Trend",
     desc: "Tendances africaines temps réel — sons, hashtags, formats par pays.",
-    model: "Gemini 2.5 Flash",
     metric: { value: "9", label: "pays surveillés" },
     category: "analyse",
     tone: "sky",
@@ -85,7 +79,6 @@ const others: Agent[] = [
     name: "Thumbnail Agent",
     short: "Thumbnail",
     desc: "Génère 6 miniatures optimisées CTR avec A/B testing intégré.",
-    model: "GPT-Image-1",
     metric: { value: "+22%", label: "CTR moyen" },
     category: "creation",
     tone: "fuchsia",
@@ -95,7 +88,6 @@ const others: Agent[] = [
     name: "Script Agent",
     short: "Script",
     desc: "Hooks, scripts courts, CTA et légendes optimisées SEO multilingue.",
-    model: "Claude Sonnet 4.6",
     metric: { value: "12s", label: "génération" },
     category: "creation",
     tone: "amber",
@@ -130,7 +122,7 @@ const categoryLabel: Record<Agent["category"], string> = {
 
 export function AgentsShowcase() {
   return (
-    <section className="relative py-24 md:py-32">
+    <section className="relative py-14 md:py-20">
       <div className="absolute inset-0 -z-10 grid-bg opacity-40" />
 
       <div className="container">
@@ -149,7 +141,7 @@ export function AgentsShowcase() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.05 }}
-            className="mt-5 font-display text-4xl font-bold leading-[1.05] tracking-tight md:text-5xl"
+            className="mt-4 font-display text-3xl font-bold leading-[1.1] tracking-tight md:text-4xl"
           >
             7 cerveaux IA spécialisés.
             <br />
@@ -160,29 +152,28 @@ export function AgentsShowcase() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="mt-4 text-balance text-muted-foreground"
+            className="mt-3 text-sm text-balance text-muted-foreground md:text-base"
           >
-            Powered by Claude Opus 4.7, GPT-5, Gemini 2.5 et ElevenLabs. Chaque agent est
-            ultra spécialisé — l'orchestrateur les fait collaborer en arrière-plan.
+            Chaque agent est ultra spécialisé. L'orchestrateur les fait collaborer
+            en arrière-plan pour produire un audit complet en moins de 60 secondes.
           </motion.p>
         </div>
 
-        {/* Layout bento : hero + 6 cartes */}
-        <div className="mx-auto mt-16 grid max-w-6xl gap-5 lg:grid-cols-3">
-          {/* Audit Agent — carte hero (1 colonne, 2 rangées) */}
+        <div className="mx-auto mt-10 grid max-w-6xl gap-4 lg:grid-cols-3">
+          {/* Audit Agent — carte hero */}
           <motion.article
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            className="group relative overflow-hidden rounded-3xl border border-border bg-gradient-to-br from-violet-500/[0.08] via-card to-card p-7 lg:row-span-2"
+            className="group relative overflow-hidden rounded-2xl border border-border bg-gradient-to-br from-violet-500/[0.08] via-card to-card p-6 lg:row-span-2"
           >
-            <div className="pointer-events-none absolute -right-16 -top-16 h-64 w-64 rounded-full bg-violet-500/20 blur-3xl opacity-60 transition-opacity group-hover:opacity-100" />
+            <div className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full bg-violet-500/20 blur-3xl opacity-60 transition-opacity group-hover:opacity-100" />
 
             <div className="relative flex h-full flex-col">
               <div className="flex items-center justify-between">
                 <CategoryBadge category={audit.category} />
-                <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-0.5 text-[10px] font-medium text-emerald-500 dark:text-emerald-300">
+                <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2 py-0.5 text-[10px] font-medium text-emerald-500 dark:text-emerald-300">
                   <span className="relative flex h-1.5 w-1.5">
                     <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
                     <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-500" />
@@ -191,32 +182,29 @@ export function AgentsShowcase() {
                 </span>
               </div>
 
-              <div className="mt-7 flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-violet-500 via-violet-500 to-orange-500 shadow-2xl shadow-violet-500/40 ring-4 ring-violet-500/20">
-                <audit.icon className="h-6 w-6 text-white" />
+              <div className="mt-5 flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-violet-500 via-violet-500 to-orange-500 shadow-2xl shadow-violet-500/40 ring-4 ring-violet-500/20">
+                <audit.icon className="h-5 w-5 text-white" />
               </div>
 
-              <h3 className="mt-5 font-display text-2xl font-bold tracking-tight">
+              <h3 className="mt-4 font-display text-xl font-bold tracking-tight">
                 {audit.name}
               </h3>
-              <p className="mt-2 text-[15px] leading-relaxed text-muted-foreground">
+              <p className="mt-1.5 text-sm leading-relaxed text-muted-foreground">
                 {audit.desc}
               </p>
 
-              <div className="mt-auto pt-8">
-                <div className="flex items-end justify-between gap-4 rounded-2xl border border-border bg-background/40 p-4 backdrop-blur">
-                  <div>
-                    <div className="font-display text-3xl font-bold leading-none">
-                      {audit.metric.value}
-                    </div>
-                    <div className="mt-1 text-xs text-muted-foreground">
-                      {audit.metric.label}
-                    </div>
+              <div className="mt-auto pt-6">
+                <div className="rounded-xl border border-border bg-background/40 p-3.5 backdrop-blur">
+                  <div className="font-display text-2xl font-bold leading-none">
+                    {audit.metric.value}
                   </div>
-                  <ModelChip model={audit.model} />
+                  <div className="mt-1 text-[11px] text-muted-foreground">
+                    {audit.metric.label}
+                  </div>
                 </div>
 
                 {/* Mini-viz : barres de signal */}
-                <div className="mt-4 flex h-12 items-end gap-1">
+                <div className="mt-3 flex h-10 items-end gap-1">
                   {[34, 48, 62, 56, 70, 84, 78, 92, 88, 95, 90, 96].map((v, i) => (
                     <div
                       key={i}
@@ -225,7 +213,7 @@ export function AgentsShowcase() {
                     />
                   ))}
                 </div>
-                <div className="mt-1.5 flex justify-between text-[10px] text-muted-foreground">
+                <div className="mt-1 flex justify-between text-[10px] text-muted-foreground">
                   <span>40 signaux analysés</span>
                   <span className="flex items-center gap-1 text-emerald-500 dark:text-emerald-400">
                     <Sparkles className="h-3 w-3" /> confiance 96%
@@ -235,33 +223,33 @@ export function AgentsShowcase() {
             </div>
           </motion.article>
 
-          {/* 6 cartes secondaires en grille 2×3 sur les 2 colonnes restantes */}
-          <div className="grid gap-5 sm:grid-cols-2 lg:col-span-2 lg:grid-cols-3">
+          {/* 6 cartes secondaires en grille 2×3 */}
+          <div className="grid gap-4 sm:grid-cols-2 lg:col-span-2 lg:grid-cols-3">
             {others.map((a, i) => (
               <AgentCard key={a.name} agent={a} index={i} />
             ))}
           </div>
         </div>
 
-        {/* Footer info : orchestration */}
+        {/* Footer info orchestration — sans mentions de fournisseurs */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="mx-auto mt-10 flex max-w-4xl flex-wrap items-center justify-center gap-x-6 gap-y-3 rounded-2xl border border-border bg-card/40 px-6 py-4 backdrop-blur"
+          className="mx-auto mt-8 flex max-w-3xl flex-wrap items-center justify-center gap-x-5 gap-y-2 rounded-xl border border-border bg-card/40 px-5 py-3 backdrop-blur"
         >
-          <span className="flex items-center gap-2 text-sm">
-            <Activity className="h-4 w-4 text-violet-500" />
-            <b>Orchestration</b> via Claude Agent SDK
+          <span className="flex items-center gap-2 text-xs">
+            <Activity className="h-3.5 w-3.5 text-violet-500" />
+            <b>Orchestration</b> propriétaire
           </span>
           <span className="h-3 w-px bg-border" />
-          <span className="flex items-center gap-2 text-sm text-muted-foreground">
-            <Zap className="h-4 w-4 text-amber-500" /> Prompt caching activé · –90% coûts
+          <span className="flex items-center gap-2 text-xs text-muted-foreground">
+            <Zap className="h-3.5 w-3.5 text-amber-500" /> Réponse moyenne &lt; 60 s
           </span>
           <span className="h-3 w-px bg-border" />
-          <span className="flex items-center gap-2 text-sm text-muted-foreground">
-            <CheckCircle2 className="h-4 w-4 text-emerald-500" /> Outputs structurés JSON
+          <span className="flex items-center gap-2 text-xs text-muted-foreground">
+            <CheckCircle2 className="h-3.5 w-3.5 text-emerald-500" /> Données chiffrées E2E
           </span>
         </motion.div>
       </div>
@@ -277,7 +265,7 @@ function AgentCard({ agent, index }: { agent: Agent; index: number }) {
       viewport={{ once: true }}
       transition={{ duration: 0.45, delay: index * 0.06 }}
       className={cn(
-        "group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-card/40 p-5 backdrop-blur transition-all duration-300",
+        "group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-card/40 p-4 backdrop-blur transition-all duration-300",
         "hover:-translate-y-0.5 hover:border-foreground/20 hover:bg-card/70 hover:shadow-xl",
       )}
     >
@@ -295,32 +283,31 @@ function AgentCard({ agent, index }: { agent: Agent; index: number }) {
         </span>
       </div>
 
-      <div className="relative mt-4 flex items-start gap-3">
+      <div className="relative mt-3 flex items-start gap-3">
         <div
           className={cn(
-            "flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border bg-gradient-to-br ring-1",
+            "flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border bg-gradient-to-br ring-1",
             "border-border",
             toneRing[agent.tone],
           )}
         >
-          <agent.icon className={cn("h-5 w-5", toneText[agent.tone])} />
+          <agent.icon className={cn("h-4.5 w-4.5", toneText[agent.tone])} />
         </div>
         <div>
-          <h3 className="font-display text-base font-semibold leading-tight">{agent.name}</h3>
-          <p className="mt-1.5 text-sm text-muted-foreground line-clamp-2">{agent.desc}</p>
+          <h3 className="font-display text-sm font-semibold leading-tight">{agent.name}</h3>
+          <p className="mt-1 text-xs leading-relaxed text-muted-foreground line-clamp-2">{agent.desc}</p>
         </div>
       </div>
 
-      <div className="relative mt-5 flex items-center justify-between gap-3 border-t border-border pt-4">
+      <div className="relative mt-4 flex items-end justify-between gap-3 border-t border-border pt-3">
         <div>
-          <div className={cn("font-display text-xl font-bold leading-none", toneText[agent.tone])}>
+          <div className={cn("font-display text-lg font-bold leading-none", toneText[agent.tone])}>
             {agent.metric.value}
           </div>
           <div className="mt-0.5 text-[10px] uppercase tracking-wider text-muted-foreground">
             {agent.metric.label}
           </div>
         </div>
-        <ModelChip model={agent.model} compact />
       </div>
     </motion.article>
   );
@@ -342,19 +329,5 @@ function CategoryBadge({ category }: { category: Agent["category"] }) {
     >
       {categoryLabel[category]}
     </span>
-  );
-}
-
-function ModelChip({ model, compact = false }: { model: string; compact?: boolean }) {
-  return (
-    <div
-      className={cn(
-        "inline-flex items-center gap-1.5 rounded-lg border border-border bg-background/60 px-2 py-1 backdrop-blur",
-        compact ? "text-[10px]" : "text-xs",
-      )}
-    >
-      <span className="h-1.5 w-1.5 rounded-full bg-gradient-to-br from-violet-500 to-orange-500" />
-      <span className="font-mono font-medium text-foreground/80">{model}</span>
-    </div>
   );
 }

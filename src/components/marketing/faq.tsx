@@ -35,18 +35,18 @@ export function FAQ() {
   const [open, setOpen] = useState<number | null>(0);
 
   return (
-    <section id="faq" className="relative py-24 md:py-32">
+    <section id="faq" className="relative py-14 md:py-20">
       <div className="container max-w-3xl">
         <div className="text-center">
-          <h2 className="font-display text-4xl font-bold tracking-tight md:text-5xl">
+          <h2 className="font-display text-2xl font-bold tracking-tight md:text-4xl">
             Questions <span className="gradient-text">fréquentes</span>.
           </h2>
-          <p className="mt-4 text-muted-foreground">
+          <p className="mt-3 text-sm text-muted-foreground">
             Tout ce que tu dois savoir avant de te lancer.
           </p>
         </div>
 
-        <div className="mt-12 space-y-3">
+        <div className="mt-9 space-y-3">
           {faqs.map((f, i) => (
             <div
               key={f.q}

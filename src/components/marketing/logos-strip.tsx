@@ -2,25 +2,24 @@
 
 export function LogosStrip() {
   const items = [
+    "Facebook",
+    "TikTok",
+    "Instagram",
     "Wave",
     "Orange Money",
     "MTN MoMo",
-    "Meta",
-    "TikTok",
+    "Moov Money",
     "Stripe",
     "PayPal",
-    "OpenAI",
-    "Anthropic",
-    "Gemini",
   ];
 
   return (
-    <section className="border-y border-border/60 py-10">
+    <section className="border-y border-border/60 py-7">
       <div className="container">
-        <p className="text-center text-xs uppercase tracking-[0.18em] text-muted-foreground">
-          Intégré avec les plateformes & outils que tu utilises déjà
+        <p className="text-center text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
+          Intégré aux plateformes et moyens de paiement que tu utilises déjà
         </p>
-        <div className="mt-6 grid grid-cols-3 items-center gap-y-5 sm:grid-cols-5 md:grid-cols-10">
+        <div className="mt-4 grid grid-cols-3 items-center gap-y-3 sm:grid-cols-5 md:grid-cols-9">
           {items.map((i) => (
             <div
               key={i}

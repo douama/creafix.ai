@@ -29,19 +29,19 @@ const steps = [
 
 export function HowItWorks() {
   return (
-    <section id="how" className="relative py-24 md:py-32">
+    <section id="how" className="relative py-14 md:py-20">
       <div className="absolute inset-0 -z-10 bg-radial-fade opacity-40" />
       <div className="container">
         <div className="mx-auto max-w-2xl text-center">
-          <h2 className="font-display text-4xl font-bold tracking-tight text-balance md:text-5xl">
+          <h2 className="font-display text-2xl font-bold tracking-tight text-balance md:text-4xl">
             3 étapes. <span className="gradient-text">60 secondes</span>.
           </h2>
-          <p className="mt-4 text-muted-foreground">
+          <p className="mt-3 text-sm text-muted-foreground">
             Pas besoin d'être expert. Monetiq AI fait le travail à ta place.
           </p>
         </div>
 
-        <div className="relative mt-14 grid gap-6 md:grid-cols-3">
+        <div className="relative mt-10 grid gap-6 md:grid-cols-3">
           {steps.map((s, i) => (
             <motion.div
               key={s.n}
@@ -49,9 +49,9 @@ export function HowItWorks() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: i * 0.1 }}
-              className="glass relative rounded-2xl p-7"
+              className="glass relative rounded-2xl p-5"
             >
-              <div className="absolute right-5 top-5 font-display text-5xl font-bold text-white/5">
+              <div className="absolute right-5 top-5 font-display text-4xl font-bold text-white/5">
                 {s.n}
               </div>
               <div className="flex h-12 w-12 items-center justify-center rounded-xl gradient-brand shadow-lg shadow-primary/30">

@@ -213,7 +213,7 @@ Like si t'as appris quelque chose, abonne-toi pour les 5 prochaines astuces.`}</
                   <RefreshCw className="mr-1 h-3.5 w-3.5" /> Régénérer
                 </Button>
                 <Button variant="brand">
-                  <Mic className="mr-1 h-3.5 w-3.5" /> Générer voix-off ElevenLabs
+                  <Mic className="mr-1 h-3.5 w-3.5" /> Générer la voix-off
                 </Button>
               </div>
             </CardContent>
@@ -257,8 +257,8 @@ Like si t'as appris quelque chose, abonne-toi pour les 5 prochaines astuces.`}</
           <Card>
             <CardContent className="space-y-4 p-6">
               <div className="text-sm text-muted-foreground">
-                Choisis une voix africaine francophone, anglophone ou bilingue. Synthèse propulsée
-                par ElevenLabs.
+                Choisis une voix africaine francophone, anglophone ou bilingue.
+                Synthèse haute fidélité en moins de 5 secondes.
               </div>
               <div className="grid gap-3 md:grid-cols-3">
                 {[

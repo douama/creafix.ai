@@ -47,7 +47,7 @@ const features = [
     icon: PlayCircle,
     title: "Générateur IA de contenu",
     desc:
-      "Images, voix-off, sous-titres, miniatures et reels TikTok générés via OpenAI, Claude, Gemini, ElevenLabs et Runway.",
+      "Images, voix-off, sous-titres, miniatures et reels TikTok générés en quelques secondes avec notre stack IA propriétaire.",
     accent: "from-sky-500/20 to-sky-500/0",
   },
   {
@@ -82,21 +82,21 @@ const features = [
 
 export function Features() {
   return (
-    <section id="features" className="relative py-24 md:py-32">
+    <section id="features" className="relative py-14 md:py-20">
       <div className="container">
         <div className="mx-auto max-w-2xl text-center">
           <div className="inline-flex items-center gap-2 rounded-full border border-border bg-card/50 px-3 py-1 text-xs text-muted-foreground">
             <Globe className="h-3 w-3" /> Pensé pour l'Afrique
           </div>
-          <h2 className="mt-4 font-display text-4xl font-bold tracking-tight text-balance md:text-5xl">
+          <h2 className="mt-4 font-display text-2xl font-bold tracking-tight text-balance md:text-4xl">
             Tout ce qu'il te faut pour <span className="gradient-text">débloquer ta monétisation</span>.
           </h2>
-          <p className="mt-4 text-muted-foreground">
+          <p className="mt-3 text-sm text-muted-foreground">
             9 outils IA réunis dans une seule plateforme — conçus avec et pour les créateurs africains.
           </p>
         </div>
 
-        <div className="mt-14 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {features.map((f, i) => (
             <motion.div
               key={f.title}
