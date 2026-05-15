@@ -7,7 +7,8 @@ const config: Config = {
     container: {
       center: true,
       padding: "1.5rem",
-      screens: { "2xl": "1400px" },
+      // Largeur max uniforme sur tous les breakpoints xl+
+      screens: { "xl": "1280px", "2xl": "1280px" },
     },
     extend: {
       colors: {

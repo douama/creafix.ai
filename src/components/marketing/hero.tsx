@@ -63,7 +63,7 @@ export function Hero() {
           initial={{ opacity: 0, y: 30, scale: 0.97 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: 0.9, delay: 0.12, ease: [0.22, 1, 0.36, 1] }}
-          className="relative mx-auto mt-8 max-w-6xl"
+          className="relative mx-auto mt-8"
         >
           <div className="absolute -inset-10 -z-10 rounded-[3rem] bg-radial-fade blur-3xl" />
           <DashboardPreview />
