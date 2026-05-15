@@ -21,14 +21,16 @@
     "openMenu": "Open menu"
   },
   "hero": {
-    "badge": "Fix your content. Scale your revenue.",
-    "titlePart1": "Turn Your Content Into",
-    "titleHighlight": "Revenue",
-    "titlePart2": "With AI.",
-    "subtitle": "CreaFix AI audits, fixes and scales your monetization across YouTube, Facebook, Instagram, TikTok, X, Snapchat, Twitch, Pinterest and LinkedIn — automatically.",
+    "badge": "The AI Revenue OS for African creators",
+    "titlePart1": "Find out why your TikTok & Facebook pages",
+    "titleHighlight": "are NOT making",
+    "titlePart2": "the money they should.",
+    "subtitle": "Monetiq AI scans your TikTok, Facebook, YouTube and Instagram accounts in 60 seconds. Detects shadowbans, low-RPM content, revenue leaks and viral opportunities — built for African creators.",
+    "ctaPrimary": "Scan my account",
+    "ctaSecondary": "Find my revenue leaks",
     "trustNoCard": "No credit card",
     "trustFast": "Audit in 60s",
-    "trustCreators": "2,300+ creators",
+    "trustCreators": "12,000+ creators",
     "stats": {
       "videos": "Videos analyzed",
       "accuracy": "AI accuracy",

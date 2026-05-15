@@ -19,7 +19,7 @@ export function PlatformsSection() {
   const soonCount = platformList.filter((p) => p.status === "soon").length;
 
   return (
-    <section id="platforms" className="relative py-14 md:py-20">
+    <section id="platforms" className="relative py-10 md:py-14">
       <div className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[500px] w-[1100px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-radial-fade opacity-40 blur-3xl" />
 
       <div className="container">
@@ -79,7 +79,7 @@ export function PlatformsSection() {
           </div>
         </div>
 
-        <div className="mx-auto mt-10 grid max-w-6xl gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {sorted.map((p, i) => (
             <PlatformCard
               key={p.id}

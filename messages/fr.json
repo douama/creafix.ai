@@ -21,14 +21,16 @@
     "openMenu": "Ouvrir le menu"
   },
   "hero": {
-    "badge": "Répare ton contenu. Démultiplie tes revenus.",
-    "titlePart1": "Transforme ton contenu en",
-    "titleHighlight": "revenus",
-    "titlePart2": "grâce à l'IA.",
-    "subtitle": "CreaFix AI audite, corrige et amplifie automatiquement ta monétisation sur 9 plateformes — YouTube, Facebook, Instagram, TikTok, X, Snapchat, Twitch, Pinterest, LinkedIn. Pensé pour les créateurs du monde entier.",
+    "badge": "L'OS revenus IA pour créateurs africains",
+    "titlePart1": "Découvre pourquoi tes pages TikTok & Facebook",
+    "titleHighlight": "ne génèrent pas",
+    "titlePart2": "l'argent qu'elles devraient.",
+    "subtitle": "Monetiq AI scanne tes comptes TikTok, Facebook, YouTube et Instagram en 60 secondes. Détecte shadowbans, contenus low RPM, fuites de revenus et opportunités virales — taillé pour les créateurs africains.",
+    "ctaPrimary": "Scanner mon compte",
+    "ctaSecondary": "Voir mes pertes de revenus",
     "trustNoCard": "Sans carte bancaire",
     "trustFast": "Audit en 60s",
-    "trustCreators": "+2 300 créateurs",
+    "trustCreators": "+12 000 créateurs",
     "stats": {
       "videos": "Vidéos analysées",
       "accuracy": "Précision IA",

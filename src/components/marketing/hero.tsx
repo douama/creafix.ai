@@ -13,7 +13,7 @@ export function Hero() {
   const tc = useTranslations("common");
 
   return (
-    <section className="relative overflow-hidden pt-20 pb-10 md:pt-24 md:pb-14">
+    <section className="relative overflow-hidden pt-[100px] pb-8 md:pt-[116px] md:pb-10">
       <div className="absolute inset-0 grid-bg pointer-events-none" />
       <div className="absolute left-1/2 top-0 -z-10 h-[500px] w-[1100px] -translate-x-1/2 rounded-full bg-radial-fade blur-3xl" />
 
@@ -42,12 +42,12 @@ export function Hero() {
           <div className="mt-6 flex flex-col items-center justify-center gap-2.5 sm:flex-row">
             <Button asChild size="lg" variant="brand" className="group w-full sm:w-auto">
               <Link href="/signup">
-                {tc("startFreeAudit")}
+                {t("ctaPrimary")}
                 <ArrowRight className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-0.5" />
               </Link>
             </Button>
             <Button asChild size="lg" variant="outline" className="w-full sm:w-auto">
-              <Link href="#how">{tc("analyzeAccount")}</Link>
+              <Link href="#revenue-leak">{t("ctaSecondary")}</Link>
             </Button>
           </div>
 

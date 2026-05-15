@@ -20,7 +20,7 @@ export function PricingTable({ currency }: { currency: CurrencyCode }) {
   const c = CURRENCIES[currency];
 
   return (
-    <section id="pricing" className="relative py-14 md:py-20">
+    <section id="pricing" className="relative py-10 md:py-14">
       <div className="container">
         <div className="mx-auto max-w-2xl text-center">
           <h2 className="font-display text-2xl font-bold tracking-tight md:text-4xl">

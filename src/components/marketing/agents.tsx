@@ -76,7 +76,7 @@ export function AgentsShowcase() {
   const t = useTranslations("agents");
 
   return (
-    <section className="relative py-14 md:py-20">
+    <section className="relative py-10 md:py-14">
       <div className="absolute inset-0 -z-10 grid-bg opacity-40" />
 
       <div className="container">

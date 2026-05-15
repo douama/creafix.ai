@@ -10,7 +10,7 @@ export function CTA() {
   const t = useTranslations("cta");
 
   return (
-    <section className="relative py-10 md:py-14">
+    <section className="relative py-8 md:py-10">
       {/* Container par défaut 1280px */}
       <div className="container">
         <motion.div

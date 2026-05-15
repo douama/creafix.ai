@@ -25,7 +25,7 @@ export function FAQ() {
   const rightCol = faqs.filter((_, i) => i % 2 === 1);
 
   return (
-    <section id="faq" className="relative py-12 md:py-16">
+    <section id="faq" className="relative py-10 md:py-12">
       <div className="container">
         <div className="mx-auto max-w-2xl text-center">
           <div className="inline-flex items-center gap-1.5 rounded-full border border-[#7B61FF]/30 bg-[#7B61FF]/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-[#7B61FF]">

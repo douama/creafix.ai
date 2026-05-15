@@ -150,7 +150,7 @@ export function Testimonials() {
 
   return (
     <section
-      className="relative overflow-hidden py-14 md:py-20"
+      className="relative overflow-hidden py-10 md:py-14"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
