@@ -28,20 +28,9 @@ import { Progress } from "@/components/ui/progress";
 import { ScoreRing } from "@/components/dashboard/score-ring";
 import { RevenueChart } from "@/components/dashboard/revenue-chart";
 import { Sparkline } from "@/components/dashboard/sparkline";
+import { PlatformIconBadge } from "@/components/brand/platform-icon";
 import { platformList, type PlatformId } from "@/lib/platforms";
 import { cn } from "@/lib/utils";
-
-const GLYPHS: Record<PlatformId, string> = {
-  YOUTUBE: "▶",
-  FACEBOOK: "f",
-  INSTAGRAM: "◎",
-  TIKTOK: "♪",
-  X: "𝕏",
-  SNAPCHAT: "👻",
-  TWITCH: "▰",
-  PINTEREST: "P",
-  LINKEDIN: "in",
-};
 
 export default function DashboardHomePage() {
   return (
@@ -190,9 +179,7 @@ export default function DashboardHomePage() {
                 <div key={p.id} className="rounded-xl border border-border bg-card/40 p-4 backdrop-blur">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                      <div className={cn("flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br text-white shadow-md", platform.bgGradient)}>
-                        <span className="font-display text-xs font-extrabold">{GLYPHS[p.id]}</span>
-                      </div>
+                      <PlatformIconBadge id={p.id} size={32} rounded="rounded-lg" />
                       <span className="text-sm font-medium">{platform.name}</span>
                     </div>
                     <Badge variant="success" className="text-[10px]">{p.delta}</Badge>
@@ -229,9 +216,7 @@ export default function DashboardHomePage() {
               return (
                 <Link key={i} href={`/dashboard/audits/aud_${i + 1}`}
                   className="group flex items-center gap-3 rounded-xl border border-border bg-card/40 p-3 transition-all hover:bg-card/70">
-                  <div className={cn("flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br text-white shadow-md", platform.bgGradient)}>
-                    <span className="font-display text-xs font-extrabold">{GLYPHS[a.id as PlatformId]}</span>
-                  </div>
+                  <PlatformIconBadge id={a.id as PlatformId} size={36} rounded="rounded-lg" className="shrink-0" />
                   <div className="min-w-0 flex-1">
                     <div className="truncate text-sm font-medium">{a.account}</div>
                     <div className="text-[11px] text-muted-foreground">{platform.name} · {a.time}</div>
@@ -376,9 +361,7 @@ function ConnectedPlatform({ id, handle, meta, health }: {
   return (
     <div className="rounded-xl border border-border bg-card/40 p-3">
       <div className="flex items-center gap-3">
-        <div className={cn("flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br text-white shadow-md", platform.bgGradient)}>
-          <span className="font-display text-sm font-extrabold">{GLYPHS[id]}</span>
-        </div>
+        <PlatformIconBadge id={id} size={36} rounded="rounded-lg" className="shrink-0" />
         <div className="min-w-0 flex-1">
           <div className="truncate text-sm font-medium">{handle}</div>
           <div className="truncate text-[11px] text-muted-foreground">{platform.name} · {meta}</div>
@@ -428,9 +411,7 @@ function GoalCard({ platform, title, done, progress, detail, eta }: {
       <div className="relative">
         <div className="flex items-center justify-between gap-2">
           <div className="flex items-center gap-2">
-            <div className={cn("flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-br text-white shadow-sm", p.bgGradient)}>
-              <span className="font-display text-[10px] font-extrabold">{GLYPHS[platform]}</span>
-            </div>
+            <PlatformIconBadge id={platform} size={28} rounded="rounded-lg" />
             <span className="text-[10px] uppercase tracking-wider text-muted-foreground">{p.name}</span>
           </div>
           {done && (

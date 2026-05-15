@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { platformList } from "@/lib/platforms";
+import { PlatformIconBadge } from "@/components/brand/platform-icon";
 import { cn } from "@/lib/utils";
 
 const steps = ["Profil", "Plateforme", "Niche", "Pays", "Connexion"];
@@ -107,17 +108,6 @@ function Profile() {
 }
 
 function Platform() {
-  const GLYPHS: Record<string, string> = {
-    YOUTUBE: "▶",
-    FACEBOOK: "f",
-    INSTAGRAM: "◎",
-    TIKTOK: "♪",
-    X: "𝕏",
-    SNAPCHAT: "👻",
-    TWITCH: "▰",
-    PINTEREST: "P",
-    LINKEDIN: "in",
-  };
   return (
     <div className="space-y-4">
       <h2 className="font-display text-2xl font-bold">Quelles plateformes veux-tu auditer ?</h2>
@@ -134,17 +124,7 @@ function Platform() {
               p.status === "soon" && "opacity-50",
             )}
           >
-            <div
-              className={cn(
-                "flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br text-white shadow-md ring-1",
-                p.bgGradient,
-                p.ringClass,
-              )}
-            >
-              <span className="font-display text-sm font-extrabold leading-none">
-                {GLYPHS[p.id]}
-              </span>
-            </div>
+            <PlatformIconBadge id={p.id} size={40} rounded="rounded-xl" />
             <div className="text-xs font-medium">{p.name}</div>
             {p.status !== "live" && (
               <span className="absolute -top-1.5 right-1 rounded-full bg-amber-500/20 px-1.5 py-0.5 text-[9px] font-semibold text-amber-500">

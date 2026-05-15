@@ -2,37 +2,32 @@
 
 import * as React from "react";
 import Image from "next/image";
-import { ChevronLeft, ChevronRight, Quote, Star } from "lucide-react";
+import { ChevronLeft, ChevronRight, Quote, Star, TrendingUp } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { PlatformIcon, PLATFORM_BRAND_COLORS } from "@/components/brand/platform-icon";
+import type { PlatformId } from "@/lib/platforms";
 import { cn } from "@/lib/utils";
 
 type Review = {
   name: string;
   role: string;
-  country: string;
-  avatar: string;        // URL Unsplash (portrait carré)
+  country: string;       // 🇸🇳 Dakar
+  avatar: string;        // URL Unsplash
   quote: string;
-  rating: number;        // 1..5
-  platforms: string[];   // ["YouTube", "TikTok"]
-  metric?: string;       // gain mesuré
+  rating: number;
+  platforms: PlatformId[];
+  metric: string;
 };
 
-/**
- * 10 avis créateurs africains. Photos publiques Unsplash (libres d'utilisation
- * en commercial sans attribution, mais nous créditons quand même via Unsplash).
- * Les quotes sont gardées dans leur voix originale (mélange FR/EN) — c'est
- * voulu pour l'authenticité, à la manière de Linear/Stripe.
- */
 const reviews: Review[] = [
   {
     name: "Aïssata Diop",
     role: "TikTokeuse cuisine",
     country: "🇨🇮 Abidjan",
     avatar: "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=200&h=200&fit=crop&crop=faces&q=80",
-    quote:
-      "En 2 semaines, mon RPM a triplé. CreaFix AI m'a dit exactement quels sons éviter et quels hooks utiliser pour mon audience d'Abidjan.",
+    quote: "En 2 semaines, mon RPM a triplé. CreaFix AI m'a dit exactement quels sons éviter et quels hooks utiliser.",
     rating: 5,
-    platforms: ["TikTok", "Instagram"],
+    platforms: ["TIKTOK", "INSTAGRAM"],
     metric: "RPM ×3 en 14 jours",
   },
   {
@@ -40,10 +35,9 @@ const reviews: Review[] = [
     role: "Page Facebook actualité",
     country: "🇸🇳 Dakar",
     avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&h=200&fit=crop&crop=faces&q=80",
-    quote:
-      "On était démonétisés à cause du copyright. Le rapport IA a identifié 14 vidéos à corriger. Réactivé sous 9 jours.",
+    quote: "On était démonétisés à cause du copyright. Le rapport IA a identifié 14 vidéos à corriger. Réactivé sous 9 jours.",
     rating: 5,
-    platforms: ["Facebook"],
+    platforms: ["FACEBOOK"],
     metric: "Démonétisation levée en 9 j",
   },
   {
@@ -51,10 +45,9 @@ const reviews: Review[] = [
     role: "Agency owner",
     country: "🇳🇬 Lagos",
     avatar: "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=200&h=200&fit=crop&crop=faces&q=80",
-    quote:
-      "White-label mode is a game changer. Our client reports went 10× more pro. We signed 5 new contracts because of it.",
+    quote: "White-label mode is a game changer. Our client reports went 10× more pro. We signed 5 new contracts because of it.",
     rating: 5,
-    platforms: ["YouTube", "TikTok", "Instagram"],
+    platforms: ["YOUTUBE", "TIKTOK", "INSTAGRAM"],
     metric: "+5 contrats agence",
   },
   {
@@ -62,10 +55,9 @@ const reviews: Review[] = [
     role: "Beauty creator",
     country: "🇸🇳 Dakar",
     avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&h=200&fit=crop&crop=faces&q=80",
-    quote:
-      "Le Shadowban Detector m'a sauvée. J'ai compris que TikTok bloquait mes vidéos à cause de hashtags interdits.",
+    quote: "Le Shadowban Detector m'a sauvée. J'ai compris que TikTok bloquait mes vidéos à cause de hashtags interdits.",
     rating: 5,
-    platforms: ["TikTok", "Instagram"],
+    platforms: ["TIKTOK", "INSTAGRAM"],
     metric: "Reach +280% post-fix",
   },
   {
@@ -73,10 +65,9 @@ const reviews: Review[] = [
     role: "YouTube tech reviewer",
     country: "🇬🇭 Accra",
     avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&h=200&fit=crop&crop=faces&q=80",
-    quote:
-      "RPM Predictor nailed my YouTube earnings within 8%. I now know which thumbnails to A/B test before publishing.",
+    quote: "RPM Predictor nailed my YouTube earnings within 8%. I now know which thumbnails to A/B test before publishing.",
     rating: 5,
-    platforms: ["YouTube"],
+    platforms: ["YOUTUBE"],
     metric: "CTR +47% avec auto-fix",
   },
   {
@@ -84,10 +75,9 @@ const reviews: Review[] = [
     role: "Fashion influencer",
     country: "🇲🇱 Bamako",
     avatar: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=200&h=200&fit=crop&crop=faces&q=80",
-    quote:
-      "Le Trend Engine africain est le seul qui propose vraiment des hashtags de chez nous. Ma niche mode locale explose.",
+    quote: "Le Trend Engine africain est le seul qui propose vraiment des hashtags de chez nous. Ma niche mode locale explose.",
     rating: 5,
-    platforms: ["Instagram", "TikTok"],
+    platforms: ["INSTAGRAM", "TIKTOK"],
     metric: "+85K abonnés en 60 j",
   },
   {
@@ -95,10 +85,9 @@ const reviews: Review[] = [
     role: "Lifestyle vlogger",
     country: "🇳🇬 Lagos",
     avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=200&h=200&fit=crop&crop=faces&q=80",
-    quote:
-      "AI Content Repair rewrote my weak hooks. The new versions went viral — 2.4M views on a single Reel.",
+    quote: "AI Content Repair rewrote my weak hooks. The new versions went viral — 2.4M views on a single Reel.",
     rating: 5,
-    platforms: ["Instagram", "YouTube"],
+    platforms: ["INSTAGRAM", "YOUTUBE"],
     metric: "2.4M vues sur 1 Reel",
   },
   {
@@ -106,10 +95,9 @@ const reviews: Review[] = [
     role: "Football content",
     country: "🇸🇳 Dakar",
     avatar: "https://images.unsplash.com/photo-1564564321837-a57b7070ac4f?w=200&h=200&fit=crop&crop=faces&q=80",
-    quote:
-      "Je publie sur 4 plateformes à la fois. CreaFix me dit où je gagne le plus — j'ai pivoté vers YouTube et tripler mes revenus.",
+    quote: "Je publie sur 4 plateformes à la fois. CreaFix me dit où je gagne le plus — j'ai pivoté vers YouTube et tripler mes revenus.",
     rating: 5,
-    platforms: ["YouTube", "TikTok", "Facebook", "X"],
+    platforms: ["YOUTUBE", "TIKTOK", "FACEBOOK", "X"],
     metric: "Revenus ×3 après pivot",
   },
   {
@@ -117,10 +105,9 @@ const reviews: Review[] = [
     role: "Crypto creator",
     country: "🇲🇦 Casablanca",
     avatar: "https://images.unsplash.com/photo-1599566150163-29194dcaad36?w=200&h=200&fit=crop&crop=faces&q=80",
-    quote:
-      "Le Viral Score AI me donne le go/no-go avant de publier. Plus jamais de vidéo morte. Mon ratio passe à 70%.",
+    quote: "Le Viral Score AI me donne le go/no-go avant de publier. Plus jamais de vidéo morte. Mon ratio passe à 70%.",
     rating: 5,
-    platforms: ["TikTok", "X", "YouTube"],
+    platforms: ["TIKTOK", "X", "YOUTUBE"],
     metric: "70% de vidéos virales",
   },
   {
@@ -128,10 +115,9 @@ const reviews: Review[] = [
     role: "Comedy & sketches",
     country: "🇨🇲 Yaoundé",
     avatar: "https://images.unsplash.com/photo-1545167622-3a6ac756afa4?w=200&h=200&fit=crop&crop=faces&q=80",
-    quote:
-      "Mode Agence ouvert pour gérer mon mari + mes 3 cousines créatrices. Un seul abonnement pour la famille entière.",
+    quote: "Mode Agence ouvert pour gérer mon mari + mes 3 cousines créatrices. Un seul abonnement pour la famille entière.",
     rating: 5,
-    platforms: ["TikTok", "Facebook", "Instagram"],
+    platforms: ["TIKTOK", "FACEBOOK", "INSTAGRAM"],
     metric: "4 créateurs gérés",
   },
 ];
@@ -142,7 +128,6 @@ export function Testimonials() {
   const [activeIndex, setActiveIndex] = React.useState(0);
   const [paused, setPaused] = React.useState(false);
 
-  // Auto-scroll toutes les 5s
   React.useEffect(() => {
     if (paused) return;
     const id = setInterval(() => {
@@ -151,7 +136,6 @@ export function Testimonials() {
     return () => clearInterval(id);
   }, [paused]);
 
-  // Scroll fluide vers la carte active
   React.useEffect(() => {
     const el = scrollerRef.current;
     if (!el) return;
@@ -164,76 +148,97 @@ export function Testimonials() {
     }
   }, [activeIndex]);
 
-  function scroll(direction: -1 | 1) {
-    setActiveIndex((i) => (i + direction + reviews.length) % reviews.length);
-  }
-
   return (
     <section
-      className="relative py-14 md:py-20"
+      className="relative overflow-hidden py-14 md:py-20"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
+      {/* Halo d'ambiance */}
+      <div className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[500px] w-[1100px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-radial-fade opacity-50 blur-3xl" />
+
       <div className="container">
+        {/* Header premium */}
         <div className="mx-auto max-w-2xl text-center">
-          <h2 className="font-display text-2xl font-bold tracking-tight md:text-4xl">
+          <div className="inline-flex items-center gap-1.5 rounded-full border border-amber-500/30 bg-amber-500/10 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-amber-500 dark:text-amber-300">
+            <Star className="h-3 w-3 fill-amber-500" />
+            4.9 / 5 — Trusted by creators
+          </div>
+          <h2 className="mt-3 font-display text-3xl font-bold tracking-tight md:text-5xl">
             {t("titlePart1")} <span className="gradient-text">{t("titleHighlight")}</span>{" "}
             {t("titlePart2")}
           </h2>
-          <div className="mt-3 flex items-center justify-center gap-2 text-sm text-muted-foreground">
-            <div className="flex">
-              {Array.from({ length: 5 }).map((_, i) => (
-                <Star key={i} className="h-4 w-4 fill-amber-400 text-amber-400" />
-              ))}
-            </div>
-            <span>
-              <b className="text-foreground">4.9/5</b> · 10 témoignages récents
+          <div className="mt-4 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-muted-foreground">
+            <span className="flex items-center gap-1.5">
+              <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
+              <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
+              <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
+              <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
+              <Star className="h-3.5 w-3.5 fill-amber-400 text-amber-400" />
+              <b className="text-foreground">4.9/5</b>
             </span>
+            <span>·</span>
+            <span><b className="text-foreground">2 300+</b> créateurs</span>
+            <span>·</span>
+            <span><b className="text-foreground">9 pays</b> couverts</span>
+            <span>·</span>
+            <span><b className="text-foreground">10</b> témoignages récents</span>
           </div>
         </div>
 
-        <div className="relative mt-10">
-          {/* Boutons navigation */}
+        <div className="relative mt-12">
+          {/* Boutons navigation flottants */}
           <button
-            onClick={() => scroll(-1)}
+            onClick={() => setActiveIndex((i) => (i - 1 + reviews.length) % reviews.length)}
             aria-label="Précédent"
-            className="absolute -left-2 top-1/2 z-10 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-border bg-background/80 backdrop-blur transition-all hover:bg-card md:flex"
+            className="absolute -left-3 top-1/2 z-20 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-border bg-background/90 shadow-lg backdrop-blur transition-all hover:scale-110 hover:bg-card hover:shadow-xl md:flex"
           >
             <ChevronLeft className="h-4 w-4" />
           </button>
           <button
-            onClick={() => scroll(1)}
+            onClick={() => setActiveIndex((i) => (i + 1) % reviews.length)}
             aria-label="Suivant"
-            className="absolute -right-2 top-1/2 z-10 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-border bg-background/80 backdrop-blur transition-all hover:bg-card md:flex"
+            className="absolute -right-3 top-1/2 z-20 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-border bg-background/90 shadow-lg backdrop-blur transition-all hover:scale-110 hover:bg-card hover:shadow-xl md:flex"
           >
             <ChevronRight className="h-4 w-4" />
           </button>
 
-          {/* Slider scroll snap */}
+          {/* Fade edges (gauche + droite) */}
+          <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-background to-transparent md:w-24" />
+          <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-background to-transparent md:w-24" />
+
+          {/* Slider */}
           <div
             ref={scrollerRef}
-            className="no-scrollbar flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-2 sm:gap-5 md:px-2"
+            className="no-scrollbar flex snap-x snap-mandatory gap-5 overflow-x-auto px-4 pb-4 md:px-8"
           >
-            {reviews.map((r) => (
-              <ReviewCard key={r.name} review={r} />
+            {reviews.map((r, i) => (
+              <ReviewCard key={r.name} review={r} isActive={i === activeIndex} />
             ))}
           </div>
 
-          {/* Dots */}
-          <div className="mt-5 flex items-center justify-center gap-1.5">
+          {/* Progress dots */}
+          <div className="mt-6 flex items-center justify-center gap-1.5">
             {reviews.map((_, i) => (
               <button
                 key={i}
                 onClick={() => setActiveIndex(i)}
                 aria-label={`Aller au témoignage ${i + 1}`}
                 className={cn(
-                  "h-1.5 rounded-full transition-all",
+                  "h-1.5 rounded-full transition-all duration-300",
                   activeIndex === i
-                    ? "w-8 bg-[#7B61FF]"
-                    : "w-1.5 bg-muted-foreground/30 hover:bg-muted-foreground/60",
+                    ? "w-10 bg-gradient-to-r from-[#7B61FF] to-[#FF8A00]"
+                    : "w-1.5 bg-muted-foreground/25 hover:bg-muted-foreground/50",
                 )}
               />
             ))}
+          </div>
+
+          {/* Counter */}
+          <div className="mt-2 text-center text-xs text-muted-foreground">
+            <span className="font-mono">
+              <b className="text-foreground">{String(activeIndex + 1).padStart(2, "0")}</b> / {String(reviews.length).padStart(2, "0")}
+            </span>
           </div>
         </div>
       </div>
@@ -241,64 +246,87 @@ export function Testimonials() {
   );
 }
 
-function ReviewCard({ review }: { review: Review }) {
+function ReviewCard({ review, isActive }: { review: Review; isActive: boolean }) {
+  const primaryColor = PLATFORM_BRAND_COLORS[review.platforms[0]];
+
   return (
     <article
-      className="group relative flex w-[88%] shrink-0 snap-start flex-col rounded-2xl border border-border bg-card/40 p-6 backdrop-blur transition-all hover:border-foreground/15 hover:bg-card/70 hover:shadow-xl sm:w-[60%] md:w-[44%] lg:w-[32%]"
+      className={cn(
+        "group relative flex w-[90%] shrink-0 snap-center flex-col overflow-hidden rounded-2xl border bg-card/40 backdrop-blur transition-all duration-500 sm:w-[65%] md:w-[48%] lg:w-[36%]",
+        isActive
+          ? "border-foreground/30 bg-card/70 shadow-2xl shadow-[#7B61FF]/10 scale-100"
+          : "border-border opacity-75 scale-95 hover:opacity-100",
+      )}
     >
-      <div className="absolute -top-2 left-6 flex h-9 w-9 items-center justify-center rounded-full gradient-brand shadow-lg shadow-[#7B61FF]/30">
-        <Quote className="h-4 w-4 text-white" />
-      </div>
+      {/* Halo de couleur primaire de la plateforme principale */}
+      <div
+        className="pointer-events-none absolute -right-20 -top-20 h-56 w-56 rounded-full opacity-30 blur-3xl transition-opacity duration-500 group-hover:opacity-50"
+        style={{ backgroundColor: primaryColor }}
+      />
 
-      <div className="mt-4 flex items-center gap-1">
-        {Array.from({ length: 5 }).map((_, i) => (
-          <Star
-            key={i}
-            className={cn(
-              "h-4 w-4",
-              i < review.rating
-                ? "fill-amber-400 text-amber-400"
-                : "fill-muted/40 text-muted-foreground/30",
-            )}
-          />
-        ))}
-      </div>
+      {/* Top accent bar gradient */}
+      <div className="h-1 w-full gradient-brand" />
 
-      <p className="mt-3 flex-1 text-sm leading-relaxed text-foreground/90">
-        &ldquo;{review.quote}&rdquo;
-      </p>
+      <div className="flex flex-col gap-4 p-6">
+        {/* Header : guillemet + étoiles + plateformes */}
+        <div className="flex items-start justify-between gap-3">
+          <Quote className="h-7 w-7 shrink-0 text-[#7B61FF]/40" strokeWidth={1.5} />
+          <div className="flex items-center gap-0.5">
+            {Array.from({ length: 5 }).map((_, i) => (
+              <Star
+                key={i}
+                className={cn(
+                  "h-3.5 w-3.5",
+                  i < review.rating
+                    ? "fill-amber-400 text-amber-400"
+                    : "fill-muted/40 text-muted-foreground/30",
+                )}
+              />
+            ))}
+          </div>
+        </div>
 
-      {review.metric && (
-        <div className="mt-4 inline-flex w-fit items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-1 text-xs font-medium text-emerald-500 dark:text-emerald-300">
-          <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+        {/* Quote */}
+        <p className="flex-1 text-[15px] leading-relaxed text-foreground/90">
+          &ldquo;{review.quote}&rdquo;
+        </p>
+
+        {/* Metric chip */}
+        <div className="inline-flex w-fit items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-1 text-xs font-semibold text-emerald-500 dark:text-emerald-300">
+          <TrendingUp className="h-3 w-3" />
           {review.metric}
         </div>
-      )}
 
-      <div className="mt-4 flex items-center gap-3 border-t border-border pt-4">
-        <div className="relative h-11 w-11 shrink-0 overflow-hidden rounded-full ring-2 ring-[#7B61FF]/30">
-          <Image
-            src={review.avatar}
-            alt={review.name}
-            fill
-            sizes="44px"
-            className="object-cover"
-          />
-        </div>
-        <div className="min-w-0 flex-1">
-          <div className="truncate text-sm font-semibold">{review.name}</div>
-          <div className="truncate text-xs text-muted-foreground">
-            {review.role} · {review.country}
+        {/* Footer : profil + plateformes officielles */}
+        <div className="flex items-center gap-3 border-t border-border pt-4">
+          <div className="relative h-12 w-12 shrink-0">
+            <div
+              className="absolute -inset-0.5 rounded-full opacity-60 blur-sm"
+              style={{ backgroundColor: primaryColor }}
+            />
+            <Image
+              src={review.avatar}
+              alt={review.name}
+              fill
+              sizes="48px"
+              className="relative rounded-full object-cover ring-2 ring-background"
+            />
           </div>
-          <div className="mt-1 flex flex-wrap gap-1">
-            {review.platforms.map((p) => (
-              <span
-                key={p}
-                className="rounded border border-border bg-muted/30 px-1.5 py-0.5 text-[9px] font-medium uppercase tracking-wider text-muted-foreground"
-              >
-                {p}
-              </span>
-            ))}
+          <div className="min-w-0 flex-1">
+            <div className="truncate text-sm font-semibold">{review.name}</div>
+            <div className="truncate text-xs text-muted-foreground">
+              {review.role} · {review.country}
+            </div>
+            <div className="mt-1.5 flex items-center gap-1.5">
+              {review.platforms.map((p) => (
+                <PlatformIcon
+                  key={p}
+                  id={p}
+                  className="h-3.5 w-3.5"
+                  style={{ color: PLATFORM_BRAND_COLORS[p] }}
+                />
+              ))}
+            </div>
           </div>
         </div>
       </div>

@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { CheckCircle2, Clock, Sparkles } from "lucide-react";
 import { platformList, type Platform } from "@/lib/platforms";
+import { PlatformIconBadge } from "@/components/brand/platform-icon";
 import { cn } from "@/lib/utils";
 
 export function PlatformsSection() {
@@ -85,15 +86,7 @@ function PlatformCard({ platform, index }: { platform: Platform; index: number }
       className="group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-card/40 p-4 backdrop-blur transition-all hover:-translate-y-0.5 hover:border-foreground/15 hover:bg-card/70 hover:shadow-lg"
     >
       <div className="flex items-center gap-3">
-        <div
-          className={cn(
-            "flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br text-white shadow-md ring-1",
-            platform.bgGradient,
-            platform.ringClass,
-          )}
-        >
-          <PlatformGlyph id={platform.id} />
-        </div>
+        <PlatformIconBadge id={platform.id} size={40} rounded="rounded-xl" />
         <div className="flex-1">
           <div className="font-display text-sm font-semibold">{platform.name}</div>
           <div
@@ -138,22 +131,3 @@ function PlatformCard({ platform, index }: { platform: Platform; index: number }
   );
 }
 
-/** Glyphes textuels stylisés (pas de SVG ext.). */
-function PlatformGlyph({ id }: { id: Platform["id"] }) {
-  const glyph: Record<Platform["id"], string> = {
-    YOUTUBE: "▶",
-    FACEBOOK: "f",
-    INSTAGRAM: "◎",
-    TIKTOK: "♪",
-    X: "𝕏",
-    SNAPCHAT: "👻",
-    TWITCH: "▰",
-    PINTEREST: "P",
-    LINKEDIN: "in",
-  };
-  return (
-    <span className="font-display text-base font-extrabold leading-none">
-      {glyph[id]}
-    </span>
-  );
-}

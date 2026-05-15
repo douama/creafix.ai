@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { PlatformIconBadge } from "@/components/brand/platform-icon";
 import { platformList, type PlatformId } from "@/lib/platforms";
 import { cn } from "@/lib/utils";
 
@@ -159,17 +160,7 @@ function PlatformChoice({
       )}
       disabled={platform.status === "soon"}
     >
-      <div
-        className={cn(
-          "flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br text-white shadow-md ring-1",
-          platform.bgGradient,
-          platform.ringClass,
-        )}
-      >
-        <span className="font-display text-base font-extrabold leading-none">
-          {glyphOf(platform.id)}
-        </span>
-      </div>
+      <PlatformIconBadge id={platform.id} size={40} rounded="rounded-xl" />
       <div className="text-xs font-medium">{platform.name}</div>
       {platform.status !== "live" && (
         <Badge
@@ -183,19 +174,6 @@ function PlatformChoice({
   );
 }
 
-function glyphOf(id: PlatformId): string {
-  return ({
-    YOUTUBE: "▶",
-    FACEBOOK: "f",
-    INSTAGRAM: "◎",
-    TIKTOK: "♪",
-    X: "𝕏",
-    SNAPCHAT: "👻",
-    TWITCH: "▰",
-    PINTEREST: "P",
-    LINKEDIN: "in",
-  } as Record<PlatformId, string>)[id];
-}
 
 function OptionCard({
   icon: Icon,

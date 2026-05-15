@@ -18,20 +18,9 @@ import {
   PLATFORMS,
 } from "@/lib/platforms";
 import { formatCurrency, cn } from "@/lib/utils";
+import { PlatformIconBadge } from "@/components/brand/platform-icon";
 
 const niches = Object.keys(NICHE_MULTIPLIER) as (keyof typeof NICHE_MULTIPLIER)[];
-
-const PLATFORM_GLYPHS: Record<PlatformId, string> = {
-  YOUTUBE: "▶",
-  FACEBOOK: "f",
-  INSTAGRAM: "◎",
-  TIKTOK: "♪",
-  X: "𝕏",
-  SNAPCHAT: "👻",
-  TWITCH: "▰",
-  PINTEREST: "P",
-  LINKEDIN: "in",
-};
 
 export default function RevenuePage() {
   const [country, setCountry] = useState<AfricanCountry>("SN");
@@ -208,16 +197,7 @@ export default function RevenuePage() {
                   )}
                 >
                   <div className="flex items-center gap-2">
-                    <div
-                      className={cn(
-                        "flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br text-white shadow-md",
-                        p.bgGradient,
-                      )}
-                    >
-                      <span className="font-display text-sm font-extrabold">
-                        {PLATFORM_GLYPHS[p.id]}
-                      </span>
-                    </div>
+                    <PlatformIconBadge id={p.id} size={32} rounded="rounded-lg" />
                     <span className="text-sm font-medium">{p.name}</span>
                   </div>
                   <div className="mt-2 font-display text-lg font-bold leading-none">
@@ -338,16 +318,7 @@ function PlatformPill({
         platform.status === "soon" && "opacity-50",
       )}
     >
-      <span
-        className={cn(
-          "flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-br text-white",
-          platform.bgGradient,
-        )}
-      >
-        <span className="font-display text-xs font-extrabold">
-          {PLATFORM_GLYPHS[platform.id]}
-        </span>
-      </span>
+      <PlatformIconBadge id={platform.id} size={28} rounded="rounded-lg" />
       <span className="font-medium">{platform.name}</span>
     </button>
   );
