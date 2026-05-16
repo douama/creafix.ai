@@ -1,9 +1,10 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { toast } from "sonner";
 import {
   Megaphone, DollarSign, Users, Trophy, Crown, Medal, Award,
-  ChevronDown, Filter, CheckCircle2, Clock,
+  ChevronDown, Filter, CheckCircle2, Clock, Loader2, Send,
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -40,7 +41,7 @@ type Leader = {
 const STATUS_FILTERS = ["ALL", "pending", "approved", "paid", "rejected"];
 
 export function AffiliatesClient({
-  referrals,
+  referrals: initial,
   stats,
   leaderboard,
 }: {
@@ -48,7 +49,53 @@ export function AffiliatesClient({
   stats: { total: number; uniqueAffiliates: number; totalEarned: number; totalPaid: number; pendingPayout: number };
   leaderboard: Leader[];
 }) {
+  const [referrals, setReferrals] = useState(initial);
   const [statusFilter, setStatusFilter] = useState("ALL");
+  const [acting, setActing] = useState<string | null>(null);
+
+  async function payout(id: string) {
+    if (!confirm("Confirmer le payout de cette commission ?")) return;
+    setActing(id);
+    try {
+      const res = await fetch(`/api/admin/affiliates/${id}`, {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ action: "payout" }),
+      });
+      const json = await res.json();
+      if (!res.ok) throw new Error(json.error ?? "Échec");
+      setReferrals((prev) => prev.map((r) =>
+        r.id === id ? { ...r, paid_usd: r.earned_usd, status: "paid" } : r,
+      ));
+      toast.success("Commission marquée payée ✓", {
+        description: "⚠️ Lance aussi le payout réel via Wave/Orange Money/Stripe",
+      });
+    } catch (e: any) {
+      toast.error(e.message ?? "Erreur");
+    } finally {
+      setActing(null);
+    }
+  }
+
+  async function updateCommission(id: string, pct: number) {
+    setActing(id);
+    try {
+      const res = await fetch(`/api/admin/affiliates/${id}`, {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ commission_pct: pct }),
+      });
+      if (!res.ok) throw new Error((await res.json()).error ?? "Échec");
+      setReferrals((prev) => prev.map((r) =>
+        r.id === id ? { ...r, commission_pct: pct } : r,
+      ));
+      toast.success(`Commission mise à ${pct}%`);
+    } catch (e: any) {
+      toast.error(e.message ?? "Erreur");
+    } finally {
+      setActing(null);
+    }
+  }
 
   const filtered = useMemo(() => {
     return referrals.filter((r) => {
@@ -135,35 +182,67 @@ export function AffiliatesClient({
               </div>
             ) : (
               <ul className="divide-y divide-border/40">
-                {filtered.map((r) => (
-                  <li key={r.id} className="flex items-center gap-3 px-5 py-3">
-                    <div className="min-w-0 flex-1">
-                      <div className="flex items-center gap-2 text-xs">
-                        <span className="font-semibold">{r.affiliate_email ?? "?"}</span>
-                        <span className="text-muted-foreground">→</span>
-                        <span className="truncate">{r.referred_email ?? "—"}</span>
-                      </div>
-                      <div className="mt-0.5 flex items-center gap-2 text-[10px] text-muted-foreground">
-                        <span className="font-mono">code: {r.code}</span>
-                        <span>· {r.commission_pct}% commission</span>
-                        {r.referred_country && <span>· {r.referred_country}</span>}
-                      </div>
-                    </div>
-
-                    <div className="text-right">
-                      <div className="font-display text-sm font-bold text-emerald-500 dark:text-emerald-300">
-                        ${r.earned_usd.toFixed(2)}
-                      </div>
-                      {r.paid_usd > 0 && (
-                        <div className="text-[10px] text-muted-foreground">
-                          ${r.paid_usd.toFixed(2)} payé
+                {filtered.map((r) => {
+                  const pending = r.earned_usd - r.paid_usd;
+                  const isActing = acting === r.id;
+                  return (
+                    <li key={r.id} className="flex items-center gap-3 px-5 py-3">
+                      <div className="min-w-0 flex-1">
+                        <div className="flex items-center gap-2 text-xs">
+                          <span className="font-semibold">{r.affiliate_email ?? "?"}</span>
+                          <span className="text-muted-foreground">→</span>
+                          <span className="truncate">{r.referred_email ?? "—"}</span>
                         </div>
-                      )}
-                    </div>
+                        <div className="mt-0.5 flex items-center gap-2 text-[10px] text-muted-foreground">
+                          <span className="font-mono">code: {r.code}</span>
+                          <span>·</span>
+                          <input
+                            type="number"
+                            value={r.commission_pct}
+                            min={0}
+                            max={100}
+                            onChange={(e) => {
+                              const v = Number(e.target.value);
+                              if (v >= 0 && v <= 100) updateCommission(r.id, v);
+                            }}
+                            className="w-12 rounded border border-border bg-background/40 px-1 text-[10px] outline-none focus:border-foreground/30"
+                          />
+                          <span>% commission</span>
+                          {r.referred_country && <span>· {r.referred_country}</span>}
+                        </div>
+                      </div>
 
-                    <StatusBadge status={r.status} />
-                  </li>
-                ))}
+                      <div className="text-right">
+                        <div className="font-display text-sm font-bold text-emerald-500 dark:text-emerald-300">
+                          ${r.earned_usd.toFixed(2)}
+                        </div>
+                        {r.paid_usd > 0 && (
+                          <div className="text-[10px] text-muted-foreground">
+                            ${r.paid_usd.toFixed(2)} payé
+                          </div>
+                        )}
+                      </div>
+
+                      {pending > 0 ? (
+                        <button
+                          type="button"
+                          onClick={() => payout(r.id)}
+                          disabled={isActing}
+                          className="inline-flex items-center gap-1 rounded-lg bg-gradient-to-r from-emerald-500 to-emerald-600 px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-white shadow-md shadow-emerald-500/20 disabled:opacity-50"
+                        >
+                          {isActing ? (
+                            <Loader2 className="h-2.5 w-2.5 animate-spin" />
+                          ) : (
+                            <Send className="h-2.5 w-2.5" />
+                          )}
+                          Payout ${pending.toFixed(2)}
+                        </button>
+                      ) : (
+                        <StatusBadge status={r.status} />
+                      )}
+                    </li>
+                  );
+                })}
               </ul>
             )}
           </div>

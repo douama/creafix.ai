@@ -1,9 +1,10 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { toast } from "sonner";
 import {
   CreditCard, DollarSign, CheckCircle2, AlertCircle, Clock, RefreshCcw,
-  Filter, ChevronDown, TrendingUp,
+  Filter, ChevronDown, TrendingUp, Loader2, Undo2,
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -44,12 +45,30 @@ const PROVIDER_COLORS: Record<string, string> = {
 };
 
 export function PaymentsClient({ initialPayments }: { initialPayments: PaymentRow[] }) {
+  const [payments, setPayments] = useState(initialPayments);
+  const [refunding, setRefunding] = useState<string | null>(null);
+
+  async function refund(id: string) {
+    if (!confirm("Confirmer le remboursement de cette transaction ?")) return;
+    setRefunding(id);
+    try {
+      const res = await fetch(`/api/admin/payments/${id}/refund`, { method: "POST" });
+      const json = await res.json();
+      if (!res.ok) throw new Error(json.error ?? "Échec");
+      setPayments((prev) => prev.map((p) => (p.id === id ? { ...p, status: "REFUNDED" } : p)));
+      toast.success("Marqué REFUNDED", { description: json.note });
+    } catch (e: any) {
+      toast.error(e.message ?? "Erreur");
+    } finally {
+      setRefunding(null);
+    }
+  }
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("ALL");
   const [providerFilter, setProviderFilter] = useState("ALL");
 
   const filtered = useMemo(() => {
-    return initialPayments.filter((p) => {
+    return payments.filter((p) => {
       if (statusFilter !== "ALL" && p.status !== statusFilter) return false;
       if (providerFilter !== "ALL" && p.provider !== providerFilter) return false;
       if (search) {
@@ -63,21 +82,21 @@ export function PaymentsClient({ initialPayments }: { initialPayments: PaymentRo
       }
       return true;
     });
-  }, [initialPayments, search, statusFilter, providerFilter]);
+  }, [payments, search, statusFilter, providerFilter]);
 
   const stats = useMemo(() => {
-    const succ = initialPayments.filter((p) => p.status === "SUCCEEDED");
+    const succ = payments.filter((p) => p.status === "SUCCEEDED");
     const totalUsd = succ.reduce((s, p) => s + (p.currency === "USD" ? p.amount : 0), 0);
     const totalXof = succ.reduce((s, p) => s + (p.currency === "XOF" ? p.amount : 0), 0);
     return {
-      total: initialPayments.length,
+      total: payments.length,
       succeeded: succ.length,
-      pending: initialPayments.filter((p) => p.status === "PENDING").length,
-      failed: initialPayments.filter((p) => p.status === "FAILED").length,
+      pending: payments.filter((p) => p.status === "PENDING").length,
+      failed: payments.filter((p) => p.status === "FAILED").length,
       revenueUsd: totalUsd,
       revenueXof: totalXof,
     };
-  }, [initialPayments]);
+  }, [payments]);
 
   return (
     <div className="space-y-6">
@@ -86,7 +105,7 @@ export function PaymentsClient({ initialPayments }: { initialPayments: PaymentRo
           Payments Management
         </h1>
         <p className="mt-1 text-sm text-muted-foreground">
-          Stripe + Wave + Orange Money + MTN + PayPal · {initialPayments.length} transactions
+          Stripe + Wave + Orange Money + MTN + PayPal · {payments.length} transactions
         </p>
       </div>
 
@@ -122,13 +141,13 @@ export function PaymentsClient({ initialPayments }: { initialPayments: PaymentRo
 
       {/* Table */}
       <div className="overflow-hidden rounded-2xl border border-border bg-card/40 backdrop-blur-xl">
-        <div className="hidden grid-cols-[2fr_1fr_1fr_1fr_1fr_1fr] items-center gap-3 border-b border-border bg-background/40 px-5 py-3 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground md:grid">
+        <div className="hidden grid-cols-[2fr_1fr_1fr_1fr_1fr_auto] items-center gap-3 border-b border-border bg-background/40 px-5 py-3 text-[10px] font-semibold uppercase tracking-wider text-muted-foreground md:grid">
           <div>User</div>
           <div>Provider</div>
           <div className="text-right">Montant</div>
           <div>Statut</div>
           <div>Date</div>
-          <div>Description</div>
+          <div className="text-right">Actions</div>
         </div>
 
         {filtered.length === 0 ? (
@@ -145,7 +164,7 @@ export function PaymentsClient({ initialPayments }: { initialPayments: PaymentRo
               return (
                 <li
                   key={p.id}
-                  className="grid grid-cols-[1fr_auto] items-center gap-3 border-b border-border/40 px-4 py-3 transition-colors hover:bg-card/30 md:grid-cols-[2fr_1fr_1fr_1fr_1fr_1fr] md:px-5 last:border-0"
+                  className="grid grid-cols-[1fr_auto] items-center gap-3 border-b border-border/40 px-4 py-3 transition-colors hover:bg-card/30 md:grid-cols-[2fr_1fr_1fr_1fr_1fr_auto] md:px-5 last:border-0"
                 >
                   <div className="min-w-0">
                     <div className="truncate text-sm font-semibold">{p.user_email ?? "user inconnu"}</div>
@@ -182,8 +201,24 @@ export function PaymentsClient({ initialPayments }: { initialPayments: PaymentRo
                     {timeAgo(p.created_at)}
                   </div>
 
-                  <div className="hidden truncate text-[11px] text-muted-foreground md:block">
-                    {p.description ?? "—"}
+                  <div className="flex items-center justify-end">
+                    {p.status === "SUCCEEDED" ? (
+                      <button
+                        type="button"
+                        onClick={() => refund(p.id)}
+                        disabled={refunding === p.id}
+                        className="inline-flex items-center gap-1 rounded-lg border border-rose-500/30 bg-rose-500/10 px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-rose-500 transition-colors hover:bg-rose-500/20 disabled:opacity-50 dark:text-rose-300"
+                      >
+                        {refunding === p.id ? (
+                          <Loader2 className="h-2.5 w-2.5 animate-spin" />
+                        ) : (
+                          <Undo2 className="h-2.5 w-2.5" />
+                        )}
+                        Refund
+                      </button>
+                    ) : (
+                      <span className="text-[10px] text-muted-foreground/60">—</span>
+                    )}
                   </div>
                 </li>
               );

@@ -184,6 +184,13 @@ export function AuditsClient({ initialAudits }: { initialAudits: AuditRow[] }) {
                       <span className="hidden text-[11px] text-muted-foreground md:inline">
                         {timeAgo(a.started_at)}
                       </span>
+                      <a
+                        href={`/admin/audits/${a.id}`}
+                        onClick={(e) => e.stopPropagation()}
+                        className="hidden rounded-md border border-border bg-background/40 px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-muted-foreground hover:bg-background/70 hover:text-foreground md:inline-block"
+                      >
+                        Détail →
+                      </a>
                       <ChevronDown
                         className={`h-3.5 w-3.5 text-muted-foreground transition-transform ${isOpen ? "rotate-180" : ""}`}
                       />

@@ -60,6 +60,7 @@ const NAV: { title: string; items: NavItem[] }[] = [
       { href: "/admin/users", label: "Users", icon: Users },
       { href: "/admin/subscriptions", label: "Subscriptions", icon: Layers },
       { href: "/admin/payments", label: "Payments", icon: CreditCard },
+      { href: "/admin/coupons", label: "Coupons", icon: Megaphone },
       { href: "/admin/affiliates", label: "Affiliate System", icon: Megaphone },
     ],
   },
