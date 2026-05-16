@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+# Pre-commit hook CreaFix AI — bloque les commits contenant des secrets.
+# Activation : git config core.hooksPath .githooks (fait par pnpm prepare)
+
+set -e
+
+# 1. Bloque tout fichier .env staged (sauf .env.example)
+LEAKED_ENV=$(git diff --cached --name-only --diff-filter=ACM | grep -E '^\.env' | grep -v '^\.env\.example$' || true)
+if [ -n "$LEAKED_ENV" ]; then
+  echo "✗ Tentative de commit d'un fichier .env (interdit) :"
+  echo "$LEAKED_ENV" | sed 's/^/  → /'
+  echo ""
+  echo "Action : git restore --staged <file> puis vérifie .gitignore"
+  exit 1
+fi
+
+# 2. Scan le diff staged (lignes ajoutées uniquement) pour patterns de secrets.
+#    Les lignes supprimées (-) sont ignorées : retirer un secret ne doit pas bloquer.
+DIFF=$(git diff --cached --diff-filter=ACM 2>/dev/null | grep -E '^\+' | grep -vE '^\+\+\+' || true)
+if [ -z "$DIFF" ]; then
+  exit 0
+fi
+
+echo "$DIFF" | node scripts/secrets-scan.mjs --stdin || {
+  echo ""
+  echo "Le commit est bloqué. Si c'est un faux positif :"
+  echo "  → exclus le fichier dans scripts/secrets-scan.mjs"
+  echo "  → ou bypass cette fois avec : git commit --no-verify"
+  exit 1
+}
+
+exit 0
