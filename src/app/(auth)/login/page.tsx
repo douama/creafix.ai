@@ -1,4 +1,4 @@
-import { CfxAuthForm } from "@/components/auth/cfx-auth-form";
+import { AuthForm } from "@/components/auth/auth-form";
 
 export const metadata = {
   title: "Connexion · CreaFix AI",
@@ -6,5 +6,5 @@ export const metadata = {
 };
 
 export default function LoginPage() {
-  return <CfxAuthForm mode="login" />;
+  return <AuthForm mode="login" />;
 }
