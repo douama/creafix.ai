@@ -1,0 +1,13 @@
+{
+    "permissions": {
+        "allow": [
+            "Bash(git push *)"
+        ]
+    },
+    "autoMode": {
+        "allow": [
+            "$defaults",
+            "git push to main branch is explicitly allowed by the user in this repo"
+        ]
+    }
+}

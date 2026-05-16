@@ -1,16 +1,19 @@
-import { StubPage } from "@/components/admin/stub-page";
+import { supabaseAdmin } from "@/lib/supabase/admin";
+import { AgentsClient, type AgentRow } from "./agents-client";
 
-export default function Page() {
-  return (
-    <StubPage
-      title="AI Agents Center"
-      description="Orchestration des 7 agents IA spécialisés"
-      features={[
-        "Monetization Agent · Viral Agent · Shadowban Agent",
-        "Hook Rewriter · Trend Scanner · Thumbnail · Video Analyzer",
-        "Switch provider (Claude / OpenAI / Gemini), fallback, retry",
-        "Coûts + token usage par agent (BullMQ queues)",
-      ]}
-    />
-  );
+export const dynamic = "force-dynamic";
+
+async function load(): Promise<AgentRow[]> {
+  const sb = supabaseAdmin();
+  const { data } = await sb
+    .from("ai_agents")
+    .select("*")
+    .order("category");
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return (data ?? []) as any;
+}
+
+export default async function AgentsPage() {
+  const agents = await load();
+  return <AgentsClient initialAgents={agents} />;
 }
