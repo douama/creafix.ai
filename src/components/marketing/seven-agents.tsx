@@ -111,7 +111,7 @@ const AGENTS: Agent[] = [
 
 export function SevenAgents() {
   return (
-    <section id="agents" className="relative overflow-hidden py-20 md:py-28">
+    <section id="agents" className="relative overflow-hidden py-12 md:py-16">
       {/* Background orbs */}
       <div className="pointer-events-none absolute inset-0 -z-10">
         <motion.div
@@ -130,12 +130,12 @@ export function SevenAgents() {
         <Header />
 
         {/* Hero card — Audit (premier agent, full-width) */}
-        <div className="mt-12">
+        <div className="mt-7">
           <HeroAgentCard agent={AGENTS[0]} />
         </div>
 
         {/* Grid 6 cards */}
-        <div className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-2.5 grid gap-2.5 sm:grid-cols-2 lg:grid-cols-3">
           {AGENTS.slice(1).map((agent, i) => (
             <AgentCard key={agent.name} agent={agent} index={i + 1} />
           ))}
@@ -176,7 +176,7 @@ function Header() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6, delay: 0.1 }}
-        className="mt-5 font-display text-[1.85rem] font-bold leading-[1.05] tracking-tight text-balance md:text-[2.5rem]"
+        className="mt-3 font-display text-[1.55rem] font-bold leading-[1.05] tracking-tight text-balance md:text-[2rem]"
       >
         Pas un outil.{" "}
         <span className="relative inline-block">
@@ -200,7 +200,7 @@ function Header() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.5, delay: 0.2 }}
-        className="mx-auto mt-4 max-w-2xl text-balance text-sm text-muted-foreground md:text-base"
+        className="mx-auto mt-3 max-w-2xl text-balance text-[13px] text-muted-foreground md:text-sm"
       >
         Pendant que tu dors, 7 agents IA analysent, prédisent, optimisent et
         protègent tes comptes 24/7. Chacun spécialisé dans une discipline précise.
@@ -220,7 +220,7 @@ function HeroAgentCard({ agent }: { agent: Agent }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.3 }}
       transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-      className="no-lg-glass group relative overflow-hidden rounded-3xl border border-border bg-white p-6 shadow-sm transition-shadow duration-300 hover:shadow-2xl md:p-8 dark:bg-card"
+      className="no-lg-glass group relative overflow-hidden rounded-2xl border border-border bg-white p-4 shadow-sm transition-shadow duration-300 hover:shadow-xl md:p-5 dark:bg-card"
     >
       {/* Gradient ambient glow */}
       <motion.div
@@ -240,48 +240,48 @@ function HeroAgentCard({ agent }: { agent: Agent }) {
         transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 2 }}
       />
 
-      <div className="relative grid gap-6 md:grid-cols-[1fr_320px]">
+      <div className="relative grid gap-4 md:grid-cols-[1fr_240px]">
         {/* Left : copy + stats */}
         <div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2.5">
             <IconBubble icon={Icon} color={agent.color} size="lg" />
             <div>
-              <div className="inline-flex items-center gap-1.5 rounded-md bg-[#7B61FF]/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-[#7B61FF]">
+              <div className="inline-flex items-center gap-1.5 rounded-md bg-[#7B61FF]/10 px-2 py-0.5 text-[9.5px] font-bold uppercase tracking-wider text-[#7B61FF]">
                 Agent #1 · {agent.badge}
               </div>
-              <h3 className="mt-1 font-display text-2xl font-bold tracking-tight md:text-3xl">
+              <h3 className="mt-0.5 font-display text-lg font-bold tracking-tight md:text-xl">
                 {agent.name}
               </h3>
             </div>
           </div>
 
-          <p className="mt-4 max-w-xl text-[15px] leading-relaxed text-muted-foreground">
+          <p className="mt-2.5 max-w-xl text-[12.5px] leading-relaxed text-muted-foreground">
             {agent.desc} <span className="text-foreground">Disponible 24/7, multi-plateformes.</span>
           </p>
 
           {/* Stat row */}
-          <div className="mt-6 flex flex-wrap items-center gap-6">
+          <div className="mt-3.5 flex flex-wrap items-center gap-4">
             <Stat label="Exécutions/jour" value={agent.runs} color={agent.color} />
-            <div className="h-12 w-px bg-border" />
+            <div className="h-8 w-px bg-border" />
             <Stat label="Précision" value={97} suffix="%" color="#10B981" />
-            <div className="h-12 w-px bg-border" />
+            <div className="h-8 w-px bg-border" />
             <Stat label="Latence" value={1.2} suffix="s" decimal={1} color="#FF8A00" />
           </div>
         </div>
 
         {/* Right : sparkline mockup */}
-        <div className="relative rounded-2xl border border-border bg-background/40 p-4 backdrop-blur">
+        <div className="relative rounded-xl border border-border bg-background/40 p-3 backdrop-blur">
           <div className="flex items-center justify-between">
-            <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+            <span className="text-[9px] font-semibold uppercase tracking-wider text-muted-foreground">
               Activité 12h
             </span>
-            <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-emerald-500 dark:text-emerald-300">
-              <Activity className="h-3 w-3" />
+            <span className="inline-flex items-center gap-1 text-[9px] font-semibold text-emerald-500 dark:text-emerald-300">
+              <Activity className="h-2.5 w-2.5" />
               Live
             </span>
           </div>
           <BigSparkline points={agent.spark} color={agent.color} />
-          <div className="mt-2 flex items-center justify-between text-[10px] text-muted-foreground">
+          <div className="mt-1 flex items-center justify-between text-[9px] text-muted-foreground">
             <span>0h</span>
             <span>6h</span>
             <span>12h</span>
@@ -304,7 +304,7 @@ function AgentCard({ agent, index }: { agent: Agent; index: number }) {
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 0.5, delay: 0.05 + index * 0.06, ease: [0.16, 1, 0.3, 1] }}
       whileHover={{ y: -6 }}
-      className="no-lg-glass group relative overflow-hidden rounded-2xl border border-border bg-white p-5 shadow-sm transition-shadow duration-300 hover:shadow-xl dark:bg-card"
+      className="no-lg-glass group relative overflow-hidden rounded-xl border border-border bg-white p-3.5 shadow-sm transition-shadow duration-300 hover:shadow-lg dark:bg-card"
     >
       {/* Rotating gradient border on hover */}
       <div
@@ -343,24 +343,24 @@ function AgentCard({ agent, index }: { agent: Agent; index: number }) {
           </span>
         </div>
 
-        <h3 className="mt-4 font-display text-[15px] font-bold tracking-tight">
+        <h3 className="mt-2.5 font-display text-[14px] font-bold tracking-tight leading-tight">
           {agent.name}
         </h3>
-        <div className="mt-0.5 text-[10.5px] font-semibold uppercase tracking-wider text-muted-foreground">
+        <div className="mt-0.5 text-[9.5px] font-semibold uppercase tracking-wider text-muted-foreground">
           {agent.role}
         </div>
 
-        <p className="mt-2.5 min-h-[3.5rem] text-[12.5px] leading-relaxed text-muted-foreground">
+        <p className="mt-1.5 min-h-[2.5rem] text-[11.5px] leading-snug text-muted-foreground">
           {agent.desc}
         </p>
 
         {/* Mini sparkline */}
-        <div className="mt-3">
+        <div className="mt-2">
           <MiniSparkline points={agent.spark} color={agent.color} />
         </div>
 
         {/* Status footer */}
-        <div className="mt-3 flex items-center justify-between border-t border-border/60 pt-3 text-[10.5px]">
+        <div className="mt-2 flex items-center justify-between border-t border-border/60 pt-2 text-[10px]">
           <span className="flex items-center gap-1.5 text-muted-foreground">
             <PulseDot color={agent.color} />
             <span>
@@ -391,8 +391,8 @@ function IconBubble({
   color: string;
   size: "md" | "lg";
 }) {
-  const dims = size === "lg" ? "h-14 w-14" : "h-11 w-11";
-  const iconDims = size === "lg" ? "h-6 w-6" : "h-5 w-5";
+  const dims = size === "lg" ? "h-11 w-11" : "h-9 w-9";
+  const iconDims = size === "lg" ? "h-5 w-5" : "h-4 w-4";
   return (
     <motion.div
       whileHover={{ scale: 1.08, rotate: 6 }}
@@ -428,12 +428,12 @@ function Stat({
 }) {
   return (
     <div>
-      <div className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+      <div className="text-[9.5px] font-semibold uppercase tracking-wider text-muted-foreground">
         {label}
       </div>
-      <div className="mt-1 font-display text-2xl font-bold tabular-nums leading-none md:text-3xl" style={{ color }}>
+      <div className="mt-0.5 font-display text-lg font-bold tabular-nums leading-none md:text-2xl" style={{ color }}>
         <CountUp value={value} decimal={decimal} />
-        {suffix && <span className="text-base">{suffix}</span>}
+        {suffix && <span className="text-sm">{suffix}</span>}
       </div>
     </div>
   );
@@ -465,7 +465,7 @@ function MiniSparkline({ points, color }: { points: number[]; color: string }) {
   const gradientId = `spark-grad-${color.replace("#", "")}`;
 
   return (
-    <svg viewBox={`0 0 ${w} ${h}`} className="h-8 w-full" preserveAspectRatio="none">
+    <svg viewBox={`0 0 ${w} ${h}`} className="h-6 w-full" preserveAspectRatio="none">
       <defs>
         <linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="1">
           <stop offset="0%" stopColor={color} stopOpacity="0.35" />
@@ -519,7 +519,7 @@ function BigSparkline({ points, color }: { points: number[]; color: string }) {
   const gradientId = `bigspark-grad-${color.replace("#", "")}`;
 
   return (
-    <svg viewBox={`0 0 ${w} ${h}`} className="mt-3 h-24 w-full" preserveAspectRatio="none">
+    <svg viewBox={`0 0 ${w} ${h}`} className="mt-2 h-16 w-full" preserveAspectRatio="none">
       <defs>
         <linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="1">
           <stop offset="0%" stopColor={color} stopOpacity="0.4" />
@@ -616,7 +616,7 @@ function LiveStats() {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.6, delay: 0.3 }}
-      className="mx-auto mt-10 flex max-w-md items-center justify-center gap-3 rounded-full border border-emerald-500/30 bg-emerald-500/5 px-5 py-3"
+      className="mx-auto mt-6 flex max-w-md items-center justify-center gap-2.5 rounded-full border border-emerald-500/30 bg-emerald-500/5 px-4 py-2"
     >
       <span className="relative flex h-2 w-2">
         <motion.span
