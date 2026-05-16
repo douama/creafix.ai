@@ -1,5 +1,6 @@
 import { Navbar } from "@/components/marketing/navbar";
 import { Hero } from "@/components/marketing/hero";
+import { SevenAgents } from "@/components/marketing/seven-agents";
 import { SocialProof } from "@/components/marketing/social-proof";
 import { Features } from "@/components/marketing/features";
 import { HowItWorks } from "@/components/marketing/how-it-works";
@@ -38,6 +39,7 @@ export default function HomePage() {
       <Navbar />
       <main className="relative">
         <Hero />
+        <SevenAgents />
         <SocialProof />
         <Features />
         <HowItWorks />

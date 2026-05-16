@@ -39,7 +39,7 @@ export function Hero() {
           </div>
 
           {/* H1 avec surligneur orange incliné — signature CinetPay */}
-          <h1 className="mt-5 font-display text-[2.5rem] font-bold leading-[1.05] tracking-tight text-balance md:text-6xl">
+          <h1 className="mt-5 font-display text-[1.9rem] font-bold leading-[1.08] tracking-tight text-balance md:text-[2.75rem] lg:text-5xl">
             {t("titlePart1")}{" "}
             <span className="highlight-orange whitespace-nowrap">{t("titleHighlight")}</span>{" "}
             {t("titlePart2")}
