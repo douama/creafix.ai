@@ -34,13 +34,29 @@ export async function updateSession(request: NextRequest) {
 
   const { data: { user } } = await supabase.auth.getUser();
 
-  // Protège /dashboard et /onboarding
+  // Protège /dashboard, /onboarding et /admin
   const path = request.nextUrl.pathname;
-  if (!user && (path.startsWith("/dashboard") || path.startsWith("/onboarding"))) {
+  const protectedPath =
+    path.startsWith("/dashboard") ||
+    path.startsWith("/onboarding") ||
+    path.startsWith("/admin");
+
+  if (!user && protectedPath) {
     const url = request.nextUrl.clone();
     url.pathname = "/login";
     url.searchParams.set("redirectTo", path);
     return NextResponse.redirect(url);
+  }
+
+  // /admin : vérifie en plus que le user est ADMIN (RPC is_admin)
+  if (user && path.startsWith("/admin")) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { data: isAdmin } = await (supabase.rpc as any)("is_admin", { p_user_id: user.id });
+    if (!isAdmin) {
+      const url = request.nextUrl.clone();
+      url.pathname = "/dashboard";
+      return NextResponse.redirect(url);
+    }
   }
 
   // Empêche un user connecté de revoir /login ou /signup
