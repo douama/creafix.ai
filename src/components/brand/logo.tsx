@@ -13,7 +13,7 @@ export function Logo({
   className,
   withText: _withText = true,
   showTagline: _showTagline = true,
-  size = 36,
+  size = 56,
 }: {
   className?: string;
   withText?: boolean;
