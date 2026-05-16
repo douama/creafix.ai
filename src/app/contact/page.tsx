@@ -14,7 +14,7 @@ const offices = [
     flag: "🇸🇳",
     country: "Sénégal",
     address: "Almadies, Dakar",
-    image: "/offices/dakar.jpg",
+    image: "/offices/dakar.png",
     team: "12 personnes",
   },
   {
@@ -22,7 +22,7 @@ const offices = [
     flag: "🇨🇮",
     country: "Côte d'Ivoire",
     address: "Cocody II Plateaux",
-    image: "/offices/abidjan.jpg",
+    image: "/offices/abidjan.png",
     team: "8 personnes",
   },
   {
@@ -30,7 +30,7 @@ const offices = [
     flag: "🇳🇬",
     country: "Nigeria",
     address: "Victoria Island",
-    image: "/offices/lagos.jpg",
+    image: "/offices/lagos.png",
     team: "10 personnes",
   },
   {
@@ -38,7 +38,7 @@ const offices = [
     flag: "🇲🇦",
     country: "Maroc",
     address: "Maarif, Casablanca",
-    image: "/offices/casablanca.jpg",
+    image: "/offices/casablanca.png",
     team: "6 personnes",
   },
 ];
