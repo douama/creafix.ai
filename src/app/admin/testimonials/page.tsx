@@ -21,13 +21,20 @@ export default async function AdminTestimonialsPage() {
   if (!isAdmin) redirect("/dashboard");
 
   // 2. Lit toutes les lignes via service_role (bypass RLS — l'auth est validée ci-dessus)
+  // Force schema('monetiq') explicite pour éviter tout fallback sur public.
   const sb = supabaseAdmin();
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const { data, error } = await (sb.from("testimonials") as any)
+  const { data, error } = await sb
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    .schema("monetiq" as any)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    .from("testimonials" as any)
     .select("*")
     .order("sort_order", { ascending: true });
 
-  if (error) console.error("[admin/testimonials] DB error:", error);
+  if (error) {
+    console.error("[admin/testimonials] DB error:", JSON.stringify(error));
+  }
+  console.log(`[admin/testimonials] rows fetched: ${data?.length ?? 0}`);
 
   const rows: TestimonialRow[] = (data ?? []) as TestimonialRow[];
   return <TestimonialsClient initial={rows} />;
