@@ -4,10 +4,14 @@ import { createClient } from "@/lib/supabase/server";
 import { runFullAudit } from "@/lib/ai/agents";
 
 const schema = z.object({
-  platform: z.enum(["FACEBOOK", "TIKTOK"]),
+  platform: z.enum([
+    "FACEBOOK", "TIKTOK", "INSTAGRAM", "YOUTUBE",
+    "X", "SNAPCHAT", "TWITCH", "PINTEREST", "LINKEDIN",
+  ]),
   handle: z.string().min(1),
   country: z.string().length(2).default("SN"),
   niche: z.string().optional(),
+  followers: z.number().optional(),
   mode: z.enum(["QUICK", "COMPLETE", "AGENCY"]).default("COMPLETE"),
   socialAccountId: z.string().uuid().optional(),
 });
@@ -38,6 +42,7 @@ export async function POST(req: Request) {
       handle: parsed.data.handle,
       country: parsed.data.country,
       niche: parsed.data.niche,
+      followers: parsed.data.followers,
     });
     return NextResponse.json({
       ok: true,
@@ -47,7 +52,7 @@ export async function POST(req: Request) {
   }
 
   // Mode authentifié : persistance Supabase
-  const { socialAccountId, platform, handle, country, niche, mode } = parsed.data;
+  const { socialAccountId, platform, handle, country, niche, followers, mode } = parsed.data;
 
   // 1. Trouver ou créer le social_account
   let accountId = socialAccountId;
@@ -98,8 +103,8 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: insertErr?.message ?? "insert failed" }, { status: 500 });
   }
 
-  // 3. Run agents
-  const result = await runFullAudit({ platform, handle, country, niche });
+  // 3. Run agents (5 en parallèle, ~3-8s avec Claude Sonnet 4.6)
+  const result = await runFullAudit({ platform, handle, country, niche, followers });
 
   // 4. Update with results
   const { error: updateErr } = await supabase
