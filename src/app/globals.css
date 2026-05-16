@@ -473,11 +473,11 @@
     background-color: rgba(255, 255, 255, 0.55) !important;
     backdrop-filter: blur(24px) saturate(180%);
     -webkit-backdrop-filter: blur(24px) saturate(180%);
-    border: 1px solid rgba(255, 255, 255, 0.6) !important;
+    border: 1px solid #000 !important;
     box-shadow:
       0 1px 0 rgba(255, 255, 255, 0.9) inset,
-      0 8px 24px -8px rgba(31, 41, 55, 0.08),
-      0 16px 48px -16px rgba(31, 41, 55, 0.10) !important;
+      0 8px 24px -8px rgba(0, 0, 0, 0.12),
+      0 16px 48px -16px rgba(0, 0, 0, 0.14) !important;
   }
   .lg-shell .bg-muted:not(.no-lg-glass),
   .lg-shell .bg-background:not(.no-lg-glass) {
@@ -491,16 +491,16 @@
     background: rgba(255, 255, 255, 0.5) !important;
     backdrop-filter: blur(28px) saturate(200%) !important;
     -webkit-backdrop-filter: blur(28px) saturate(200%) !important;
-    border: 1px solid rgba(255, 255, 255, 0.7) !important;
+    border: 1px solid #000 !important;
     box-shadow:
       0 1px 0 rgba(255, 255, 255, 1) inset,
-      0 20px 60px -20px rgba(15, 23, 42, 0.12) !important;
+      0 20px 60px -20px rgba(0, 0, 0, 0.15) !important;
   }
   .lg-shell .glass-strong {
     background: rgba(255, 255, 255, 0.7) !important;
     backdrop-filter: blur(36px) saturate(220%) !important;
     -webkit-backdrop-filter: blur(36px) saturate(220%) !important;
-    border: 1px solid rgba(255, 255, 255, 0.85) !important;
+    border: 1px solid #000 !important;
   }
 
   /* ─── Navbar floating capsule glass ─── */
@@ -546,21 +546,26 @@
     background-color: rgba(255, 255, 255, 0.7) !important;
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(15, 23, 42, 0.08);
+    border: 1px solid #000;
   }
   .lg-shell input:focus,
   .lg-shell textarea:focus,
   .lg-shell select:focus {
     background-color: rgba(255, 255, 255, 0.9) !important;
-    border-color: rgba(241, 85, 34, 0.4);
-    box-shadow: 0 0 0 3px rgba(241, 85, 34, 0.12);
+    border-color: #f15522;
+    box-shadow: 0 0 0 3px rgba(241, 85, 34, 0.18);
   }
 
-  /* ─── Borders adoucies sur tout le shell ─── */
-  .lg-shell .border-border,
-  .lg-shell .border {
-    border-color: rgba(15, 23, 42, 0.06) !important;
+  /* ─── Borders noirs sur tout le shell pour différencier les sections ─── */
+  /* Override seulement les borders "neutres" (border-border).
+     Les borders colorés Tailwind (border-emerald-500/30, border-[#7B61FF]/30,
+     border-amber-500, etc.) gardent leur teinte parce qu'ils sont des classes
+     distinctes avec une plus haute spécificité dans leur génération. */
+  .lg-shell .border-border {
+    border-color: #000 !important;
   }
+  /* La règle de base @apply border-border sur * fait que le contour
+     par défaut sur tout élément utilisant .border devient noir aussi. */
 
   /* ─── Orb component (floating ambient) ─── */
   .lg-orb {
