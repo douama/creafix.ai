@@ -55,7 +55,7 @@ const nav = [
     title: "Account",
     items: [
       { href: "/dashboard/settings", label: "Settings", icon: Settings },
-      { href: "/dashboard/help", label: "Help & support", icon: HelpCircle },
+      { href: "/dashboard/support", label: "Support", icon: HelpCircle },
     ],
   },
 ];
