@@ -117,7 +117,7 @@ export function AffiliatesClient({
 
       {/* Stats */}
       <div className="grid grid-cols-2 gap-3 md:grid-cols-5">
-        <Stat label="Referrals" value={stats.total.toString()} color="#7B61FF" icon={Megaphone} />
+        <Stat label="Referrals" value={stats.total.toString()} color="#EC4899" icon={Megaphone} />
         <Stat label="Affiliés actifs" value={stats.uniqueAffiliates.toString()} color="#FF8A00" icon={Users} />
         <Stat label="Commissions générées" value={`$${stats.totalEarned.toFixed(0)}`} color="#10B981" icon={DollarSign} />
         <Stat label="Payouts effectués" value={`$${stats.totalPaid.toFixed(0)}`} color="#FF8A00" icon={CheckCircle2} />
@@ -143,7 +143,7 @@ export function AffiliatesClient({
                     key={l.affiliate_id}
                     className="flex items-center gap-3 rounded-xl border border-border bg-background/40 p-3"
                   >
-                    <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-[#7B61FF] to-[#FF8A00] text-[10px] font-bold text-white">
+                    <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-[#EC4899] to-[#FF8A00] text-[10px] font-bold text-white">
                       {(l.name ?? l.email ?? "?").slice(0, 2).toUpperCase()}
                     </div>
                     <div className="min-w-0 flex-1">
@@ -250,9 +250,9 @@ export function AffiliatesClient({
       </div>
 
       {/* Info banner */}
-      <div className="rounded-2xl border border-[#7B61FF]/30 bg-[#7B61FF]/[0.06] p-4">
+      <div className="rounded-2xl border border-[#EC4899]/30 bg-[#EC4899]/[0.06] p-4">
         <div className="flex items-start gap-3">
-          <Megaphone className="mt-0.5 h-4 w-4 shrink-0 text-[#7B61FF]" />
+          <Megaphone className="mt-0.5 h-4 w-4 shrink-0 text-[#EC4899]" />
           <p className="text-xs text-muted-foreground">
             <b className="text-foreground">Programme parrainage :</b> chaque user PRO/AGENCY recevra un code de
             parrainage unique. Commission par défaut <b className="text-foreground">20%</b> à vie sur le 1er paiement

@@ -20,7 +20,7 @@ type Data = {
 };
 
 const PLAN_COLORS: Record<string, string> = {
-  FREE: "#94A3B8", PRO: "#7B61FF", AGENCY: "#FF8A00",
+  FREE: "#94A3B8", PRO: "#EC4899", AGENCY: "#FF8A00",
 };
 
 const COUNTRY_FLAGS: Record<string, string> = {
@@ -42,7 +42,7 @@ export function AnalyticsClient({ data }: { data: Data }) {
 
       {/* Top KPIs */}
       <div className="grid grid-cols-2 gap-3 md:grid-cols-5">
-        <Kpi label="Users totaux" value={data.totals.users.toLocaleString("fr-FR")} icon={Users} color="#7B61FF" />
+        <Kpi label="Users totaux" value={data.totals.users.toLocaleString("fr-FR")} icon={Users} color="#EC4899" />
         <Kpi label="Audits totaux" value={data.totals.audits.toLocaleString("fr-FR")} icon={Search} color="#FF8A00" />
         <Kpi label="Abos actifs" value={data.totals.subs.toLocaleString("fr-FR")} icon={Layers} color="#FF8A00" />
         <Kpi label="Paiements" value={data.totals.payments.toLocaleString("fr-FR")} icon={DollarSign} color="#10B981" />
@@ -51,18 +51,18 @@ export function AnalyticsClient({ data }: { data: Data }) {
 
       {/* Charts row 1 */}
       <div className="grid gap-4 lg:grid-cols-3">
-        <ChartCard title="Croissance users · 30j" color="#7B61FF">
+        <ChartCard title="Croissance users · 30j" color="#EC4899">
           <AreaChart data={data.dailyUsers} margin={{ top: 4, right: 4, left: -28, bottom: 0 }}>
             <defs>
               <linearGradient id="usersGrad" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#7B61FF" stopOpacity={0.5} />
-                <stop offset="100%" stopColor="#7B61FF" stopOpacity={0} />
+                <stop offset="0%" stopColor="#EC4899" stopOpacity={0.5} />
+                <stop offset="100%" stopColor="#EC4899" stopOpacity={0} />
               </linearGradient>
             </defs>
             <XAxis dataKey="d" hide />
             <YAxis hide />
             <Tooltip contentStyle={tooltipStyle} formatter={(v) => [v, "Users"]} />
-            <Area type="monotone" dataKey="v" stroke="#7B61FF" strokeWidth={2} fill="url(#usersGrad)" isAnimationActive />
+            <Area type="monotone" dataKey="v" stroke="#EC4899" strokeWidth={2} fill="url(#usersGrad)" isAnimationActive />
           </AreaChart>
         </ChartCard>
 
@@ -113,7 +113,7 @@ export function AnalyticsClient({ data }: { data: Data }) {
                     <span className="w-12 font-mono">{c.key}</span>
                     <div className="relative h-2 flex-1 overflow-hidden rounded-full bg-muted/30">
                       <div
-                        className="h-full rounded-full bg-gradient-to-r from-[#7B61FF] to-[#FF8A00]"
+                        className="h-full rounded-full bg-gradient-to-r from-[#EC4899] to-[#FF8A00]"
                         style={{ width: `${pct}%` }}
                       />
                     </div>

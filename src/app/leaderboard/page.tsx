@@ -46,14 +46,14 @@ const LEADERBOARD: Creator[] = [
   { rank: 1, handle: "@davido", initials: "DV", country: "Nigeria", flag: "🇳🇬", platform: "TikTok", followers: "8.2M", score: 96, growth: "+12%", niche: "Musique", highlight: "Album viral", color: "#10B981" },
   { rank: 2, handle: "@tyla", initials: "TY", country: "Afrique du Sud", flag: "🇿🇦", platform: "TikTok", followers: "6.8M", score: 94, growth: "+18%", niche: "Musique", highlight: "Hit Water", color: "#FBBF24" },
   { rank: 3, handle: "@didi_b", initials: "DB", country: "Côte d'Ivoire", flag: "🇨🇮", platform: "TikTok", followers: "4.1M", score: 92, growth: "+24%", niche: "Musique", highlight: "Lou Pra", color: "#FF8A00" },
-  { rank: 4, handle: "@elgrandetoto", initials: "ET", country: "Maroc", flag: "🇲🇦", platform: "Instagram", followers: "3.8M", score: 90, growth: "+9%", niche: "Musique", color: "#7B61FF" },
+  { rank: 4, handle: "@elgrandetoto", initials: "ET", country: "Maroc", flag: "🇲🇦", platform: "Instagram", followers: "3.8M", score: 90, growth: "+9%", niche: "Musique", color: "#EC4899" },
   { rank: 5, handle: "@asake", initials: "AS", country: "Nigeria", flag: "🇳🇬", platform: "YouTube", followers: "3.2M", score: 89, growth: "+15%", niche: "Musique", color: "#10B981" },
   { rank: 6, handle: "@wally_b_seck", initials: "WS", country: "Sénégal", flag: "🇸🇳", platform: "TikTok", followers: "2.4M", score: 87, growth: "+11%", niche: "Musique", color: "#FF8A00" },
   { rank: 7, handle: "@dj_maphorisa", initials: "DM", country: "Afrique du Sud", flag: "🇿🇦", platform: "TikTok", followers: "2.1M", score: 86, growth: "+8%", niche: "Musique", color: "#FBBF24" },
   { rank: 8, handle: "@locko_official", initials: "LK", country: "Cameroun", flag: "🇨🇲", platform: "Instagram", followers: "1.8M", score: 84, growth: "+13%", niche: "Musique", color: "#F43F5E" },
   { rank: 9, handle: "@suspect_95", initials: "S9", country: "Côte d'Ivoire", flag: "🇨🇮", platform: "TikTok", followers: "1.6M", score: 83, growth: "+19%", niche: "Musique", color: "#FF8A00" },
   { rank: 10, handle: "@iss_814", initials: "I8", country: "Sénégal", flag: "🇸🇳", platform: "TikTok", followers: "1.4M", score: 82, growth: "+22%", niche: "Musique", color: "#FF8A00" },
-  { rank: 11, handle: "@inkonnu", initials: "IK", country: "Maroc", flag: "🇲🇦", platform: "YouTube", followers: "1.3M", score: 81, growth: "+6%", niche: "Musique", color: "#7B61FF" },
+  { rank: 11, handle: "@inkonnu", initials: "IK", country: "Maroc", flag: "🇲🇦", platform: "YouTube", followers: "1.3M", score: 81, growth: "+6%", niche: "Musique", color: "#EC4899" },
   { rank: 12, handle: "@kabza_de_small", initials: "KS", country: "Afrique du Sud", flag: "🇿🇦", platform: "TikTok", followers: "1.2M", score: 80, growth: "+14%", niche: "Musique", color: "#FBBF24" },
 ];
 
@@ -104,7 +104,7 @@ export default function LeaderboardPage() {
                   type="button"
                   className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-semibold transition-all ${
                     i === 0
-                      ? "border-[#7B61FF]/50 bg-[#7B61FF]/15 text-foreground"
+                      ? "border-[#EC4899]/50 bg-[#EC4899]/15 text-foreground"
                       : "border-border bg-card/40 text-muted-foreground hover:border-foreground/30 hover:text-foreground"
                   }`}
                 >
@@ -186,7 +186,7 @@ export default function LeaderboardPage() {
                       </div>
 
                       {c.highlight && (
-                        <div className="mt-3 inline-flex items-center gap-1 rounded-full border border-[#7B61FF]/30 bg-[#7B61FF]/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-[#7B61FF]">
+                        <div className="mt-3 inline-flex items-center gap-1 rounded-full border border-[#EC4899]/30 bg-[#EC4899]/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-[#EC4899]">
                           <Flame className="h-2.5 w-2.5" />
                           {c.highlight}
                         </div>
@@ -281,7 +281,7 @@ export default function LeaderboardPage() {
         {/* CTA */}
         <section className="relative py-10 md:py-14">
           <div className="container">
-            <div className="mx-auto max-w-4xl rounded-3xl border border-[#7B61FF]/30 bg-gradient-to-br from-[#7B61FF]/[0.08] via-card/40 to-card/40 p-8 text-center backdrop-blur-2xl md:p-12">
+            <div className="mx-auto max-w-4xl rounded-3xl border border-[#EC4899]/30 bg-gradient-to-br from-[#EC4899]/[0.08] via-card/40 to-card/40 p-8 text-center backdrop-blur-2xl md:p-12">
               <div className="inline-flex items-center gap-1.5 rounded-full border border-[#FF8A00]/30 bg-[#FF8A00]/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-[#FF8A00]">
                 <Sparkles className="h-3 w-3" />
                 Entre dans le classement
@@ -296,7 +296,7 @@ export default function LeaderboardPage() {
               </p>
               <Link
                 href="/signup"
-                className="mt-6 inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-[#7B61FF] via-[#FF8A00] to-[#FF8A00] px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-[#7B61FF]/30"
+                className="mt-6 inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-[#EC4899] via-[#FF8A00] to-[#FF8A00] px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-[#EC4899]/30"
               >
                 Obtenir mon score CreaFix
                 <ArrowRight className="h-4 w-4" />

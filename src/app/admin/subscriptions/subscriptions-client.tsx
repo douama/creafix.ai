@@ -32,7 +32,7 @@ export type SubRow = {
 };
 
 const PLAN_COLORS: Record<string, string> = {
-  FREE: "#94A3B8", PRO: "#7B61FF", AGENCY: "#FF8A00",
+  FREE: "#94A3B8", PRO: "#EC4899", AGENCY: "#FF8A00",
 };
 
 const STATUS_FILTERS = ["ALL", "active", "trialing", "past_due", "cancelled", "expired"];
@@ -76,9 +76,9 @@ export function SubscriptionsClient({
 
       {/* Top KPIs */}
       <div className="grid grid-cols-2 gap-3 md:grid-cols-4 lg:grid-cols-6">
-        <Stat label="Total subs" value={stats.total.toString()} color="#7B61FF" icon={Layers} />
+        <Stat label="Total subs" value={stats.total.toString()} color="#EC4899" icon={Layers} />
         <Stat label="Actives" value={stats.active.toString()} color="#10B981" icon={CheckCircle2} />
-        <Stat label="MRR" value={`$${stats.mrr.toFixed(0)}`} color="#7B61FF" icon={DollarSign} />
+        <Stat label="MRR" value={`$${stats.mrr.toFixed(0)}`} color="#EC4899" icon={DollarSign} />
         <Stat label="ARR" value={`$${stats.arr.toFixed(0)}`} color="#10B981" icon={TrendingUp} />
         <Stat label="ARPU" value={`$${stats.avgRev.toFixed(1)}`} color="#FF8A00" icon={DollarSign} />
         <Stat label="Churn 30j" value={stats.churned.toString()} color="#F43F5E" icon={XCircle} />

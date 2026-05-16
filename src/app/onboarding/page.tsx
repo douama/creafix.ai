@@ -112,7 +112,7 @@ export default function OnboardingPage() {
                 className={cn(
                   "shrink-0 rounded-full border px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider transition-colors",
                   i === step
-                    ? "border-[#7B61FF]/50 bg-[#7B61FF]/15 text-[#7B61FF]"
+                    ? "border-[#EC4899]/50 bg-[#EC4899]/15 text-[#EC4899]"
                     : i < step
                     ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-500 hover:bg-emerald-500/20 dark:text-emerald-300"
                     : "border-border bg-card/40 text-muted-foreground/60",
@@ -196,13 +196,13 @@ function ProfileStep({ state, setState }: StepProps) {
               className={cn(
                 "relative rounded-xl border p-4 text-left text-sm transition-all",
                 active
-                  ? "border-[#7B61FF]/50 bg-[#7B61FF]/10 shadow-lg shadow-[#7B61FF]/10"
+                  ? "border-[#EC4899]/50 bg-[#EC4899]/10 shadow-lg shadow-[#EC4899]/10"
                   : "border-border bg-card/40 hover:border-foreground/20 hover:bg-card/70",
               )}
             >
               <div className="font-medium">{p}</div>
               {active && (
-                <span className="absolute right-2 top-2 inline-flex h-4 w-4 items-center justify-center rounded-full bg-[#7B61FF]">
+                <span className="absolute right-2 top-2 inline-flex h-4 w-4 items-center justify-center rounded-full bg-[#EC4899]">
                   <Check className="h-2.5 w-2.5 text-white" />
                 </span>
               )}
@@ -244,7 +244,7 @@ function PlatformStep({ state, setState }: StepProps) {
               className={cn(
                 "group relative flex flex-col items-center gap-2 rounded-xl border p-3 text-center transition-all",
                 active
-                  ? "border-[#7B61FF]/50 bg-[#7B61FF]/10 shadow-lg shadow-[#7B61FF]/10"
+                  ? "border-[#EC4899]/50 bg-[#EC4899]/10 shadow-lg shadow-[#EC4899]/10"
                   : "border-border bg-card/40 hover:border-foreground/15 hover:bg-card/70",
                 soon && "opacity-50",
               )}
@@ -257,7 +257,7 @@ function PlatformStep({ state, setState }: StepProps) {
                 </span>
               )}
               {active && (
-                <span className="absolute -top-1.5 -left-1.5 inline-flex h-4 w-4 items-center justify-center rounded-full bg-[#7B61FF]">
+                <span className="absolute -top-1.5 -left-1.5 inline-flex h-4 w-4 items-center justify-center rounded-full bg-[#EC4899]">
                   <Check className="h-2.5 w-2.5 text-white" />
                 </span>
               )}
@@ -300,7 +300,7 @@ function NicheStep({ state, setState }: StepProps) {
               className={cn(
                 "rounded-full border px-4 py-1.5 text-sm transition-all",
                 active
-                  ? "border-[#7B61FF]/50 bg-[#7B61FF]/15 text-foreground"
+                  ? "border-[#EC4899]/50 bg-[#EC4899]/15 text-foreground"
                   : disabled
                   ? "border-border bg-card/20 text-muted-foreground/50"
                   : "border-border bg-card/40 hover:border-foreground/30 hover:bg-card/70",
@@ -334,7 +334,7 @@ function CountryStep({ state, setState }: StepProps) {
               className={cn(
                 "relative flex items-center justify-between rounded-xl border px-3 py-3 text-left text-sm transition-all",
                 active
-                  ? "border-[#7B61FF]/50 bg-[#7B61FF]/10 shadow-lg shadow-[#7B61FF]/10"
+                  ? "border-[#EC4899]/50 bg-[#EC4899]/10 shadow-lg shadow-[#EC4899]/10"
                   : "border-border bg-card/40 hover:border-foreground/20 hover:bg-card/70",
               )}
             >
@@ -374,7 +374,7 @@ function RevenueStep({ state, setState }: StepProps) {
               className={cn(
                 "relative rounded-xl border p-4 text-left transition-all",
                 active
-                  ? "border-[#7B61FF]/50 bg-[#7B61FF]/10 shadow-lg shadow-[#7B61FF]/10"
+                  ? "border-[#EC4899]/50 bg-[#EC4899]/10 shadow-lg shadow-[#EC4899]/10"
                   : "border-border bg-card/40 hover:border-foreground/20 hover:bg-card/70",
               )}
             >
@@ -386,7 +386,7 @@ function RevenueStep({ state, setState }: StepProps) {
                   </span>
                 </span>
                 {active && (
-                  <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-[#7B61FF]">
+                  <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-[#EC4899]">
                     <Check className="h-3 w-3 text-white" />
                   </span>
                 )}
@@ -400,7 +400,7 @@ function RevenueStep({ state, setState }: StepProps) {
       <div className="rounded-xl border border-border bg-card/40 p-4">
         <div className="flex items-center justify-between gap-3">
           <div className="flex items-center gap-2 text-sm">
-            <Target className="h-4 w-4 text-[#7B61FF]" />
+            <Target className="h-4 w-4 text-[#EC4899]" />
             <span className="font-medium">Horizon</span>
           </div>
           <div className="flex gap-1.5">
@@ -414,7 +414,7 @@ function RevenueStep({ state, setState }: StepProps) {
                   className={cn(
                     "rounded-lg border px-3 py-1 text-xs font-semibold transition-all",
                     active
-                      ? "border-[#7B61FF]/50 bg-[#7B61FF]/15 text-foreground"
+                      ? "border-[#EC4899]/50 bg-[#EC4899]/15 text-foreground"
                       : "border-border bg-background/40 text-muted-foreground hover:text-foreground",
                   )}
                 >
@@ -472,8 +472,8 @@ function Recap({ state }: { state: State }) {
         />
       </div>
 
-      <div className="rounded-2xl border border-[#7B61FF]/30 bg-gradient-to-br from-[#7B61FF]/[0.08] to-transparent p-5">
-        <div className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-wider text-[#7B61FF]">
+      <div className="rounded-2xl border border-[#EC4899]/30 bg-gradient-to-br from-[#EC4899]/[0.08] to-transparent p-5">
+        <div className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-wider text-[#EC4899]">
           <TrendingUp className="h-3 w-3" />
           Projection revenus
         </div>
@@ -492,7 +492,7 @@ function Recap({ state }: { state: State }) {
                 </span>
                 <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-muted/30">
                   <div
-                    className="h-full rounded-full bg-gradient-to-r from-[#7B61FF] to-[#FF8A00]"
+                    className="h-full rounded-full bg-gradient-to-r from-[#EC4899] to-[#FF8A00]"
                     style={{ width: `${((i + 1) / milestones.length) * 100}%` }}
                   />
                 </div>

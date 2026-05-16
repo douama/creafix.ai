@@ -33,7 +33,7 @@ export function Comparison() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.4 }}
-            className="inline-flex items-center gap-1.5 rounded-full border border-[#7B61FF]/30 bg-[#7B61FF]/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-[#7B61FF]"
+            className="inline-flex items-center gap-1.5 rounded-full border border-[#EC4899]/30 bg-[#EC4899]/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-[#EC4899]"
           >
             <Trophy className="h-3 w-3" /> Comparatif
           </motion.div>
@@ -76,7 +76,7 @@ export function Comparison() {
                 key={col.key}
                 className={`text-center text-[10px] font-bold uppercase tracking-wider md:text-xs ${
                   col.highlight
-                    ? "text-[#7B61FF]"
+                    ? "text-[#EC4899]"
                     : "text-muted-foreground"
                 }`}
               >

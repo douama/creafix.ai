@@ -35,7 +35,7 @@ const STATUS_META: Record<string, { icon: typeof CheckCircle2; color: string }> 
   SUCCEEDED: { icon: CheckCircle2,  color: "#10B981" },
   PENDING:   { icon: Clock,         color: "#FF8A00" },
   FAILED:    { icon: AlertCircle,   color: "#F43F5E" },
-  REFUNDED:  { icon: RefreshCcw,    color: "#7B61FF" },
+  REFUNDED:  { icon: RefreshCcw,    color: "#EC4899" },
 };
 
 const PROVIDER_COLORS: Record<string, string> = {
@@ -111,7 +111,7 @@ export function PaymentsClient({ initialPayments }: { initialPayments: PaymentRo
 
       {/* Stats */}
       <div className="grid grid-cols-2 gap-3 md:grid-cols-5">
-        <Stat label="Total transactions" value={stats.total.toString()} color="#7B61FF" icon={CreditCard} />
+        <Stat label="Total transactions" value={stats.total.toString()} color="#EC4899" icon={CreditCard} />
         <Stat label="Réussies" value={stats.succeeded.toString()} color="#10B981" icon={CheckCircle2} />
         <Stat label="En attente" value={stats.pending.toString()} color="#FF8A00" icon={Clock} />
         <Stat label="Échecs" value={stats.failed.toString()} color="#F43F5E" icon={AlertCircle} />

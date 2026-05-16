@@ -40,8 +40,8 @@ export function UrlAuditInput() {
       className="mx-auto mt-6 w-full max-w-xl"
     >
       <div
-        className={`no-lg-glass group relative flex items-center gap-1 rounded-full border bg-card/60 p-1.5 backdrop-blur-xl transition-all focus-within:border-[#7B61FF]/60 focus-within:shadow-[0_0_0_4px_rgba(123,97,255,0.15)] ${
-          detected ? "border-[#7B61FF]/40" : "border-border"
+        className={`no-lg-glass group relative flex items-center gap-1 rounded-full border bg-card/60 p-1.5 backdrop-blur-xl transition-all focus-within:border-[#EC4899]/60 focus-within:shadow-[0_0_0_4px_rgba(236,72,153,0.15)] ${
+          detected ? "border-[#EC4899]/40" : "border-border"
         }`}
       >
         <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-background/60">
@@ -65,7 +65,7 @@ export function UrlAuditInput() {
         <button
           type="submit"
           disabled={loading}
-          className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-gradient-to-r from-[#7B61FF] via-[#FF8A00] to-[#FF8A00] px-4 py-2 text-xs font-semibold text-white shadow-lg shadow-[#7B61FF]/30 transition-transform hover:scale-[1.02] active:scale-100 disabled:opacity-60 md:px-5 md:text-sm"
+          className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-gradient-to-r from-[#EC4899] via-[#FF8A00] to-[#FF8A00] px-4 py-2 text-xs font-semibold text-white shadow-lg shadow-[#EC4899]/30 transition-transform hover:scale-[1.02] active:scale-100 disabled:opacity-60 md:px-5 md:text-sm"
         >
           {loading ? "..." : "Auditer"}
           <ArrowRight className="h-3.5 w-3.5" />

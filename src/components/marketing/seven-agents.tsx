@@ -42,7 +42,7 @@ const AGENTS: Agent[] = [
     name: "Audit Agent",
     role: "Diagnostic",
     desc: "Scanne tes 5 dernières vidéos et identifie les fuites de RPM en 60 secondes.",
-    color: "#7B61FF",
+    color: "#EC4899",
     badge: "Analyse",
     runs: 8420,
     spark: [4, 8, 6, 12, 10, 18, 16, 24, 22, 28, 26, 32],
@@ -82,7 +82,7 @@ const AGENTS: Agent[] = [
     name: "Trend Scout",
     role: "Veille",
     desc: "Trouve les sons, hashtags et formats qui marchent dans 9 pays africains.",
-    color: "#7B61FF",
+    color: "#EC4899",
     badge: "Tendances",
     runs: 7320,
     spark: [8, 12, 10, 16, 14, 22, 20, 28, 26, 32, 30, 36],
@@ -115,7 +115,7 @@ export function SevenAgents() {
       {/* Background orbs */}
       <div className="pointer-events-none absolute inset-0 -z-10">
         <motion.div
-          className="absolute -left-32 top-20 h-96 w-96 rounded-full bg-gradient-to-br from-[#7B61FF] to-transparent opacity-20 blur-3xl"
+          className="absolute -left-32 top-20 h-96 w-96 rounded-full bg-gradient-to-br from-[#EC4899] to-transparent opacity-20 blur-3xl"
           animate={{ x: [0, 40, 0], y: [0, -20, 0] }}
           transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
         />
@@ -159,13 +159,13 @@ function Header() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.5 }}
-        className="relative inline-flex items-center gap-2 rounded-full border border-[#7B61FF]/30 bg-[#7B61FF]/10 px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.14em] text-[#7B61FF] backdrop-blur"
+        className="relative inline-flex items-center gap-2 rounded-full border border-[#EC4899]/30 bg-[#EC4899]/10 px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.14em] text-[#EC4899] backdrop-blur"
       >
         <Sparkles className="h-3.5 w-3.5" />
         <span>7 agents IA travaillent pour toi</span>
         <motion.span
           aria-hidden
-          className="ml-1 inline-block h-1.5 w-1.5 rounded-full bg-[#7B61FF]"
+          className="ml-1 inline-block h-1.5 w-1.5 rounded-full bg-[#EC4899]"
           animate={{ scale: [1, 1.5, 1], opacity: [0.6, 1, 0.6] }}
           transition={{ duration: 2, repeat: Infinity }}
         />
@@ -185,7 +185,7 @@ function Header() {
             aria-hidden
             className="absolute inset-x-0 -bottom-1 h-[3px] origin-left rounded-full"
             style={{
-              background: "linear-gradient(90deg, #f15522, #FF8A00, #7B61FF)",
+              background: "linear-gradient(90deg, #f15522, #FF8A00, #EC4899)",
             }}
             initial={{ scaleX: 0 }}
             whileInView={{ scaleX: 1 }}
@@ -234,7 +234,7 @@ function HeroAgentCard({ agent }: { agent: Agent }) {
       <motion.div
         aria-hidden
         className="pointer-events-none absolute -left-32 -bottom-32 h-72 w-72 rounded-full blur-3xl"
-        style={{ backgroundColor: "#7B61FF" }}
+        style={{ backgroundColor: "#EC4899" }}
         initial={{ opacity: 0.08 }}
         animate={{ opacity: [0.08, 0.18, 0.08] }}
         transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 2 }}
@@ -246,7 +246,7 @@ function HeroAgentCard({ agent }: { agent: Agent }) {
           <div className="flex items-center gap-2.5">
             <IconBubble icon={Icon} color={agent.color} size="lg" />
             <div>
-              <div className="inline-flex items-center gap-1.5 rounded-md bg-[#7B61FF]/10 px-2 py-0.5 text-[9.5px] font-bold uppercase tracking-wider text-[#7B61FF]">
+              <div className="inline-flex items-center gap-1.5 rounded-md bg-[#EC4899]/10 px-2 py-0.5 text-[9.5px] font-bold uppercase tracking-wider text-[#EC4899]">
                 Agent #1 · {agent.badge}
               </div>
               <h3 className="mt-0.5 font-display text-lg font-bold tracking-tight md:text-xl">

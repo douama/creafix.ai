@@ -92,8 +92,8 @@ export function ForgotPasswordForm() {
 
   return (
     <div className="space-y-5">
-      <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-[#7B61FF]/40 bg-gradient-to-br from-[#7B61FF]/20 to-[#7B61FF]/5">
-        <KeyRound className="h-5 w-5 text-[#7B61FF]" />
+      <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-[#EC4899]/40 bg-gradient-to-br from-[#EC4899]/20 to-[#EC4899]/5">
+        <KeyRound className="h-5 w-5 text-[#EC4899]" />
       </div>
 
       <div className="space-y-1.5">

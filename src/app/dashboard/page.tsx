@@ -62,10 +62,10 @@ export default function DashboardHomePage() {
       </header>
 
       {/* Banner IA Insight */}
-      <Card className="relative overflow-hidden border-[#7B61FF]/30 bg-gradient-to-br from-[#7B61FF]/[0.08] via-card to-card">
-        <div className="pointer-events-none absolute -right-20 -top-20 h-56 w-56 rounded-full bg-[#7B61FF]/20 blur-3xl" />
+      <Card className="relative overflow-hidden border-[#EC4899]/30 bg-gradient-to-br from-[#EC4899]/[0.08] via-card to-card">
+        <div className="pointer-events-none absolute -right-20 -top-20 h-56 w-56 rounded-full bg-[#EC4899]/20 blur-3xl" />
         <CardContent className="relative flex flex-col items-start gap-4 p-5 md:flex-row md:items-center">
-          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-[#7B61FF] to-[#FF8A00] shadow-lg shadow-[#7B61FF]/30">
+          <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-[#EC4899] to-[#FF8A00] shadow-lg shadow-[#EC4899]/30">
             <Wand2 className="h-5 w-5 text-white" />
           </div>
           <div className="flex-1">
@@ -254,7 +254,7 @@ export default function DashboardHomePage() {
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Target className="h-4 w-4 text-[#7B61FF]" /> Objectifs monétisation
+            <Target className="h-4 w-4 text-[#EC4899]" /> Objectifs monétisation
           </CardTitle>
           <p className="text-sm text-muted-foreground">
             Étapes restantes pour débloquer chaque programme officiel
@@ -306,7 +306,7 @@ function KpiCard({
   tone: "violet" | "electric" | "orange" | "amber" | "rose" | "sky";
 }) {
   const colors: Record<typeof tone, { stroke: string; fill: string; bg: string }> = {
-    violet:   { stroke: "#7B61FF", fill: "rgba(123,97,255,0.15)", bg: "bg-violet-500/15 text-violet-500 dark:text-violet-300" },
+    violet:   { stroke: "#EC4899", fill: "rgba(236,72,153,0.15)", bg: "bg-violet-500/15 text-violet-500 dark:text-violet-300" },
     electric: { stroke: "#FF8A00", fill: "rgba(0,194,255,0.15)",  bg: "bg-sky-500/15 text-sky-500 dark:text-sky-300" },
     orange:   { stroke: "#FF8A00", fill: "rgba(255,138,0,0.15)",  bg: "bg-orange-500/15 text-orange-500 dark:text-orange-300" },
     amber:    { stroke: "#F59E0B", fill: "rgba(245,158,11,0.15)", bg: "bg-amber-500/15 text-amber-500 dark:text-amber-300" },
@@ -345,7 +345,7 @@ function DetailMini({ label, value, tone }: {
   const toneCls = tone === "emerald" ? "text-emerald-500 dark:text-emerald-300"
     : tone === "amber" ? "text-amber-500 dark:text-amber-300"
     : tone === "rose" ? "text-rose-500 dark:text-rose-300"
-    : "text-[#7B61FF]";
+    : "text-[#EC4899]";
   return (
     <div className="rounded-lg border border-border bg-card/40 p-2">
       <div className="text-[10px] uppercase tracking-wider text-muted-foreground">{label}</div>
@@ -380,7 +380,7 @@ function ActivityItem({ icon: Icon, tone, title, time, action }: {
   title: string; time: string; action?: string;
 }) {
   const cls = {
-    brand: "bg-[#7B61FF]/15 text-[#7B61FF]",
+    brand: "bg-[#EC4899]/15 text-[#EC4899]",
     emerald: "bg-emerald-500/15 text-emerald-500 dark:text-emerald-300",
     amber: "bg-amber-500/15 text-amber-500 dark:text-amber-300",
     rose: "bg-rose-500/15 text-rose-500 dark:text-rose-300",
@@ -394,7 +394,7 @@ function ActivityItem({ icon: Icon, tone, title, time, action }: {
         <div className="text-sm">{title}</div>
         <div className="mt-0.5 flex items-center gap-2 text-[11px] text-muted-foreground">
           <span>{time}</span>
-          {action && (<><span>·</span><button className="text-[#7B61FF] hover:underline">{action}</button></>)}
+          {action && (<><span>·</span><button className="text-[#EC4899] hover:underline">{action}</button></>)}
         </div>
       </div>
     </div>
@@ -437,7 +437,7 @@ function QuickAction({ href, icon: Icon, title, tone }: {
   tone: "brand" | "orange" | "rose" | "emerald" | "sky" | "violet";
 }) {
   const cls = {
-    brand: "from-[#7B61FF] to-[#5a3dff]",
+    brand: "from-[#EC4899] to-[#5a3dff]",
     orange: "from-[#FF8A00] to-orange-600",
     rose: "from-rose-500 to-rose-700",
     emerald: "from-emerald-500 to-emerald-700",

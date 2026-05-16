@@ -94,7 +94,7 @@ export function ProductDemo() {
                   className="absolute inset-0 bg-cover bg-center"
                   style={{
                     backgroundImage:
-                      "radial-gradient(ellipse at 30% 40%, rgba(123,97,255,0.25), transparent 60%), radial-gradient(ellipse at 70% 60%, rgba(0,194,255,0.20), transparent 60%), linear-gradient(135deg, #0F1320, #0B0F19)",
+                      "radial-gradient(ellipse at 30% 40%, rgba(236,72,153,0.25), transparent 60%), radial-gradient(ellipse at 70% 60%, rgba(0,194,255,0.20), transparent 60%), linear-gradient(135deg, #0F1320, #0B0F19)",
                   }}
                 />
                 <div className="absolute inset-0 grid-bg opacity-30" />
@@ -104,7 +104,7 @@ export function ProductDemo() {
                   {[
                     { label: "Score viral", value: "78", color: "#FF8A00" },
                     { label: "RPM", value: "$2.10", color: "#10B981" },
-                    { label: "Revenue", value: "$2 840", color: "#7B61FF" },
+                    { label: "Revenue", value: "$2 840", color: "#EC4899" },
                   ].map((s) => (
                     <div
                       key={s.label}
@@ -132,8 +132,8 @@ export function ProductDemo() {
                   aria-label="Lire la démo"
                 >
                   <div className="group relative">
-                    <div className="absolute inset-0 animate-ping rounded-full bg-[#7B61FF]/40" />
-                    <div className="relative flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-[#7B61FF] to-[#FF8A00] shadow-[0_20px_60px_-10px_rgba(123,97,255,0.7)] transition-transform group-hover:scale-110">
+                    <div className="absolute inset-0 animate-ping rounded-full bg-[#EC4899]/40" />
+                    <div className="relative flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-[#EC4899] to-[#FF8A00] shadow-[0_20px_60px_-10px_rgba(236,72,153,0.7)] transition-transform group-hover:scale-110">
                       <Play className="h-7 w-7 fill-white text-white" />
                     </div>
                   </div>
@@ -177,7 +177,7 @@ export function ProductDemo() {
                 {CHAPTERS.map((c, i) => (
                   <li
                     key={c.time}
-                    className="group flex cursor-pointer items-center gap-3 rounded-lg border border-transparent px-2 py-1.5 transition-colors hover:border-[#7B61FF]/30 hover:bg-[#7B61FF]/5"
+                    className="group flex cursor-pointer items-center gap-3 rounded-lg border border-transparent px-2 py-1.5 transition-colors hover:border-[#EC4899]/30 hover:bg-[#EC4899]/5"
                   >
                     <span className="font-mono text-[10px] text-muted-foreground">
                       {c.time}

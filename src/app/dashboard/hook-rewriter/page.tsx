@@ -130,7 +130,7 @@ export default function HookRewriterPage() {
                 placeholder="Ex : POV : tu es un créateur qui galère à monétiser…"
                 rows={3}
                 maxLength={180}
-                className="mt-1.5 w-full rounded-xl border border-border bg-background/40 px-4 py-3 text-sm outline-none transition-colors placeholder:text-muted-foreground/70 focus:border-[#7B61FF]/50"
+                className="mt-1.5 w-full rounded-xl border border-border bg-background/40 px-4 py-3 text-sm outline-none transition-colors placeholder:text-muted-foreground/70 focus:border-[#EC4899]/50"
               />
               <div className="mt-1.5 flex items-center justify-between text-[10px] text-muted-foreground">
                 <span>{input.length}/180 caractères</span>
@@ -152,7 +152,7 @@ export default function HookRewriterPage() {
                       className={cn(
                         "rounded-lg border px-3 py-1.5 text-xs font-semibold transition-all",
                         platform === p
-                          ? "border-[#7B61FF]/50 bg-[#7B61FF]/15 text-foreground"
+                          ? "border-[#EC4899]/50 bg-[#EC4899]/15 text-foreground"
                           : "border-border bg-card/40 text-muted-foreground hover:text-foreground",
                       )}
                     >
@@ -176,7 +176,7 @@ export default function HookRewriterPage() {
                       className={cn(
                         "rounded-lg border px-3 py-1.5 text-xs font-semibold transition-all",
                         style === s.id
-                          ? "border-[#7B61FF]/50 bg-[#7B61FF]/15 text-foreground"
+                          ? "border-[#EC4899]/50 bg-[#EC4899]/15 text-foreground"
                           : "border-border bg-card/40 text-muted-foreground hover:text-foreground",
                       )}
                     >

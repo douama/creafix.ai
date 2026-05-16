@@ -41,7 +41,7 @@ const VIRAL_7D = [
 
 const TOP_VIDEOS = [
   { title: "Mon premier million de F CFA", views: "324K", rpm: "$2.10", color: "#10B981" },
-  { title: "POV : créateur africain en 2026", views: "187K", rpm: "$1.80", color: "#7B61FF" },
+  { title: "POV : créateur africain en 2026", views: "187K", rpm: "$1.80", color: "#EC4899" },
   { title: "Comment j'ai battu l'algo TikTok", views: "152K", rpm: "$1.60", color: "#FF8A00" },
   { title: "Live Q&A finance mobile money", views: "98K", rpm: "$1.40", color: "#FF8A00" },
 ];
@@ -58,7 +58,7 @@ export function LiveDashboard() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.4 }}
-            className="inline-flex items-center gap-1.5 rounded-full border border-[#7B61FF]/30 bg-[#7B61FF]/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-[#7B61FF]"
+            className="inline-flex items-center gap-1.5 rounded-full border border-[#EC4899]/30 bg-[#EC4899]/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-[#EC4899]"
           >
             <Activity className="h-3 w-3" /> Dashboard temps réel
           </motion.div>
@@ -91,12 +91,12 @@ export function LiveDashboard() {
           transition={{ duration: 0.6 }}
           className="relative mt-10 overflow-hidden rounded-3xl border border-border bg-gradient-to-br from-card/60 via-card/40 to-card/40 p-5 backdrop-blur-2xl md:p-7"
         >
-          <div className="pointer-events-none absolute -top-32 left-1/2 h-64 w-[800px] -translate-x-1/2 rounded-full bg-[#7B61FF]/15 blur-3xl" />
+          <div className="pointer-events-none absolute -top-32 left-1/2 h-64 w-[800px] -translate-x-1/2 rounded-full bg-[#EC4899]/15 blur-3xl" />
 
           {/* Header */}
           <div className="relative flex flex-wrap items-center justify-between gap-3">
             <div className="flex items-center gap-2.5">
-              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-[#7B61FF] to-[#FF8A00] text-xs font-bold text-white shadow-lg shadow-[#7B61FF]/30">
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-[#EC4899] to-[#FF8A00] text-xs font-bold text-white shadow-lg shadow-[#EC4899]/30">
                 AT
               </div>
               <div>
@@ -161,7 +161,7 @@ export function LiveDashboard() {
               base={1.84}
               format="rpm"
               delta="+0.32"
-              color="#7B61FF"
+              color="#EC4899"
               tickMin={0}
               tickMax={0}
             />
@@ -190,8 +190,8 @@ export function LiveDashboard() {
                   <AreaChart data={REVENUE_30D} margin={{ top: 4, right: 4, left: -28, bottom: 0 }}>
                     <defs>
                       <linearGradient id="rev-gradient" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stopColor="#7B61FF" stopOpacity={0.5} />
-                        <stop offset="100%" stopColor="#7B61FF" stopOpacity={0} />
+                        <stop offset="0%" stopColor="#EC4899" stopOpacity={0.5} />
+                        <stop offset="100%" stopColor="#EC4899" stopOpacity={0} />
                       </linearGradient>
                     </defs>
                     <Tooltip
@@ -207,7 +207,7 @@ export function LiveDashboard() {
                     <Area
                       type="monotone"
                       dataKey="v"
-                      stroke="#7B61FF"
+                      stroke="#EC4899"
                       strokeWidth={2}
                       fill="url(#rev-gradient)"
                       isAnimationActive
@@ -234,7 +234,7 @@ export function LiveDashboard() {
                   >
                     <defs>
                       <linearGradient id="score-gradient" x1="0" y1="0" x2="1" y2="1">
-                        <stop offset="0%" stopColor="#7B61FF" />
+                        <stop offset="0%" stopColor="#EC4899" />
                         <stop offset="50%" stopColor="#FF8A00" />
                         <stop offset="100%" stopColor="#FF8A00" />
                       </linearGradient>

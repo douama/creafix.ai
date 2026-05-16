@@ -17,7 +17,7 @@ type FeedEvent = {
 };
 
 const KIND_META: Record<FeedEvent["kind"], { icon: typeof Activity; color: string }> = {
-  audit:        { icon: Search,        color: "#7B61FF" },
+  audit:        { icon: Search,        color: "#EC4899" },
   user:         { icon: UserPlus,      color: "#FF8A00" },
   payment:      { icon: DollarSign,    color: "#10B981" },
   moderation:   { icon: AlertOctagon,  color: "#F43F5E" },
@@ -127,7 +127,7 @@ export function LiveFeed() {
     <div className="overflow-hidden rounded-2xl border border-border bg-card/40 backdrop-blur-xl">
       <div className="flex items-center justify-between border-b border-border/60 bg-background/40 px-5 py-3">
         <div className="flex items-center gap-2">
-          <Activity className="h-3.5 w-3.5 text-[#7B61FF]" />
+          <Activity className="h-3.5 w-3.5 text-[#EC4899]" />
           <h2 className="font-display text-sm font-bold">Live feed</h2>
           <span
             className={`inline-flex items-center gap-1 rounded-full border px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wider ${

@@ -40,7 +40,7 @@ const CATEGORY_FILTERS = ["ALL", "BILLING", "TECHNICAL", "ACCOUNT", "FEATURE_REQ
 
 const STATUS_META: Record<string, { icon: typeof CheckCircle2; color: string; label: string }> = {
   OPEN:          { icon: AlertCircle,  color: "#FF8A00", label: "Ouvert" },
-  IN_PROGRESS:   { icon: Loader2,      color: "#7B61FF", label: "En cours" },
+  IN_PROGRESS:   { icon: Loader2,      color: "#EC4899", label: "En cours" },
   WAITING_USER:  { icon: Clock,        color: "#FBBF24", label: "Attente user" },
   RESOLVED:      { icon: CheckCircle2, color: "#10B981", label: "Résolu" },
   CLOSED:        { icon: CheckCircle2, color: "#94A3B8", label: "Fermé" },
@@ -118,9 +118,9 @@ export function SupportClient({ initialTickets }: { initialTickets: TicketRow[] 
       </div>
 
       <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-        <Stat label="Total" value={stats.total} color="#7B61FF" icon={LifeBuoy} />
+        <Stat label="Total" value={stats.total} color="#EC4899" icon={LifeBuoy} />
         <Stat label="Ouverts" value={stats.open} color="#FF8A00" icon={AlertCircle} />
-        <Stat label="En cours" value={stats.inProgress} color="#7B61FF" icon={Loader2} />
+        <Stat label="En cours" value={stats.inProgress} color="#EC4899" icon={Loader2} />
         <Stat label="Urgents" value={stats.urgent} color="#F43F5E" icon={AlertOctagon} />
       </div>
 
@@ -276,7 +276,7 @@ export function SupportClient({ initialTickets }: { initialTickets: TicketRow[] 
               <button
                 type="button"
                 onClick={() => toast.info("Reply UI à wirer en Phase E (table support_messages déjà créée)")}
-                className="inline-flex w-full items-center justify-center gap-1.5 rounded-lg bg-gradient-to-r from-[#7B61FF] to-[#FF8A00] px-4 py-2 text-xs font-semibold text-white"
+                className="inline-flex w-full items-center justify-center gap-1.5 rounded-lg bg-gradient-to-r from-[#EC4899] to-[#FF8A00] px-4 py-2 text-xs font-semibold text-white"
               >
                 <Mail className="h-3.5 w-3.5" />
                 Répondre au ticket

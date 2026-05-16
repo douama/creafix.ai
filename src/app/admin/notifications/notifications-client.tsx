@@ -28,7 +28,7 @@ export type NotifRow = {
 
 const TYPE_FILTERS = ["ALL", "audit_ready", "shadowban_alert", "subscription", "broadcast", "system"];
 const CHANNELS = [
-  { id: "in_app", label: "In-app", icon: Bell, color: "#7B61FF" },
+  { id: "in_app", label: "In-app", icon: Bell, color: "#EC4899" },
   { id: "email", label: "Email", icon: Mail, color: "#FF8A00" },
   { id: "whatsapp", label: "WhatsApp", icon: MessageCircle, color: "#10B981" },
 ];
@@ -108,7 +108,7 @@ export function NotificationsClient({ initialNotifs }: { initialNotifs: NotifRow
         <button
           type="button"
           onClick={() => setComposing(!composing)}
-          className="inline-flex items-center gap-1.5 rounded-lg bg-gradient-to-r from-[#7B61FF] to-[#FF8A00] px-4 py-2 text-xs font-semibold text-white shadow-lg shadow-[#7B61FF]/20"
+          className="inline-flex items-center gap-1.5 rounded-lg bg-gradient-to-r from-[#EC4899] to-[#FF8A00] px-4 py-2 text-xs font-semibold text-white shadow-lg shadow-[#EC4899]/20"
         >
           <Send className="h-3.5 w-3.5" />
           {composing ? "Fermer" : "Nouveau broadcast"}
@@ -117,7 +117,7 @@ export function NotificationsClient({ initialNotifs }: { initialNotifs: NotifRow
 
       {/* Stats */}
       <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-        <Stat label="Total notifs" value={stats.total} color="#7B61FF" icon={Bell} />
+        <Stat label="Total notifs" value={stats.total} color="#EC4899" icon={Bell} />
         <Stat label="Non lues" value={stats.unread} color="#FF8A00" icon={Clock} />
         <Stat label="Aujourd'hui" value={stats.today} color="#10B981" icon={Sparkles} />
         <Stat label="Types" value={stats.types} color="#FF8A00" icon={BarChart3} />
@@ -125,9 +125,9 @@ export function NotificationsClient({ initialNotifs }: { initialNotifs: NotifRow
 
       {/* Compose form */}
       {composing && (
-        <div className="rounded-2xl border border-[#7B61FF]/40 bg-gradient-to-br from-[#7B61FF]/[0.06] via-card/40 to-card/40 p-5 backdrop-blur-xl">
+        <div className="rounded-2xl border border-[#EC4899]/40 bg-gradient-to-br from-[#EC4899]/[0.06] via-card/40 to-card/40 p-5 backdrop-blur-xl">
           <h2 className="flex items-center gap-2 font-display text-sm font-bold">
-            <Send className="h-4 w-4 text-[#7B61FF]" />
+            <Send className="h-4 w-4 text-[#EC4899]" />
             Nouveau broadcast
           </h2>
 
@@ -179,7 +179,7 @@ export function NotificationsClient({ initialNotifs }: { initialNotifs: NotifRow
                     onClick={() => setSegment(s.id)}
                     className={`rounded-lg border px-3 py-1.5 text-xs font-semibold transition-all ${
                       segment === s.id
-                        ? "border-[#7B61FF]/50 bg-[#7B61FF]/15 text-foreground"
+                        ? "border-[#EC4899]/50 bg-[#EC4899]/15 text-foreground"
                         : "border-border bg-background/40 text-muted-foreground hover:text-foreground"
                     }`}
                   >
@@ -221,7 +221,7 @@ export function NotificationsClient({ initialNotifs }: { initialNotifs: NotifRow
               type="button"
               onClick={send}
               disabled={sending || !title.trim()}
-              className="inline-flex items-center gap-1.5 rounded-lg bg-gradient-to-r from-[#7B61FF] to-[#FF8A00] px-4 py-2 text-xs font-semibold text-white shadow-lg shadow-[#7B61FF]/20 disabled:opacity-50"
+              className="inline-flex items-center gap-1.5 rounded-lg bg-gradient-to-r from-[#EC4899] to-[#FF8A00] px-4 py-2 text-xs font-semibold text-white shadow-lg shadow-[#EC4899]/20 disabled:opacity-50"
             >
               {sending ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Send className="h-3.5 w-3.5" />}
               Envoyer le broadcast
@@ -246,8 +246,8 @@ export function NotificationsClient({ initialNotifs }: { initialNotifs: NotifRow
           <ul className="divide-y divide-border/40">
             {filtered.map((n) => (
               <li key={n.id} className="flex items-center gap-3 px-5 py-3">
-                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-[#7B61FF]/30 bg-[#7B61FF]/10">
-                  <Bell className="h-4 w-4 text-[#7B61FF]" />
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-[#EC4899]/30 bg-[#EC4899]/10">
+                  <Bell className="h-4 w-4 text-[#EC4899]" />
                 </div>
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center gap-2">

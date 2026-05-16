@@ -93,7 +93,7 @@ export default async function AuditDetailPage({
           Compte audité
         </h2>
         <div className="mt-3 flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-[#7B61FF] to-[#FF8A00] text-sm font-bold text-white">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-[#EC4899] to-[#FF8A00] text-sm font-bold text-white">
             {(account?.handle ?? "?").slice(0, 2).toUpperCase()}
           </div>
           <div className="min-w-0 flex-1">
@@ -129,11 +129,11 @@ export default async function AuditDetailPage({
       {/* Scores grid */}
       <div className="rounded-2xl border border-border bg-card/40 p-5 backdrop-blur-xl">
         <h2 className="flex items-center gap-2 font-display text-sm font-bold">
-          <TrendingUp className="h-4 w-4 text-[#7B61FF]" />
+          <TrendingUp className="h-4 w-4 text-[#EC4899]" />
           Scores IA · {audit.status === "COMPLETED" ? "live data" : "en attente"}
         </h2>
         <div className="mt-4 grid grid-cols-2 gap-3 md:grid-cols-5">
-          <ScoreBig label="Global" value={audit.score_global} icon={TrendingUp} color="#7B61FF" />
+          <ScoreBig label="Global" value={audit.score_global} icon={TrendingUp} color="#EC4899" />
           <ScoreBig label="Monétisation" value={audit.score_monetization} icon={DollarSign} color="#10B981" />
           <ScoreBig label="Viral" value={audit.score_viral} icon={Flame} color="#FF8A00" />
           <ScoreBig label="Risque (shadowban)" value={audit.score_risk} icon={ShieldOff} color="#F43F5E" invert />
@@ -199,7 +199,7 @@ export default async function AuditDetailPage({
           <ol className="mt-3 space-y-2">
             {recommendations.map((r, i) => (
               <li key={i} className="flex items-start gap-2.5 rounded-xl border border-border bg-background/40 p-3 text-xs">
-                <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#7B61FF] to-[#FF8A00] text-[10px] font-bold text-white">
+                <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#EC4899] to-[#FF8A00] text-[10px] font-bold text-white">
                   {i + 1}
                 </span>
                 <span className="leading-snug">{r}</span>

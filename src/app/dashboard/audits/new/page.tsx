@@ -154,7 +154,7 @@ function PlatformChoice({
       className={cn(
         "group relative flex flex-col items-center gap-2 rounded-xl border p-3 text-center transition-all",
         active
-          ? "border-[#7B61FF]/50 bg-[#7B61FF]/[0.06] shadow-md shadow-[#7B61FF]/20"
+          ? "border-[#EC4899]/50 bg-[#EC4899]/[0.06] shadow-md shadow-[#EC4899]/20"
           : "border-border bg-card/40 hover:border-foreground/15 hover:bg-card/70",
         platform.status === "soon" && "opacity-60",
       )}
@@ -191,7 +191,7 @@ function OptionCard({
       className={cn(
         "rounded-xl border p-3 text-sm",
         active
-          ? "border-[#7B61FF]/40 bg-[#7B61FF]/[0.06]"
+          ? "border-[#EC4899]/40 bg-[#EC4899]/[0.06]"
           : "border-border bg-card/40",
       )}
     >

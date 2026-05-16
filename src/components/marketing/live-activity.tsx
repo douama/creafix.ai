@@ -25,12 +25,12 @@ const FEED: Event[] = [
   { id: 1, icon: TrendingUp, text: "@fatou_tv a augmenté son RPM de +43% en 14j", flag: "🇸🇳", time: "il y a 2 min", color: "#10B981" },
   { id: 2, icon: ShieldAlert, text: "Shadowban détecté sur 3 comptes Facebook actifs", flag: "🇨🇮", time: "il y a 4 min", color: "#F43F5E" },
   { id: 3, icon: Flame, text: "Nouveau son viral repéré : afrobeats fusion", flag: "🇳🇬", time: "il y a 6 min", color: "#FF8A00" },
-  { id: 4, icon: DollarSign, text: "@karim.rabat a récupéré $480 de revenus perdus", flag: "🇲🇦", time: "il y a 8 min", color: "#7B61FF" },
+  { id: 4, icon: DollarSign, text: "@karim.rabat a récupéré $480 de revenus perdus", flag: "🇲🇦", time: "il y a 8 min", color: "#EC4899" },
   { id: 5, icon: Eye, text: "+12 400 vues prédites sur la prochaine vidéo de @amina_dakar", flag: "🇸🇳", time: "il y a 11 min", color: "#FF8A00" },
   { id: 6, icon: Zap, text: "@chris_abidjan : score viral 87/100 sur sa dernière vidéo", flag: "🇨🇮", time: "il y a 13 min", color: "#FF8A00" },
   { id: 7, icon: TrendingUp, text: "Niche finance mobile money explose au Cameroun", flag: "🇨🇲", time: "il y a 16 min", color: "#10B981" },
   { id: 8, icon: ShieldAlert, text: "47 vidéos avec copyright détectées et corrigées aujourd'hui", time: "il y a 18 min", color: "#F43F5E" },
-  { id: 9, icon: DollarSign, text: "@tunde_lagos : CPM passé de $0.40 à $2.10 en 21j", flag: "🇳🇬", time: "il y a 22 min", color: "#7B61FF" },
+  { id: 9, icon: DollarSign, text: "@tunde_lagos : CPM passé de $0.40 à $2.10 en 21j", flag: "🇳🇬", time: "il y a 22 min", color: "#EC4899" },
   { id: 10, icon: Sparkles, text: "Meilleur créneau Dakar mis à jour : 20h–22h", flag: "🇸🇳", time: "il y a 25 min", color: "#FF8A00" },
 ];
 

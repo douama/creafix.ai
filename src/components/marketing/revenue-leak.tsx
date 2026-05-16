@@ -402,14 +402,14 @@ function RevenueCalculatorCard() {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-40px" }}
       transition={{ duration: 0.5, delay: 0.1 }}
-      className="relative overflow-hidden rounded-2xl border border-[#7B61FF]/30 bg-gradient-to-br from-[#7B61FF]/[0.06] via-card/40 to-card/40 p-6 backdrop-blur-xl"
+      className="relative overflow-hidden rounded-2xl border border-[#EC4899]/30 bg-gradient-to-br from-[#EC4899]/[0.06] via-card/40 to-card/40 p-6 backdrop-blur-xl"
     >
-      <div className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full bg-[#7B61FF]/20 blur-3xl" />
+      <div className="pointer-events-none absolute -right-16 -top-16 h-48 w-48 rounded-full bg-[#EC4899]/20 blur-3xl" />
 
       <div className="relative flex items-start justify-between gap-3">
         <div className="flex items-center gap-3">
-          <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-[#7B61FF]/40 bg-[#7B61FF]/15">
-            <Zap className="h-5 w-5 text-[#7B61FF]" />
+          <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-[#EC4899]/40 bg-[#EC4899]/15">
+            <Zap className="h-5 w-5 text-[#EC4899]" />
           </div>
           <div>
             <h3 className="font-display text-lg font-bold leading-tight">
@@ -420,7 +420,7 @@ function RevenueCalculatorCard() {
             </p>
           </div>
         </div>
-        <span className="inline-flex shrink-0 items-center gap-1 rounded-full border border-[#7B61FF]/40 bg-[#7B61FF]/15 px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-[#7B61FF]">
+        <span className="inline-flex shrink-0 items-center gap-1 rounded-full border border-[#EC4899]/40 bg-[#EC4899]/15 px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-[#EC4899]">
           <Sparkles className="h-2.5 w-2.5" /> Interactif
         </span>
       </div>
@@ -443,7 +443,7 @@ function RevenueCalculatorCard() {
             step={50_000}
             value={views}
             onChange={(e) => setViews(Number(e.target.value))}
-            className="mt-2 h-1.5 w-full cursor-pointer appearance-none rounded-full bg-muted/30 accent-[#7B61FF]"
+            className="mt-2 h-1.5 w-full cursor-pointer appearance-none rounded-full bg-muted/30 accent-[#EC4899]"
           />
         </div>
 
@@ -458,7 +458,7 @@ function RevenueCalculatorCard() {
                   onClick={() => setCountry(key)}
                   className={`rounded-lg border px-2 py-1.5 text-[11px] font-semibold transition-all ${
                     country === key
-                      ? "border-[#7B61FF] bg-[#7B61FF]/15 text-foreground"
+                      ? "border-[#EC4899] bg-[#EC4899]/15 text-foreground"
                       : "border-border bg-background/40 text-muted-foreground hover:border-foreground/30"
                   }`}
                 >

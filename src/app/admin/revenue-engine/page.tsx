@@ -18,7 +18,7 @@ const TOP_LEAKS = [
   { reason: "Audio sous copyright", impact: 12480, accounts: 84, color: "#F43F5E" },
   { reason: "Watch time < seuil monétisation", impact: 8920, accounts: 142, color: "#FF8A00" },
   { reason: "Hashtags bannis", impact: 5640, accounts: 67, color: "#FBBF24" },
-  { reason: "Hook faible (< 3s retention)", impact: 4280, accounts: 198, color: "#7B61FF" },
+  { reason: "Hook faible (< 3s retention)", impact: 4280, accounts: 198, color: "#EC4899" },
   { reason: "Vidéos < 60s sous-monétisées", impact: 3120, accounts: 92, color: "#FF8A00" },
 ];
 
@@ -34,7 +34,7 @@ const RPM_BY_COUNTRY = [
 const NICHE_RPM = [
   { niche: "Finance", rpm: 4.2, color: "#10B981" },
   { niche: "Tech", rpm: 3.8, color: "#FF8A00" },
-  { niche: "Business", rpm: 3.4, color: "#7B61FF" },
+  { niche: "Business", rpm: 3.4, color: "#EC4899" },
   { niche: "Lifestyle", rpm: 1.8, color: "#FF8A00" },
   { niche: "Humour", rpm: 1.4, color: "#F43F5E" },
   { niche: "Mode", rpm: 1.2, color: "#FBBF24" },
@@ -62,7 +62,7 @@ export default function RevenueEnginePage() {
       <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
         <Stat label="Revenus récupérés" value="$34.4K" color="#10B981" icon={ArrowUpRight} delta="+22%" />
         <Stat label="Fuites détectées" value="$67.8K" color="#F43F5E" icon={AlertTriangle} delta="-18%" />
-        <Stat label="Comptes optimisés" value="1 247" color="#7B61FF" icon={Sparkles} />
+        <Stat label="Comptes optimisés" value="1 247" color="#EC4899" icon={Sparkles} />
         <Stat label="RPM moyen Afrique" value="$1.78" color="#FF8A00" icon={DollarSign} />
       </div>
 
@@ -93,15 +93,15 @@ export default function RevenueEnginePage() {
                   <stop offset="100%" stopColor="#10B981" stopOpacity={0} />
                 </linearGradient>
                 <linearGradient id="potentialGrad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#7B61FF" stopOpacity={0.3} />
-                  <stop offset="100%" stopColor="#7B61FF" stopOpacity={0} />
+                  <stop offset="0%" stopColor="#EC4899" stopOpacity={0.3} />
+                  <stop offset="100%" stopColor="#EC4899" stopOpacity={0} />
                 </linearGradient>
               </defs>
               <Tooltip
                 contentStyle={{ backgroundColor: "hsl(var(--card))", border: "1px solid hsl(var(--border))", borderRadius: 8, fontSize: 11 }}
                 formatter={(v, name) => [`$${Number(v).toLocaleString("fr-FR")}`, name === "recovered" ? "Récupérés" : "Potentiels"]}
               />
-              <Area type="monotone" dataKey="potential" stroke="#7B61FF" strokeWidth={1.5} fill="url(#potentialGrad)" isAnimationActive />
+              <Area type="monotone" dataKey="potential" stroke="#EC4899" strokeWidth={1.5} fill="url(#potentialGrad)" isAnimationActive />
               <Area type="monotone" dataKey="recovered" stroke="#10B981" strokeWidth={2} fill="url(#recoveredGrad)" isAnimationActive />
             </AreaChart>
           </ResponsiveContainer>
@@ -175,7 +175,7 @@ export default function RevenueEnginePage() {
 
         <div className="rounded-2xl border border-border bg-card/40 p-5 backdrop-blur-xl">
           <h2 className="flex items-center gap-2 font-display text-sm font-bold">
-            <Eye className="h-4 w-4 text-[#7B61FF]" />
+            <Eye className="h-4 w-4 text-[#EC4899]" />
             Top niches RPM (Afrique)
           </h2>
           <div className="mt-4 h-[200px]">

@@ -102,7 +102,7 @@ export function UserMenu({ variant = "default" }: { variant?: "default" | "admin
     <DropdownMenu>
       <DropdownMenuTrigger className="group flex items-center gap-2 rounded-xl border border-transparent p-1 outline-none transition-colors hover:border-border hover:bg-card/40 focus-visible:border-foreground/30">
         <div
-          className={`flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-[#7B61FF] to-[#FF8A00] text-[10px] font-bold text-white shadow-lg shadow-[#7B61FF]/20`}
+          className={`flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-[#EC4899] to-[#FF8A00] text-[10px] font-bold text-white shadow-lg shadow-[#EC4899]/20`}
         >
           {initials || "?"}
         </div>
@@ -122,7 +122,7 @@ export function UserMenu({ variant = "default" }: { variant?: "default" | "admin
       <DropdownMenuContent align="end" className="w-64">
         <DropdownMenuLabel className="font-normal">
           <div className="flex items-center gap-2.5">
-            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-[#7B61FF] to-[#FF8A00] text-xs font-bold text-white">
+            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-[#EC4899] to-[#FF8A00] text-xs font-bold text-white">
               {initials}
             </div>
             <div className="min-w-0">
@@ -153,7 +153,7 @@ export function UserMenu({ variant = "default" }: { variant?: "default" | "admin
 
         <DropdownMenuItem asChild>
           <Link href="/dashboard" className="cursor-pointer">
-            <Sparkles className="mr-2 h-4 w-4 text-[#7B61FF]" />
+            <Sparkles className="mr-2 h-4 w-4 text-[#EC4899]" />
             Mon dashboard
           </Link>
         </DropdownMenuItem>
@@ -204,7 +204,7 @@ export function UserMenu({ variant = "default" }: { variant?: "default" | "admin
 function RoleChip({ role }: { role: string }) {
   const colors: Record<string, string> = {
     ADMIN: "#F43F5E",
-    AGENCY: "#7B61FF",
+    AGENCY: "#EC4899",
     INFLUENCER: "#FF8A00",
     CREATOR: "#10B981",
   };

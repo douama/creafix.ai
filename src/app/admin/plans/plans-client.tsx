@@ -26,7 +26,7 @@ export type PlanRow = {
 
 const SLUG_COLORS: Record<string, string> = {
   FREE: "#94A3B8",
-  PRO: "#7B61FF",
+  PRO: "#EC4899",
   AGENCY: "#FF8A00",
 };
 
@@ -122,11 +122,11 @@ export function PlansClient({ initialPlans }: { initialPlans: PlanRow[] }) {
             <div
               key={p.id}
               className={`relative overflow-hidden rounded-2xl border bg-card/40 p-5 backdrop-blur-xl transition-all ${
-                p.highlight ? "border-[#7B61FF]/50 shadow-lg shadow-[#7B61FF]/10" : "border-border"
+                p.highlight ? "border-[#EC4899]/50 shadow-lg shadow-[#EC4899]/10" : "border-border"
               }`}
             >
               {p.highlight && (
-                <span className="absolute right-3 top-3 inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-[#7B61FF] to-[#FF8A00] px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-white">
+                <span className="absolute right-3 top-3 inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-[#EC4899] to-[#FF8A00] px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-white">
                   <Crown className="h-2.5 w-2.5" />
                   Most popular
                 </span>
@@ -295,7 +295,7 @@ export function PlansClient({ initialPlans }: { initialPlans: PlanRow[] }) {
                     type="checkbox"
                     checked={data.highlight}
                     onChange={(e) => setDraft({ ...data, highlight: e.target.checked })}
-                    className="h-3.5 w-3.5 cursor-pointer rounded border-border accent-[#7B61FF]"
+                    className="h-3.5 w-3.5 cursor-pointer rounded border-border accent-[#EC4899]"
                   />
                   <span>Marquer comme "Most popular"</span>
                 </label>
@@ -308,7 +308,7 @@ export function PlansClient({ initialPlans }: { initialPlans: PlanRow[] }) {
                       type="button"
                       onClick={save}
                       disabled={saving}
-                      className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-lg bg-gradient-to-r from-[#7B61FF] to-[#FF8A00] px-3 py-2 text-xs font-semibold text-white shadow-lg shadow-[#7B61FF]/20 disabled:opacity-50"
+                      className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-lg bg-gradient-to-r from-[#EC4899] to-[#FF8A00] px-3 py-2 text-xs font-semibold text-white shadow-lg shadow-[#EC4899]/20 disabled:opacity-50"
                     >
                       {saving ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Save className="h-3.5 w-3.5" />}
                       Sauvegarder
@@ -351,9 +351,9 @@ export function PlansClient({ initialPlans }: { initialPlans: PlanRow[] }) {
       </div>
 
       {/* Info banner */}
-      <div className="rounded-2xl border border-[#7B61FF]/30 bg-[#7B61FF]/[0.06] p-4">
+      <div className="rounded-2xl border border-[#EC4899]/30 bg-[#EC4899]/[0.06] p-4">
         <div className="flex items-start gap-3">
-          <DollarSign className="mt-0.5 h-4 w-4 shrink-0 text-[#7B61FF]" />
+          <DollarSign className="mt-0.5 h-4 w-4 shrink-0 text-[#EC4899]" />
           <p className="text-xs text-muted-foreground">
             <b className="text-foreground">Live editing :</b> les changements s&apos;appliquent immédiatement.
             Pour que les nouveaux prix soient visibles sur la landing publique, le composant{" "}

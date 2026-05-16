@@ -73,7 +73,7 @@ export function PlatformsSection() {
             </span>
             <span>·</span>
             <span className="flex items-center gap-1.5">
-              <TrendingUp className="h-3 w-3 text-[#7B61FF]" />
+              <TrendingUp className="h-3 w-3 text-[#EC4899]" />
               RPM moyen <b className="text-foreground">${avgRpm.toFixed(2)}</b>
             </span>
           </div>
@@ -215,7 +215,7 @@ function PlatformCard({
             style={{
               backgroundImage:
                 platform.color === "#FFFFFF" || platform.color === "#000000"
-                  ? "linear-gradient(90deg, #7B61FF80, #7B61FF)"
+                  ? "linear-gradient(90deg, #EC489980, #EC4899)"
                   : `linear-gradient(90deg, ${platform.color}80, ${platform.color})`,
             }}
           />

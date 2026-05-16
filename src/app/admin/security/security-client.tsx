@@ -46,11 +46,11 @@ const ACTION_META: Record<string, { icon: typeof Activity; color: string; label:
   "user.suspend":   { icon: ShieldAlert, color: "#FF8A00", label: "User suspendu" },
   "user.unsuspend": { icon: CheckCircle2,color: "#10B981", label: "Suspension levée" },
   "user.ban":       { icon: Ban,         color: "#F43F5E", label: "User banni" },
-  "user.reset":     { icon: RefreshCcw,  color: "#7B61FF", label: "Credits reset" },
+  "user.reset":     { icon: RefreshCcw,  color: "#EC4899", label: "Credits reset" },
   "user.upgrade":   { icon: Crown,       color: "#FBBF24", label: "User upgrade" },
   "agent.enable":   { icon: Bot,         color: "#10B981", label: "Agent activé" },
   "agent.disable":  { icon: Bot,         color: "#94A3B8", label: "Agent désactivé" },
-  "ai_model.update":{ icon: KeyRound,    color: "#7B61FF", label: "AI Model mis à jour" },
+  "ai_model.update":{ icon: KeyRound,    color: "#EC4899", label: "AI Model mis à jour" },
   "trend.create":   { icon: Sparkles,    color: "#FF8A00", label: "Trend créé" },
   "trend.approve":  { icon: CheckCircle2,color: "#10B981", label: "Trend approuvé" },
   "trend.reject":   { icon: ShieldAlert, color: "#F43F5E", label: "Trend rejeté" },
@@ -107,7 +107,7 @@ export function SecurityClient({
 
       {/* Stats */}
       <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-        <Stat label="Total logs" value={stats.total} color="#7B61FF" icon={Activity} />
+        <Stat label="Total logs" value={stats.total} color="#EC4899" icon={Activity} />
         <Stat label="Acteurs uniques" value={stats.actors} color="#FF8A00" icon={Users} />
         <Stat label="Aujourd'hui" value={stats.today} color="#10B981" icon={Calendar} />
         <Stat label="Types d'actions" value={stats.actions} color="#FF8A00" icon={Sparkles} />

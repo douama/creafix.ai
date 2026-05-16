@@ -156,7 +156,7 @@ export function UsersClient({ initialUsers }: { initialUsers: UserRow[] }) {
           <button
             type="button"
             onClick={() => setInviteOpen(true)}
-            className="inline-flex items-center gap-1.5 rounded-lg bg-gradient-to-r from-[#7B61FF] to-[#FF8A00] px-4 py-2 text-xs font-semibold text-white shadow-lg shadow-[#7B61FF]/20"
+            className="inline-flex items-center gap-1.5 rounded-lg bg-gradient-to-r from-[#EC4899] to-[#FF8A00] px-4 py-2 text-xs font-semibold text-white shadow-lg shadow-[#EC4899]/20"
           >
             <UserPlus className="h-3.5 w-3.5" />
             Inviter un user
@@ -202,7 +202,7 @@ export function UsersClient({ initialUsers }: { initialUsers: UserRow[] }) {
 
       {/* Stats */}
       <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-        <StatPill label="Total" value={stats.total} color="#7B61FF" icon={Users} />
+        <StatPill label="Total" value={stats.total} color="#EC4899" icon={Users} />
         <StatPill label="Actifs" value={stats.active} color="#10B981" icon={CheckCircle2} />
         <StatPill label="Suspendus" value={stats.suspended} color="#FF8A00" icon={ShieldOff} />
         <StatPill label="Admins" value={stats.admins} color="#F43F5E" icon={Crown} />
@@ -262,7 +262,7 @@ export function UsersClient({ initialUsers }: { initialUsers: UserRow[] }) {
                   }`}
                 >
                   <div className="flex min-w-0 items-center gap-2.5">
-                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#7B61FF] to-[#FF8A00] text-[10px] font-bold text-white">
+                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#EC4899] to-[#FF8A00] text-[10px] font-bold text-white">
                       {initials || "?"}
                     </div>
                     <div className="min-w-0">
@@ -405,7 +405,7 @@ function RoleBadge({ role }: { role: string | null }) {
   if (!role) return <span className="text-xs text-muted-foreground">—</span>;
   const colors: Record<string, string> = {
     SUPER_ADMIN: "#F43F5E", ADMIN: "#F43F5E",
-    AGENCY: "#7B61FF", INFLUENCER: "#FF8A00",
+    AGENCY: "#EC4899", INFLUENCER: "#FF8A00",
     CREATOR: "#10B981", MODERATOR: "#FF8A00",
     SUPPORT: "#FBBF24", ANALYST: "#94A3B8",
   };
@@ -423,7 +423,7 @@ function RoleBadge({ role }: { role: string | null }) {
 function PlanBadge({ plan }: { plan: string | null }) {
   if (!plan) return <span className="text-xs text-muted-foreground">—</span>;
   const colors: Record<string, string> = {
-    FREE: "#94A3B8", PRO: "#7B61FF", AGENCY: "#FF8A00",
+    FREE: "#94A3B8", PRO: "#EC4899", AGENCY: "#FF8A00",
   };
   const color = colors[plan] ?? "#94A3B8";
   return (
@@ -523,10 +523,10 @@ function InviteModal({
           <X className="h-4 w-4" />
         </button>
 
-        <div className="border-b border-border bg-gradient-to-br from-[#7B61FF]/[0.08] to-transparent p-5">
+        <div className="border-b border-border bg-gradient-to-br from-[#EC4899]/[0.08] to-transparent p-5">
           <div className="flex items-center gap-2.5">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-[#7B61FF]/40 bg-[#7B61FF]/15">
-              <UserPlus className="h-4 w-4 text-[#7B61FF]" />
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-[#EC4899]/40 bg-[#EC4899]/15">
+              <UserPlus className="h-4 w-4 text-[#EC4899]" />
             </div>
             <div>
               <h2 className="font-display text-base font-bold">Inviter un user</h2>
@@ -596,7 +596,7 @@ function InviteModal({
                       active
                         ? isAdminish
                           ? "border-rose-500/50 bg-rose-500/15 text-foreground"
-                          : "border-[#7B61FF]/50 bg-[#7B61FF]/15 text-foreground"
+                          : "border-[#EC4899]/50 bg-[#EC4899]/15 text-foreground"
                         : "border-border bg-background/40 text-muted-foreground hover:text-foreground"
                     }`}
                   >
@@ -625,7 +625,7 @@ function InviteModal({
                   onClick={() => setPlan(p)}
                   className={`flex-1 rounded-lg border px-3 py-1.5 text-xs font-semibold transition-all ${
                     plan === p
-                      ? "border-[#7B61FF]/50 bg-[#7B61FF]/15 text-foreground"
+                      ? "border-[#EC4899]/50 bg-[#EC4899]/15 text-foreground"
                       : "border-border bg-background/40 text-muted-foreground hover:text-foreground"
                   }`}
                 >
@@ -641,7 +641,7 @@ function InviteModal({
                 type="checkbox"
                 checked={useCustomPwd}
                 onChange={(e) => setUseCustomPwd(e.target.checked)}
-                className="h-3.5 w-3.5 cursor-pointer rounded border-border accent-[#7B61FF]"
+                className="h-3.5 w-3.5 cursor-pointer rounded border-border accent-[#EC4899]"
               />
               <span className="font-semibold">Définir un mot de passe custom</span>
             </label>
@@ -673,7 +673,7 @@ function InviteModal({
             type="button"
             onClick={submit}
             disabled={submitting || !email.trim()}
-            className="inline-flex items-center gap-1.5 rounded-lg bg-gradient-to-r from-[#7B61FF] to-[#FF8A00] px-4 py-1.5 text-xs font-semibold text-white shadow-lg shadow-[#7B61FF]/20 disabled:opacity-50"
+            className="inline-flex items-center gap-1.5 rounded-lg bg-gradient-to-r from-[#EC4899] to-[#FF8A00] px-4 py-1.5 text-xs font-semibold text-white shadow-lg shadow-[#EC4899]/20 disabled:opacity-50"
           >
             {submitting ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <UserPlus className="h-3.5 w-3.5" />}
             Créer le compte
@@ -802,7 +802,7 @@ function CredentialsModal({
           <button
             type="button"
             onClick={onClose}
-            className="rounded-lg bg-gradient-to-r from-[#7B61FF] to-[#FF8A00] px-4 py-1.5 text-xs font-semibold text-white shadow-lg shadow-[#7B61FF]/20"
+            className="rounded-lg bg-gradient-to-r from-[#EC4899] to-[#FF8A00] px-4 py-1.5 text-xs font-semibold text-white shadow-lg shadow-[#EC4899]/20"
           >
             J&apos;ai copié, fermer
           </button>

@@ -28,7 +28,7 @@ const CATEGORY_ICONS = {
 
 const CATEGORY_COLORS = {
   shadowban: "#F43F5E",
-  monetization: "#7B61FF",
+  monetization: "#EC4899",
   rpm: "#10B981",
   trends: "#FF8A00",
 };
@@ -42,7 +42,7 @@ export default function ToolsIndexPage() {
         <section className="relative overflow-hidden pt-[100px] pb-12 md:pt-[116px] md:pb-16">
           <div className="container">
             <div className="mx-auto max-w-3xl text-center">
-              <div className="inline-flex items-center gap-1.5 rounded-full border border-[#7B61FF]/30 bg-[#7B61FF]/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-[#7B61FF]">
+              <div className="inline-flex items-center gap-1.5 rounded-full border border-[#EC4899]/30 bg-[#EC4899]/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-[#EC4899]">
                 <Sparkles className="h-3 w-3" />
                 Outils gratuits
               </div>
@@ -102,7 +102,7 @@ export default function ToolsIndexPage() {
                       <p className="mt-1.5 text-xs text-muted-foreground">
                         {tool.description}
                       </p>
-                      <div className="mt-4 inline-flex items-center gap-1 text-xs font-semibold text-foreground transition-colors group-hover:text-[#7B61FF]">
+                      <div className="mt-4 inline-flex items-center gap-1 text-xs font-semibold text-foreground transition-colors group-hover:text-[#EC4899]">
                         Lancer l&apos;outil
                         <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-0.5" />
                       </div>

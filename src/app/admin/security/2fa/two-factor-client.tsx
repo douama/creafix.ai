@@ -214,7 +214,7 @@ export function TwoFactorClient() {
           <ul className="mt-3 space-y-2">
             {factors.map((f) => (
               <li key={f.id} className="flex items-center gap-3 rounded-xl border border-border bg-background/40 p-3">
-                <Smartphone className="h-4 w-4 text-[#7B61FF]" />
+                <Smartphone className="h-4 w-4 text-[#EC4899]" />
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center gap-2">
                     <span className="font-semibold">{f.friendly_name ?? "TOTP"}</span>
@@ -249,9 +249,9 @@ export function TwoFactorClient() {
 
       {/* Enroll flow */}
       {!enrollState ? (
-        <div className="rounded-2xl border border-[#7B61FF]/30 bg-[#7B61FF]/[0.06] p-6">
+        <div className="rounded-2xl border border-[#EC4899]/30 bg-[#EC4899]/[0.06] p-6">
           <div className="flex items-start gap-3">
-            <QrCode className="h-5 w-5 shrink-0 text-[#7B61FF]" />
+            <QrCode className="h-5 w-5 shrink-0 text-[#EC4899]" />
             <div className="flex-1">
               <h2 className="font-display text-base font-bold">
                 {isProtected ? "Ajouter un autre facteur" : "Activer la 2FA"}
@@ -264,7 +264,7 @@ export function TwoFactorClient() {
                 type="button"
                 onClick={startEnroll}
                 disabled={enrolling}
-                className="mt-4 inline-flex items-center gap-1.5 rounded-lg bg-gradient-to-r from-[#7B61FF] to-[#FF8A00] px-4 py-2 text-xs font-semibold text-white shadow-lg shadow-[#7B61FF]/20 disabled:opacity-50"
+                className="mt-4 inline-flex items-center gap-1.5 rounded-lg bg-gradient-to-r from-[#EC4899] to-[#FF8A00] px-4 py-2 text-xs font-semibold text-white shadow-lg shadow-[#EC4899]/20 disabled:opacity-50"
               >
                 {enrolling ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <QrCode className="h-3.5 w-3.5" />}
                 Commencer l&apos;enrôlement
@@ -273,7 +273,7 @@ export function TwoFactorClient() {
           </div>
         </div>
       ) : (
-        <div className="rounded-2xl border border-[#7B61FF]/40 bg-card/40 p-6 backdrop-blur-xl">
+        <div className="rounded-2xl border border-[#EC4899]/40 bg-card/40 p-6 backdrop-blur-xl">
           <h2 className="font-display text-base font-bold">Configuration TOTP</h2>
 
           <div className="mt-4 grid gap-4 md:grid-cols-2">

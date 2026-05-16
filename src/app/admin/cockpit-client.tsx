@@ -69,7 +69,7 @@ export function CockpitClient({
   charts: Charts;
 }) {
   const KPI_CARDS = [
-    { label: "Users actifs", value: fmt(kpis.users), icon: Users, color: "#7B61FF", delta: kpis.users > 0 ? "live" : "—" },
+    { label: "Users actifs", value: fmt(kpis.users), icon: Users, color: "#EC4899", delta: kpis.users > 0 ? "live" : "—" },
     { label: "Audits totaux", value: fmt(kpis.audits), icon: Search, color: "#FF8A00", delta: `+${kpis.auditsToday} aujourd'hui` },
     { label: "Abonnements", value: fmt(kpis.subs), icon: Layers, color: "#FF8A00", delta: "MRR" },
     { label: "Revenus encaissés", value: `$${fmt(kpis.revenue)}`, icon: DollarSign, color: "#10B981", delta: `${kpis.payments} paiements` },
@@ -144,18 +144,18 @@ export function CockpitClient({
 
       {/* Charts grid 6 charts (5 demandés + AI usage) */}
       <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
-        <ChartCard title="Croissance users · 30 j" color="#7B61FF" total={kpis.users}>
+        <ChartCard title="Croissance users · 30 j" color="#EC4899" total={kpis.users}>
           <AreaChart data={charts.users30d} margin={{ top: 4, right: 4, left: -28, bottom: 0 }}>
             <defs>
               <linearGradient id="g-users" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#7B61FF" stopOpacity={0.5} />
-                <stop offset="100%" stopColor="#7B61FF" stopOpacity={0} />
+                <stop offset="0%" stopColor="#EC4899" stopOpacity={0.5} />
+                <stop offset="100%" stopColor="#EC4899" stopOpacity={0} />
               </linearGradient>
             </defs>
             <XAxis dataKey="d" hide />
             <YAxis hide />
             <Tooltip contentStyle={tooltipStyle} formatter={(v) => [v, "Users"]} />
-            <Area type="monotone" dataKey="v" stroke="#7B61FF" strokeWidth={2} fill="url(#g-users)" isAnimationActive />
+            <Area type="monotone" dataKey="v" stroke="#EC4899" strokeWidth={2} fill="url(#g-users)" isAnimationActive />
           </AreaChart>
         </ChartCard>
 
@@ -205,7 +205,7 @@ export function CockpitClient({
                   {a.runs > 0 && (
                     <div className="mt-1 h-1 overflow-hidden rounded-full bg-muted/30">
                       <div
-                        className="h-full rounded-full bg-[#7B61FF]"
+                        className="h-full rounded-full bg-[#EC4899]"
                         style={{
                           width: `${Math.min(100, (a.runs / Math.max(1, charts.aiUsage[0]?.runs ?? 1)) * 100)}%`,
                         }}
@@ -221,7 +221,7 @@ export function CockpitClient({
 
       {/* Quick actions sous le grid */}
       <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
-        <ActionRow icon={Users} label="Gérer les utilisateurs" href="/admin/users" color="#7B61FF" />
+        <ActionRow icon={Users} label="Gérer les utilisateurs" href="/admin/users" color="#EC4899" />
         <ActionRow icon={Search} label="Audits IA récents" href="/admin/audits" color="#FF8A00" />
         <ActionRow icon={CreditCard} label="Paiements & abos" href="/admin/payments" color="#10B981" />
         <ActionRow icon={Activity} label="Agents IA" href="/admin/agents" color="#FF8A00" />
@@ -246,7 +246,7 @@ export function CockpitClient({
             <ul className="divide-y divide-border/40">
               {recent.users.map((u) => (
                 <li key={u.id} className="flex items-center gap-3 px-5 py-3">
-                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#7B61FF] to-[#FF8A00] text-[10px] font-bold text-white">
+                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#EC4899] to-[#FF8A00] text-[10px] font-bold text-white">
                     {(u.full_name ?? u.email).slice(0, 2).toUpperCase()}
                   </div>
                   <div className="min-w-0 flex-1">
@@ -338,7 +338,7 @@ function RoleBadge({ role }: { role: string | null }) {
   if (!role) return null;
   const colors: Record<string, string> = {
     ADMIN: "#F43F5E",
-    AGENCY: "#7B61FF",
+    AGENCY: "#EC4899",
     INFLUENCER: "#FF8A00",
     CREATOR: "#10B981",
   };

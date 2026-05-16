@@ -57,7 +57,7 @@ export function PricingTable({ currency }: { currency: CurrencyCode }) {
                 key={plan.key}
                 className={`relative flex flex-col rounded-2xl border p-6 backdrop-blur-xl transition-all ${
                   plan.highlight
-                    ? "border-[#7B61FF]/50 bg-gradient-to-b from-[#7B61FF]/[0.08] to-transparent shadow-2xl shadow-[#7B61FF]/20"
+                    ? "border-[#EC4899]/50 bg-gradient-to-b from-[#EC4899]/[0.08] to-transparent shadow-2xl shadow-[#EC4899]/20"
                     : "border-border bg-card/40"
                 }`}
               >

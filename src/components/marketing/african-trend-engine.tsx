@@ -121,7 +121,7 @@ const COUNTRIES: Country[] = [
     rpm: "$3.10",
     growth: "+27%",
     creators: "3 240",
-    color: "#7B61FF",
+    color: "#EC4899",
     sounds: [
       { artist: "ElGrandeToto", track: "Madrid", uses: "624K", momentum: 89 },
       { artist: "Inkonnu", track: "Mafia", uses: "412K", momentum: 76 },

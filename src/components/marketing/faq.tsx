@@ -28,7 +28,7 @@ export function FAQ() {
     <section id="faq" className="relative py-10 md:py-12">
       <div className="container">
         <div className="mx-auto max-w-2xl text-center">
-          <div className="inline-flex items-center gap-1.5 rounded-full border border-[#7B61FF]/30 bg-[#7B61FF]/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-[#7B61FF]">
+          <div className="inline-flex items-center gap-1.5 rounded-full border border-[#EC4899]/30 bg-[#EC4899]/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-[#EC4899]">
             <HelpCircle className="h-3 w-3" /> FAQ
           </div>
           <h2 className="mt-2.5 font-display text-2xl font-bold tracking-tight md:text-3xl">
@@ -83,7 +83,7 @@ function FAQItem({
       className={cn(
         "group overflow-hidden rounded-xl border bg-card/40 backdrop-blur-md transition-all",
         isOpen
-          ? "border-[#7B61FF]/40 bg-card/70 shadow-md shadow-[#7B61FF]/10"
+          ? "border-[#EC4899]/40 bg-card/70 shadow-md shadow-[#EC4899]/10"
           : "border-border hover:border-foreground/15",
       )}
     >
@@ -95,7 +95,7 @@ function FAQItem({
         <span
           className={cn(
             "flex h-6 w-6 shrink-0 items-center justify-center rounded-md border border-border bg-background/60 transition-all duration-200",
-            isOpen && "rotate-45 border-[#7B61FF]/40 bg-[#7B61FF]/15 text-[#7B61FF]",
+            isOpen && "rotate-45 border-[#EC4899]/40 bg-[#EC4899]/15 text-[#EC4899]",
           )}
         >
           <Plus className="h-3.5 w-3.5" />

@@ -113,7 +113,7 @@ export function ModelsClient({ initialModels }: { initialModels: ModelRow[] }) {
 
       {/* Stats */}
       <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-        <Stat label="Providers" value={models.length.toString()} color="#7B61FF" />
+        <Stat label="Providers" value={models.length.toString()} color="#EC4899" />
         <Stat label="Configurés" value={`${configured}/${models.length}`} color="#10B981" />
         <Stat label="Actifs" value={enabled.toString()} color="#FF8A00" />
         <Stat label="Coût ce mois" value={`$${models.reduce((s, m) => s + Number(m.monthly_cost_usd ?? 0), 0).toFixed(2)}`} color="#FF8A00" />
@@ -264,7 +264,7 @@ function ProviderCard({
           href={info.signupUrl}
           target="_blank"
           rel="noreferrer"
-          className="inline-flex items-center gap-1 text-[11px] text-[#7B61FF] hover:underline"
+          className="inline-flex items-center gap-1 text-[11px] text-[#EC4899] hover:underline"
         >
           Obtenir une clé {info.label}
           <ExternalLink className="h-2.5 w-2.5" />
@@ -312,7 +312,7 @@ function ProviderCard({
             type="checkbox"
             checked={enabled}
             onChange={(e) => setEnabled(e.target.checked)}
-            className="h-3.5 w-3.5 cursor-pointer rounded border-border bg-background/40 accent-[#7B61FF]"
+            className="h-3.5 w-3.5 cursor-pointer rounded border-border bg-background/40 accent-[#EC4899]"
           />
           <span className="font-semibold">Activer ce provider</span>
         </label>
@@ -321,7 +321,7 @@ function ProviderCard({
           type="button"
           onClick={save}
           disabled={saving}
-          className="inline-flex items-center gap-1.5 rounded-lg bg-gradient-to-r from-[#7B61FF] to-[#FF8A00] px-3 py-1.5 text-xs font-semibold text-white shadow-lg shadow-[#7B61FF]/20 disabled:opacity-50"
+          className="inline-flex items-center gap-1.5 rounded-lg bg-gradient-to-r from-[#EC4899] to-[#FF8A00] px-3 py-1.5 text-xs font-semibold text-white shadow-lg shadow-[#EC4899]/20 disabled:opacity-50"
         >
           {saving ? (
             <Loader2 className="h-3 w-3 animate-spin" />

@@ -97,12 +97,12 @@ export function Sidebar() {
                     <item.icon
                       className={cn(
                         "h-4 w-4 shrink-0",
-                        active ? "text-[#7B61FF]" : "text-muted-foreground",
+                        active ? "text-[#EC4899]" : "text-muted-foreground",
                       )}
                     />
                     <span>{item.label}</span>
                     {active && (
-                      <span className="ml-auto h-1.5 w-1.5 rounded-full bg-[#7B61FF]" />
+                      <span className="ml-auto h-1.5 w-1.5 rounded-full bg-[#EC4899]" />
                     )}
                   </Link>
                 );
@@ -112,8 +112,8 @@ export function Sidebar() {
         ))}
       </nav>
 
-      <div className="m-3 rounded-2xl border border-[#7B61FF]/30 bg-gradient-to-br from-[#7B61FF]/15 to-[#FF8A00]/10 p-4">
-        <div className="text-xs font-semibold uppercase tracking-wider text-[#7B61FF]">
+      <div className="m-3 rounded-2xl border border-[#EC4899]/30 bg-gradient-to-br from-[#EC4899]/15 to-[#FF8A00]/10 p-4">
+        <div className="text-xs font-semibold uppercase tracking-wider text-[#EC4899]">
           Free Plan
         </div>
         <div className="mt-2 text-sm">

@@ -54,7 +54,7 @@ const PLATFORMS = ["TIKTOK", "INSTAGRAM", "YOUTUBE", "FACEBOOK", "X", "SNAPCHAT"
 const STATUSES = ["ALL", "PENDING", "APPROVED", "REJECTED", "ARCHIVED"];
 
 const KIND_META: Record<string, { icon: typeof Music2; color: string }> = {
-  SOUND:     { icon: Music2,     color: "#7B61FF" },
+  SOUND:     { icon: Music2,     color: "#EC4899" },
   HASHTAG:   { icon: Hash,       color: "#FF8A00" },
   NICHE:     { icon: TrendingUp, color: "#10B981" },
   FORMAT:    { icon: Sparkles,   color: "#FBBF24" },
@@ -159,7 +159,7 @@ export function TrendsClient({ initialTrends }: { initialTrends: TrendRow[] }) {
 
       {/* Stats */}
       <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-        <Stat label="Total trends" value={stats.total} color="#7B61FF" icon={TrendingUp} />
+        <Stat label="Total trends" value={stats.total} color="#EC4899" icon={TrendingUp} />
         <Stat label="Approuvés" value={stats.approved} color="#10B981" icon={CheckCircle2} />
         <Stat label="En attente" value={stats.pending} color="#FF8A00" icon={Sparkles} />
         <Stat label="Pays couverts" value={stats.countries} color="#FF8A00" icon={MapPin} />
@@ -168,7 +168,7 @@ export function TrendsClient({ initialTrends }: { initialTrends: TrendRow[] }) {
       {/* Add form */}
       <div className="rounded-2xl border border-border bg-card/40 p-5 backdrop-blur-xl">
         <h2 className="flex items-center gap-2 font-display text-sm font-bold">
-          <Plus className="h-4 w-4 text-[#7B61FF]" />
+          <Plus className="h-4 w-4 text-[#EC4899]" />
           Ajouter un trend
         </h2>
         <div className="mt-3 grid gap-2 md:grid-cols-[1fr_1fr_1fr_2fr_120px_auto]">
@@ -203,7 +203,7 @@ export function TrendsClient({ initialTrends }: { initialTrends: TrendRow[] }) {
             type="button"
             onClick={add}
             disabled={adding || !form.title}
-            className="inline-flex items-center justify-center gap-1.5 rounded-lg bg-gradient-to-r from-[#7B61FF] to-[#FF8A00] px-4 py-2 text-xs font-semibold text-white shadow-lg shadow-[#7B61FF]/20 disabled:opacity-50"
+            className="inline-flex items-center justify-center gap-1.5 rounded-lg bg-gradient-to-r from-[#EC4899] to-[#FF8A00] px-4 py-2 text-xs font-semibold text-white shadow-lg shadow-[#EC4899]/20 disabled:opacity-50"
           >
             {adding ? <Loader2 className="h-3 w-3 animate-spin" /> : <Plus className="h-3 w-3" />}
             Ajouter
@@ -221,7 +221,7 @@ export function TrendsClient({ initialTrends }: { initialTrends: TrendRow[] }) {
             onClick={() => setCountry(c.code)}
             className={`inline-flex items-center gap-1 rounded-full border px-2.5 py-1 text-xs font-semibold transition-all ${
               country === c.code
-                ? "border-[#7B61FF]/50 bg-[#7B61FF]/15 text-foreground"
+                ? "border-[#EC4899]/50 bg-[#EC4899]/15 text-foreground"
                 : "border-border bg-card/40 text-muted-foreground hover:text-foreground"
             }`}
           >
@@ -237,7 +237,7 @@ export function TrendsClient({ initialTrends }: { initialTrends: TrendRow[] }) {
             onClick={() => setStatus(s)}
             className={`rounded-full border px-2.5 py-1 text-xs font-semibold transition-all ${
               status === s
-                ? "border-[#7B61FF]/50 bg-[#7B61FF]/15 text-foreground"
+                ? "border-[#EC4899]/50 bg-[#EC4899]/15 text-foreground"
                 : "border-border bg-card/40 text-muted-foreground hover:text-foreground"
             }`}
           >

@@ -9,7 +9,7 @@ const RESULTS = [
     before: "18%",
     after: "52%",
     delta: "+189%",
-    color: "#7B61FF",
+    color: "#EC4899",
   },
   {
     metric: "RPM moyen",

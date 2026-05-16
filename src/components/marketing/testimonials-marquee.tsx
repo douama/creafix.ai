@@ -101,7 +101,7 @@ export function TestimonialsMarquee({ reviews }: { reviews: Review[] }) {
 }
 
 function ReviewCard({ review }: { review: Review }) {
-  const primaryColor = review.platforms[0] ? PLATFORM_BRAND_COLORS[review.platforms[0]] : "#7B61FF";
+  const primaryColor = review.platforms[0] ? PLATFORM_BRAND_COLORS[review.platforms[0]] : "#EC4899";
 
   return (
     <article className="no-lg-glass group relative shrink-0 overflow-hidden rounded-2xl border border-border bg-white p-5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-foreground/30 hover:shadow-xl dark:bg-card">
@@ -112,7 +112,7 @@ function ReviewCard({ review }: { review: Review }) {
 
       <div className="relative">
         <div className="flex items-start justify-between gap-3">
-          <Quote className="h-5 w-5 shrink-0 text-[#7B61FF]/50" strokeWidth={2} />
+          <Quote className="h-5 w-5 shrink-0 text-[#EC4899]/50" strokeWidth={2} />
           <div className="flex items-center gap-0.5">
             {Array.from({ length: 5 }).map((_, i) => (
               <Star

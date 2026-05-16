@@ -147,7 +147,7 @@ export function AdminSidebar() {
                     <Icon
                       className={cn(
                         "h-4 w-4 shrink-0",
-                        active ? "text-[#7B61FF]" : "text-muted-foreground",
+                        active ? "text-[#EC4899]" : "text-muted-foreground",
                       )}
                     />
                     <span className="flex-1 truncate">{item.label}</span>
@@ -156,7 +156,7 @@ export function AdminSidebar() {
                         className={cn(
                           "inline-flex h-5 min-w-[20px] items-center justify-center rounded-full px-1.5 text-[10px] font-bold",
                           active
-                            ? "bg-[#7B61FF]/20 text-[#7B61FF]"
+                            ? "bg-[#EC4899]/20 text-[#EC4899]"
                             : "bg-muted/40 text-muted-foreground",
                         )}
                       >
@@ -164,7 +164,7 @@ export function AdminSidebar() {
                       </span>
                     )}
                     {active && !item.badge && (
-                      <span className="h-1.5 w-1.5 rounded-full bg-[#7B61FF]" />
+                      <span className="h-1.5 w-1.5 rounded-full bg-[#EC4899]" />
                     )}
                   </Link>
                 );
@@ -175,9 +175,9 @@ export function AdminSidebar() {
         })}
       </nav>
 
-      <div className="m-3 rounded-2xl border border-[#7B61FF]/30 bg-gradient-to-br from-[#7B61FF]/15 to-[#FF8A00]/10 p-4">
+      <div className="m-3 rounded-2xl border border-[#EC4899]/30 bg-gradient-to-br from-[#EC4899]/15 to-[#FF8A00]/10 p-4">
         <div className="flex items-center gap-2">
-          <div className="flex h-7 w-7 items-center justify-center rounded-full bg-gradient-to-br from-[#7B61FF] to-[#FF8A00] text-[10px] font-bold text-white">
+          <div className="flex h-7 w-7 items-center justify-center rounded-full bg-gradient-to-br from-[#EC4899] to-[#FF8A00] text-[10px] font-bold text-white">
             SA
           </div>
           <div className="min-w-0 flex-1 text-xs">

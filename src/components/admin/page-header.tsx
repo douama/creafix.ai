@@ -22,9 +22,9 @@ export function PageHeader({
             <span
               className="inline-flex items-center rounded-full border px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider"
               style={{
-                color: badge.color ?? "#7B61FF",
-                borderColor: `${badge.color ?? "#7B61FF"}55`,
-                backgroundColor: `${badge.color ?? "#7B61FF"}1A`,
+                color: badge.color ?? "#EC4899",
+                borderColor: `${badge.color ?? "#EC4899"}55`,
+                backgroundColor: `${badge.color ?? "#EC4899"}1A`,
               }}
             >
               {badge.label}

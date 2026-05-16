@@ -56,7 +56,7 @@ export default function ViralEnginePage() {
       {/* Top KPIs */}
       <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
         <Stat label="Score viral moyen" value="74" suffix="/100" color="#FF8A00" icon={Flame} />
-        <Stat label="Vidéos analysées (30j)" value="12.4K" color="#7B61FF" icon={Eye} />
+        <Stat label="Vidéos analysées (30j)" value="12.4K" color="#EC4899" icon={Eye} />
         <Stat label="Précision IA" value="94" suffix="%" color="#10B981" icon={Sparkles} />
         <Stat label="Hooks générés" value="3.2K" color="#FF8A00" icon={Activity} />
       </div>
@@ -125,7 +125,7 @@ export default function ViralEnginePage() {
                   background: i === 0 ? "linear-gradient(135deg, #FBBF24, #FF8A00)" :
                               i === 1 ? "linear-gradient(135deg, #94A3B8, #64748B)" :
                               i === 2 ? "linear-gradient(135deg, #92400E, #B45309)" :
-                              "linear-gradient(135deg, #7B61FF, #FF8A00)"
+                              "linear-gradient(135deg, #EC4899, #FF8A00)"
                 }}
               >
                 #{i + 1}
@@ -192,9 +192,9 @@ export default function ViralEnginePage() {
       </div>
 
       {/* Info banner */}
-      <div className="rounded-2xl border border-[#7B61FF]/30 bg-[#7B61FF]/[0.06] p-4">
+      <div className="rounded-2xl border border-[#EC4899]/30 bg-[#EC4899]/[0.06] p-4">
         <div className="flex items-start gap-3">
-          <Sparkles className="mt-0.5 h-4 w-4 shrink-0 text-[#7B61FF]" />
+          <Sparkles className="mt-0.5 h-4 w-4 shrink-0 text-[#EC4899]" />
           <p className="text-xs text-muted-foreground">
             <b className="text-foreground">Données démo.</b> Le Viral Engine combinera : (1) Hook Rewriter Agent
             (GPT-4.1 / Claude), (2) Trend Scanner Agent (Gemini), (3) ML scoring custom basé sur 10M+ vidéos

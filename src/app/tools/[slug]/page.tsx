@@ -56,7 +56,7 @@ const CATEGORY_ICONS = {
 
 const CATEGORY_COLORS = {
   shadowban: "#F43F5E",
-  monetization: "#7B61FF",
+  monetization: "#EC4899",
   rpm: "#10B981",
   trends: "#FF8A00",
 };
@@ -132,7 +132,7 @@ export default async function ToolPage({
 
               <form className="mx-auto mt-6 w-full max-w-xl">
                 <label className="sr-only">{tool.inputLabel}</label>
-                <div className="group relative flex items-center gap-1 rounded-full border border-border bg-card/60 p-1.5 backdrop-blur-xl focus-within:border-[#7B61FF]/60 focus-within:shadow-[0_0_0_4px_rgba(123,97,255,0.15)]">
+                <div className="group relative flex items-center gap-1 rounded-full border border-border bg-card/60 p-1.5 backdrop-blur-xl focus-within:border-[#EC4899]/60 focus-within:shadow-[0_0_0_4px_rgba(236,72,153,0.15)]">
                   <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-background/60">
                     <Search className="h-4 w-4 text-muted-foreground" />
                   </div>
@@ -143,7 +143,7 @@ export default async function ToolPage({
                   />
                   <Link
                     href="/signup"
-                    className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-gradient-to-r from-[#7B61FF] via-[#FF8A00] to-[#FF8A00] px-4 py-2 text-xs font-semibold text-white shadow-lg shadow-[#7B61FF]/30 transition-transform hover:scale-[1.02] md:px-5 md:text-sm"
+                    className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-gradient-to-r from-[#EC4899] via-[#FF8A00] to-[#FF8A00] px-4 py-2 text-xs font-semibold text-white shadow-lg shadow-[#EC4899]/30 transition-transform hover:scale-[1.02] md:px-5 md:text-sm"
                   >
                     {tool.ctaLabel}
                     <ArrowRight className="h-3.5 w-3.5" />
@@ -212,7 +212,7 @@ export default async function ToolPage({
 
         <section className="relative py-10 md:py-14">
           <div className="container">
-            <div className="mx-auto max-w-4xl rounded-3xl border border-[#7B61FF]/30 bg-gradient-to-br from-[#7B61FF]/[0.08] via-card/40 to-card/40 p-8 text-center backdrop-blur-2xl md:p-12">
+            <div className="mx-auto max-w-4xl rounded-3xl border border-[#EC4899]/30 bg-gradient-to-br from-[#EC4899]/[0.08] via-card/40 to-card/40 p-8 text-center backdrop-blur-2xl md:p-12">
               <h2 className="font-display text-2xl font-bold md:text-3xl">
                 Audit IA complet CreaFix
               </h2>
@@ -224,7 +224,7 @@ export default async function ToolPage({
               <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
                 <Link
                   href="/signup"
-                  className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-[#7B61FF] via-[#FF8A00] to-[#FF8A00] px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-[#7B61FF]/30"
+                  className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-[#EC4899] via-[#FF8A00] to-[#FF8A00] px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-[#EC4899]/30"
                 >
                   Créer mon compte gratuit
                   <ArrowRight className="h-4 w-4" />

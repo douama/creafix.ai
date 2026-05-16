@@ -100,7 +100,7 @@ export default function CompetitorsPage() {
           <h1 className="font-display text-2xl font-bold tracking-tight md:text-3xl">
             Competitor Analyzer
           </h1>
-          <span className="inline-flex items-center gap-1 rounded-full border border-[#7B61FF]/30 bg-[#7B61FF]/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-[#7B61FF]">
+          <span className="inline-flex items-center gap-1 rounded-full border border-[#EC4899]/30 bg-[#EC4899]/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-[#EC4899]">
             <Trophy className="h-2.5 w-2.5" />
             Pro
           </span>
@@ -124,7 +124,7 @@ export default function CompetitorsPage() {
                 value={handle}
                 onChange={(e) => setHandle(e.target.value)}
                 placeholder="@tunde_lagos ou https://tiktok.com/@tunde_lagos"
-                className="h-11 w-full rounded-xl border border-border bg-background/40 pl-10 pr-3 text-sm outline-none transition-colors placeholder:text-muted-foreground/70 focus:border-[#7B61FF]/50"
+                className="h-11 w-full rounded-xl border border-border bg-background/40 pl-10 pr-3 text-sm outline-none transition-colors placeholder:text-muted-foreground/70 focus:border-[#EC4899]/50"
               />
             </div>
             <Button
@@ -178,7 +178,7 @@ export default function CompetitorsPage() {
                 followers="184K"
                 platform="TikTok"
                 country="🇸🇳 Sénégal"
-                gradient="from-[#7B61FF] to-[#FF8A00]"
+                gradient="from-[#EC4899] to-[#FF8A00]"
                 badge="Toi"
               />
               <CompetitorCard
@@ -195,7 +195,7 @@ export default function CompetitorsPage() {
             <Card>
               <CardContent className="p-5 md:p-6">
                 <div className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-                  <Sparkles className="h-3 w-3 text-[#7B61FF]" />
+                  <Sparkles className="h-3 w-3 text-[#EC4899]" />
                   Comparaison stats
                 </div>
                 <div className="mt-3 grid gap-2 md:grid-cols-2">
@@ -262,7 +262,7 @@ export default function CompetitorsPage() {
               <Card>
                 <CardContent className="p-5 md:p-6">
                   <div className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
-                    <Target className="h-3 w-3 text-[#7B61FF]" />
+                    <Target className="h-3 w-3 text-[#EC4899]" />
                     Niches comparées
                   </div>
                   <div className="mt-3 space-y-3">
@@ -277,7 +277,7 @@ export default function CompetitorsPage() {
                         <div className="mt-1 flex gap-1">
                           <div className="h-2 flex-1 overflow-hidden rounded-full bg-muted/30">
                             <div
-                              className="h-full rounded-full bg-[#7B61FF]"
+                              className="h-full rounded-full bg-[#EC4899]"
                               style={{ width: `${n.you}%` }}
                             />
                           </div>
@@ -351,7 +351,7 @@ export default function CompetitorsPage() {
                       transition={{ duration: 0.3, delay: i * 0.06 }}
                       className="flex items-start gap-3 rounded-xl border border-border bg-background/40 p-4"
                     >
-                      <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#7B61FF] to-[#FF8A00] text-xs font-bold text-white">
+                      <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#EC4899] to-[#FF8A00] text-xs font-bold text-white">
                         {i + 1}
                       </span>
                       <div className="min-w-0 flex-1">

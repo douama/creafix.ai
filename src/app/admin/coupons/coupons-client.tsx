@@ -22,7 +22,7 @@ export type CouponRow = {
 };
 
 const KIND_META: Record<string, { icon: typeof Percent; label: string; color: string }> = {
-  PERCENT:   { icon: Percent,    label: "Pourcentage", color: "#7B61FF" },
+  PERCENT:   { icon: Percent,    label: "Pourcentage", color: "#EC4899" },
   FIXED:     { icon: DollarSign, label: "Montant fixe", color: "#10B981" },
   FREE_PLAN: { icon: Gift,       label: "Plan gratuit", color: "#FF8A00" },
 };
@@ -138,7 +138,7 @@ export function CouponsClient({ initialCoupons }: { initialCoupons: CouponRow[] 
         <button
           type="button"
           onClick={() => setCreating(!creating)}
-          className="inline-flex items-center gap-1.5 rounded-lg bg-gradient-to-r from-[#7B61FF] to-[#FF8A00] px-4 py-2 text-xs font-semibold text-white shadow-lg shadow-[#7B61FF]/20"
+          className="inline-flex items-center gap-1.5 rounded-lg bg-gradient-to-r from-[#EC4899] to-[#FF8A00] px-4 py-2 text-xs font-semibold text-white shadow-lg shadow-[#EC4899]/20"
         >
           <Plus className="h-3.5 w-3.5" />
           Nouveau code
@@ -146,7 +146,7 @@ export function CouponsClient({ initialCoupons }: { initialCoupons: CouponRow[] 
       </div>
 
       <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-        <Stat label="Total codes" value={stats.total} color="#7B61FF" icon={Ticket} />
+        <Stat label="Total codes" value={stats.total} color="#EC4899" icon={Ticket} />
         <Stat label="Actifs" value={stats.active} color="#10B981" icon={CheckCircle2} />
         <Stat label="Utilisations" value={stats.used} color="#FF8A00" icon={Percent} />
         <Stat label="Expirés" value={stats.expired} color="#94A3B8" icon={Calendar} />
@@ -154,7 +154,7 @@ export function CouponsClient({ initialCoupons }: { initialCoupons: CouponRow[] 
 
       {/* Create form */}
       {creating && (
-        <div className="rounded-2xl border border-[#7B61FF]/40 bg-[#7B61FF]/[0.06] p-5">
+        <div className="rounded-2xl border border-[#EC4899]/40 bg-[#EC4899]/[0.06] p-5">
           <h2 className="font-display text-sm font-bold">Créer un coupon</h2>
           <div className="mt-3 grid gap-3 md:grid-cols-2">
             <div>
@@ -242,7 +242,7 @@ export function CouponsClient({ initialCoupons }: { initialCoupons: CouponRow[] 
             type="button"
             onClick={create}
             disabled={busy || !code.trim()}
-            className="mt-4 inline-flex items-center gap-1.5 rounded-lg bg-gradient-to-r from-[#7B61FF] to-[#FF8A00] px-4 py-2 text-xs font-semibold text-white shadow-lg shadow-[#7B61FF]/20 disabled:opacity-50"
+            className="mt-4 inline-flex items-center gap-1.5 rounded-lg bg-gradient-to-r from-[#EC4899] to-[#FF8A00] px-4 py-2 text-xs font-semibold text-white shadow-lg shadow-[#EC4899]/20 disabled:opacity-50"
           >
             {busy ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Plus className="h-3.5 w-3.5" />}
             Créer le coupon

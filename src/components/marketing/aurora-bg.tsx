@@ -18,7 +18,7 @@ export function AuroraBg() {
           width: "55vw",
           height: "55vw",
           background:
-            "radial-gradient(circle, rgba(123,97,255,0.55), transparent 60%)",
+            "radial-gradient(circle, rgba(236,72,153,0.55), transparent 60%)",
           animation: "aurora-1 22s ease-in-out infinite",
         }}
       />

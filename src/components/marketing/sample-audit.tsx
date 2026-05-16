@@ -61,8 +61,8 @@ const PROFILES: Profile[] = [
     platform: "TikTok",
     followers: "184K abonnés",
     globalScore: 61,
-    badgeColor: "#7B61FF",
-    badgeFrom: "#7B61FF",
+    badgeColor: "#EC4899",
+    badgeFrom: "#EC4899",
     badgeTo: "#FF8A00",
     revenue: { current: 240, projected: 840 },
     scores: [
@@ -206,7 +206,7 @@ export function SampleAudit() {
                 onClick={() => setSelectedId(p.id)}
                 className={`group relative flex items-center gap-2 rounded-full border px-3 py-1.5 text-xs font-semibold transition-all md:px-4 md:py-2 md:text-sm ${
                   active
-                    ? "border-[#7B61FF]/50 bg-[#7B61FF]/15 text-foreground shadow-lg shadow-[#7B61FF]/15"
+                    ? "border-[#EC4899]/50 bg-[#EC4899]/15 text-foreground shadow-lg shadow-[#EC4899]/15"
                     : "border-border bg-card/40 text-muted-foreground hover:border-foreground/30 hover:text-foreground"
                 }`}
               >
@@ -218,7 +218,7 @@ export function SampleAudit() {
                 {active && (
                   <motion.span
                     layoutId="profile-active-dot"
-                    className="ml-1 h-1.5 w-1.5 rounded-full bg-[#7B61FF]"
+                    className="ml-1 h-1.5 w-1.5 rounded-full bg-[#EC4899]"
                     transition={{ type: "spring", stiffness: 500, damping: 30 }}
                   />
                 )}
@@ -318,9 +318,9 @@ export function SampleAudit() {
                   ))}
                 </div>
 
-                <div className="mt-3 rounded-xl border border-[#7B61FF]/30 bg-gradient-to-br from-[#7B61FF]/[0.08] to-transparent p-4">
+                <div className="mt-3 rounded-xl border border-[#EC4899]/30 bg-gradient-to-br from-[#EC4899]/[0.08] to-transparent p-4">
                   <div className="flex items-center gap-2 text-[10px] uppercase tracking-wider text-muted-foreground">
-                    <DollarSign className="h-3 w-3 text-[#7B61FF]" />
+                    <DollarSign className="h-3 w-3 text-[#EC4899]" />
                     Revenus estimés (30 j)
                   </div>
                   <div className="mt-1 flex items-baseline gap-2">
@@ -401,7 +401,7 @@ export function SampleAudit() {
                       key={i}
                       className="flex items-start gap-2.5 rounded-xl border border-border bg-background/40 p-3 text-xs"
                     >
-                      <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#7B61FF] to-[#FF8A00] text-[10px] font-bold text-white">
+                      <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#EC4899] to-[#FF8A00] text-[10px] font-bold text-white">
                         {i + 1}
                       </span>
                       <span className="leading-snug">{rec}</span>
@@ -411,7 +411,7 @@ export function SampleAudit() {
 
                 <a
                   href="/signup"
-                  className="mt-2 inline-flex w-full items-center justify-center gap-1.5 rounded-xl border border-[#7B61FF]/50 bg-gradient-to-r from-[#7B61FF]/15 to-[#FF8A00]/15 px-4 py-2.5 text-xs font-semibold transition-colors hover:from-[#7B61FF]/25 hover:to-[#FF8A00]/25"
+                  className="mt-2 inline-flex w-full items-center justify-center gap-1.5 rounded-xl border border-[#EC4899]/50 bg-gradient-to-r from-[#EC4899]/15 to-[#FF8A00]/15 px-4 py-2.5 text-xs font-semibold transition-colors hover:from-[#EC4899]/25 hover:to-[#FF8A00]/25"
                 >
                   Lancer mon audit personnalisé
                   <ArrowRight className="h-3.5 w-3.5" />

@@ -93,7 +93,7 @@ export function AuditsClient({ initialAudits }: { initialAudits: AuditRow[] }) {
 
       {/* Stats */}
       <div className="grid grid-cols-2 gap-3 md:grid-cols-5">
-        <Stat label="Total" value={stats.total} color="#7B61FF" icon={Search} />
+        <Stat label="Total" value={stats.total} color="#EC4899" icon={Search} />
         <Stat label="Terminés" value={stats.completed} color="#10B981" icon={CheckCircle2} />
         <Stat label="En cours" value={stats.running} color="#FF8A00" icon={Activity} />
         <Stat label="Échecs" value={stats.failed} color="#F43F5E" icon={AlertCircle} />
@@ -200,7 +200,7 @@ export function AuditsClient({ initialAudits }: { initialAudits: AuditRow[] }) {
                   {isOpen && (
                     <div className="border-t border-border/40 bg-background/30 p-5">
                       <div className="grid grid-cols-2 gap-3 md:grid-cols-5">
-                        <ScoreCard label="Global" value={a.score_global} icon={TrendingUp} color="#7B61FF" />
+                        <ScoreCard label="Global" value={a.score_global} icon={TrendingUp} color="#EC4899" />
                         <ScoreCard label="Monétisation" value={a.score_monetization} icon={DollarSign} color="#10B981" />
                         <ScoreCard label="Viral" value={a.score_viral} icon={Flame} color="#FF8A00" />
                         <ScoreCard label="Risque" value={a.score_risk} icon={ShieldOff} color="#F43F5E" invert />

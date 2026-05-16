@@ -129,8 +129,8 @@ export default function RevenuePage() {
             <p className="text-sm text-muted-foreground">Revenu publicitaire mensuel net.</p>
           </CardHeader>
           <CardContent className="space-y-5">
-            <div className="rounded-2xl border border-[#7B61FF]/30 bg-gradient-to-br from-[#7B61FF]/10 to-[#FF8A00]/5 p-5">
-              <div className="text-xs uppercase tracking-wider text-[#7B61FF]">
+            <div className="rounded-2xl border border-[#EC4899]/30 bg-gradient-to-br from-[#EC4899]/10 to-[#FF8A00]/5 p-5">
+              <div className="text-xs uppercase tracking-wider text-[#EC4899]">
                 {est.flag} {est.country} · {PLATFORMS[platform].name}
               </div>
               <div className="mt-2 font-display text-4xl font-bold leading-none">
@@ -192,7 +192,7 @@ export default function RevenuePage() {
                   className={cn(
                     "rounded-xl border bg-card/40 p-4",
                     p.id === platform
-                      ? "border-[#7B61FF]/50 bg-[#7B61FF]/[0.06]"
+                      ? "border-[#EC4899]/50 bg-[#EC4899]/[0.06]"
                       : "border-border",
                   )}
                 >
@@ -235,7 +235,7 @@ export default function RevenuePage() {
                   className={cn(
                     "rounded-xl border bg-card/40 p-4",
                     c === country
-                      ? "border-[#7B61FF]/40 bg-[#7B61FF]/[0.06]"
+                      ? "border-[#EC4899]/40 bg-[#EC4899]/[0.06]"
                       : "border-border",
                   )}
                 >
@@ -288,7 +288,7 @@ function Pill({
       className={cn(
         "inline-flex items-center rounded-full border px-3 py-1 text-xs transition-colors",
         active
-          ? "border-[#7B61FF]/50 bg-[#7B61FF]/15 text-foreground"
+          ? "border-[#EC4899]/50 bg-[#EC4899]/15 text-foreground"
           : "border-border bg-card/40 text-muted-foreground hover:bg-card/70",
       )}
     >
@@ -313,7 +313,7 @@ function PlatformPill({
       className={cn(
         "flex items-center gap-2 rounded-xl border p-2.5 text-left text-xs transition-colors",
         active
-          ? "border-[#7B61FF]/50 bg-[#7B61FF]/[0.06]"
+          ? "border-[#EC4899]/50 bg-[#EC4899]/[0.06]"
           : "border-border bg-card/40 hover:bg-card/70",
         platform.status === "soon" && "opacity-50",
       )}

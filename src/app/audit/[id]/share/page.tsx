@@ -89,8 +89,8 @@ export default async function AuditSharePage({
           <div className="container">
             <div className="mx-auto max-w-4xl">
               {/* Hero card — partageable */}
-              <div className="relative overflow-hidden rounded-3xl border border-[#7B61FF]/40 bg-gradient-to-br from-[#7B61FF]/[0.12] via-card/40 to-card/40 p-8 backdrop-blur-2xl md:p-12">
-                <div className="pointer-events-none absolute -top-32 left-1/2 h-64 w-[800px] -translate-x-1/2 rounded-full bg-[#7B61FF]/25 blur-3xl" />
+              <div className="relative overflow-hidden rounded-3xl border border-[#EC4899]/40 bg-gradient-to-br from-[#EC4899]/[0.12] via-card/40 to-card/40 p-8 backdrop-blur-2xl md:p-12">
+                <div className="pointer-events-none absolute -top-32 left-1/2 h-64 w-[800px] -translate-x-1/2 rounded-full bg-[#EC4899]/25 blur-3xl" />
 
                 <div className="relative grid gap-8 lg:grid-cols-[1fr_280px] lg:items-center">
                   <div>
@@ -100,7 +100,7 @@ export default async function AuditSharePage({
                     </div>
 
                     <div className="mt-4 flex items-center gap-4">
-                      <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-[#7B61FF] to-[#FF8A00] font-display text-base font-bold text-white shadow-lg shadow-[#7B61FF]/30">
+                      <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-[#EC4899] to-[#FF8A00] font-display text-base font-bold text-white shadow-lg shadow-[#EC4899]/30">
                         {audit.initials}
                       </div>
                       <div>
@@ -121,7 +121,7 @@ export default async function AuditSharePage({
                       <ScoreMini icon={TrendingUp} label="Engagement" value={audit.scores.engagement} color="#FF8A00" />
                     </div>
 
-                    <div className="mt-5 rounded-xl border border-[#7B61FF]/30 bg-[#7B61FF]/[0.06] p-3">
+                    <div className="mt-5 rounded-xl border border-[#EC4899]/30 bg-[#EC4899]/[0.06] p-3">
                       <div className="text-[10px] uppercase tracking-wider text-muted-foreground">
                         Revenus estimés
                       </div>
@@ -146,7 +146,7 @@ export default async function AuditSharePage({
                       <svg viewBox="0 0 100 100" className="-rotate-90">
                         <defs>
                           <linearGradient id="score-stroke" x1="0" y1="0" x2="1" y2="1">
-                            <stop offset="0%" stopColor="#7B61FF" />
+                            <stop offset="0%" stopColor="#EC4899" />
                             <stop offset="50%" stopColor="#FF8A00" />
                             <stop offset="100%" stopColor="#FF8A00" />
                           </linearGradient>
@@ -203,7 +203,7 @@ export default async function AuditSharePage({
               </div>
 
               {/* CTA visiteur */}
-              <div className="mt-8 rounded-3xl border border-[#7B61FF]/30 bg-gradient-to-br from-[#7B61FF]/[0.08] via-card/40 to-card/40 p-8 text-center backdrop-blur-2xl md:p-12">
+              <div className="mt-8 rounded-3xl border border-[#EC4899]/30 bg-gradient-to-br from-[#EC4899]/[0.08] via-card/40 to-card/40 p-8 text-center backdrop-blur-2xl md:p-12">
                 <div className="inline-flex items-center gap-1.5 rounded-full border border-[#FF8A00]/30 bg-[#FF8A00]/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-[#FF8A00]">
                   <Sparkles className="h-3 w-3" />
                   Ton tour
@@ -216,7 +216,7 @@ export default async function AuditSharePage({
                 </p>
                 <Link
                   href={`/signup?ref=audit-${id}`}
-                  className="mt-6 inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-[#7B61FF] via-[#FF8A00] to-[#FF8A00] px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-[#7B61FF]/30"
+                  className="mt-6 inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-[#EC4899] via-[#FF8A00] to-[#FF8A00] px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-[#EC4899]/30"
                 >
                   Lancer mon audit
                   <ArrowRight className="h-4 w-4" />

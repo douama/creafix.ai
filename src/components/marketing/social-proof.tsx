@@ -8,7 +8,7 @@ const STATS = [
     icon: Users,
     value: "12 000+",
     label: "créateurs analysés",
-    color: "#7B61FF",
+    color: "#EC4899",
   },
   {
     icon: DollarSign,

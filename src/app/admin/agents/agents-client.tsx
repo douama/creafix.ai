@@ -43,7 +43,7 @@ const CATEGORY_META: Record<string, { icon: typeof Bot; color: string }> = {
   MONETIZATION:    { icon: DollarSign, color: "#10B981" },
   VIRAL:           { icon: Flame, color: "#FF8A00" },
   SHADOWBAN:       { icon: ShieldOff, color: "#F43F5E" },
-  HOOK_REWRITER:   { icon: Wand2, color: "#7B61FF" },
+  HOOK_REWRITER:   { icon: Wand2, color: "#EC4899" },
   TREND_SCANNER:   { icon: TrendingUp, color: "#FF8A00" },
   THUMBNAIL:       { icon: ImageIcon, color: "#FBBF24" },
   VIDEO_ANALYZER:  { icon: Eye, color: "#A855F7" },
@@ -97,7 +97,7 @@ export function AgentsClient({ initialAgents }: { initialAgents: AgentRow[] }) {
           <h1 className="font-display text-2xl font-bold tracking-tight md:text-3xl">
             AI Agents Center
           </h1>
-          <span className="inline-flex items-center gap-1 rounded-full border border-[#7B61FF]/30 bg-[#7B61FF]/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-[#7B61FF]">
+          <span className="inline-flex items-center gap-1 rounded-full border border-[#EC4899]/30 bg-[#EC4899]/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-[#EC4899]">
             <Bot className="h-2.5 w-2.5" />
             {agents.length} agents
           </span>
@@ -110,7 +110,7 @@ export function AgentsClient({ initialAgents }: { initialAgents: AgentRow[] }) {
       {/* Global stats */}
       <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
         <Stat label="Agents actifs" value={`${enabled}/${agents.length}`} color="#10B981" icon={CheckCircle2} />
-        <Stat label="Runs totales" value={totalRuns.toLocaleString("fr-FR")} color="#7B61FF" icon={Activity} />
+        <Stat label="Runs totales" value={totalRuns.toLocaleString("fr-FR")} color="#EC4899" icon={Activity} />
         <Stat label="Taux de succès" value={`${successRate}%`} color="#FF8A00" icon={Sparkles} />
         <Stat label="Coût moyen / run" value={`$${avgCost(agents).toFixed(4)}`} color="#FF8A00" icon={DollarSign} />
       </div>
@@ -192,7 +192,7 @@ export function AgentsClient({ initialAgents }: { initialAgents: AgentRow[] }) {
 
               {/* Metrics */}
               <div className="relative mt-3 grid grid-cols-3 gap-2 text-[10px]">
-                <Metric icon={Activity} label="Runs" value={fmt(a.runs_total)} color="#7B61FF" />
+                <Metric icon={Activity} label="Runs" value={fmt(a.runs_total)} color="#EC4899" />
                 <Metric
                   icon={successPct !== null ? CheckCircle2 : Clock}
                   label="Succès"
@@ -219,10 +219,10 @@ export function AgentsClient({ initialAgents }: { initialAgents: AgentRow[] }) {
       </div>
 
       {/* Info banner */}
-      <div className="rounded-2xl border border-[#7B61FF]/30 bg-gradient-to-br from-[#7B61FF]/[0.08] via-card/40 to-card/40 p-5 backdrop-blur-xl">
+      <div className="rounded-2xl border border-[#EC4899]/30 bg-gradient-to-br from-[#EC4899]/[0.08] via-card/40 to-card/40 p-5 backdrop-blur-xl">
         <div className="flex items-start gap-3">
-          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-[#7B61FF]/40 bg-[#7B61FF]/15">
-            <Sparkles className="h-4 w-4 text-[#7B61FF]" />
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-[#EC4899]/40 bg-[#EC4899]/15">
+            <Sparkles className="h-4 w-4 text-[#EC4899]" />
           </div>
           <div>
             <h3 className="font-display text-sm font-bold">Orchestration IA en attente</h3>

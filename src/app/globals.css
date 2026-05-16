@@ -3,12 +3,14 @@
 @tailwind utilities;
 
 @layer base {
-  /* ─── Palette CreaFix AI ─────────────────────────────────────
-     Couleurs de marque (référence) :
-       • Noir profond     #0B0F19  →  HSL 224 39% 7%
-       • Violet IA        #7B61FF  →  HSL 249 100% 69%
-       • Orange chaud     #FF8A00  →  HSL 32 100% 50%   (remplace l'ancien bleu)
-       • Orange CinetPay  #f15522  →  HSL 14 87% 54%   (highlight / btn-pill)
+  /* ─── Palette officielle CreaFix AI (extraite du logo) ──────
+     • Teal      #1FBEAF  →  HSL 174 71% 43%   (arrow base gauche)
+     • Pink      #EC4899  →  HSL 330 81% 60%   (section centrale + "FIX")
+     • Orange    #FF8A00  →  HSL 32 100% 50%   (arrow tip droite)
+     • Orange-R  #f15522  →  HSL 14 87% 54%    (CinetPay accent CTA)
+     • Yellow    #FCD34D  →  HSL 48 96% 64%    (sparkles/stars)
+     • Ink       #0F0F0F  →  HSL 0 0% 6%       (texte "CREA")
+     • Midnight  #0B0F19  →  HSL 224 39% 7%    (dark bg)
      ─────────────────────────────────────────────────────────── */
 
   /* ─── Mode sombre (default) ─── */
@@ -23,7 +25,7 @@
     --popover: 224 39% 7%;
     --popover-foreground: 0 0% 98%;
 
-    --primary: 249 100% 69%;        /* #7B61FF violet IA */
+    --primary: 330 81% 60%;         /* #EC4899 pink (logo) */
     --primary-foreground: 0 0% 100%;
 
     --secondary: 32 100% 50%;       /* #FF8A00 orange chaud */
@@ -117,10 +119,10 @@
     background-attachment: fixed;
   }
 
-  /* Ambiance dark — palette CreaFix #7B61FF / #FF8A00 (orange chaud) / #f15522 */
+  /* Ambiance dark — palette CreaFix #EC4899 / #FF8A00 (orange chaud) / #f15522 */
   .dark body {
     background-image:
-      radial-gradient(ellipse 80% 50% at 50% -20%, rgba(123, 97, 255, 0.20), transparent),
+      radial-gradient(ellipse 80% 50% at 50% -20%, rgba(236, 72, 153, 0.20), transparent),
       radial-gradient(ellipse 60% 40% at 80% 100%, rgba(255, 138, 0, 0.12), transparent),
       radial-gradient(ellipse 50% 30% at 10% 90%, rgba(241, 85, 34, 0.10), transparent);
   }
@@ -183,15 +185,15 @@
     @apply bg-clip-text text-transparent;
   }
   .dark .gradient-text {
-    background-image: linear-gradient(135deg, #b9a8ff 0%, #ffb966 50%, #ff8a8a 100%);
+    background-image: linear-gradient(135deg, #5EEAD4 0%, #F472B6 50%, #FFB966 100%);
   }
   .light .gradient-text {
-    background-image: linear-gradient(135deg, #5a3dff 0%, #d97400 50%, #c4341a 100%);
+    background-image: linear-gradient(135deg, #0D9488 0%, #DB2777 50%, #EA580C 100%);
   }
 
-  /* Gradient signature CreaFix : Violet IA → Orange chaud → Orange CinetPay */
+  /* Gradient signature CreaFix : Teal → Pink → Orange (palette logo "FIX") */
   .gradient-brand {
-    background-image: linear-gradient(135deg, #7B61FF 0%, #FF8A00 50%, #f15522 100%);
+    background-image: linear-gradient(135deg, #1FBEAF 0%, #EC4899 50%, #FF8A00 100%);
   }
 
   /* ─── CinetPay-style helpers ──────────────────────────────────── */
@@ -340,9 +342,9 @@
     background: conic-gradient(
       from 0deg,
       transparent 0deg,
-      #7B61FF 60deg,
-      #FF8A00 120deg,
-      #f15522 180deg,
+      #1FBEAF 60deg,
+      #EC4899 120deg,
+      #FF8A00 180deg,
       transparent 240deg
     );
     animation: spin-slow 6s linear infinite;
@@ -376,7 +378,7 @@
     pointer-events: none;
   }
   .light .particle {
-    background: radial-gradient(circle, rgba(123,97,255,0.6), transparent);
+    background: radial-gradient(circle, rgba(236,72,153,0.6), transparent);
   }
 
   /* ─── Marquee testimonials (scroll infinite vertical) ─── */
@@ -440,7 +442,7 @@
     isolation: isolate;
     background:
       radial-gradient(ellipse 60% 40% at 15% 5%, rgba(241,85,34,0.10), transparent 60%),
-      radial-gradient(ellipse 50% 35% at 85% 20%, rgba(123,97,255,0.10), transparent 60%),
+      radial-gradient(ellipse 50% 35% at 85% 20%, rgba(236,72,153,0.10), transparent 60%),
       radial-gradient(ellipse 70% 50% at 50% 100%, rgba(255,138,0,0.08), transparent 70%),
       radial-gradient(ellipse 40% 30% at 90% 70%, rgba(241,85,34,0.06), transparent 70%),
       #FBFBFD;
@@ -449,7 +451,7 @@
   .dark .lg-shell {
     background:
       radial-gradient(ellipse 60% 40% at 15% 5%, rgba(241,85,34,0.16), transparent 60%),
-      radial-gradient(ellipse 50% 35% at 85% 20%, rgba(123,97,255,0.18), transparent 60%),
+      radial-gradient(ellipse 50% 35% at 85% 20%, rgba(236,72,153,0.18), transparent 60%),
       radial-gradient(ellipse 70% 50% at 50% 100%, rgba(255,138,0,0.10), transparent 70%),
       radial-gradient(ellipse 40% 30% at 90% 70%, rgba(241,85,34,0.10), transparent 70%),
       #0B0F19;
@@ -464,12 +466,12 @@
     pointer-events: none;
     background:
       radial-gradient(circle at 20% 30%, rgba(241,85,34,0.05), transparent 35%),
-      radial-gradient(circle at 80% 70%, rgba(123,97,255,0.06), transparent 40%);
+      radial-gradient(circle at 80% 70%, rgba(236,72,153,0.06), transparent 40%);
   }
   .dark .lg-shell::before {
     background:
       radial-gradient(circle at 20% 30%, rgba(241,85,34,0.08), transparent 35%),
-      radial-gradient(circle at 80% 70%, rgba(123,97,255,0.10), transparent 40%);
+      radial-gradient(circle at 80% 70%, rgba(236,72,153,0.10), transparent 40%);
   }
 
   /* ─── Override des sections opaques pour laisser passer l'ambiance ─── */
@@ -620,7 +622,7 @@
 
   /* ─── Borders noirs sur tout le shell pour différencier les sections ─── */
   /* Override seulement les borders "neutres" (border-border).
-     Les borders colorés Tailwind (border-emerald-500/30, border-[#7B61FF]/30,
+     Les borders colorés Tailwind (border-emerald-500/30, border-[#EC4899]/30,
      border-amber-500, etc.) gardent leur teinte parce qu'ils sont des classes
      distinctes avec une plus haute spécificité dans leur génération. */
   .lg-shell .border-border {
@@ -642,10 +644,14 @@
     opacity: 0.6;
     animation: lg-orb-float 18s ease-in-out infinite;
   }
-  .lg-orb-orange { background: #f15522; }
-  .lg-orb-purple { background: #7B61FF; }
-  .lg-orb-cyan   { background: #FF8A00; } /* alias legacy — orange chaud */
-  .lg-orb-warm   { background: #FF8A00; }
+  /* Palette officielle logo : teal / pink / orange */
+  .lg-orb-orange { background: #FF8A00; }
+  .lg-orb-pink   { background: #EC4899; }
+  .lg-orb-teal   { background: #1FBEAF; }
+  /* Aliases legacy (back-compat sans casser les usages existants) */
+  .lg-orb-purple { background: #EC4899; }  /* alias → pink */
+  .lg-orb-cyan   { background: #1FBEAF; }  /* alias → teal */
+  .lg-orb-warm   { background: #FF8A00; }  /* alias → orange */
 
   @keyframes lg-orb-float {
     0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
@@ -666,7 +672,7 @@
     background: conic-gradient(
       from 0deg,
       rgba(241,85,34,0.6),
-      rgba(123,97,255,0.5),
+      rgba(236,72,153,0.5),
       rgba(255,138,0,0.6),
       rgba(241,85,34,0.6)
     );

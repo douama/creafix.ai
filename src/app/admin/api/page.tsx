@@ -64,7 +64,7 @@ const MOCK_KEYS: ApiKey[] = [
 
 const RATE_LIMITS = [
   { plan: "FREE", rpm: 60, monthly: 1_000, color: "#94A3B8" },
-  { plan: "PRO", rpm: 600, monthly: 50_000, color: "#7B61FF" },
+  { plan: "PRO", rpm: 600, monthly: 50_000, color: "#EC4899" },
   { plan: "AGENCY", rpm: 6_000, monthly: 500_000, color: "#FF8A00" },
 ];
 
@@ -145,7 +145,7 @@ export default function ApiAdminPage() {
         <button
           type="button"
           onClick={() => setCreating(!creating)}
-          className="inline-flex items-center gap-1.5 rounded-lg bg-gradient-to-r from-[#7B61FF] to-[#FF8A00] px-4 py-2 text-xs font-semibold text-white shadow-lg shadow-[#7B61FF]/20"
+          className="inline-flex items-center gap-1.5 rounded-lg bg-gradient-to-r from-[#EC4899] to-[#FF8A00] px-4 py-2 text-xs font-semibold text-white shadow-lg shadow-[#EC4899]/20"
         >
           <Plus className="h-3.5 w-3.5" />
           Nouvelle clé
@@ -154,7 +154,7 @@ export default function ApiAdminPage() {
 
       {/* Stats */}
       <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-        <Stat label="Clés actives" value={keys.length.toString()} color="#7B61FF" icon={KeyRound} />
+        <Stat label="Clés actives" value={keys.length.toString()} color="#EC4899" icon={KeyRound} />
         <Stat label="Calls / min" value={activeRpm.toString()} color="#10B981" icon={Activity} />
         <Stat label="Calls / mois" value={fmt(totalCalls)} color="#FF8A00" icon={Zap} />
         <Stat label="Webhooks" value={WEBHOOKS.length.toString()} color="#FF8A00" icon={Webhook} />
@@ -203,7 +203,7 @@ export default function ApiAdminPage() {
 
       {/* Create form */}
       {creating && (
-        <div className="rounded-2xl border border-[#7B61FF]/40 bg-[#7B61FF]/[0.06] p-5">
+        <div className="rounded-2xl border border-[#EC4899]/40 bg-[#EC4899]/[0.06] p-5">
           <h2 className="font-display text-sm font-bold">Créer une nouvelle clé API</h2>
           <div className="mt-3 grid gap-2 md:grid-cols-[2fr_1fr_auto]">
             <input
@@ -225,7 +225,7 @@ export default function ApiAdminPage() {
               type="button"
               onClick={createKey}
               disabled={busy || !newKeyName.trim()}
-              className="inline-flex items-center gap-1.5 rounded-lg bg-gradient-to-r from-[#7B61FF] to-[#FF8A00] px-4 py-2 text-xs font-semibold text-white disabled:opacity-50"
+              className="inline-flex items-center gap-1.5 rounded-lg bg-gradient-to-r from-[#EC4899] to-[#FF8A00] px-4 py-2 text-xs font-semibold text-white disabled:opacity-50"
             >
               {busy ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Plus className="h-3.5 w-3.5" />}
               Créer
@@ -301,7 +301,7 @@ export default function ApiAdminPage() {
       {/* Rate limits */}
       <div>
         <h2 className="mb-3 flex items-center gap-2 font-display text-sm font-bold">
-          <Shield className="h-4 w-4 text-[#7B61FF]" />
+          <Shield className="h-4 w-4 text-[#EC4899]" />
           Rate limits par plan
         </h2>
         <div className="grid gap-3 md:grid-cols-3">

@@ -58,15 +58,15 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
             className="absolute inset-0 -z-10"
             style={{
               background:
-                "radial-gradient(ellipse 80% 50% at 50% 0%, rgba(123,97,255,0.20), transparent 70%), radial-gradient(ellipse 60% 40% at 80% 100%, rgba(0,194,255,0.12), transparent 60%), radial-gradient(ellipse 50% 30% at 10% 80%, rgba(255,138,0,0.10), transparent 60%), linear-gradient(135deg, hsl(var(--card)), hsl(var(--background)))",
+                "radial-gradient(ellipse 80% 50% at 50% 0%, rgba(236,72,153,0.20), transparent 70%), radial-gradient(ellipse 60% 40% at 80% 100%, rgba(0,194,255,0.12), transparent 60%), radial-gradient(ellipse 50% 30% at 10% 80%, rgba(255,138,0,0.10), transparent 60%), linear-gradient(135deg, hsl(var(--card)), hsl(var(--background)))",
             }}
           />
           <div className="absolute inset-0 -z-10 grid-bg opacity-30" />
-          <div className="pointer-events-none absolute -left-32 -top-32 -z-10 h-96 w-96 rounded-full bg-[#7B61FF]/30 blur-3xl" />
+          <div className="pointer-events-none absolute -left-32 -top-32 -z-10 h-96 w-96 rounded-full bg-[#EC4899]/30 blur-3xl" />
           <div className="pointer-events-none absolute -right-32 -bottom-32 -z-10 h-96 w-96 rounded-full bg-[#FF8A00]/20 blur-3xl" />
 
           <div className="relative flex flex-col gap-10 p-10 xl:p-14">
-            <div className="inline-flex w-fit items-center gap-1.5 rounded-full border border-[#7B61FF]/30 bg-[#7B61FF]/10 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-[#7B61FF]">
+            <div className="inline-flex w-fit items-center gap-1.5 rounded-full border border-[#EC4899]/30 bg-[#EC4899]/10 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-[#EC4899]">
               <Sparkles className="h-3 w-3" />
               The AI Revenue OS for African Creators
             </div>
@@ -108,7 +108,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
                 ma page était réactivée avec un plan d&apos;action concret. »
               </blockquote>
               <figcaption className="mt-4 flex items-center gap-3">
-                <div className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-[#7B61FF] to-[#FF8A00] text-xs font-bold text-white">
+                <div className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-[#EC4899] to-[#FF8A00] text-xs font-bold text-white">
                   IS
                 </div>
                 <div>

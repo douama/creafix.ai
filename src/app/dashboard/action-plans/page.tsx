@@ -30,7 +30,7 @@ type Action = {
 const HORIZONS = [
   { id: "30", label: "30 jours", color: "#10B981" },
   { id: "60", label: "60 jours", color: "#FF8A00" },
-  { id: "90", label: "90 jours", color: "#7B61FF" },
+  { id: "90", label: "90 jours", color: "#EC4899" },
 ];
 
 const PLANS: Record<string, Action[]> = {
@@ -144,7 +144,7 @@ const CATEGORY_META: Record<Action["category"], { icon: typeof Flame; color: str
   viral: { icon: Flame, color: "#FF8A00", label: "Viral" },
   rpm: { icon: DollarSign, color: "#10B981", label: "RPM" },
   shadowban: { icon: Eye, color: "#F43F5E", label: "Shadowban" },
-  audience: { icon: TrendingUp, color: "#7B61FF", label: "Audience" },
+  audience: { icon: TrendingUp, color: "#EC4899", label: "Audience" },
 };
 
 export default function ActionPlansPage() {
@@ -191,7 +191,7 @@ export default function ActionPlansPage() {
         <CardContent className="p-5 md:p-6">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div className="flex items-center gap-4">
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-[#7B61FF] to-[#FF8A00] shadow-lg shadow-[#7B61FF]/30">
+              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-[#EC4899] to-[#FF8A00] shadow-lg shadow-[#EC4899]/30">
                 <Target className="h-5 w-5 text-white" />
               </div>
               <div>
@@ -221,7 +221,7 @@ export default function ActionPlansPage() {
                   initial={{ width: 0 }}
                   animate={{ width: `${globalPct}%` }}
                   transition={{ duration: 0.6, ease: "easeOut" }}
-                  className="h-full rounded-full bg-gradient-to-r from-[#7B61FF] to-[#FF8A00]"
+                  className="h-full rounded-full bg-gradient-to-r from-[#EC4899] to-[#FF8A00]"
                 />
               </div>
               <div className="mt-1 text-[10px] text-muted-foreground">
@@ -360,8 +360,8 @@ export default function ActionPlansPage() {
             })}
           </ol>
 
-          <div className="mt-5 flex items-center gap-2 rounded-xl border border-[#7B61FF]/30 bg-gradient-to-br from-[#7B61FF]/[0.06] to-transparent p-3">
-            <Sparkles className="h-4 w-4 shrink-0 text-[#7B61FF]" />
+          <div className="mt-5 flex items-center gap-2 rounded-xl border border-[#EC4899]/30 bg-gradient-to-br from-[#EC4899]/[0.06] to-transparent p-3">
+            <Sparkles className="h-4 w-4 shrink-0 text-[#EC4899]" />
             <p className="text-xs text-muted-foreground">
               <b className="text-foreground">Plan régénéré à chaque audit.</b>{" "}
               L&apos;IA réajuste les priorités selon ta progression et les données live.

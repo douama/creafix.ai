@@ -38,7 +38,7 @@ const PRIORITIES = [
 
 const STATUS_META: Record<string, { color: string; label: string; icon: typeof CheckCircle2 }> = {
   OPEN:          { color: "#FF8A00", label: "Ouvert",      icon: AlertCircle },
-  IN_PROGRESS:   { color: "#7B61FF", label: "En cours",    icon: Loader2 },
+  IN_PROGRESS:   { color: "#EC4899", label: "En cours",    icon: Loader2 },
   WAITING_USER:  { color: "#FBBF24", label: "On attend",   icon: Clock },
   RESOLVED:      { color: "#10B981", label: "Résolu",      icon: CheckCircle2 },
   CLOSED:        { color: "#94A3B8", label: "Fermé",       icon: CheckCircle2 },
@@ -118,7 +118,7 @@ export default function UserSupportPage() {
         <Card>
           <CardContent className="p-5 md:p-6">
             <h2 className="flex items-center gap-2 font-display text-base font-bold">
-              <Send className="h-4 w-4 text-[#7B61FF]" />
+              <Send className="h-4 w-4 text-[#EC4899]" />
               Nouveau ticket
             </h2>
             <div className="mt-4 space-y-3">
@@ -134,7 +134,7 @@ export default function UserSupportPage() {
                       onClick={() => setForm({ ...form, category: c.id })}
                       className={`rounded-lg border px-3 py-1.5 text-xs font-semibold transition-all ${
                         form.category === c.id
-                          ? "border-[#7B61FF]/50 bg-[#7B61FF]/15 text-foreground"
+                          ? "border-[#EC4899]/50 bg-[#EC4899]/15 text-foreground"
                           : "border-border bg-card/40 text-muted-foreground hover:text-foreground"
                       }`}
                     >
@@ -156,7 +156,7 @@ export default function UserSupportPage() {
                       onClick={() => setForm({ ...form, priority: p.id })}
                       className={`rounded-lg border px-3 py-1.5 text-xs font-semibold transition-all ${
                         form.priority === p.id
-                          ? "border-[#7B61FF]/50 bg-[#7B61FF]/15 text-foreground"
+                          ? "border-[#EC4899]/50 bg-[#EC4899]/15 text-foreground"
                           : "border-border bg-card/40 text-muted-foreground hover:text-foreground"
                       }`}
                     >
@@ -213,7 +213,7 @@ export default function UserSupportPage() {
       {/* List */}
       <div>
         <h2 className="mb-3 flex items-center gap-2 font-display text-sm font-bold">
-          <LifeBuoy className="h-4 w-4 text-[#7B61FF]" />
+          <LifeBuoy className="h-4 w-4 text-[#EC4899]" />
           Mes tickets
         </h2>
 

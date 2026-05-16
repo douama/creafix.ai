@@ -30,7 +30,7 @@ export type ModerationItem = {
 };
 
 const KIND_META: Record<string, { icon: typeof FileText; label: string; color: string }> = {
-  CONTENT:   { icon: FileText,  label: "Contenu",     color: "#7B61FF" },
+  CONTENT:   { icon: FileText,  label: "Contenu",     color: "#EC4899" },
   COMMENT:   { icon: FileText,  label: "Commentaire", color: "#FF8A00" },
   ACCOUNT:   { icon: Shield,    label: "Compte",      color: "#FF8A00" },
   AUDIO:     { icon: Music2,    label: "Audio",       color: "#F43F5E" },
@@ -47,7 +47,7 @@ const SEVERITY_META: Record<string, { color: string; label: string }> = {
 const FLAGGER_META: Record<string, { label: string; color: string }> = {
   openai:      { label: "OpenAI Moderation", color: "#10A37F" },
   gemini:      { label: "Gemini Moderation", color: "#4285F4" },
-  user_report: { label: "User Report",       color: "#7B61FF" },
+  user_report: { label: "User Report",       color: "#EC4899" },
   auto_rule:   { label: "Règle auto",        color: "#FF8A00" },
 };
 
@@ -120,7 +120,7 @@ export function ModerationClient({ initialItems }: { initialItems: ModerationIte
       </div>
 
       <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-        <Stat label="Total" value={stats.total} color="#7B61FF" icon={Eye} />
+        <Stat label="Total" value={stats.total} color="#EC4899" icon={Eye} />
         <Stat label="En attente" value={stats.pending} color="#FF8A00" icon={Flag} />
         <Stat label="Critiques" value={stats.critical} color="#DC2626" icon={AlertOctagon} />
         <Stat label="Confiance IA moy." value={stats.avgConfidence} color="#10B981" icon={Sparkles} suffix="%" />

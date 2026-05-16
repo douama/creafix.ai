@@ -37,11 +37,11 @@ export function StubPage({
       </div>
 
       <div className="relative overflow-hidden rounded-3xl border border-border bg-gradient-to-br from-card/60 via-card/40 to-card/40 p-10 backdrop-blur-2xl">
-        <div className="pointer-events-none absolute -top-32 left-1/2 h-64 w-[600px] -translate-x-1/2 rounded-full bg-[#7B61FF]/15 blur-3xl" />
+        <div className="pointer-events-none absolute -top-32 left-1/2 h-64 w-[600px] -translate-x-1/2 rounded-full bg-[#EC4899]/15 blur-3xl" />
 
         <div className="relative mx-auto max-w-xl text-center">
-          <div className="inline-flex h-14 w-14 items-center justify-center rounded-2xl border border-[#7B61FF]/40 bg-gradient-to-br from-[#7B61FF]/20 to-[#FF8A00]/15">
-            <Zap className="h-6 w-6 text-[#7B61FF]" />
+          <div className="inline-flex h-14 w-14 items-center justify-center rounded-2xl border border-[#EC4899]/40 bg-gradient-to-br from-[#EC4899]/20 to-[#FF8A00]/15">
+            <Zap className="h-6 w-6 text-[#EC4899]" />
           </div>
           <h2 className="mt-4 font-display text-xl font-bold">Cette section arrive</h2>
           <p className="mt-2 text-sm text-muted-foreground">
@@ -57,7 +57,7 @@ export function StubPage({
               <ul className="space-y-1.5 text-xs">
                 {features.map((f) => (
                   <li key={f} className="flex items-start gap-2">
-                    <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-[#7B61FF]" />
+                    <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-[#EC4899]" />
                     <span>{f}</span>
                   </li>
                 ))}

@@ -38,10 +38,10 @@ const toneClasses: Record<
   { gradient: string; icon: string; text: string; ring: string }
 > = {
   violet: {
-    gradient: "from-[#7B61FF]/30 to-[#7B61FF]/0",
-    icon: "from-[#7B61FF] to-[#5a3dff]",
-    text: "text-[#7B61FF]",
-    ring: "ring-[#7B61FF]/30",
+    gradient: "from-[#EC4899]/30 to-[#EC4899]/0",
+    icon: "from-[#EC4899] to-[#5a3dff]",
+    text: "text-[#EC4899]",
+    ring: "ring-[#EC4899]/30",
   },
   electric: {
     gradient: "from-[#FF8A00]/30 to-[#FF8A00]/0",

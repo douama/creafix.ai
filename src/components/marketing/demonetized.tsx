@@ -139,9 +139,9 @@ export function Demonetized() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-40px" }}
             transition={{ duration: 0.4, delay: 0.25 }}
-            className="relative flex flex-col items-center justify-center overflow-hidden rounded-2xl border border-[#7B61FF]/40 bg-gradient-to-br from-[#7B61FF]/[0.1] via-card/40 to-card/40 p-5 text-center backdrop-blur"
+            className="relative flex flex-col items-center justify-center overflow-hidden rounded-2xl border border-[#EC4899]/40 bg-gradient-to-br from-[#EC4899]/[0.1] via-card/40 to-card/40 p-5 text-center backdrop-blur"
           >
-            <div className="pointer-events-none absolute -right-12 -top-12 h-32 w-32 rounded-full bg-[#7B61FF]/30 blur-2xl" />
+            <div className="pointer-events-none absolute -right-12 -top-12 h-32 w-32 rounded-full bg-[#EC4899]/30 blur-2xl" />
             <div className="relative">
               <h3 className="font-display text-base font-bold leading-tight">
                 Vérifie lesquelles te concernent.
@@ -152,7 +152,7 @@ export function Demonetized() {
               </p>
               <a
                 href="/signup"
-                className="mt-4 inline-flex items-center gap-1.5 rounded-full border border-[#7B61FF]/50 bg-[#7B61FF]/15 px-3 py-1.5 text-xs font-semibold text-foreground transition-colors hover:bg-[#7B61FF]/25"
+                className="mt-4 inline-flex items-center gap-1.5 rounded-full border border-[#EC4899]/50 bg-[#EC4899]/15 px-3 py-1.5 text-xs font-semibold text-foreground transition-colors hover:bg-[#EC4899]/25"
               >
                 Lancer le diagnostic gratuit →
               </a>
