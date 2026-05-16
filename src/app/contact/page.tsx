@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Mail, MapPin, MessageCircle, Phone, Send } from "lucide-react";
 import { PageShell, PageHero, PageSection } from "@/components/marketing/page-shell";
 
@@ -7,10 +8,39 @@ export const metadata = {
 };
 
 const offices = [
-  { city: "Dakar (HQ)", flag: "🇸🇳", address: "Almadies, Dakar — Sénégal" },
-  { city: "Abidjan", flag: "🇨🇮", address: "Cocody II Plateaux — Côte d'Ivoire" },
-  { city: "Lagos", flag: "🇳🇬", address: "Victoria Island — Nigeria" },
-  { city: "Casablanca", flag: "🇲🇦", address: "Maarif — Maroc" },
+  {
+    city: "Dakar",
+    badge: "HQ",
+    flag: "🇸🇳",
+    country: "Sénégal",
+    address: "Almadies, Dakar",
+    image: "/offices/dakar.jpg",
+    team: "12 personnes",
+  },
+  {
+    city: "Abidjan",
+    flag: "🇨🇮",
+    country: "Côte d'Ivoire",
+    address: "Cocody II Plateaux",
+    image: "/offices/abidjan.jpg",
+    team: "8 personnes",
+  },
+  {
+    city: "Lagos",
+    flag: "🇳🇬",
+    country: "Nigeria",
+    address: "Victoria Island",
+    image: "/offices/lagos.jpg",
+    team: "10 personnes",
+  },
+  {
+    city: "Casablanca",
+    flag: "🇲🇦",
+    country: "Maroc",
+    address: "Maarif, Casablanca",
+    image: "/offices/casablanca.jpg",
+    team: "6 personnes",
+  },
 ];
 
 const channels = [
@@ -138,21 +168,64 @@ export default function ContactPage() {
       </div>
 
       <PageSection title="Nos bureaux">
-        <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           {offices.map((o) => (
-            <div
+            <article
               key={o.city}
-              className="rounded-2xl border border-border bg-card/40 p-4 backdrop-blur"
+              className="group relative overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
             >
-              <div className="text-2xl">{o.flag}</div>
-              <div className="mt-2 font-display font-semibold">{o.city}</div>
-              <div className="mt-1 flex items-start gap-1.5 text-xs text-muted-foreground">
-                <MapPin className="mt-0.5 h-3 w-3 shrink-0" />
-                <span>{o.address}</span>
+              {/* Image */}
+              <div className="relative aspect-[4/3] overflow-hidden bg-muted">
+                <Image
+                  src={o.image}
+                  alt={`Bureau CreaFix AI ${o.city}`}
+                  fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
+                />
+                {/* Bottom-gradient overlay pour lisibilité du nom ville */}
+                <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-black/85 via-black/40 to-transparent" />
+
+                {/* Badge HQ */}
+                {o.badge && (
+                  <span className="absolute right-3 top-3 inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-[#EC4899] to-[#FF8A00] px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-white shadow-lg">
+                    {o.badge}
+                  </span>
+                )}
+
+                {/* City name (sur l'image) */}
+                <div className="absolute inset-x-0 bottom-0 p-4">
+                  <div className="flex items-center gap-2">
+                    <span className="text-2xl drop-shadow">{o.flag}</span>
+                    <div>
+                      <div className="font-display text-xl font-bold leading-none text-white drop-shadow">
+                        {o.city}
+                      </div>
+                      <div className="mt-1 text-[11px] uppercase tracking-wider text-white/80">
+                        {o.country}
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-            </div>
+
+              {/* Body */}
+              <div className="p-4">
+                <div className="flex items-start gap-1.5 text-[12.5px] text-muted-foreground">
+                  <MapPin className="mt-0.5 h-3.5 w-3.5 shrink-0" />
+                  <span>{o.address}</span>
+                </div>
+                <div className="mt-1.5 text-[11px] text-muted-foreground/80">
+                  Équipe : <b className="text-foreground">{o.team}</b>
+                </div>
+              </div>
+            </article>
           ))}
         </div>
+
+        <p className="mt-6 text-center text-[12px] text-muted-foreground">
+          🌍 Présence sur 4 hubs créatifs africains · 36 personnes au total
+        </p>
       </PageSection>
     </PageShell>
   );
