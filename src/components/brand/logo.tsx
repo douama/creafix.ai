@@ -27,7 +27,7 @@ export function Logo({
 
   return (
     <div
-      className={cn("flex items-center justify-center", className)}
+      className={cn("inline-flex items-center justify-start", className)}
       style={{ height }}
     >
       {/* Logo light — visible en thème clair (texte sombre) */}
@@ -38,7 +38,7 @@ export function Logo({
         height={height}
         priority
         unoptimized
-        className="block object-contain object-center dark:hidden"
+        className="block object-contain object-left dark:hidden"
         style={{ height, width: "auto" }}
       />
       {/* Logo dark — visible en thème sombre (texte clair) */}
@@ -49,7 +49,7 @@ export function Logo({
         height={height}
         priority
         unoptimized
-        className="hidden object-contain object-center dark:block"
+        className="hidden object-contain object-left dark:block"
         style={{ height, width: "auto" }}
       />
     </div>
