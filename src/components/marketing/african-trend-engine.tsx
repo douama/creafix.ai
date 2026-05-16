@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Music2,
@@ -13,7 +13,9 @@ import {
   RefreshCcw,
   Flame,
 } from "lucide-react";
+import { COUNTRY_POOLS, snapshotFor, REFRESH_INTERVAL_MS } from "@/lib/african-trends-pool";
 
+// Legacy type pour le rendu UI (champs identiques au snapshot enrichi).
 type Country = {
   id: string;
   flag: string;
@@ -28,184 +30,48 @@ type Country = {
   schedule: { day: string; hours: string; intensity: number }[];
 };
 
-const COUNTRIES: Country[] = [
-  {
-    id: "sn",
-    flag: "🇸🇳",
-    name: "Sénégal",
-    short: "Dakar",
-    rpm: "$1.80",
-    growth: "+34%",
-    creators: "2 480",
-    color: "#FF8A00",
-    sounds: [
-      { artist: "Wally B. Seck", track: "Naari", uses: "412K", momentum: 92 },
-      { artist: "ISS 814", track: "Bayil", uses: "284K", momentum: 78 },
-      { artist: "Sidiki Diabaté", track: "Diarabi", uses: "196K", momentum: 64 },
-      { artist: "Ngaaka Blindé", track: "Mama Africa", uses: "152K", momentum: 58 },
-    ],
-    hashtags: [
-      { tag: "#dakartwitter", volume: "1.2M", trend: "hot" },
-      { tag: "#senegal2026", volume: "840K", trend: "up" },
-      { tag: "#mbalax", volume: "612K", trend: "up" },
-      { tag: "#tiktokdakar", volume: "498K", trend: "up" },
-    ],
-    schedule: [
-      { day: "Lun", hours: "20h–22h", intensity: 88 },
-      { day: "Mer", hours: "19h–21h", intensity: 76 },
-      { day: "Ven", hours: "21h–23h", intensity: 94 },
-      { day: "Dim", hours: "18h–20h", intensity: 82 },
-    ],
-  },
-  {
-    id: "ci",
-    flag: "🇨🇮",
-    name: "Côte d'Ivoire",
-    short: "Abidjan",
-    rpm: "$1.60",
-    growth: "+42%",
-    creators: "1 920",
-    color: "#FF8A00",
-    sounds: [
-      { artist: "Didi B", track: "Lou Pra", uses: "528K", momentum: 96 },
-      { artist: "Suspect 95", track: "Banyam", uses: "362K", momentum: 84 },
-      { artist: "Tam Sir", track: "Coup du marteau", uses: "248K", momentum: 71 },
-      { artist: "Roseline Layo", track: "Femme du forgeron", uses: "184K", momentum: 62 },
-    ],
-    hashtags: [
-      { tag: "#abidjantiktok", volume: "1.8M", trend: "hot" },
-      { tag: "#coupedecaler", volume: "920K", trend: "up" },
-      { tag: "#civ225", volume: "742K", trend: "up" },
-      { tag: "#zouglou", volume: "412K", trend: "up" },
-    ],
-    schedule: [
-      { day: "Mar", hours: "19h–21h", intensity: 82 },
-      { day: "Jeu", hours: "20h–22h", intensity: 90 },
-      { day: "Sam", hours: "21h–00h", intensity: 96 },
-      { day: "Dim", hours: "17h–19h", intensity: 74 },
-    ],
-  },
-  {
-    id: "ng",
-    flag: "🇳🇬",
-    name: "Nigeria",
-    short: "Lagos",
-    rpm: "$2.40",
-    growth: "+58%",
-    creators: "8 760",
-    color: "#10B981",
-    sounds: [
-      { artist: "Davido", track: "Awuke", uses: "1.4M", momentum: 98 },
-      { artist: "Asake", track: "Lonely at the Top", uses: "892K", momentum: 91 },
-      { artist: "Burna Boy", track: "Higher", uses: "682K", momentum: 84 },
-      { artist: "Rema", track: "Hehehe", uses: "548K", momentum: 78 },
-    ],
-    hashtags: [
-      { tag: "#nigeriatiktok", volume: "3.2M", trend: "hot" },
-      { tag: "#afrobeats", volume: "2.4M", trend: "hot" },
-      { tag: "#lagoslife", volume: "1.6M", trend: "up" },
-      { tag: "#9jatwitter", volume: "1.1M", trend: "up" },
-    ],
-    schedule: [
-      { day: "Lun", hours: "21h–23h", intensity: 86 },
-      { day: "Mer", hours: "20h–22h", intensity: 78 },
-      { day: "Ven", hours: "22h–01h", intensity: 98 },
-      { day: "Sam", hours: "19h–21h", intensity: 88 },
-    ],
-  },
-  {
-    id: "ma",
-    flag: "🇲🇦",
-    name: "Maroc",
-    short: "Rabat",
-    rpm: "$3.10",
-    growth: "+27%",
-    creators: "3 240",
-    color: "#EC4899",
-    sounds: [
-      { artist: "ElGrandeToto", track: "Madrid", uses: "624K", momentum: 89 },
-      { artist: "Inkonnu", track: "Mafia", uses: "412K", momentum: 76 },
-      { artist: "Hatim Ammor", track: "Galbi Habba", uses: "284K", momentum: 68 },
-      { artist: "Manal", track: "Slay", uses: "198K", momentum: 60 },
-    ],
-    hashtags: [
-      { tag: "#maroctiktok", volume: "1.6M", trend: "hot" },
-      { tag: "#darija", volume: "920K", trend: "up" },
-      { tag: "#casablancalife", volume: "612K", trend: "up" },
-      { tag: "#raimaroc", volume: "384K", trend: "up" },
-    ],
-    schedule: [
-      { day: "Lun", hours: "21h–00h", intensity: 84 },
-      { day: "Mer", hours: "22h–01h", intensity: 78 },
-      { day: "Ven", hours: "23h–02h", intensity: 92 },
-      { day: "Sam", hours: "20h–22h", intensity: 86 },
-    ],
-  },
-  {
-    id: "cm",
-    flag: "🇨🇲",
-    name: "Cameroun",
-    short: "Douala",
-    rpm: "$1.40",
-    growth: "+31%",
-    creators: "1 480",
-    color: "#F43F5E",
-    sounds: [
-      { artist: "Locko", track: "Margo", uses: "286K", momentum: 82 },
-      { artist: "Mr Leo", track: "Partout", uses: "184K", momentum: 70 },
-      { artist: "Daphne", track: "Calee", uses: "148K", momentum: 64 },
-      { artist: "Salatiel", track: "Anita", uses: "112K", momentum: 56 },
-    ],
-    hashtags: [
-      { tag: "#camerountiktok", volume: "780K", trend: "up" },
-      { tag: "#makossa", volume: "412K", trend: "up" },
-      { tag: "#237", volume: "362K", trend: "up" },
-      { tag: "#doualalife", volume: "284K", trend: "up" },
-    ],
-    schedule: [
-      { day: "Mar", hours: "20h–22h", intensity: 80 },
-      { day: "Jeu", hours: "21h–23h", intensity: 86 },
-      { day: "Sam", hours: "19h–21h", intensity: 90 },
-      { day: "Dim", hours: "18h–20h", intensity: 72 },
-    ],
-  },
-  {
-    id: "za",
-    flag: "🇿🇦",
-    name: "Afrique du Sud",
-    short: "Johannesburg",
-    rpm: "$2.90",
-    growth: "+45%",
-    creators: "4 120",
-    color: "#FBBF24",
-    sounds: [
-      { artist: "Tyla", track: "Water (Remix)", uses: "1.1M", momentum: 94 },
-      { artist: "DJ Maphorisa", track: "Bambolelo", uses: "428K", momentum: 81 },
-      { artist: "Uncle Waffles", track: "Tanzania", uses: "324K", momentum: 76 },
-      { artist: "Kabza De Small", track: "Imithandazo", uses: "262K", momentum: 68 },
-    ],
-    hashtags: [
-      { tag: "#sazn", volume: "1.4M", trend: "hot" },
-      { tag: "#amapiano", volume: "1.2M", trend: "hot" },
-      { tag: "#joburglife", volume: "684K", trend: "up" },
-      { tag: "#mzansi", volume: "498K", trend: "up" },
-    ],
-    schedule: [
-      { day: "Lun", hours: "19h–22h", intensity: 82 },
-      { day: "Mer", hours: "20h–22h", intensity: 78 },
-      { day: "Ven", hours: "21h–00h", intensity: 92 },
-      { day: "Sam", hours: "18h–20h", intensity: 84 },
-    ],
-  },
-];
 
 const SOUND_ROTATION_MS = 3800;
 
-export function AfricanTrendEngine() {
-  const [selectedId, setSelectedId] = useState(COUNTRIES[0].id);
-  const country = COUNTRIES.find((c) => c.id === selectedId) ?? COUNTRIES[0];
+/** Calcule combien de minutes se sont écoulées dans le bucket courant (0-3). */
+function minutesIntoBucket(nowMs: number): number {
+  return Math.floor((nowMs % REFRESH_INTERVAL_MS) / 60_000);
+}
 
-  // Rotation des sons trending
+export function AfricanTrendEngine() {
+  const [selectedId, setSelectedId] = useState(COUNTRY_POOLS[0].id);
+  const pool = COUNTRY_POOLS.find((c) => c.id === selectedId) ?? COUNTRY_POOLS[0];
+
+  // Snapshot dynamique (recomputé à chaque tick + au changement de pays).
+  // tickMs change toutes les 60s — bucket de 4 min seul détermine si rotation effective.
+  const [nowMs, setNowMs] = useState<number>(() => Date.now());
+  useEffect(() => {
+    const id = setInterval(() => setNowMs(Date.now()), 60_000);
+    return () => clearInterval(id);
+  }, []);
+
+  const snapshot = useMemo(() => snapshotFor(pool, nowMs), [pool, nowMs]);
+  const minsAgo = minutesIntoBucket(nowMs);
+
+  // Country composite : statique (color/flag/name) + dynamique (snapshot)
+  const country: Country = useMemo(
+    () => ({
+      id: pool.id,
+      flag: pool.flag,
+      name: pool.name,
+      short: pool.short,
+      color: pool.color,
+      rpm: snapshot.rpm,
+      growth: snapshot.growth,
+      creators: snapshot.creators,
+      sounds: snapshot.sounds,
+      hashtags: snapshot.hashtags,
+      schedule: snapshot.schedule,
+    }),
+    [pool, snapshot],
+  );
+
+  // Rotation des sons trending dans la card (différent du bucket 4-min)
   const [soundIdx, setSoundIdx] = useState(0);
   useEffect(() => {
     setSoundIdx(0);
@@ -213,7 +79,7 @@ export function AfricanTrendEngine() {
       setSoundIdx((i) => (i + 1) % country.sounds.length);
     }, SOUND_ROTATION_MS);
     return () => clearInterval(id);
-  }, [country.id, country.sounds.length]);
+  }, [country.id, country.sounds.length, snapshot.bucket]);
 
   return (
     <section className="relative overflow-hidden py-12 md:py-16">
@@ -254,7 +120,7 @@ export function AfricanTrendEngine() {
 
         {/* Tabs pays */}
         <div className="mx-auto mt-7 flex max-w-4xl flex-wrap items-center justify-center gap-2">
-          {COUNTRIES.map((c) => {
+          {COUNTRY_POOLS.map((c) => {
             const active = c.id === selectedId;
             return (
               <button
@@ -311,8 +177,10 @@ export function AfricanTrendEngine() {
               <Stat icon={TrendingUp} label="RPM moyen" value={country.rpm} sub={country.growth} color={country.color} />
               <Stat icon={Users} label="Créateurs actifs" value={country.creators} sub="actifs 30 j" color={country.color} />
               <div className="flex items-center justify-end gap-1.5 text-[10px] text-muted-foreground md:col-span-1">
-                <RefreshCcw className="h-3 w-3" />
-                <span>Mis à jour il y a 4 min</span>
+                <RefreshCcw className="h-3 w-3 animate-spin [animation-duration:4s]" />
+                <span>
+                  Mis à jour {minsAgo === 0 ? "à l'instant" : `il y a ${minsAgo} min`}
+                </span>
               </div>
             </div>
 
