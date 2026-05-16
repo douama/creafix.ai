@@ -100,26 +100,6 @@ export function Hero() {
           </div>
         </motion.div>
 
-        {/* Stats bandeau */}
-        <div className="mx-auto mt-10 grid max-w-4xl grid-cols-2 gap-4 sm:grid-cols-4">
-          {(
-            [
-              ["videos", "10M+"],
-              ["accuracy", "94%"],
-              ["lift", "+340%"],
-              ["countries", "9"],
-            ] as const
-          ).map(([key, v]) => (
-            <div key={key} className="text-center">
-              <div className="font-display text-2xl font-bold text-foreground md:text-3xl">
-                {v}
-              </div>
-              <div className="mt-1 text-[11px] text-muted-foreground md:text-xs">
-                {t(`stats.${key}`)}
-              </div>
-            </div>
-          ))}
-        </div>
       </div>
     </section>
   );
