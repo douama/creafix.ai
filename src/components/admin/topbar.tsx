@@ -1,6 +1,7 @@
 "use client";
 
 import { Bell, Command, Search } from "lucide-react";
+import { UserMenu } from "@/components/auth/user-menu";
 
 export function AdminTopbar() {
   return (
@@ -37,9 +38,7 @@ export function AdminTopbar() {
           <span className="absolute right-1.5 top-1.5 h-2 w-2 rounded-full bg-rose-500" />
         </button>
 
-        <div className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-[#7B61FF] to-[#00C2FF] text-[11px] font-bold text-white">
-          SA
-        </div>
+        <UserMenu variant="admin" />
       </div>
     </header>
   );
