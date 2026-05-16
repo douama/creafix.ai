@@ -43,7 +43,9 @@ export function DashboardPreview() {
         transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
       />
 
-      <div className="relative overflow-hidden rounded-3xl border border-border bg-gradient-to-br from-[#0E0E1A] to-[#1A1230]">
+      {/* `dark` class forcée : le card reste sombre dans les 2 thèmes,
+          donc on force les CSS vars dark pour que text-foreground soit clair */}
+      <div className="dark relative overflow-hidden rounded-3xl border border-border bg-gradient-to-br from-[#0E0E1A] to-[#1A1230] text-foreground">
         <div className="rounded-[1.4rem] bg-background/40 p-3 backdrop-blur-2xl md:p-7">
 
           {/* ─── Header card ─── */}
