@@ -6,7 +6,13 @@ const config: Config = {
   theme: {
     container: {
       center: true,
-      padding: "1.5rem",
+      // Padding responsive : presque pleine largeur mobile, marges normales desktop
+      padding: {
+        DEFAULT: "0.75rem",  // 12px — mobile (≤ sm)
+        sm: "1rem",          // 16px — petits tablets
+        md: "1.5rem",        // 24px — tablets+
+        lg: "2rem",          // 32px — desktop+
+      },
       // Largeur max uniforme sur tous les breakpoints xl+
       screens: { "xl": "1280px", "2xl": "1280px" },
     },
