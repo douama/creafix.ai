@@ -12,23 +12,31 @@ import { Footer } from "@/components/marketing/footer";
 
 /**
  * Landing CinetPay-style — clean, light, structuré.
+ * Wrapper .lg-shell : applique le langage Liquid Glass (Apple Sequoia)
+ * — ambient orbs colorés + glass refractif sur toutes les cards.
  *
- * 7 sections aérées au lieu de 19 sections empilées :
- * 1. Hero (avec surligneur orange incliné)
- * 2. SocialProof (logos clients + chiffres trust)
- * 3. Features (3-4 features iconiques)
- * 4. HowItWorks (4 étapes simples)
+ * 7 sections aérées :
+ * 1. Hero (surligneur orange incliné + glass)
+ * 2. SocialProof
+ * 3. Features
+ * 4. HowItWorks
  * 5. AfricanTrendEngine (différenciateur)
- * 6. Testimonials (avis créateurs)
+ * 6. Testimonials
  * 7. Pricing
  * 8. FAQ
  * 9. CTA + Footer
  */
 export default function HomePage() {
   return (
-    <>
+    <div className="lg-shell relative overflow-hidden">
+      {/* Floating ambient orbs — pure deco */}
+      <div className="lg-orb lg-orb-orange left-[-8%] top-[6%] h-[420px] w-[420px]" style={{ animationDelay: "0s" }} />
+      <div className="lg-orb lg-orb-purple right-[-6%] top-[18%] h-[380px] w-[380px]" style={{ animationDelay: "-5s" }} />
+      <div className="lg-orb lg-orb-cyan left-[40%] top-[55%] h-[460px] w-[460px]" style={{ animationDelay: "-10s" }} />
+      <div className="lg-orb lg-orb-orange right-[-4%] top-[78%] h-[340px] w-[340px]" style={{ animationDelay: "-3s" }} />
+
       <Navbar />
-      <main>
+      <main className="relative">
         <Hero />
         <SocialProof />
         <Features />
@@ -40,6 +48,6 @@ export default function HomePage() {
         <CTA />
       </main>
       <Footer />
-    </>
+    </div>
   );
 }
