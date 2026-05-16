@@ -105,7 +105,7 @@ export function Footer() {
         </div>
 
         <div className="mt-8 flex flex-col items-start justify-between gap-4 border-t border-border pt-6 text-xs text-muted-foreground md:flex-row md:items-center">
-          <span>© {new Date().getFullYear()} CreaFix AI · {t("tagline2")}</span>
+          <span>© {new Date().getFullYear()} CreaFix AI</span>
           <span>Dakar · Abidjan · Lagos · Casablanca</span>
         </div>
       </div>
