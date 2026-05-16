@@ -43,6 +43,8 @@ const nextConfig = {
       { protocol: "https", hostname: "platform-lookaside.fbsbx.com" },
       { protocol: "https", hostname: "p16-sign-va.tiktokcdn.com" },
       { protocol: "https", hostname: "zotvcraialosabpumwrl.supabase.co" }, // testimonial avatars
+      { protocol: "https", hostname: "randomuser.me" },                    // fallback random avatars
+      { protocol: "https", hostname: "i.pravatar.cc" },                    // pravatar fallback
     ],
   },
   experimental: {
