@@ -42,6 +42,7 @@ const nextConfig = {
       { protocol: "https", hostname: "lh3.googleusercontent.com" },
       { protocol: "https", hostname: "platform-lookaside.fbsbx.com" },
       { protocol: "https", hostname: "p16-sign-va.tiktokcdn.com" },
+      { protocol: "https", hostname: "zotvcraialosabpumwrl.supabase.co" }, // testimonial avatars
     ],
   },
   experimental: {

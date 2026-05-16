@@ -33,6 +33,7 @@ export const ADMIN_ROUTE_ACCESS: Record<string, AdminRole[]> = {
 
   // ── Platform
   "/admin/moderation":     ["SUPER_ADMIN", "ADMIN", "MODERATOR"],
+  "/admin/testimonials":   ["SUPER_ADMIN", "ADMIN"],
   "/admin/api":            ["SUPER_ADMIN", "ADMIN"],
   "/admin/support":        ["SUPER_ADMIN", "ADMIN", "SUPPORT"],
   "/admin/notifications":  ["SUPER_ADMIN", "ADMIN"],

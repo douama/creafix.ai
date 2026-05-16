@@ -24,6 +24,7 @@ import {
   Lock,
   Settings,
   Sparkles,
+  MessageSquare,
 } from "lucide-react";
 import { Logo } from "@/components/brand/logo";
 import { cn } from "@/lib/utils";
@@ -69,6 +70,7 @@ const NAV: { title: string; items: NavItem[] }[] = [
     title: "Platform",
     items: [
       { href: "/admin/moderation", label: "Content Moderation", icon: Shield },
+      { href: "/admin/testimonials", label: "Témoignages landing", icon: MessageSquare },
       { href: "/admin/api", label: "API Management", icon: Code2 },
       { href: "/admin/support", label: "Support Tickets", icon: LifeBuoy },
       { href: "/admin/security", label: "Security", icon: Lock },
