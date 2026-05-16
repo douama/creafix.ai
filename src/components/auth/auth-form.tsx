@@ -4,59 +4,42 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { toast } from "sonner";
-import { Loader2, Eye, EyeOff } from "lucide-react";
+import { Loader2, Eye, EyeOff, Mail, Lock, Wand2 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Separator } from "@/components/ui/separator";
+import { OAuthButtons } from "@/components/auth/oauth-buttons";
 
-type AuthMode = "login" | "signup";
-type EmailMode = "magic" | "password";
+type Mode = "login" | "signup";
 
-export function AuthForm({ mode }: { mode: AuthMode }) {
+export function AuthForm({ mode }: { mode: Mode }) {
   const router = useRouter();
-  const [emailMode, setEmailMode] = useState<EmailMode>("password");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPwd, setShowPwd] = useState(false);
-  const [loading, setLoading] = useState<null | "google" | "facebook" | "email">(null);
+  const [magicLink, setMagicLink] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  async function signInWithOAuth(provider: "google" | "facebook") {
-    setLoading(provider);
-    try {
-      const supabase = createClient();
-      const { error } = await supabase.auth.signInWithOAuth({
-        provider,
-        options: {
-          redirectTo: `${window.location.origin}/api/auth/callback?next=${mode === "signup" ? "/onboarding" : "/dashboard"}`,
-          ...(provider === "facebook"
-            ? { scopes: "email,public_profile,pages_show_list,pages_read_engagement,read_insights" }
-            : {}),
-        },
-      });
-      if (error) throw error;
-    } catch (e: any) {
-      toast.error(e.message ?? "Connexion impossible");
-      setLoading(null);
-    }
-  }
+  const submitDisabled =
+    loading || !email || (!magicLink && password.length < 6);
 
-  async function handleEmailSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    setLoading("email");
+    setLoading(true);
     const supabase = createClient();
 
     try {
-      if (emailMode === "magic") {
+      if (magicLink) {
+        const next = mode === "signup" ? "/onboarding" : "/dashboard";
         const { error } = await supabase.auth.signInWithOtp({
           email,
           options: {
-            emailRedirectTo: `${window.location.origin}/api/auth/callback?next=${mode === "signup" ? "/onboarding" : "/dashboard"}`,
+            emailRedirectTo: `${window.location.origin}/api/auth/callback?next=${next}`,
           },
         });
         if (error) throw error;
-        toast.success(`Lien magique envoyé à ${email}`, {
-          description: "Vérifie ta boîte mail (et les spams).",
+        toast.success("Lien envoyé ✓", {
+          description: `Vérifie ${email} (et les spams).`,
         });
       } else if (mode === "login") {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
@@ -74,127 +57,193 @@ export function AuthForm({ mode }: { mode: AuthMode }) {
         });
         if (error) throw error;
         toast.success("Compte créé ✓", {
-          description: "Vérifie ta boîte mail pour confirmer ton adresse.",
+          description: "Vérifie ton email pour confirmer ton adresse.",
         });
       }
     } catch (e: any) {
-      toast.error(e.message ?? "Échec");
+      const msg = (e?.message ?? "Échec") as string;
+      if (msg.toLowerCase().includes("invalid login")) {
+        toast.error("Email ou mot de passe incorrect");
+      } else if (msg.toLowerCase().includes("already registered")) {
+        toast.error("Un compte existe déjà avec cet email", {
+          description: "Essaie de te connecter avec ton mot de passe.",
+        });
+      } else {
+        toast.error(msg);
+      }
     } finally {
-      setLoading(null);
+      setLoading(false);
     }
   }
 
-  const passwordRequired = emailMode === "password";
-  const submitDisabled =
-    !!loading || !email || (passwordRequired && password.length < 6);
-
   return (
-    <div className="space-y-4">
-      <Button
-        variant="outline"
-        className="h-11 w-full justify-center gap-2.5"
-        disabled={!!loading}
-        onClick={() => signInWithOAuth("google")}
-      >
-        {loading === "google" ? (
-          <Loader2 className="h-4 w-4 animate-spin" />
-        ) : (
-          <svg className="h-4 w-4" viewBox="0 0 24 24">
-            <path fill="#EA4335" d="M12 11v3.6h5.1a4.4 4.4 0 0 1-1.9 2.9v2.4h3.1c1.8-1.7 2.8-4.1 2.8-7 0-.5 0-1-.1-1.4H12z" />
-            <path fill="#4285F4" d="M12 22c2.7 0 5-1 6.3-2.3l-3.1-2.4c-.9.6-2 1-3.2 1-2.5 0-4.5-1.7-5.3-3.9H3.5v2.5A10 10 0 0 0 12 22z" />
-            <path fill="#FBBC05" d="M6.7 14.4a6 6 0 0 1 0-4.8V7H3.5a10 10 0 0 0 0 10l3.2-2.5z" />
-            <path fill="#34A853" d="M12 6c1.4 0 2.6.5 3.5 1.4l2.6-2.6A10 10 0 0 0 3.5 7l3.2 2.5c.8-2.2 2.8-3.5 5.3-3.5z" />
-          </svg>
-        )}
-        Continuer avec Google
-      </Button>
-
-      <Button
-        variant="outline"
-        className="h-11 w-full justify-center gap-2.5"
-        disabled={!!loading}
-        onClick={() => signInWithOAuth("facebook")}
-      >
-        {loading === "facebook" ? (
-          <Loader2 className="h-4 w-4 animate-spin" />
-        ) : (
-          <svg className="h-4 w-4 text-[#1877F2]" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M22 12a10 10 0 1 0-11.6 9.9V15h-2.5v-3h2.5V9.7c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.3c-1.3 0-1.7.8-1.7 1.6V12h2.9l-.5 3h-2.4v6.9A10 10 0 0 0 22 12z" />
-          </svg>
-        )}
-        Continuer avec Facebook
-      </Button>
-
-      <div className="relative">
-        <Separator />
-        <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-background px-3 text-xs text-muted-foreground">
-          ou par email
-        </span>
+    <div className="space-y-5">
+      {/* Title */}
+      <div className="space-y-1.5">
+        <h1 className="font-display text-2xl font-bold tracking-tight md:text-3xl">
+          {mode === "login" ? "Bon retour 👋" : "Créer ton compte"}
+        </h1>
+        <p className="text-sm text-muted-foreground">
+          {mode === "login"
+            ? "Connecte-toi à ton dashboard CreaFix AI."
+            : "Lance ton premier audit IA en 60 secondes. Sans carte bancaire."}
+        </p>
       </div>
 
-      <form onSubmit={handleEmailSubmit} className="space-y-3">
-        <Input
+      {/* OAuth row */}
+      <OAuthButtons mode={mode} layout="row" />
+
+      {/* Divider */}
+      <div className="relative">
+        <div className="absolute inset-0 flex items-center">
+          <div className="w-full border-t border-border" />
+        </div>
+        <div className="relative flex justify-center text-[10px] uppercase tracking-wider">
+          <span className="bg-background px-2 text-muted-foreground">ou par email</span>
+        </div>
+      </div>
+
+      {/* Email form */}
+      <form onSubmit={handleSubmit} className="space-y-3">
+        <Field
+          icon={Mail}
           type="email"
           placeholder="ton@email.com"
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-          disabled={!!loading}
+          onChange={setEmail}
+          disabled={loading}
           autoComplete="email"
         />
 
-        {passwordRequired && (
+        {!magicLink && (
           <div className="relative">
-            <Input
+            <Field
+              icon={Lock}
               type={showPwd ? "text" : "password"}
               placeholder={mode === "signup" ? "Mot de passe (min. 6 caractères)" : "Mot de passe"}
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
+              onChange={setPassword}
+              disabled={loading}
               minLength={6}
-              disabled={!!loading}
               autoComplete={mode === "signup" ? "new-password" : "current-password"}
-              className="pr-10"
             />
             <button
               type="button"
               onClick={() => setShowPwd((v) => !v)}
               className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
               aria-label={showPwd ? "Cacher" : "Afficher"}
+              tabIndex={-1}
             >
-              {showPwd ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+              {showPwd ? <EyeOff className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />}
             </button>
           </div>
         )}
 
-        <Button type="submit" variant="brand" className="w-full" disabled={submitDisabled}>
-          {loading === "email" ? (
-            <Loader2 className="mr-1 h-4 w-4 animate-spin" />
-          ) : null}
-          {emailMode === "magic"
-            ? mode === "signup"
-              ? "Recevoir mon lien magique"
-              : "Recevoir mon lien de connexion"
-            : mode === "signup"
-            ? "Créer mon compte"
-            : "Se connecter"}
+        <Button
+          type="submit"
+          variant="brand"
+          className="h-11 w-full"
+          disabled={submitDisabled}
+        >
+          {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+          {magicLink
+            ? mode === "signup" ? "M'envoyer un lien magique" : "Recevoir le lien de connexion"
+            : mode === "signup" ? "Créer mon compte" : "Se connecter"}
         </Button>
+
+        <div className="flex items-center justify-between pt-1 text-xs text-muted-foreground">
+          <button
+            type="button"
+            onClick={() => setMagicLink((v) => !v)}
+            className="inline-flex items-center gap-1 text-violet-300 hover:underline"
+          >
+            <Wand2 className="h-3 w-3" />
+            {magicLink ? "Utiliser un mot de passe" : "Lien magique sans mot de passe"}
+          </button>
+          {mode === "login" && !magicLink && (
+            <Link href="/forgot-password" className="hover:text-foreground">
+              Mot de passe oublié ?
+            </Link>
+          )}
+        </div>
       </form>
 
-      <div className="flex items-center justify-between text-xs text-muted-foreground">
-        <button
-          type="button"
-          onClick={() => setEmailMode((m) => (m === "password" ? "magic" : "password"))}
-          className="text-violet-300 hover:underline"
-        >
-          {emailMode === "password" ? "Utiliser un lien magique" : "Utiliser un mot de passe"}
-        </button>
-        {mode === "login" && emailMode === "password" && (
-          <Link href="/forgot-password" className="hover:text-foreground">
-            Mot de passe oublié ?
+      {/* Footer links */}
+      <div className="space-y-3 border-t border-border/60 pt-4 text-center">
+        <p className="text-sm text-muted-foreground">
+          {mode === "login" ? (
+            <>
+              Pas encore de compte ?{" "}
+              <Link href="/signup" className="text-violet-300 hover:underline">
+                Créer un compte gratuit
+              </Link>
+            </>
+          ) : (
+            <>
+              Déjà inscrit ?{" "}
+              <Link href="/login" className="text-violet-300 hover:underline">
+                Se connecter
+              </Link>
+            </>
+          )}
+        </p>
+
+        <p className="text-[11px] text-muted-foreground/70">
+          Tu es administrateur ?{" "}
+          <Link href="/login/admin" className="text-rose-400 hover:underline">
+            Accès Admin Panel →
           </Link>
+        </p>
+
+        {mode === "signup" && (
+          <p className="text-[10px] text-muted-foreground/70">
+            En créant un compte, tu acceptes nos{" "}
+            <Link href="/legal/terms" className="hover:text-foreground">CGU</Link>
+            {" "}et notre{" "}
+            <Link href="/legal/privacy" className="hover:text-foreground">politique de confidentialité</Link>.
+          </p>
         )}
       </div>
+    </div>
+  );
+}
+
+/* ──────────────────────────────────────────────────────────────────
+ * Champ avec icône à gauche
+ * ────────────────────────────────────────────────────────────────── */
+function Field({
+  icon: Icon,
+  type,
+  placeholder,
+  value,
+  onChange,
+  disabled,
+  minLength,
+  autoComplete,
+}: {
+  icon: typeof Mail;
+  type: string;
+  placeholder: string;
+  value: string;
+  onChange: (v: string) => void;
+  disabled?: boolean;
+  minLength?: number;
+  autoComplete?: string;
+}) {
+  return (
+    <div className="relative">
+      <Icon className="pointer-events-none absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" />
+      <Input
+        type={type}
+        placeholder={placeholder}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        required
+        disabled={disabled}
+        minLength={minLength}
+        autoComplete={autoComplete}
+        className="h-11 pl-9 pr-10"
+      />
     </div>
   );
 }

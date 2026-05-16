@@ -1,31 +1,10 @@
-import Link from "next/link";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { AuthForm } from "@/components/auth/auth-form";
 
+export const metadata = {
+  title: "Connexion · CreaFix AI",
+  description: "Connecte-toi à ton dashboard CreaFix AI.",
+};
+
 export default function LoginPage() {
-  return (
-    <Card className="border-border bg-card/60 backdrop-blur-2xl">
-      <CardHeader className="space-y-1.5 text-center">
-        <CardTitle className="font-display text-2xl">Bon retour 👋</CardTitle>
-        <p className="text-sm text-muted-foreground">
-          Connecte-toi pour accéder à ton dashboard CreaFix AI.
-        </p>
-      </CardHeader>
-      <CardContent className="space-y-4">
-        <AuthForm mode="login" />
-        <p className="text-center text-sm text-muted-foreground">
-          Pas encore de compte ?{" "}
-          <Link href="/signup" className="text-violet-300 hover:underline">
-            Créer un compte gratuit
-          </Link>
-        </p>
-        <p className="border-t border-border/60 pt-3 text-center text-[11px] text-muted-foreground/70">
-          Tu es administrateur ?{" "}
-          <Link href="/login/admin" className="text-rose-400 hover:underline">
-            Accès Admin Panel →
-          </Link>
-        </p>
-      </CardContent>
-    </Card>
-  );
+  return <AuthForm mode="login" />;
 }
