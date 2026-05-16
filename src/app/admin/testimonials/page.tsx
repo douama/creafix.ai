@@ -20,13 +20,15 @@ async function fetchTestimonials(): Promise<TestimonialRow[]> {
   }
 
   try {
+    // public.testimonials est une VIEW créée par migration public_testimonials_view
+    // qui pointe vers monetiq.testimonials (security_invoker = true).
+    // Service_role bypass RLS de la table sous-jacente.
     const res = await fetch(
       `${url}/rest/v1/testimonials?select=*&order=sort_order.asc`,
       {
         headers: {
           apikey: key,
           Authorization: `Bearer ${key}`,
-          "Accept-Profile": "monetiq",  // PostgREST : cible schema monetiq
         },
         cache: "no-store",
       },
