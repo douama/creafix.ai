@@ -59,8 +59,8 @@ export function Footer() {
   return (
     <footer className="border-t border-border py-10">
       <div className="container">
-        <div className="grid gap-8 md:grid-cols-6">
-          <div className="md:col-span-2">
+        <div className="grid grid-cols-2 gap-x-6 gap-y-8 md:grid-cols-6">
+          <div className="col-span-2 md:col-span-2">
             <Logo />
             <p className="mt-4 max-w-xs text-sm text-muted-foreground">{t("tagline")}</p>
             <div className="mt-5 flex gap-2">
