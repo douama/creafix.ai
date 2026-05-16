@@ -466,9 +466,10 @@
   }
 
   /* ─── Override des cards opaques → glass refractif ─── */
-  .lg-shell .card-soft,
-  .lg-shell .bg-card,
-  .lg-shell .bg-white {
+  /* Opt-out : ajouter .no-lg-glass sur un élément pour échapper aux overrides */
+  .lg-shell .card-soft:not(.no-lg-glass),
+  .lg-shell .bg-card:not(.no-lg-glass),
+  .lg-shell .bg-white:not(.no-lg-glass) {
     background-color: rgba(255, 255, 255, 0.55) !important;
     backdrop-filter: blur(24px) saturate(180%);
     -webkit-backdrop-filter: blur(24px) saturate(180%);
@@ -478,8 +479,8 @@
       0 8px 24px -8px rgba(31, 41, 55, 0.08),
       0 16px 48px -16px rgba(31, 41, 55, 0.10) !important;
   }
-  .lg-shell .bg-muted,
-  .lg-shell .bg-background {
+  .lg-shell .bg-muted:not(.no-lg-glass),
+  .lg-shell .bg-background:not(.no-lg-glass) {
     background-color: rgba(255, 255, 255, 0.35) !important;
     backdrop-filter: blur(16px) saturate(140%);
     -webkit-backdrop-filter: blur(16px) saturate(140%);

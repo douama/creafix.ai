@@ -199,7 +199,7 @@ function ReviewCard({ review }: { review: Review }) {
   const primaryColor = PLATFORM_BRAND_COLORS[review.platforms[0]];
 
   return (
-    <article className="group relative shrink-0 overflow-hidden rounded-2xl border border-border bg-card/40 p-5 backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:border-foreground/30 hover:bg-card/70 hover:shadow-2xl">
+    <article className="no-lg-glass group relative shrink-0 overflow-hidden rounded-2xl border border-border bg-white p-5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-foreground/30 hover:shadow-xl dark:bg-card">
       <div
         className="pointer-events-none absolute -right-12 -top-12 h-32 w-32 rounded-full opacity-0 blur-2xl transition-opacity duration-300 group-hover:opacity-30"
         style={{ backgroundColor: primaryColor }}
