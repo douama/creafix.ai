@@ -46,7 +46,7 @@ export function Hero() {
           </h1>
 
           {/* Sous-titre */}
-          <p className="mx-auto mt-5 max-w-2xl text-balance text-base text-muted-foreground md:text-lg">
+          <p className="mx-auto mt-5 max-w-4xl text-balance text-base text-muted-foreground md:text-lg">
             {t("subtitle")}
           </p>
 
