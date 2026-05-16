@@ -132,9 +132,11 @@ export function Testimonials() {
   const t = useTranslations("testimonials");
 
   return (
-    <section className="relative overflow-hidden py-10 md:py-14">
-      <div className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[500px] w-[1100px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-radial-fade opacity-40 blur-3xl" />
-
+    <section
+      id="temoignages"
+      className="relative isolate overflow-hidden py-10 md:py-14"
+      style={{ background: "#FFFFFF" }}
+    >
       <div className="container">
         <div className="mx-auto max-w-2xl text-center">
           <div className="inline-flex items-center gap-1.5 rounded-full border border-amber-500/30 bg-amber-500/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-amber-500 dark:text-amber-300">

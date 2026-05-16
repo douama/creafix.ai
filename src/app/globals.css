@@ -464,6 +464,10 @@
   .lg-shell .panel-dark {
     background-color: #15171a !important; /* on garde les panels dark intercalaires */
   }
+  /* Opt-out : section blanche qui bloque l'ambiance lg-shell (testimonials) */
+  .lg-shell section#temoignages {
+    background-color: #FFFFFF !important;
+  }
 
   /* ─── Override des cards opaques → glass refractif ─── */
   /* Opt-out : ajouter .no-lg-glass sur un élément pour échapper aux overrides */
