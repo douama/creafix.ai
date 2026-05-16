@@ -34,20 +34,20 @@ export function Navbar() {
     <header
       className={cn(
         "fixed inset-x-0 top-0 z-50 transition-all",
-        scrolled ? "py-2" : "py-4",
+        scrolled ? "py-1.5" : "py-2.5",
       )}
     >
       <div className="container">
         <nav
           className={cn(
-            "flex items-center justify-between rounded-full border border-border px-5 py-2 transition-all",
+            "flex items-center justify-between rounded-full border border-border px-4 py-1.5 transition-all",
             scrolled
               ? "bg-background/95 backdrop-blur-xl shadow-md shadow-black/5"
               : "bg-background/80 backdrop-blur-md",
           )}
         >
           <Link href="/" aria-label="CreaFix AI">
-            <Logo showTagline={false} />
+            <Logo showTagline={false} size={44} />
           </Link>
 
           <div className="hidden items-center gap-1 md:flex">
