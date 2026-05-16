@@ -18,32 +18,34 @@ export function Logo({
   className?: string;
   withText?: boolean;
   showTagline?: boolean;
-  /** Hauteur du logo en px (défaut 36). Width = height × 4.125 (ratio SVG). */
+  /** Hauteur du logo en px (défaut 36). Width auto = ratio préservé via SVG viewBox. */
   size?: number;
 }) {
-  // Ratio viewBox 247.5 / 60 ≈ 4.125
+  // SVG viewBox 180×60 → ratio ≈ 3:1
   const height = size;
-  const width = Math.round(size * 4.125);
+  const width = Math.round(size * 3);
 
   return (
     <div className={cn("inline-flex items-center", className)}>
-      {/* Logo light — visible en thème clair */}
+      {/* Logo light — visible en thème clair (texte sombre) */}
       <Image
         src="/logos/logo-light.svg"
         alt="CreaFix AI"
         width={width}
         height={height}
         priority
+        unoptimized
         className="block dark:hidden"
         style={{ height, width: "auto" }}
       />
-      {/* Logo dark — visible en thème sombre */}
+      {/* Logo dark — visible en thème sombre (texte clair) */}
       <Image
         src="/logos/logo-dark.svg"
         alt="CreaFix AI"
         width={width}
         height={height}
         priority
+        unoptimized
         className="hidden dark:block"
         style={{ height, width: "auto" }}
       />
