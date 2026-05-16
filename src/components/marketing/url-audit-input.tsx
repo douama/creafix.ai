@@ -40,7 +40,7 @@ export function UrlAuditInput() {
       className="mx-auto mt-6 w-full max-w-xl"
     >
       <div
-        className={`group relative flex items-center gap-1 rounded-full border bg-card/60 p-1.5 backdrop-blur-xl transition-all focus-within:border-[#7B61FF]/60 focus-within:shadow-[0_0_0_4px_rgba(123,97,255,0.15)] ${
+        className={`no-lg-glass group relative flex items-center gap-1 rounded-full border bg-card/60 p-1.5 backdrop-blur-xl transition-all focus-within:border-[#7B61FF]/60 focus-within:shadow-[0_0_0_4px_rgba(123,97,255,0.15)] ${
           detected ? "border-[#7B61FF]/40" : "border-border"
         }`}
       >

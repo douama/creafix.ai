@@ -539,18 +539,25 @@
       0 8px 20px -6px rgba(241, 85, 34, 0.35);
   }
 
-  /* ─── Inputs : glass ─── */
-  .lg-shell input:not([type="checkbox"]):not([type="radio"]),
-  .lg-shell textarea,
-  .lg-shell select {
+  /* ─── Inputs : glass (opt-out via .no-lg-glass sur l'input ou un parent) ─── */
+  .lg-shell input:not([type="checkbox"]):not([type="radio"]):not(.no-lg-glass),
+  .lg-shell textarea:not(.no-lg-glass),
+  .lg-shell select:not(.no-lg-glass) {
     background-color: rgba(255, 255, 255, 0.7) !important;
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border: 1px solid #000;
   }
-  .lg-shell input:focus,
-  .lg-shell textarea:focus,
-  .lg-shell select:focus {
+  .lg-shell .no-lg-glass input,
+  .lg-shell .no-lg-glass textarea,
+  .lg-shell .no-lg-glass select {
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+  .lg-shell input:not(.no-lg-glass):focus,
+  .lg-shell textarea:not(.no-lg-glass):focus,
+  .lg-shell select:not(.no-lg-glass):focus {
     background-color: rgba(255, 255, 255, 0.9) !important;
     border-color: #f15522;
     box-shadow: 0 0 0 3px rgba(241, 85, 34, 0.18);
