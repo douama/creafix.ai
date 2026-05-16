@@ -35,7 +35,7 @@ export function DashboardPreview() {
             </Badge>
           </div>
 
-          <div className="mt-6 grid gap-4 md:grid-cols-3">
+          <div className="mt-6 grid grid-cols-3 gap-2 md:gap-4">
             <ScoreCard label={t("scoreMonet")} value={72} tone="amber" />
             <ScoreCard label={t("scoreViral")} value={84} tone="brand" />
             <ScoreCard label={t("scoreRisk")} value={18} tone="emerald" />
@@ -100,13 +100,13 @@ function ScoreCard({
   tone: "brand" | "emerald" | "amber" | "rose";
 }) {
   return (
-    <div className="glass rounded-2xl p-4">
-      <div className="text-xs text-muted-foreground">{label}</div>
-      <div className="mt-1 flex items-baseline gap-2">
-        <div className="font-display text-3xl font-bold">{value}</div>
-        <div className="text-xs text-muted-foreground">/ 100</div>
+    <div className="glass rounded-xl p-2.5 md:rounded-2xl md:p-4">
+      <div className="text-[10px] leading-tight text-muted-foreground md:text-xs">{label}</div>
+      <div className="mt-1 flex items-baseline gap-1 md:gap-2">
+        <div className="font-display text-xl font-bold md:text-3xl">{value}</div>
+        <div className="text-[9px] text-muted-foreground md:text-xs">/ 100</div>
       </div>
-      <Progress value={value} tone={tone} className="mt-3" />
+      <Progress value={value} tone={tone} className="mt-2 md:mt-3" />
     </div>
   );
 }
