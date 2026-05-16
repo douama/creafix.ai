@@ -30,7 +30,7 @@ export function Hero() {
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="mx-auto max-w-6xl text-center"
+          className="mx-auto max-w-5xl text-center"
         >
           {/* Badge */}
           <div className="inline-flex items-center gap-1.5 rounded-full border border-border bg-muted/40 px-3 py-1 text-[11px] font-semibold text-foreground/70">
