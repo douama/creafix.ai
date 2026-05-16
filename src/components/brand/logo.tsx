@@ -38,8 +38,8 @@ export function Logo({
         height={height}
         priority
         unoptimized
-        className="block dark:hidden"
-        style={{ height, width: "auto", display: "block", objectFit: "contain", objectPosition: "center" }}
+        className="block object-contain object-center dark:hidden"
+        style={{ height, width: "auto" }}
       />
       {/* Logo dark — visible en thème sombre (texte clair) */}
       <Image
@@ -49,8 +49,8 @@ export function Logo({
         height={height}
         priority
         unoptimized
-        className="hidden dark:block"
-        style={{ height, width: "auto", display: "block", objectFit: "contain", objectPosition: "center" }}
+        className="hidden object-contain object-center dark:block"
+        style={{ height, width: "auto" }}
       />
     </div>
   );
