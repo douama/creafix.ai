@@ -1,14 +1,9 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
-import { invalidateSecretCache } from "@/lib/payments/secrets";
+import { invalidateSecretCache, getAllKeyNames } from "@/lib/payments/secrets";
 
-const VALID_PROVIDERS = ["STRIPE", "PAYPAL", "CINETPAY", "FLUTTERWAVE"];
-const VALID_KEYS: Record<string, string[]> = {
-  STRIPE:      ["STRIPE_SECRET_KEY", "STRIPE_WEBHOOK_SECRET", "NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY"],
-  PAYPAL:      ["PAYPAL_CLIENT_ID", "PAYPAL_CLIENT_SECRET", "PAYPAL_WEBHOOK_ID"],
-  CINETPAY:    ["CINETPAY_API_KEY", "CINETPAY_SITE_ID"],
-  FLUTTERWAVE: ["FLUTTERWAVE_SECRET_KEY", "FLUTTERWAVE_WEBHOOK_HASH"],
-};
+type ProviderId = "STRIPE" | "PAYPAL" | "CINETPAY" | "FLUTTERWAVE";
+const VALID_PROVIDERS: ProviderId[] = ["STRIPE", "PAYPAL", "CINETPAY", "FLUTTERWAVE"];
 
 /**
  * POST /api/admin/payment-secrets
@@ -25,10 +20,10 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "provider, key_name, value requis" }, { status: 400 });
   }
 
-  if (!VALID_PROVIDERS.includes(body.provider)) {
+  if (!VALID_PROVIDERS.includes(body.provider as ProviderId)) {
     return NextResponse.json({ error: `Provider invalide : ${body.provider}` }, { status: 400 });
   }
-  if (!VALID_KEYS[body.provider].includes(body.key_name)) {
+  if (!getAllKeyNames(body.provider as ProviderId).includes(body.key_name)) {
     return NextResponse.json(
       { error: `Clé "${body.key_name}" invalide pour ${body.provider}` },
       { status: 400 },

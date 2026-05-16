@@ -14,6 +14,14 @@ export type SecretMeta = {
   updated_at: string;
 };
 
+type KeyDef = {
+  name: string;
+  label: string;
+  required: boolean;
+  format?: string;
+  hint?: string;
+};
+
 type ProviderWithKeys = {
   id: "STRIPE" | "PAYPAL" | "CINETPAY" | "FLUTTERWAVE";
   label: string;
@@ -24,7 +32,7 @@ type ProviderWithKeys = {
   methods: string[];
   color: string;
   emoji: string;
-  requiredKeys: string[];
+  keyDefs: KeyDef[];
   configuredKeys: SecretMeta[];
 };
 
@@ -40,7 +48,9 @@ export function PaymentSecretsClient({ initial }: { initial: ProviderWithKeys[] 
         const newKeys = last4
           ? [...without, { provider, key_name: keyName, last4, updated_at: new Date().toISOString() }]
           : without;
-        const allRequired = p.requiredKeys.every((k) => newKeys.some((nk) => nk.key_name === k));
+        // Active si TOUTES les clés required sont configurées
+        const requiredNames = p.keyDefs.filter((d) => d.required).map((d) => d.name);
+        const allRequired = requiredNames.every((k) => newKeys.some((nk) => nk.key_name === k));
         return { ...p, configuredKeys: newKeys, enabled: allRequired, reason: allRequired ? undefined : p.reason };
       }),
     );
@@ -158,15 +168,15 @@ function ProviderCard({
         )}
       </div>
 
-      {/* Required keys forms */}
+      {/* Toutes les clés (required + optional), groupées */}
       <div className="mt-5 space-y-3">
-        {provider.requiredKeys.map((keyName) => {
-          const existing = provider.configuredKeys.find((k) => k.key_name === keyName);
+        {provider.keyDefs.map((def) => {
+          const existing = provider.configuredKeys.find((k) => k.key_name === def.name);
           return (
             <SecretField
-              key={keyName}
+              key={def.name}
               provider={provider.id}
-              keyName={keyName}
+              def={def}
               existing={existing}
               onChange={onChange}
             />
@@ -194,13 +204,14 @@ function ProviderCard({
 }
 
 function SecretField({
-  provider, keyName, existing, onChange,
+  provider, def, existing, onChange,
 }: {
   provider: string;
-  keyName: string;
+  def: KeyDef;
   existing?: SecretMeta;
   onChange: (provider: string, keyName: string, last4: string | null) => void;
 }) {
+  const keyName = def.name;
   const [editing, setEditing] = useState(!existing);
   const [value, setValue] = useState("");
   const [show, setShow] = useState(false);
@@ -220,7 +231,7 @@ function SecretField({
         });
         const j = await res.json();
         if (!res.ok) throw new Error(j.error ?? `HTTP ${res.status}`);
-        toast.success(`${keyName} sauvegardée ✓`);
+        toast.success(`${def.label} sauvegardée ✓`);
         onChange(provider, keyName, value.slice(-4));
         setValue("");
         setEditing(false);
@@ -231,7 +242,7 @@ function SecretField({
   }
 
   function remove() {
-    if (!confirm(`Supprimer la clé ${keyName} de manière définitive ?\n\nLe provider sera désactivé jusqu'à reconfiguration.`)) return;
+    if (!confirm(`Supprimer la clé ${def.label} (${keyName}) ?\n\nCela peut désactiver le provider.`)) return;
     startTransition(async () => {
       try {
         const res = await fetch(
@@ -254,13 +265,35 @@ function SecretField({
 
   return (
     <div className="rounded-xl border border-border bg-background/40 p-3">
-      <div className="flex items-center justify-between">
-        <label className="font-mono text-[11px] font-bold uppercase tracking-wider text-foreground/80">
-          {keyName}
-        </label>
+      <div className="flex items-start justify-between gap-2">
+        <div className="min-w-0">
+          <div className="flex items-center gap-1.5">
+            <label className="text-[12px] font-bold text-foreground">
+              {def.label}
+            </label>
+            {def.required ? (
+              <span className="rounded-md bg-rose-500/15 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wider text-rose-600 dark:text-rose-300">
+                Obligatoire
+              </span>
+            ) : (
+              <span className="rounded-md bg-amber-500/15 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wider text-amber-600 dark:text-amber-300">
+                Recommandée
+              </span>
+            )}
+          </div>
+          <div className="mt-0.5 flex items-center gap-1.5 text-[10px] font-mono text-muted-foreground">
+            <span>{keyName}</span>
+            {def.format && <span className="opacity-60">· {def.format}</span>}
+          </div>
+          {def.hint && (
+            <p className="mt-1 text-[10.5px] text-muted-foreground leading-snug">
+              {def.hint}
+            </p>
+          )}
+        </div>
         {existing && !editing && (
-          <span className="inline-flex items-center gap-1 rounded-md bg-emerald-500/10 px-2 py-0.5 text-[10px] font-semibold text-emerald-600 dark:text-emerald-300">
-            <CheckCircle2 className="h-2.5 w-2.5" /> Configurée
+          <span className="inline-flex shrink-0 items-center gap-1 rounded-md bg-emerald-500/10 px-2 py-0.5 text-[10px] font-semibold text-emerald-600 dark:text-emerald-300">
+            <CheckCircle2 className="h-2.5 w-2.5" /> OK
           </span>
         )}
       </div>

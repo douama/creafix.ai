@@ -2,7 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 import { redirect } from "next/navigation";
 import { getProvidersConfig } from "@/lib/payments/providers";
-import { getRequiredKeys } from "@/lib/payments/secrets";
+import { getKeyDefinitions } from "@/lib/payments/secrets";
 import { PaymentSecretsClient, type SecretMeta } from "./payments-secrets-client";
 
 export const metadata = {
@@ -30,10 +30,10 @@ export default async function AdminPaymentsConfig() {
 
   const meta: SecretMeta[] = (secretsList ?? []) as SecretMeta[];
 
-  // Map les clés requises par provider pour l'UI
+  // Map TOUTES les clés (required + optional) par provider pour l'UI
   const providersWithKeys = providers.map((p) => ({
     ...p,
-    requiredKeys: getRequiredKeys(p.id),
+    keyDefs: getKeyDefinitions(p.id),
     configuredKeys: meta.filter((s) => s.provider === p.id),
   }));
 
