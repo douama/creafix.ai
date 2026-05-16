@@ -5,8 +5,8 @@ import { getProvidersPublic } from "@/lib/payments/providers";
  * Section "Moyens de paiement acceptés" — visuel de confiance.
  * Affiche les 4 providers avec leur status (active/inactive selon env vars).
  */
-export function PaymentMethods() {
-  const providers = getProvidersPublic();
+export async function PaymentMethods() {
+  const providers = await getProvidersPublic();
 
   return (
     <section className="relative py-12 md:py-16">

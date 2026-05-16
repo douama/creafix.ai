@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabase/admin";
+import { getSecret } from "@/lib/payments/secrets";
 
 /**
  * Flutterwave webhook
@@ -9,8 +10,8 @@ import { supabaseAdmin } from "@/lib/supabase/admin";
  * Doc : https://developer.flutterwave.com/docs/integration-guides/webhooks
  */
 export async function POST(request: Request) {
-  const secret = process.env.FLUTTERWAVE_SECRET_KEY;
-  const hash = process.env.FLUTTERWAVE_WEBHOOK_HASH;
+  const secret = await getSecret("FLUTTERWAVE", "FLUTTERWAVE_SECRET_KEY");
+  const hash = await getSecret("FLUTTERWAVE", "FLUTTERWAVE_WEBHOOK_HASH");
   if (!secret) return NextResponse.json({ error: "Flutterwave non configuré" }, { status: 503 });
 
   // Verify webhook signature

@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 import { supabaseAdmin } from "@/lib/supabase/admin";
+import { getSecret } from "@/lib/payments/secrets";
 
 /**
  * POST /api/webhooks/stripe
@@ -13,10 +14,15 @@ import { supabaseAdmin } from "@/lib/supabase/admin";
  * Copie le webhook signing secret dans STRIPE_WEBHOOK_SECRET.
  */
 export async function POST(request: Request) {
-  if (!process.env.STRIPE_SECRET_KEY || !process.env.STRIPE_WEBHOOK_SECRET) {
+  // Lit les clés depuis Vault (DB) ou env vars (fallback). Pour le webhook,
+  // les DEUX clés sont nécessaires : secret_key pour instancier le SDK,
+  // webhook_secret pour vérifier la signature de l'event.
+  const stripeKey = await getSecret("STRIPE", "STRIPE_SECRET_KEY");
+  const webhookSecret = await getSecret("STRIPE", "STRIPE_WEBHOOK_SECRET");
+  if (!stripeKey || !webhookSecret) {
     return NextResponse.json({ error: "Stripe non configuré" }, { status: 503 });
   }
-  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+  const stripe = new Stripe(stripeKey);
 
   const body = await request.text();
   const signature = request.headers.get("stripe-signature");
@@ -24,7 +30,7 @@ export async function POST(request: Request) {
 
   let event: Stripe.Event;
   try {
-    event = stripe.webhooks.constructEvent(body, signature, process.env.STRIPE_WEBHOOK_SECRET);
+    event = stripe.webhooks.constructEvent(body, signature, webhookSecret);
   } catch (e: unknown) {
     return NextResponse.json({ error: `Signature invalide: ${(e as Error).message}` }, { status: 400 });
   }

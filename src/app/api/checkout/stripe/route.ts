@@ -3,6 +3,7 @@ import Stripe from "stripe";
 import { createClient } from "@/lib/supabase/server";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 import { APP_URL } from "@/lib/payments/providers";
+import { getSecret } from "@/lib/payments/secrets";
 
 /**
  * POST /api/checkout/stripe
@@ -10,10 +11,11 @@ import { APP_URL } from "@/lib/payments/providers";
  * Returns : { url: stripeCheckoutUrl }
  */
 export async function POST(request: Request) {
-  if (!process.env.STRIPE_SECRET_KEY) {
+  const stripeKey = await getSecret("STRIPE", "STRIPE_SECRET_KEY");
+  if (!stripeKey) {
     return NextResponse.json({ error: "Stripe non configuré (STRIPE_SECRET_KEY manquante)" }, { status: 503 });
   }
-  const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+  const stripe = new Stripe(stripeKey);
 
   const body = (await request.json().catch(() => null)) as Record<string, unknown> | null;
   if (!body || !body.amount || !body.currency || !body.description) {

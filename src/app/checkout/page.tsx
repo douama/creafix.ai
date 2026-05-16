@@ -67,7 +67,7 @@ export default async function CheckoutPage({
   // Free plan : pas de paiement nécessaire, redirige
   if (Number(plan.price_monthly_usd) === 0) redirect("/dashboard?welcome=free");
 
-  const providers = getProvidersPublic();
+  const providers = await getProvidersPublic();
   const amount = period === "year"
     ? Number(plan.price_yearly_usd ?? plan.price_monthly_usd) * 12
     : Number(plan.price_monthly_usd);

@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 import { APP_URL } from "@/lib/payments/providers";
+import { getSecret } from "@/lib/payments/secrets";
 
 /**
  * POST /api/checkout/cinetpay
@@ -9,8 +10,8 @@ import { APP_URL } from "@/lib/payments/providers";
  * Doc : https://docs.cinetpay.com/api/1.0-fr/checkout/initialisation
  */
 export async function POST(request: Request) {
-  const apiKey = process.env.CINETPAY_API_KEY;
-  const siteId = process.env.CINETPAY_SITE_ID;
+  const apiKey = await getSecret("CINETPAY", "CINETPAY_API_KEY");
+  const siteId = await getSecret("CINETPAY", "CINETPAY_SITE_ID");
   if (!apiKey || !siteId) {
     return NextResponse.json({ error: "CinetPay non configuré" }, { status: 503 });
   }

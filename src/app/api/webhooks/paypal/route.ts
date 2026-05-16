@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 import { verifyWebhook, captureOrder } from "@/lib/payments/paypal";
+import { getSecret } from "@/lib/payments/secrets";
 
 /**
  * PayPal webhook

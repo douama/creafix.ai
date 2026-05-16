@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabase/admin";
+import { getSecret } from "@/lib/payments/secrets";
 
 /**
  * CinetPay webhook (notify_url)
@@ -8,8 +9,8 @@ import { supabaseAdmin } from "@/lib/supabase/admin";
  * Doc : https://docs.cinetpay.com/api/1.0-fr/checkout/hmac
  */
 export async function POST(request: Request) {
-  const apiKey = process.env.CINETPAY_API_KEY;
-  const siteId = process.env.CINETPAY_SITE_ID;
+  const apiKey = await getSecret("CINETPAY", "CINETPAY_API_KEY");
+  const siteId = await getSecret("CINETPAY", "CINETPAY_SITE_ID");
   if (!apiKey || !siteId) return NextResponse.json({ error: "CinetPay non configuré" }, { status: 503 });
 
   const formData = await request.formData();

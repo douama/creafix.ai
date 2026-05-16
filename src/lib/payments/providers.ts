@@ -28,63 +28,67 @@ export type ProviderConfig = {
   emoji: string;
 };
 
-/** Server-only : lit l'état d'activation depuis les env vars. */
-export function getProvidersConfig(): ProviderConfig[] {
-  return [
-    {
-      id: "STRIPE",
-      label: "Stripe",
-      description: "Cartes Visa, Mastercard, Amex",
-      enabled: !!process.env.STRIPE_SECRET_KEY,
-      reason: !process.env.STRIPE_SECRET_KEY ? "STRIPE_SECRET_KEY manquante" : undefined,
-      zones: ["Monde"],
-      methods: ["Visa", "Mastercard", "Amex"],
-      color: "#635BFF",
-      emoji: "💳",
-    },
-    {
-      id: "PAYPAL",
-      label: "PayPal",
-      description: "Compte PayPal ou carte via PayPal",
-      enabled: !!(process.env.PAYPAL_CLIENT_ID && process.env.PAYPAL_CLIENT_SECRET),
-      reason: !(process.env.PAYPAL_CLIENT_ID && process.env.PAYPAL_CLIENT_SECRET)
-        ? "PAYPAL_CLIENT_ID + PAYPAL_CLIENT_SECRET manquantes"
-        : undefined,
-      zones: ["Monde"],
-      methods: ["PayPal", "Carte"],
-      color: "#0070BA",
-      emoji: "🟦",
-    },
-    {
-      id: "CINETPAY",
-      label: "CinetPay",
-      description: "Orange Money, MTN MoMo, Moov, Wave, cartes",
-      enabled: !!(process.env.CINETPAY_API_KEY && process.env.CINETPAY_SITE_ID),
-      reason: !(process.env.CINETPAY_API_KEY && process.env.CINETPAY_SITE_ID)
-        ? "CINETPAY_API_KEY + CINETPAY_SITE_ID manquantes"
-        : undefined,
-      zones: ["🇨🇮", "🇸🇳", "🇨🇲", "🇧🇫", "🇲🇱", "🇹🇬", "🇧🇯", "🇨🇩"],
-      methods: ["Orange Money", "MTN MoMo", "Moov", "Wave", "Visa", "Mastercard"],
-      color: "#0FAA52",
-      emoji: "🟢",
-    },
-    {
-      id: "FLUTTERWAVE",
-      label: "Flutterwave",
-      description: "Mobile Money + cartes Naira/KES/ZAR",
-      enabled: !!process.env.FLUTTERWAVE_SECRET_KEY,
-      reason: !process.env.FLUTTERWAVE_SECRET_KEY ? "FLUTTERWAVE_SECRET_KEY manquante" : undefined,
-      zones: ["🇳🇬", "🇰🇪", "🇿🇦", "🇬🇭", "🇺🇬", "🇪🇬"],
-      methods: ["M-Pesa", "MTN MoMo", "Carte", "USSD", "Bank Transfer"],
-      color: "#F5A623",
-      emoji: "🟧",
-    },
-  ];
+/** Métadonnées statiques des providers (zones, methods, color, etc.). */
+const PROVIDER_META: Omit<ProviderConfig, "enabled" | "reason">[] = [
+  {
+    id: "STRIPE",
+    label: "Stripe",
+    description: "Cartes Visa, Mastercard, Amex",
+    zones: ["Monde"],
+    methods: ["Visa", "Mastercard", "Amex"],
+    color: "#635BFF",
+    emoji: "💳",
+  },
+  {
+    id: "PAYPAL",
+    label: "PayPal",
+    description: "Compte PayPal ou carte via PayPal",
+    zones: ["Monde"],
+    methods: ["PayPal", "Carte"],
+    color: "#0070BA",
+    emoji: "🟦",
+  },
+  {
+    id: "CINETPAY",
+    label: "CinetPay",
+    description: "Orange Money, MTN MoMo, Moov, Wave, cartes",
+    zones: ["🇨🇮", "🇸🇳", "🇨🇲", "🇧🇫", "🇲🇱", "🇹🇬", "🇧🇯", "🇨🇩"],
+    methods: ["Orange Money", "MTN MoMo", "Moov", "Wave", "Visa", "Mastercard"],
+    color: "#0FAA52",
+    emoji: "🟢",
+  },
+  {
+    id: "FLUTTERWAVE",
+    label: "Flutterwave",
+    description: "Mobile Money + cartes Naira/KES/ZAR",
+    zones: ["🇳🇬", "🇰🇪", "🇿🇦", "🇬🇭", "🇺🇬", "🇪🇬"],
+    methods: ["M-Pesa", "MTN MoMo", "Carte", "USSD", "Bank Transfer"],
+    color: "#F5A623",
+    emoji: "🟧",
+  },
+];
+
+/**
+ * Server-only ASYNC : lit l'état d'activation depuis Vault (DB) ou env vars.
+ * Async parce que getSecret hit Supabase via le client admin.
+ */
+export async function getProvidersConfig(): Promise<ProviderConfig[]> {
+  const { isProviderEnabled, getRequiredKeys } = await import("./secrets");
+  const results: ProviderConfig[] = [];
+  for (const meta of PROVIDER_META) {
+    const enabled = await isProviderEnabled(meta.id);
+    const reason = !enabled
+      ? `Clé(s) manquante(s) : ${getRequiredKeys(meta.id).join(", ")}`
+      : undefined;
+    results.push({ ...meta, enabled, reason });
+  }
+  return results;
 }
 
-/** Version publique (sans le champ `reason` qui révèle quelles env manquent). */
-export function getProvidersPublic() {
-  return getProvidersConfig().map(({ reason: _r, ...rest }) => rest);
+/** Version publique (sans le champ `reason` qui détaille quelles clés manquent). */
+export async function getProvidersPublic() {
+  const cfg = await getProvidersConfig();
+  return cfg.map(({ reason: _r, ...rest }) => rest);
 }
 
 export const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? "https://creafix-ai.vercel.app";

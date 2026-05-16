@@ -3,13 +3,15 @@
  * Doc : https://developer.paypal.com/docs/api/overview/
  */
 
+import { getSecret } from "./secrets";
+
 const PAYPAL_BASE = process.env.PAYPAL_ENV === "live"
   ? "https://api-m.paypal.com"
   : "https://api-m.sandbox.paypal.com";
 
 async function getAccessToken(): Promise<string> {
-  const id = process.env.PAYPAL_CLIENT_ID;
-  const secret = process.env.PAYPAL_CLIENT_SECRET;
+  const id = await getSecret("PAYPAL", "PAYPAL_CLIENT_ID");
+  const secret = await getSecret("PAYPAL", "PAYPAL_CLIENT_SECRET");
   if (!id || !secret) throw new Error("PAYPAL_CLIENT_ID / PAYPAL_CLIENT_SECRET manquantes");
 
   const auth = Buffer.from(`${id}:${secret}`).toString("base64");
@@ -74,7 +76,7 @@ export async function captureOrder(orderId: string) {
 }
 
 export async function verifyWebhook(headers: Headers, rawBody: string): Promise<boolean> {
-  const webhookId = process.env.PAYPAL_WEBHOOK_ID;
+  const webhookId = await getSecret("PAYPAL", "PAYPAL_WEBHOOK_ID");
   if (!webhookId) return false;
   const token = await getAccessToken();
   const res = await fetch(`${PAYPAL_BASE}/v1/notifications/verify-webhook-signature`, {

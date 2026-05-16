@@ -3,9 +3,12 @@ import { createClient } from "@/lib/supabase/server";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 import { APP_URL } from "@/lib/payments/providers";
 import { createOrder } from "@/lib/payments/paypal";
+import { getSecret } from "@/lib/payments/secrets";
 
 export async function POST(request: Request) {
-  if (!process.env.PAYPAL_CLIENT_ID || !process.env.PAYPAL_CLIENT_SECRET) {
+  const ppId = await getSecret("PAYPAL", "PAYPAL_CLIENT_ID");
+  const ppSecret = await getSecret("PAYPAL", "PAYPAL_CLIENT_SECRET");
+  if (!ppId || !ppSecret) {
     return NextResponse.json({ error: "PayPal non configuré" }, { status: 503 });
   }
 

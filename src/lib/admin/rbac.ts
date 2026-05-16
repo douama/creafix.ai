@@ -28,7 +28,7 @@ export const ADMIN_ROUTE_ACCESS: Record<string, AdminRole[]> = {
   "/admin/subscriptions":  ["SUPER_ADMIN", "ADMIN", "ANALYST"],
   "/admin/plans":          ["SUPER_ADMIN", "ADMIN"],
   "/admin/payments":       ["SUPER_ADMIN", "ADMIN", "ANALYST"],
-  "/admin/payments-config":["SUPER_ADMIN", "ADMIN"],
+  "/admin/payments-config":["SUPER_ADMIN"],
   "/admin/coupons":        ["SUPER_ADMIN", "ADMIN"],
   "/admin/affiliates":     ["SUPER_ADMIN", "ADMIN"],
 

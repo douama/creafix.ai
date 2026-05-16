@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 import { APP_URL } from "@/lib/payments/providers";
+import { getSecret } from "@/lib/payments/secrets";
 
 /**
  * POST /api/checkout/flutterwave
@@ -9,7 +10,7 @@ import { APP_URL } from "@/lib/payments/providers";
  * Doc : https://developer.flutterwave.com/reference/endpoints/standard
  */
 export async function POST(request: Request) {
-  const secret = process.env.FLUTTERWAVE_SECRET_KEY;
+  const secret = await getSecret("FLUTTERWAVE", "FLUTTERWAVE_SECRET_KEY");
   if (!secret) return NextResponse.json({ error: "Flutterwave non configuré" }, { status: 503 });
 
   const body = (await request.json().catch(() => null)) as Record<string, unknown> | null;
