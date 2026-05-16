@@ -30,7 +30,7 @@
     "ctaSecondary": "Voir mes pertes de revenus",
     "trustNoCard": "Sans carte bancaire",
     "trustFast": "Audit en 60s",
-    "trustCreators": "+12 000 créateurs",
+    "trustCreators": "Soyez parmi les 1ers créateurs",
     "stats": {
       "videos": "Vidéos analysées",
       "accuracy": "Précision IA",
@@ -354,7 +354,7 @@
     "title2": "tes revenus créateur ?",
     "subtitle": "Audit IA gratuit en 60 secondes. Sans carte. Sans engagement. Le moyen le plus simple de transformer tes vues en revenus.",
     "button": "Lancer mon audit gratuit",
-    "trust": "+2 300 créateurs nous font déjà confiance · 9 pays"
+    "trust": "Launch en cours · 9 pays africains au démarrage"
   },
   "footer": {
     "tagline": "La plateforme IA d'audit de monétisation sociale pensée pour les créateurs africains.",

@@ -6,26 +6,26 @@ import { Users, DollarSign, Activity, Globe2 } from "lucide-react";
 const STATS = [
   {
     icon: Users,
-    value: "12 000+",
-    label: "créateurs analysés",
+    value: "Bientôt",
+    label: "1ers créateurs en cours d'inscription",
     color: "#EC4899",
   },
   {
     icon: DollarSign,
-    value: "$2.3M",
-    label: "revenus récupérés",
+    value: "—",
+    label: "revenus récupérés (dès les 1ers audits)",
     color: "#10B981",
   },
   {
     icon: Activity,
-    value: "4 500+",
-    label: "audits IA complétés",
+    value: "0",
+    label: "audits IA complétés (sois le 1er)",
     color: "#FF8A00",
   },
   {
     icon: Globe2,
     value: "9",
-    label: "pays africains couverts",
+    label: "pays africains couverts dès le launch",
     color: "#FF8A00",
   },
 ];

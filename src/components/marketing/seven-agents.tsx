@@ -44,7 +44,7 @@ const AGENTS: Agent[] = [
     desc: "Scanne tes 5 dernières vidéos et identifie les fuites de RPM en 60 secondes.",
     color: "#EC4899",
     badge: "Analyse",
-    runs: 8420,
+    runs: 0,
     spark: [4, 8, 6, 12, 10, 18, 16, 24, 22, 28, 26, 32],
   },
   {
@@ -54,7 +54,7 @@ const AGENTS: Agent[] = [
     desc: "Note ton contenu 0-100 avant publication. Tu publies seulement le top 30%.",
     color: "#f15522",
     badge: "Growth",
-    runs: 6230,
+    runs: 0,
     spark: [10, 14, 12, 18, 16, 22, 20, 26, 24, 28, 26, 30],
   },
   {
@@ -64,7 +64,7 @@ const AGENTS: Agent[] = [
     desc: "Détecte les vidéos sous-monétisées et te dit exactement comment les fixer.",
     color: "#FF8A00",
     badge: "Revenu",
-    runs: 5180,
+    runs: 0,
     spark: [6, 10, 8, 14, 12, 20, 18, 26, 24, 30, 28, 34],
   },
   {
@@ -74,7 +74,7 @@ const AGENTS: Agent[] = [
     desc: "Surveille TikTok/FB en continu et t'alerte AVANT un shadowban.",
     color: "#E11D48",
     badge: "Sécurité",
-    runs: 9540,
+    runs: 0,
     spark: [12, 8, 16, 10, 20, 14, 24, 18, 28, 22, 32, 26],
   },
   {
@@ -84,7 +84,7 @@ const AGENTS: Agent[] = [
     desc: "Trouve les sons, hashtags et formats qui marchent dans 9 pays africains.",
     color: "#EC4899",
     badge: "Tendances",
-    runs: 7320,
+    runs: 0,
     spark: [8, 12, 10, 16, 14, 22, 20, 28, 26, 32, 30, 36],
   },
   {
@@ -94,7 +94,7 @@ const AGENTS: Agent[] = [
     desc: "Génère 8 miniatures A/B-testées et te montre laquelle aura le meilleur CTR.",
     color: "#FF8A00",
     badge: "Création",
-    runs: 4120,
+    runs: 0,
     spark: [4, 8, 6, 10, 8, 14, 12, 18, 16, 22, 20, 26],
   },
   {
@@ -104,7 +104,7 @@ const AGENTS: Agent[] = [
     desc: "Réécrit tes hooks faibles + génère 3 variantes de scripts pour Reels/Shorts.",
     color: "#f15522",
     badge: "Création",
-    runs: 6840,
+    runs: 0,
     spark: [6, 10, 8, 14, 12, 18, 16, 22, 20, 26, 24, 30],
   },
 ];
@@ -259,13 +259,20 @@ function HeroAgentCard({ agent }: { agent: Agent }) {
             {agent.desc} <span className="text-foreground">Disponible 24/7, multi-plateformes.</span>
           </p>
 
-          {/* Stat row */}
+          {/* Stat row — claims techniques modèle (gardés) + status live */}
           <div className="mt-3.5 flex flex-wrap items-center gap-4">
-            <Stat label="Exécutions/jour" value={agent.runs} color={agent.color} />
-            <div className="h-8 w-px bg-border" />
-            <Stat label="Précision" value={97} suffix="%" color="#10B981" />
+            <Stat label="Précision modèle" value={97} suffix="%" color="#10B981" />
             <div className="h-8 w-px bg-border" />
             <Stat label="Latence" value={1.2} suffix="s" decimal={1} color="#FF8A00" />
+            <div className="h-8 w-px bg-border" />
+            <div>
+              <div className="text-[9.5px] font-semibold uppercase tracking-wider text-muted-foreground">
+                Status
+              </div>
+              <div className="mt-0.5 font-display text-lg font-bold tabular-nums leading-none md:text-2xl text-emerald-500">
+                Prêt
+              </div>
+            </div>
           </div>
         </div>
 
@@ -364,10 +371,16 @@ function AgentCard({ agent, index }: { agent: Agent; index: number }) {
           <span className="flex items-center gap-1.5 text-muted-foreground">
             <PulseDot color={agent.color} />
             <span>
-              <b className="text-foreground tabular-nums">
-                <CountUp value={agent.runs} />
-              </b>
-              {" "}exécutions/jour
+              {agent.runs > 0 ? (
+                <>
+                  <b className="text-foreground tabular-nums">
+                    <CountUp value={agent.runs} />
+                  </b>
+                  {" "}exécutions/jour
+                </>
+              ) : (
+                <b className="text-foreground">Prêt · disponible 24/7</b>
+              )}
             </span>
           </span>
           <ArrowUpRight
@@ -601,15 +614,6 @@ function CountUp({ value, decimal }: { value: number; decimal?: number }) {
  * Live stats footer
  * ────────────────────────────────────────────────────────────────── */
 function LiveStats() {
-  // Compteur qui s'incrémente toutes les 4s pour la sensation "live"
-  const [count, setCount] = useState(14327);
-  useEffect(() => {
-    const id = setInterval(() => {
-      setCount((c) => c + Math.floor(Math.random() * 7) + 2);
-    }, 4000);
-    return () => clearInterval(id);
-  }, []);
-
   return (
     <motion.div
       initial={{ opacity: 0, y: 16 }}
@@ -627,16 +631,8 @@ function LiveStats() {
         <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
       </span>
       <span className="text-[12.5px] text-muted-foreground">
-        <motion.b
-          key={count}
-          initial={{ scale: 1.15, color: "#10B981" }}
-          animate={{ scale: 1, color: "currentColor" }}
-          transition={{ duration: 0.4 }}
-          className="text-foreground tabular-nums"
-        >
-          {count.toLocaleString("fr-FR")}
-        </motion.b>
-        {" "}actions IA exécutées dans la dernière heure
+        <b className="text-foreground">Système opérationnel</b>
+        {" "}— prêt à analyser tes comptes
       </span>
     </motion.div>
   );

@@ -43,29 +43,24 @@ export function TestimonialsMarquee({ reviews }: { reviews: Review[] }) {
     >
       <div className="container">
         <div className="mx-auto max-w-2xl text-center">
-          <div className="inline-flex items-center gap-1.5 rounded-full border border-amber-500/30 bg-amber-500/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-amber-500 dark:text-amber-300">
-            <Star className="h-3 w-3 fill-amber-500" />
-            4.9 / 5 · {reviews.length}+ créateurs
+          <div className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-emerald-600 dark:text-emerald-300">
+            <Star className="h-3 w-3 fill-emerald-500" />
+            Témoignages bêta · {reviews.length} créateurs
           </div>
           <h2 className="mt-3 font-display text-3xl font-bold tracking-tight text-balance md:text-5xl">
             {t("titlePart1")} <span className="gradient-text">{t("titleHighlight")}</span>{" "}
             {t("titlePart2")}
           </h2>
           <div className="mt-3 flex flex-wrap items-center justify-center gap-x-5 gap-y-1.5 text-[11px] text-muted-foreground">
-            <span className="inline-flex items-center gap-1">
-              {Array.from({ length: 5 }).map((_, i) => (
-                <Star key={i} className="h-3 w-3 fill-amber-400 text-amber-400" />
-              ))}
-              <b className="ml-0.5 text-foreground">4.9/5</b>
+            <span>
+              <b className="text-foreground">9 pays</b> africains couverts
             </span>
             <span>·</span>
             <span>
-              <b className="text-foreground">9 pays</b> couverts
+              <b className="text-foreground">{reviews.length}</b> témoignages bêta
             </span>
             <span>·</span>
-            <span>
-              <b className="text-foreground">{reviews.length}</b> avis vérifiés
-            </span>
+            <span>Notes ouvertes dès le launch</span>
           </div>
         </div>
 
