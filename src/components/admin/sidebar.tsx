@@ -72,6 +72,7 @@ const NAV: { title: string; items: NavItem[] }[] = [
     items: [
       { href: "/admin/moderation", label: "Content Moderation", icon: Shield },
       { href: "/admin/testimonials", label: "Témoignages landing", icon: MessageSquare },
+      { href: "/admin/seo", label: "SEO Audit", icon: BarChart3 },
       { href: "/admin/api", label: "API Management", icon: Code2 },
       { href: "/admin/support", label: "Support Tickets", icon: LifeBuoy },
       { href: "/admin/security", label: "Security", icon: Lock },

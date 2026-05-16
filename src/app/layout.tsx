@@ -4,6 +4,8 @@ import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages } from "next-intl/server";
 import { Toaster } from "sonner";
 import { ThemeProvider } from "@/components/theme-provider";
+import { JsonLd } from "@/components/seo/json-ld";
+import { organizationLd, websiteLd, softwareApplicationLd } from "@/lib/seo/structured-data";
 import "./globals.css";
 
 const inter = Inter({
@@ -82,6 +84,8 @@ export default async function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
+            {/* Structured data global (toutes pages) — Organization, Website, SoftwareApplication */}
+            <JsonLd data={[organizationLd(), websiteLd(), softwareApplicationLd()]} />
             {children}
             <Toaster
               position="top-right"
