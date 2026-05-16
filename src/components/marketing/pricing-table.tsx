@@ -9,10 +9,10 @@ import { CurrencySwitch } from "@/components/currency-switch";
 import { CURRENCIES, getPrice, type CurrencyCode, type Plan } from "@/lib/pricing";
 
 const PLAN_KEYS: { key: Plan; href: string; highlight?: boolean; features: number }[] = [
-  { key: "free",       href: "/signup",                  features: 5 },
-  { key: "pro",        href: "/signup?plan=pro",         highlight: true, features: 8 },
-  { key: "agency",     href: "/signup?plan=agency",      features: 8 },
-  { key: "enterprise", href: "/contact?topic=enterprise", features: 8 },
+  { key: "free",       href: "/signup",                          features: 5 },
+  { key: "pro",        href: "/checkout?plan=PRO",                highlight: true, features: 8 },
+  { key: "agency",     href: "/checkout?plan=AGENCY",             features: 8 },
+  { key: "enterprise", href: "/contact?topic=enterprise",         features: 8 },
 ];
 
 export function PricingTable({ currency }: { currency: CurrencyCode }) {
