@@ -434,6 +434,7 @@
 
 @layer components {
   /* ─── Shell : background ambient avec orbs colorés très subtils ─── */
+  /* Mode CLAIR (par défaut) */
   .lg-shell {
     position: relative;
     isolation: isolate;
@@ -443,6 +444,16 @@
       radial-gradient(ellipse 70% 50% at 50% 100%, rgba(255,138,0,0.08), transparent 70%),
       radial-gradient(ellipse 40% 30% at 90% 70%, rgba(241,85,34,0.06), transparent 70%),
       #FBFBFD;
+  }
+  /* Mode SOMBRE — adapt à la palette CreaFix navy/violet */
+  .dark .lg-shell {
+    background:
+      radial-gradient(ellipse 60% 40% at 15% 5%, rgba(241,85,34,0.16), transparent 60%),
+      radial-gradient(ellipse 50% 35% at 85% 20%, rgba(123,97,255,0.18), transparent 60%),
+      radial-gradient(ellipse 70% 50% at 50% 100%, rgba(255,138,0,0.10), transparent 70%),
+      radial-gradient(ellipse 40% 30% at 90% 70%, rgba(241,85,34,0.10), transparent 70%),
+      #0B0F19;
+    color: #E6EEF9;
   }
   /* Fixed ambient layer — bouge pas au scroll */
   .lg-shell::before {
@@ -454,6 +465,11 @@
     background:
       radial-gradient(circle at 20% 30%, rgba(241,85,34,0.05), transparent 35%),
       radial-gradient(circle at 80% 70%, rgba(123,97,255,0.06), transparent 40%);
+  }
+  .dark .lg-shell::before {
+    background:
+      radial-gradient(circle at 20% 30%, rgba(241,85,34,0.08), transparent 35%),
+      radial-gradient(circle at 80% 70%, rgba(123,97,255,0.10), transparent 40%);
   }
 
   /* ─── Override des sections opaques pour laisser passer l'ambiance ─── */
@@ -467,6 +483,9 @@
   /* Opt-out : section blanche qui bloque l'ambiance lg-shell (testimonials) */
   .lg-shell section#temoignages {
     background-color: #FFFFFF !important;
+  }
+  .dark .lg-shell section#temoignages {
+    background-color: #0B0F19 !important;
   }
 
   /* ─── Override des cards opaques → glass refractif ─── */
@@ -483,11 +502,25 @@
       0 8px 24px -8px rgba(0, 0, 0, 0.12),
       0 16px 48px -16px rgba(0, 0, 0, 0.14) !important;
   }
+  .dark .lg-shell .card-soft:not(.no-lg-glass),
+  .dark .lg-shell .bg-card:not(.no-lg-glass),
+  .dark .lg-shell .bg-white:not(.no-lg-glass) {
+    background-color: rgba(15, 19, 32, 0.55) !important;
+    border: 1px solid rgba(255, 255, 255, 0.10) !important;
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.06) inset,
+      0 8px 24px -8px rgba(0, 0, 0, 0.40),
+      0 16px 48px -16px rgba(0, 0, 0, 0.50) !important;
+  }
   .lg-shell .bg-muted:not(.no-lg-glass),
   .lg-shell .bg-background:not(.no-lg-glass) {
     background-color: rgba(255, 255, 255, 0.35) !important;
     backdrop-filter: blur(16px) saturate(140%);
     -webkit-backdrop-filter: blur(16px) saturate(140%);
+  }
+  .dark .lg-shell .bg-muted:not(.no-lg-glass),
+  .dark .lg-shell .bg-background:not(.no-lg-glass) {
+    background-color: rgba(15, 19, 32, 0.45) !important;
   }
 
   /* ─── Glass natif renforcé ─── */
@@ -500,11 +533,22 @@
       0 1px 0 rgba(255, 255, 255, 1) inset,
       0 20px 60px -20px rgba(0, 0, 0, 0.15) !important;
   }
+  .dark .lg-shell .glass {
+    background: rgba(15, 19, 32, 0.5) !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.06) inset,
+      0 20px 60px -20px rgba(0, 0, 0, 0.5) !important;
+  }
   .lg-shell .glass-strong {
     background: rgba(255, 255, 255, 0.7) !important;
     backdrop-filter: blur(36px) saturate(220%) !important;
     -webkit-backdrop-filter: blur(36px) saturate(220%) !important;
     border: 1px solid #000 !important;
+  }
+  .dark .lg-shell .glass-strong {
+    background: rgba(15, 19, 32, 0.7) !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
   }
 
   /* ─── Navbar floating capsule glass ─── */
@@ -552,6 +596,13 @@
     -webkit-backdrop-filter: blur(12px);
     border: 1px solid #000;
   }
+  .dark .lg-shell input:not([type="checkbox"]):not([type="radio"]):not(.no-lg-glass),
+  .dark .lg-shell textarea:not(.no-lg-glass),
+  .dark .lg-shell select:not(.no-lg-glass) {
+    background-color: rgba(15, 19, 32, 0.7) !important;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: #E6EEF9;
+  }
   .lg-shell .no-lg-glass input,
   .lg-shell .no-lg-glass textarea,
   .lg-shell .no-lg-glass select {
@@ -574,6 +625,9 @@
      distinctes avec une plus haute spécificité dans leur génération. */
   .lg-shell .border-border {
     border-color: #000 !important;
+  }
+  .dark .lg-shell .border-border {
+    border-color: rgba(255, 255, 255, 0.10) !important;
   }
   /* La règle de base @apply border-border sur * fait que le contour
      par défaut sur tout élément utilisant .border devient noir aussi. */

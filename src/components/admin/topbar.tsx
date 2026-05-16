@@ -2,6 +2,7 @@
 
 import { Bell, Command, Search } from "lucide-react";
 import { UserMenu } from "@/components/auth/user-menu";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 export function AdminTopbar() {
   return (
@@ -28,6 +29,8 @@ export function AdminTopbar() {
           </span>
           All systems
         </span>
+
+        <ThemeToggle />
 
         <button
           type="button"
