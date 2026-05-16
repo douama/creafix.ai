@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { createClient } from "@/lib/supabase/server";
 import { runFullAudit } from "@/lib/ai/agents";
+import { rateLimit, rateLimitResponse, getClientIp } from "@/lib/rate-limit";
 
 const schema = z.object({
   platform: z.enum([
@@ -34,6 +35,11 @@ export async function POST(req: Request) {
 
   const supabase = createClient();
   const { data: { user } } = await supabase.auth.getUser();
+
+  // Rate limit : 10 audits/min par user (ou par IP si anonyme)
+  const rlId = user?.id ?? getClientIp(req);
+  const rl = await rateLimit("audits", rlId);
+  if (!rl.success) return rateLimitResponse(rl);
 
   // Mode démo : si pas de session, on retourne l'audit en mémoire
   if (!user) {

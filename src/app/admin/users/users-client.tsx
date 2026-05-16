@@ -297,7 +297,13 @@ export function UsersClient({ initialUsers }: { initialUsers: UserRow[] }) {
                     {timeAgo(u.created_at)}
                   </div>
 
-                  <div className="flex items-center justify-end">
+                  <div className="flex items-center justify-end gap-1">
+                    <a
+                      href={`/admin/users/${u.id}`}
+                      className="rounded-md border border-border bg-background/40 px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-muted-foreground hover:bg-background/70 hover:text-foreground"
+                    >
+                      Détail →
+                    </a>
                     <DropdownMenu>
                       <DropdownMenuTrigger
                         disabled={isActing}
