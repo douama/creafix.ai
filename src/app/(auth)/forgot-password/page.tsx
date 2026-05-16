@@ -1,4 +1,4 @@
-import { ForgotPasswordForm } from "@/components/auth/forgot-password-form";
+import { CfxForgotPasswordForm } from "@/components/auth/cfx-forgot-password";
 
 export const metadata = {
   title: "Mot de passe oublié · CreaFix AI",
@@ -6,5 +6,5 @@ export const metadata = {
 };
 
 export default function ForgotPasswordPage() {
-  return <ForgotPasswordForm />;
+  return <CfxForgotPasswordForm />;
 }
