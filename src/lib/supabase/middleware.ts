@@ -34,12 +34,14 @@ export async function updateSession(request: NextRequest) {
 
   const { data: { user } } = await supabase.auth.getUser();
 
-  // Protège /dashboard, /onboarding et /admin
+  // Protège /dashboard, /creators/*, /onboarding, /admin et /account
   const path = request.nextUrl.pathname;
   const protectedPath =
     path.startsWith("/dashboard") ||
+    path.startsWith("/creators") ||
     path.startsWith("/onboarding") ||
-    path.startsWith("/admin");
+    path.startsWith("/admin") ||
+    path.startsWith("/account");
 
   if (!user && protectedPath) {
     const url = request.nextUrl.clone();
@@ -84,7 +86,7 @@ export async function updateSession(request: NextRequest) {
     // Si admin → /admin, sinon → /dashboard
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { data: isAdmin } = await (supabase.rpc as any)("is_admin", { p_user_id: user.id });
-    url.pathname = isAdmin && path === "/login/admin" ? "/admin" : "/dashboard";
+    url.pathname = isAdmin && path === "/login/admin" ? "/admin/dashboard" : "/creators/dashboard";
     return NextResponse.redirect(url);
   }
 

@@ -10,8 +10,9 @@ export type AdminRole = "SUPER_ADMIN" | "ADMIN" | "MODERATOR" | "SUPPORT" | "ANA
 
 /** Pages admin (paths sous /admin) avec les rôles autorisés. */
 export const ADMIN_ROUTE_ACCESS: Record<string, AdminRole[]> = {
-  // ── Tout le monde admin a accès au cockpit
+  // ── Tout le monde admin a accès au cockpit (URL legacy + URL nouvelle)
   "/admin":                ["SUPER_ADMIN", "ADMIN", "MODERATOR", "SUPPORT", "ANALYST"],
+  "/admin/dashboard":      ["SUPER_ADMIN", "ADMIN", "MODERATOR", "SUPPORT", "ANALYST"],
 
   // ── Analytics : SUPER_ADMIN, ADMIN, ANALYST
   "/admin/analytics":      ["SUPER_ADMIN", "ADMIN", "ANALYST"],
@@ -60,11 +61,11 @@ export function canAccess(path: string, role: AdminRole | null | undefined): boo
 export function defaultLandingFor(role: AdminRole): string {
   switch (role) {
     case "SUPER_ADMIN":
-    case "ADMIN":       return "/admin";
+    case "ADMIN":       return "/admin/dashboard";
     case "MODERATOR":   return "/admin/moderation";
     case "SUPPORT":     return "/admin/support";
     case "ANALYST":     return "/admin/analytics";
-    default:            return "/dashboard";
+    default:            return "/creators/dashboard";
   }
 }
 

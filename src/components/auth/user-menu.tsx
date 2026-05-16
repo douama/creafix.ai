@@ -144,24 +144,26 @@ export function UserMenu({ variant = "default" }: { variant?: "default" | "admin
 
         {isAdmin && (
           <DropdownMenuItem asChild>
-            <Link href="/admin" className="cursor-pointer">
+            <Link href="/admin/dashboard" className="cursor-pointer">
               <Shield className="mr-2 h-4 w-4 text-rose-500" />
               Cockpit Admin
             </Link>
           </DropdownMenuItem>
         )}
 
-        <DropdownMenuItem asChild>
-          <Link href="/dashboard" className="cursor-pointer">
-            <Sparkles className="mr-2 h-4 w-4 text-[#EC4899]" />
-            Mon dashboard
-          </Link>
-        </DropdownMenuItem>
+        {!isAdmin && (
+          <DropdownMenuItem asChild>
+            <Link href="/creators/dashboard" className="cursor-pointer">
+              <Sparkles className="mr-2 h-4 w-4 text-[#EC4899]" />
+              Mon dashboard
+            </Link>
+          </DropdownMenuItem>
+        )}
 
         <DropdownMenuItem asChild>
-          <Link href="/dashboard/settings" className="cursor-pointer">
+          <Link href="/account" className="cursor-pointer">
             <User className="mr-2 h-4 w-4" />
-            Mon profil
+            Mon compte
           </Link>
         </DropdownMenuItem>
 
