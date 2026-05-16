@@ -49,13 +49,31 @@ export async function updateSession(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
-  // /admin : vérifie en plus que le user est ADMIN (RPC is_admin)
+  // /admin : check is_admin + RBAC granulaire par rôle
   if (user && path.startsWith("/admin")) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { data: isAdmin } = await (supabase.rpc as any)("is_admin", { p_user_id: user.id });
     if (!isAdmin) {
       const url = request.nextUrl.clone();
       url.pathname = "/dashboard";
+      return NextResponse.redirect(url);
+    }
+
+    // RBAC : récupère le rôle exact et check l'accès à la route demandée
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { data: profile } = await (supabase.from("user_profiles") as any)
+      .select("role")
+      .eq("id", user.id)
+      .maybeSingle();
+
+    const { canAccess, defaultLandingFor } = await import("@/lib/admin/rbac");
+    const role = profile?.role as
+      | "SUPER_ADMIN" | "ADMIN" | "MODERATOR" | "SUPPORT" | "ANALYST" | null;
+
+    if (role && !canAccess(path, role)) {
+      const url = request.nextUrl.clone();
+      url.pathname = defaultLandingFor(role);
+      url.searchParams.set("noaccess", path);
       return NextResponse.redirect(url);
     }
   }

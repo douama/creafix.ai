@@ -21,6 +21,7 @@ import {
   ResponsiveContainer,
   Tooltip,
 } from "recharts";
+import { LiveFeed } from "@/components/admin/live-feed";
 
 type Kpis = {
   users: number;
@@ -200,6 +201,9 @@ export function CockpitClient({
           </div>
         </div>
       </div>
+
+      {/* Live feed (Supabase Realtime) */}
+      <LiveFeed />
 
       {/* Recent feeds */}
       <div className="grid gap-4 lg:grid-cols-2">

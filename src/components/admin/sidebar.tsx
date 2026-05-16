@@ -1,7 +1,10 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { createClient } from "@/lib/supabase/client";
+import { sidebarVisibleFor, type AdminRole } from "@/lib/admin/rbac";
 import {
   LayoutDashboard,
   Users,
@@ -74,6 +77,26 @@ const NAV: { title: string; items: NavItem[] }[] = [
 
 export function AdminSidebar() {
   const pathname = usePathname();
+  const [allowed, setAllowed] = useState<Set<string> | null>(null);
+  const [role, setRole] = useState<AdminRole | null>(null);
+
+  useEffect(() => {
+    (async () => {
+      const sb = createClient();
+      const { data: { user } } = await sb.auth.getUser();
+      if (!user) return;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const { data } = await (sb.from("user_profiles") as any)
+        .select("role")
+        .eq("id", user.id)
+        .maybeSingle();
+      const r = data?.role as AdminRole | undefined;
+      if (r) {
+        setRole(r);
+        setAllowed(new Set(sidebarVisibleFor(r)));
+      }
+    })();
+  }, []);
 
   return (
     <aside className="sticky top-0 hidden h-screen w-64 shrink-0 border-r border-border bg-background/60 backdrop-blur-xl md:flex md:flex-col">
@@ -83,18 +106,23 @@ export function AdminSidebar() {
         </Link>
         <div className="mt-2 inline-flex items-center gap-1 rounded-full border border-rose-500/30 bg-rose-500/10 px-2 py-0.5 text-[9px] font-bold uppercase tracking-[0.18em] text-rose-500 dark:text-rose-300">
           <Sparkles className="h-2.5 w-2.5" />
-          Admin Panel
+          {role ?? "Admin"} Panel
         </div>
       </div>
 
       <nav className="flex-1 overflow-y-auto px-3 pb-4">
-        {NAV.map((section) => (
+        {NAV.map((section) => {
+          const visibleItems = section.items.filter((it) =>
+            allowed === null ? true : allowed.has(it.href),
+          );
+          if (visibleItems.length === 0) return null;
+          return (
           <div key={section.title} className="mb-5">
             <div className="px-3 pb-2 text-[10px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
               {section.title}
             </div>
             <div className="space-y-0.5">
-              {section.items.map((item) => {
+              {visibleItems.map((item) => {
                 const active =
                   item.href === "/admin"
                     ? pathname === "/admin"
@@ -138,7 +166,8 @@ export function AdminSidebar() {
               })}
             </div>
           </div>
-        ))}
+          );
+        })}
       </nav>
 
       <div className="m-3 rounded-2xl border border-[#7B61FF]/30 bg-gradient-to-br from-[#7B61FF]/15 to-[#00C2FF]/10 p-4">
