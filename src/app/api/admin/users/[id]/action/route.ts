@@ -30,9 +30,33 @@ export async function POST(
     return NextResponse.json({ error: "Accès admin requis" }, { status: 403 });
   }
 
+  // Actions destructrices/irréversibles → SUPER_ADMIN strict
+  if (action === "ban" || action === "reset") {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { data: isSuper } = await (supabase.rpc as any)("is_super_admin", { p_user_id: user.id });
+    if (!isSuper) {
+      return NextResponse.json(
+        { error: `Action "${action}" nécessite SUPER_ADMIN` },
+        { status: 403 },
+      );
+    }
+  }
+
   // Empêche de s'auto-bannir
   if (user.id === id && (action === "ban" || action === "suspend")) {
     return NextResponse.json({ error: "Impossible d'appliquer cette action sur ton propre compte" }, { status: 400 });
+  }
+
+  // Empêche de ban / reset un autre SUPER_ADMIN
+  if (action === "ban" || action === "reset") {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { data: targetIsSuper } = await (supabase.rpc as any)("is_super_admin", { p_user_id: id });
+    if (targetIsSuper) {
+      return NextResponse.json(
+        { error: "Impossible d'appliquer cette action sur un autre SUPER_ADMIN" },
+        { status: 403 },
+      );
+    }
   }
 
   // ── Apply action ──

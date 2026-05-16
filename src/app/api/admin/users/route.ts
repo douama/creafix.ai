@@ -2,6 +2,9 @@ import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 
+/** Rôles privilégiés : seul SUPER_ADMIN peut en créer/promouvoir. */
+const PRIVILEGED_ROLES = ["ADMIN", "SUPER_ADMIN", "MODERATOR", "SUPPORT", "ANALYST"];
+
 /**
  * POST /api/admin/users
  *
@@ -32,13 +35,26 @@ export async function POST(request: Request) {
   const role = body.role && allowedRoles.includes(body.role) ? body.role : "CREATOR";
   const plan = body.plan && ["FREE", "PRO", "AGENCY"].includes(body.plan) ? body.plan : "FREE";
 
-  // Auth check : seul un ADMIN peut créer des comptes admin
+  // Auth check : un ADMIN peut créer des CREATOR/INFLUENCER/AGENCY.
+  // Seul SUPER_ADMIN peut créer/promouvoir des rôles privilégiés
+  // (ADMIN, SUPER_ADMIN, MODERATOR, SUPPORT, ANALYST) — anti-escalade.
   const supabase = createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: "Non authentifié" }, { status: 401 });
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const { data: isAdmin } = await (supabase.rpc as any)("is_admin", { p_user_id: user.id });
   if (!isAdmin) return NextResponse.json({ error: "Accès admin requis" }, { status: 403 });
+
+  if (PRIVILEGED_ROLES.includes(role)) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { data: isSuper } = await (supabase.rpc as any)("is_super_admin", { p_user_id: user.id });
+    if (!isSuper) {
+      return NextResponse.json(
+        { error: `Seul un SUPER_ADMIN peut créer/promouvoir un compte avec le rôle "${role}"` },
+        { status: 403 },
+      );
+    }
+  }
 
   // Password : fourni ou auto-généré
   const generatedPwd = body.password ?? generateStrongPassword();

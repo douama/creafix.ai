@@ -15,12 +15,18 @@ export async function POST(
 ) {
   const { id } = await context.params;
 
+  // Refund = action financière destructrice → SUPER_ADMIN strict
   const supabase = createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: "Non authentifié" }, { status: 401 });
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const { data: isAdmin } = await (supabase.rpc as any)("is_admin", { p_user_id: user.id });
-  if (!isAdmin) return NextResponse.json({ error: "Accès admin requis" }, { status: 403 });
+  const { data: isSuper } = await (supabase.rpc as any)("is_super_admin", { p_user_id: user.id });
+  if (!isSuper) {
+    return NextResponse.json(
+      { error: "Refund nécessite SUPER_ADMIN" },
+      { status: 403 },
+    );
+  }
 
   const sb = supabaseAdmin();
 
