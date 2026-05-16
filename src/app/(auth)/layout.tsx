@@ -86,7 +86,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
                 { icon: Zap, text: "Audit IA complet en 60 secondes", color: "#FF8A00" },
                 { icon: ShieldCheck, text: "Détection shadowban + plan de récupération", color: "#10B981" },
                 { icon: Flame, text: "Score viral 0-100 avant publication", color: "#F43F5E" },
-                { icon: Sparkles, text: "Trends Afrique en temps réel · 9 pays", color: "#00C2FF" },
+                { icon: Sparkles, text: "Trends Afrique en temps réel · 9 pays", color: "#FF8A00" },
               ].map(({ icon: Icon, text, color }) => (
                 <li key={text} className="flex items-center gap-3">
                   <div
@@ -108,7 +108,7 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
                 ma page était réactivée avec un plan d&apos;action concret. »
               </blockquote>
               <figcaption className="mt-4 flex items-center gap-3">
-                <div className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-[#7B61FF] to-[#00C2FF] text-xs font-bold text-white">
+                <div className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-[#7B61FF] to-[#FF8A00] text-xs font-bold text-white">
                   IS
                 </div>
                 <div>

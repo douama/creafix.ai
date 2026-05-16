@@ -245,7 +245,7 @@ function ReviewCard({ review }: { review: Review }) {
           <div className="min-w-0 flex-1">
             <div className="flex items-center gap-1 truncate text-xs font-semibold">
               {review.name}
-              <Verified className="h-3 w-3 shrink-0 fill-[#00C2FF] text-background dark:text-background" />
+              <Verified className="h-3 w-3 shrink-0 fill-[#FF8A00] text-background dark:text-background" />
             </div>
             <div className="truncate text-[10px] text-muted-foreground">
               {review.role} · {review.country}

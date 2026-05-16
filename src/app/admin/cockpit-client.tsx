@@ -70,7 +70,7 @@ export function CockpitClient({
 }) {
   const KPI_CARDS = [
     { label: "Users actifs", value: fmt(kpis.users), icon: Users, color: "#7B61FF", delta: kpis.users > 0 ? "live" : "—" },
-    { label: "Audits totaux", value: fmt(kpis.audits), icon: Search, color: "#00C2FF", delta: `+${kpis.auditsToday} aujourd'hui` },
+    { label: "Audits totaux", value: fmt(kpis.audits), icon: Search, color: "#FF8A00", delta: `+${kpis.auditsToday} aujourd'hui` },
     { label: "Abonnements", value: fmt(kpis.subs), icon: Layers, color: "#FF8A00", delta: "MRR" },
     { label: "Revenus encaissés", value: `$${fmt(kpis.revenue)}`, icon: DollarSign, color: "#10B981", delta: `${kpis.payments} paiements` },
     { label: "Comptes sociaux", value: fmt(kpis.socials), icon: Activity, color: "#F43F5E", delta: "connectés" },
@@ -159,12 +159,12 @@ export function CockpitClient({
           </AreaChart>
         </ChartCard>
 
-        <ChartCard title="Audits / jour · 30 j" color="#00C2FF" total={kpis.audits}>
+        <ChartCard title="Audits / jour · 30 j" color="#FF8A00" total={kpis.audits}>
           <BarChart data={charts.audits30d} margin={{ top: 4, right: 4, left: -28, bottom: 0 }}>
             <XAxis dataKey="d" hide />
             <YAxis hide />
             <Tooltip contentStyle={tooltipStyle} formatter={(v) => [v, "Audits"]} />
-            <Bar dataKey="v" fill="#00C2FF" radius={[4, 4, 0, 0]} isAnimationActive />
+            <Bar dataKey="v" fill="#FF8A00" radius={[4, 4, 0, 0]} isAnimationActive />
           </BarChart>
         </ChartCard>
 
@@ -222,7 +222,7 @@ export function CockpitClient({
       {/* Quick actions sous le grid */}
       <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
         <ActionRow icon={Users} label="Gérer les utilisateurs" href="/admin/users" color="#7B61FF" />
-        <ActionRow icon={Search} label="Audits IA récents" href="/admin/audits" color="#00C2FF" />
+        <ActionRow icon={Search} label="Audits IA récents" href="/admin/audits" color="#FF8A00" />
         <ActionRow icon={CreditCard} label="Paiements & abos" href="/admin/payments" color="#10B981" />
         <ActionRow icon={Activity} label="Agents IA" href="/admin/agents" color="#FF8A00" />
       </div>
@@ -246,7 +246,7 @@ export function CockpitClient({
             <ul className="divide-y divide-border/40">
               {recent.users.map((u) => (
                 <li key={u.id} className="flex items-center gap-3 px-5 py-3">
-                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#7B61FF] to-[#00C2FF] text-[10px] font-bold text-white">
+                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#7B61FF] to-[#FF8A00] text-[10px] font-bold text-white">
                     {(u.full_name ?? u.email).slice(0, 2).toUpperCase()}
                   </div>
                   <div className="min-w-0 flex-1">

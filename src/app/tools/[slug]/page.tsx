@@ -143,7 +143,7 @@ export default async function ToolPage({
                   />
                   <Link
                     href="/signup"
-                    className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-gradient-to-r from-[#7B61FF] via-[#00C2FF] to-[#FF8A00] px-4 py-2 text-xs font-semibold text-white shadow-lg shadow-[#7B61FF]/30 transition-transform hover:scale-[1.02] md:px-5 md:text-sm"
+                    className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-gradient-to-r from-[#7B61FF] via-[#FF8A00] to-[#FF8A00] px-4 py-2 text-xs font-semibold text-white shadow-lg shadow-[#7B61FF]/30 transition-transform hover:scale-[1.02] md:px-5 md:text-sm"
                   >
                     {tool.ctaLabel}
                     <ArrowRight className="h-3.5 w-3.5" />
@@ -224,7 +224,7 @@ export default async function ToolPage({
               <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
                 <Link
                   href="/signup"
-                  className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-[#7B61FF] via-[#00C2FF] to-[#FF8A00] px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-[#7B61FF]/30"
+                  className="inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-[#7B61FF] via-[#FF8A00] to-[#FF8A00] px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-[#7B61FF]/30"
                 >
                   Créer mon compte gratuit
                   <ArrowRight className="h-4 w-4" />

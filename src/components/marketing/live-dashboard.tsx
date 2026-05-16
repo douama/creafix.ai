@@ -42,7 +42,7 @@ const VIRAL_7D = [
 const TOP_VIDEOS = [
   { title: "Mon premier million de F CFA", views: "324K", rpm: "$2.10", color: "#10B981" },
   { title: "POV : créateur africain en 2026", views: "187K", rpm: "$1.80", color: "#7B61FF" },
-  { title: "Comment j'ai battu l'algo TikTok", views: "152K", rpm: "$1.60", color: "#00C2FF" },
+  { title: "Comment j'ai battu l'algo TikTok", views: "152K", rpm: "$1.60", color: "#FF8A00" },
   { title: "Live Q&A finance mobile money", views: "98K", rpm: "$1.40", color: "#FF8A00" },
 ];
 
@@ -96,7 +96,7 @@ export function LiveDashboard() {
           {/* Header */}
           <div className="relative flex flex-wrap items-center justify-between gap-3">
             <div className="flex items-center gap-2.5">
-              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-[#7B61FF] to-[#00C2FF] text-xs font-bold text-white shadow-lg shadow-[#7B61FF]/30">
+              <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-[#7B61FF] to-[#FF8A00] text-xs font-bold text-white shadow-lg shadow-[#7B61FF]/30">
                 AT
               </div>
               <div>
@@ -141,7 +141,7 @@ export function LiveDashboard() {
               base={1_240_000}
               format="num"
               delta="+18%"
-              color="#00C2FF"
+              color="#FF8A00"
               tickMin={120}
               tickMax={580}
             />
@@ -235,7 +235,7 @@ export function LiveDashboard() {
                     <defs>
                       <linearGradient id="score-gradient" x1="0" y1="0" x2="1" y2="1">
                         <stop offset="0%" stopColor="#7B61FF" />
-                        <stop offset="50%" stopColor="#00C2FF" />
+                        <stop offset="50%" stopColor="#FF8A00" />
                         <stop offset="100%" stopColor="#FF8A00" />
                       </linearGradient>
                     </defs>

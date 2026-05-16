@@ -100,7 +100,7 @@ export default async function AuditSharePage({
                     </div>
 
                     <div className="mt-4 flex items-center gap-4">
-                      <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-[#7B61FF] to-[#00C2FF] font-display text-base font-bold text-white shadow-lg shadow-[#7B61FF]/30">
+                      <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-[#7B61FF] to-[#FF8A00] font-display text-base font-bold text-white shadow-lg shadow-[#7B61FF]/30">
                         {audit.initials}
                       </div>
                       <div>
@@ -118,7 +118,7 @@ export default async function AuditSharePage({
                       <ScoreMini icon={Flame} label="Viral" value={audit.scores.viral} color="#FF8A00" />
                       <ScoreMini icon={DollarSign} label="RPM" value={audit.scores.rpm} color="#10B981" />
                       <ScoreMini icon={Eye} label="Shadowban" value={audit.scores.shadowban} color="#F43F5E" invert />
-                      <ScoreMini icon={TrendingUp} label="Engagement" value={audit.scores.engagement} color="#00C2FF" />
+                      <ScoreMini icon={TrendingUp} label="Engagement" value={audit.scores.engagement} color="#FF8A00" />
                     </div>
 
                     <div className="mt-5 rounded-xl border border-[#7B61FF]/30 bg-[#7B61FF]/[0.06] p-3">
@@ -147,7 +147,7 @@ export default async function AuditSharePage({
                         <defs>
                           <linearGradient id="score-stroke" x1="0" y1="0" x2="1" y2="1">
                             <stop offset="0%" stopColor="#7B61FF" />
-                            <stop offset="50%" stopColor="#00C2FF" />
+                            <stop offset="50%" stopColor="#FF8A00" />
                             <stop offset="100%" stopColor="#FF8A00" />
                           </linearGradient>
                         </defs>
@@ -216,7 +216,7 @@ export default async function AuditSharePage({
                 </p>
                 <Link
                   href={`/signup?ref=audit-${id}`}
-                  className="mt-6 inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-[#7B61FF] via-[#00C2FF] to-[#FF8A00] px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-[#7B61FF]/30"
+                  className="mt-6 inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-[#7B61FF] via-[#FF8A00] to-[#FF8A00] px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-[#7B61FF]/30"
                 >
                   Lancer mon audit
                   <ArrowRight className="h-4 w-4" />

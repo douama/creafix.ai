@@ -289,7 +289,7 @@ function StatusBadge({ status, cancelling }: { status: string; cancelling: boole
     );
   }
   const colors: Record<string, string> = {
-    active: "#10B981", trialing: "#00C2FF", past_due: "#FF8A00",
+    active: "#10B981", trialing: "#FF8A00", past_due: "#FF8A00",
     cancelled: "#94A3B8", canceled: "#94A3B8", expired: "#94A3B8",
   };
   const color = colors[status] ?? "#94A3B8";

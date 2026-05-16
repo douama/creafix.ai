@@ -58,7 +58,7 @@ export default function ViralEnginePage() {
         <Stat label="Score viral moyen" value="74" suffix="/100" color="#FF8A00" icon={Flame} />
         <Stat label="Vidéos analysées (30j)" value="12.4K" color="#7B61FF" icon={Eye} />
         <Stat label="Précision IA" value="94" suffix="%" color="#10B981" icon={Sparkles} />
-        <Stat label="Hooks générés" value="3.2K" color="#00C2FF" icon={Activity} />
+        <Stat label="Hooks générés" value="3.2K" color="#FF8A00" icon={Activity} />
       </div>
 
       {/* Charts row */}
@@ -125,7 +125,7 @@ export default function ViralEnginePage() {
                   background: i === 0 ? "linear-gradient(135deg, #FBBF24, #FF8A00)" :
                               i === 1 ? "linear-gradient(135deg, #94A3B8, #64748B)" :
                               i === 2 ? "linear-gradient(135deg, #92400E, #B45309)" :
-                              "linear-gradient(135deg, #7B61FF, #00C2FF)"
+                              "linear-gradient(135deg, #7B61FF, #FF8A00)"
                 }}
               >
                 #{i + 1}

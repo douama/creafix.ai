@@ -126,7 +126,7 @@ export function PlansClient({ initialPlans }: { initialPlans: PlanRow[] }) {
               }`}
             >
               {p.highlight && (
-                <span className="absolute right-3 top-3 inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-[#7B61FF] to-[#00C2FF] px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-white">
+                <span className="absolute right-3 top-3 inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-[#7B61FF] to-[#FF8A00] px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-white">
                   <Crown className="h-2.5 w-2.5" />
                   Most popular
                 </span>
@@ -308,7 +308,7 @@ export function PlansClient({ initialPlans }: { initialPlans: PlanRow[] }) {
                       type="button"
                       onClick={save}
                       disabled={saving}
-                      className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-lg bg-gradient-to-r from-[#7B61FF] to-[#00C2FF] px-3 py-2 text-xs font-semibold text-white shadow-lg shadow-[#7B61FF]/20 disabled:opacity-50"
+                      className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-lg bg-gradient-to-r from-[#7B61FF] to-[#FF8A00] px-3 py-2 text-xs font-semibold text-white shadow-lg shadow-[#7B61FF]/20 disabled:opacity-50"
                     >
                       {saving ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Save className="h-3.5 w-3.5" />}
                       Sauvegarder

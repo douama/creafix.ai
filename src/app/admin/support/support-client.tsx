@@ -276,7 +276,7 @@ export function SupportClient({ initialTickets }: { initialTickets: TicketRow[] 
               <button
                 type="button"
                 onClick={() => toast.info("Reply UI à wirer en Phase E (table support_messages déjà créée)")}
-                className="inline-flex w-full items-center justify-center gap-1.5 rounded-lg bg-gradient-to-r from-[#7B61FF] to-[#00C2FF] px-4 py-2 text-xs font-semibold text-white"
+                className="inline-flex w-full items-center justify-center gap-1.5 rounded-lg bg-gradient-to-r from-[#7B61FF] to-[#FF8A00] px-4 py-2 text-xs font-semibold text-white"
               >
                 <Mail className="h-3.5 w-3.5" />
                 Répondre au ticket

@@ -145,7 +145,7 @@ export default function ApiAdminPage() {
         <button
           type="button"
           onClick={() => setCreating(!creating)}
-          className="inline-flex items-center gap-1.5 rounded-lg bg-gradient-to-r from-[#7B61FF] to-[#00C2FF] px-4 py-2 text-xs font-semibold text-white shadow-lg shadow-[#7B61FF]/20"
+          className="inline-flex items-center gap-1.5 rounded-lg bg-gradient-to-r from-[#7B61FF] to-[#FF8A00] px-4 py-2 text-xs font-semibold text-white shadow-lg shadow-[#7B61FF]/20"
         >
           <Plus className="h-3.5 w-3.5" />
           Nouvelle clé
@@ -156,7 +156,7 @@ export default function ApiAdminPage() {
       <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
         <Stat label="Clés actives" value={keys.length.toString()} color="#7B61FF" icon={KeyRound} />
         <Stat label="Calls / min" value={activeRpm.toString()} color="#10B981" icon={Activity} />
-        <Stat label="Calls / mois" value={fmt(totalCalls)} color="#00C2FF" icon={Zap} />
+        <Stat label="Calls / mois" value={fmt(totalCalls)} color="#FF8A00" icon={Zap} />
         <Stat label="Webhooks" value={WEBHOOKS.length.toString()} color="#FF8A00" icon={Webhook} />
       </div>
 
@@ -181,8 +181,8 @@ export default function ApiAdminPage() {
             <AreaChart data={USAGE_30D} margin={{ top: 4, right: 4, left: -28, bottom: 0 }}>
               <defs>
                 <linearGradient id="apiGrad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#00C2FF" stopOpacity={0.5} />
-                  <stop offset="100%" stopColor="#00C2FF" stopOpacity={0} />
+                  <stop offset="0%" stopColor="#FF8A00" stopOpacity={0.5} />
+                  <stop offset="100%" stopColor="#FF8A00" stopOpacity={0} />
                 </linearGradient>
               </defs>
               <Tooltip
@@ -195,7 +195,7 @@ export default function ApiAdminPage() {
                 formatter={(v) => [fmt(Number(v)), "calls"]}
                 labelFormatter={(d) => `J-${30 - Number(d)}`}
               />
-              <Area type="monotone" dataKey="v" stroke="#00C2FF" strokeWidth={2} fill="url(#apiGrad)" isAnimationActive />
+              <Area type="monotone" dataKey="v" stroke="#FF8A00" strokeWidth={2} fill="url(#apiGrad)" isAnimationActive />
             </AreaChart>
           </ResponsiveContainer>
         </div>
@@ -225,7 +225,7 @@ export default function ApiAdminPage() {
               type="button"
               onClick={createKey}
               disabled={busy || !newKeyName.trim()}
-              className="inline-flex items-center gap-1.5 rounded-lg bg-gradient-to-r from-[#7B61FF] to-[#00C2FF] px-4 py-2 text-xs font-semibold text-white disabled:opacity-50"
+              className="inline-flex items-center gap-1.5 rounded-lg bg-gradient-to-r from-[#7B61FF] to-[#FF8A00] px-4 py-2 text-xs font-semibold text-white disabled:opacity-50"
             >
               {busy ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Plus className="h-3.5 w-3.5" />}
               Créer

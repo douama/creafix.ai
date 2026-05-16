@@ -48,11 +48,11 @@ const LEADERBOARD: Creator[] = [
   { rank: 3, handle: "@didi_b", initials: "DB", country: "Côte d'Ivoire", flag: "🇨🇮", platform: "TikTok", followers: "4.1M", score: 92, growth: "+24%", niche: "Musique", highlight: "Lou Pra", color: "#FF8A00" },
   { rank: 4, handle: "@elgrandetoto", initials: "ET", country: "Maroc", flag: "🇲🇦", platform: "Instagram", followers: "3.8M", score: 90, growth: "+9%", niche: "Musique", color: "#7B61FF" },
   { rank: 5, handle: "@asake", initials: "AS", country: "Nigeria", flag: "🇳🇬", platform: "YouTube", followers: "3.2M", score: 89, growth: "+15%", niche: "Musique", color: "#10B981" },
-  { rank: 6, handle: "@wally_b_seck", initials: "WS", country: "Sénégal", flag: "🇸🇳", platform: "TikTok", followers: "2.4M", score: 87, growth: "+11%", niche: "Musique", color: "#00C2FF" },
+  { rank: 6, handle: "@wally_b_seck", initials: "WS", country: "Sénégal", flag: "🇸🇳", platform: "TikTok", followers: "2.4M", score: 87, growth: "+11%", niche: "Musique", color: "#FF8A00" },
   { rank: 7, handle: "@dj_maphorisa", initials: "DM", country: "Afrique du Sud", flag: "🇿🇦", platform: "TikTok", followers: "2.1M", score: 86, growth: "+8%", niche: "Musique", color: "#FBBF24" },
   { rank: 8, handle: "@locko_official", initials: "LK", country: "Cameroun", flag: "🇨🇲", platform: "Instagram", followers: "1.8M", score: 84, growth: "+13%", niche: "Musique", color: "#F43F5E" },
   { rank: 9, handle: "@suspect_95", initials: "S9", country: "Côte d'Ivoire", flag: "🇨🇮", platform: "TikTok", followers: "1.6M", score: 83, growth: "+19%", niche: "Musique", color: "#FF8A00" },
-  { rank: 10, handle: "@iss_814", initials: "I8", country: "Sénégal", flag: "🇸🇳", platform: "TikTok", followers: "1.4M", score: 82, growth: "+22%", niche: "Musique", color: "#00C2FF" },
+  { rank: 10, handle: "@iss_814", initials: "I8", country: "Sénégal", flag: "🇸🇳", platform: "TikTok", followers: "1.4M", score: 82, growth: "+22%", niche: "Musique", color: "#FF8A00" },
   { rank: 11, handle: "@inkonnu", initials: "IK", country: "Maroc", flag: "🇲🇦", platform: "YouTube", followers: "1.3M", score: 81, growth: "+6%", niche: "Musique", color: "#7B61FF" },
   { rank: 12, handle: "@kabza_de_small", initials: "KS", country: "Afrique du Sud", flag: "🇿🇦", platform: "TikTok", followers: "1.2M", score: 80, growth: "+14%", niche: "Musique", color: "#FBBF24" },
 ];
@@ -296,7 +296,7 @@ export default function LeaderboardPage() {
               </p>
               <Link
                 href="/signup"
-                className="mt-6 inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-[#7B61FF] via-[#00C2FF] to-[#FF8A00] px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-[#7B61FF]/30"
+                className="mt-6 inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-[#7B61FF] via-[#FF8A00] to-[#FF8A00] px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-[#7B61FF]/30"
               >
                 Obtenir mon score CreaFix
                 <ArrowRight className="h-4 w-4" />

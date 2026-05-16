@@ -37,7 +37,7 @@ const COUNTRIES: Country[] = [
     rpm: "$1.80",
     growth: "+34%",
     creators: "2 480",
-    color: "#00C2FF",
+    color: "#FF8A00",
     sounds: [
       { artist: "Wally B. Seck", track: "Naari", uses: "412K", momentum: 92 },
       { artist: "ISS 814", track: "Bayil", uses: "284K", momentum: 78 },

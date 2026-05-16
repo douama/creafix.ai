@@ -29,7 +29,7 @@ export type NotifRow = {
 const TYPE_FILTERS = ["ALL", "audit_ready", "shadowban_alert", "subscription", "broadcast", "system"];
 const CHANNELS = [
   { id: "in_app", label: "In-app", icon: Bell, color: "#7B61FF" },
-  { id: "email", label: "Email", icon: Mail, color: "#00C2FF" },
+  { id: "email", label: "Email", icon: Mail, color: "#FF8A00" },
   { id: "whatsapp", label: "WhatsApp", icon: MessageCircle, color: "#10B981" },
 ];
 const SEGMENTS = [
@@ -108,7 +108,7 @@ export function NotificationsClient({ initialNotifs }: { initialNotifs: NotifRow
         <button
           type="button"
           onClick={() => setComposing(!composing)}
-          className="inline-flex items-center gap-1.5 rounded-lg bg-gradient-to-r from-[#7B61FF] to-[#00C2FF] px-4 py-2 text-xs font-semibold text-white shadow-lg shadow-[#7B61FF]/20"
+          className="inline-flex items-center gap-1.5 rounded-lg bg-gradient-to-r from-[#7B61FF] to-[#FF8A00] px-4 py-2 text-xs font-semibold text-white shadow-lg shadow-[#7B61FF]/20"
         >
           <Send className="h-3.5 w-3.5" />
           {composing ? "Fermer" : "Nouveau broadcast"}
@@ -120,7 +120,7 @@ export function NotificationsClient({ initialNotifs }: { initialNotifs: NotifRow
         <Stat label="Total notifs" value={stats.total} color="#7B61FF" icon={Bell} />
         <Stat label="Non lues" value={stats.unread} color="#FF8A00" icon={Clock} />
         <Stat label="Aujourd'hui" value={stats.today} color="#10B981" icon={Sparkles} />
-        <Stat label="Types" value={stats.types} color="#00C2FF" icon={BarChart3} />
+        <Stat label="Types" value={stats.types} color="#FF8A00" icon={BarChart3} />
       </div>
 
       {/* Compose form */}
@@ -221,7 +221,7 @@ export function NotificationsClient({ initialNotifs }: { initialNotifs: NotifRow
               type="button"
               onClick={send}
               disabled={sending || !title.trim()}
-              className="inline-flex items-center gap-1.5 rounded-lg bg-gradient-to-r from-[#7B61FF] to-[#00C2FF] px-4 py-2 text-xs font-semibold text-white shadow-lg shadow-[#7B61FF]/20 disabled:opacity-50"
+              className="inline-flex items-center gap-1.5 rounded-lg bg-gradient-to-r from-[#7B61FF] to-[#FF8A00] px-4 py-2 text-xs font-semibold text-white shadow-lg shadow-[#7B61FF]/20 disabled:opacity-50"
             >
               {sending ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Send className="h-3.5 w-3.5" />}
               Envoyer le broadcast

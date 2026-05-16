@@ -19,7 +19,7 @@ const TOP_LEAKS = [
   { reason: "Watch time < seuil monétisation", impact: 8920, accounts: 142, color: "#FF8A00" },
   { reason: "Hashtags bannis", impact: 5640, accounts: 67, color: "#FBBF24" },
   { reason: "Hook faible (< 3s retention)", impact: 4280, accounts: 198, color: "#7B61FF" },
-  { reason: "Vidéos < 60s sous-monétisées", impact: 3120, accounts: 92, color: "#00C2FF" },
+  { reason: "Vidéos < 60s sous-monétisées", impact: 3120, accounts: 92, color: "#FF8A00" },
 ];
 
 const RPM_BY_COUNTRY = [
@@ -33,7 +33,7 @@ const RPM_BY_COUNTRY = [
 
 const NICHE_RPM = [
   { niche: "Finance", rpm: 4.2, color: "#10B981" },
-  { niche: "Tech", rpm: 3.8, color: "#00C2FF" },
+  { niche: "Tech", rpm: 3.8, color: "#FF8A00" },
   { niche: "Business", rpm: 3.4, color: "#7B61FF" },
   { niche: "Lifestyle", rpm: 1.8, color: "#FF8A00" },
   { niche: "Humour", rpm: 1.4, color: "#F43F5E" },

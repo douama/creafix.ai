@@ -29,7 +29,7 @@ export function CTA() {
 
           {/* Glow blobs colorés */}
           <div className="pointer-events-none absolute -bottom-32 -left-24 h-80 w-80 rounded-full bg-[#FF8A00]/40 blur-3xl" />
-          <div className="pointer-events-none absolute -top-32 right-1/4 h-72 w-72 rounded-full bg-[#00C2FF]/30 blur-3xl" />
+          <div className="pointer-events-none absolute -top-32 right-1/4 h-72 w-72 rounded-full bg-[#FF8A00]/30 blur-3xl" />
 
           {/* Grid pattern très subtle */}
           <div

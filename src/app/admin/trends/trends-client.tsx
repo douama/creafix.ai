@@ -55,7 +55,7 @@ const STATUSES = ["ALL", "PENDING", "APPROVED", "REJECTED", "ARCHIVED"];
 
 const KIND_META: Record<string, { icon: typeof Music2; color: string }> = {
   SOUND:     { icon: Music2,     color: "#7B61FF" },
-  HASHTAG:   { icon: Hash,       color: "#00C2FF" },
+  HASHTAG:   { icon: Hash,       color: "#FF8A00" },
   NICHE:     { icon: TrendingUp, color: "#10B981" },
   FORMAT:    { icon: Sparkles,   color: "#FBBF24" },
   CHALLENGE: { icon: Flame,      color: "#FF8A00" },
@@ -162,7 +162,7 @@ export function TrendsClient({ initialTrends }: { initialTrends: TrendRow[] }) {
         <Stat label="Total trends" value={stats.total} color="#7B61FF" icon={TrendingUp} />
         <Stat label="Approuvés" value={stats.approved} color="#10B981" icon={CheckCircle2} />
         <Stat label="En attente" value={stats.pending} color="#FF8A00" icon={Sparkles} />
-        <Stat label="Pays couverts" value={stats.countries} color="#00C2FF" icon={MapPin} />
+        <Stat label="Pays couverts" value={stats.countries} color="#FF8A00" icon={MapPin} />
       </div>
 
       {/* Add form */}
@@ -203,7 +203,7 @@ export function TrendsClient({ initialTrends }: { initialTrends: TrendRow[] }) {
             type="button"
             onClick={add}
             disabled={adding || !form.title}
-            className="inline-flex items-center justify-center gap-1.5 rounded-lg bg-gradient-to-r from-[#7B61FF] to-[#00C2FF] px-4 py-2 text-xs font-semibold text-white shadow-lg shadow-[#7B61FF]/20 disabled:opacity-50"
+            className="inline-flex items-center justify-center gap-1.5 rounded-lg bg-gradient-to-r from-[#7B61FF] to-[#FF8A00] px-4 py-2 text-xs font-semibold text-white shadow-lg shadow-[#7B61FF]/20 disabled:opacity-50"
           >
             {adding ? <Loader2 className="h-3 w-3 animate-spin" /> : <Plus className="h-3 w-3" />}
             Ajouter

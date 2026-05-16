@@ -44,10 +44,10 @@ const toneClasses: Record<
     ring: "ring-[#7B61FF]/30",
   },
   electric: {
-    gradient: "from-[#00C2FF]/30 to-[#00C2FF]/0",
-    icon: "from-[#00C2FF] to-[#0099cc]",
-    text: "text-[#00C2FF]",
-    ring: "ring-[#00C2FF]/30",
+    gradient: "from-[#FF8A00]/30 to-[#FF8A00]/0",
+    icon: "from-[#FF8A00] to-[#0099cc]",
+    text: "text-[#FF8A00]",
+    ring: "ring-[#FF8A00]/30",
   },
   orange: {
     gradient: "from-[#FF8A00]/30 to-[#FF8A00]/0",

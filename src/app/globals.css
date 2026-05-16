@@ -5,10 +5,10 @@
 @layer base {
   /* ─── Palette CreaFix AI ─────────────────────────────────────
      Couleurs de marque (référence) :
-       • Noir profond  #0B0F19  →  HSL 224 39% 7%
-       • Violet IA     #7B61FF  →  HSL 249 100% 69%
-       • Bleu électr.  #00C2FF  →  HSL 191 100% 50%
-       • Orange acc.   #FF8A00  →  HSL 32 100% 50%
+       • Noir profond     #0B0F19  →  HSL 224 39% 7%
+       • Violet IA        #7B61FF  →  HSL 249 100% 69%
+       • Orange chaud     #FF8A00  →  HSL 32 100% 50%   (remplace l'ancien bleu)
+       • Orange CinetPay  #f15522  →  HSL 14 87% 54%   (highlight / btn-pill)
      ─────────────────────────────────────────────────────────── */
 
   /* ─── Mode sombre (default) ─── */
@@ -26,7 +26,7 @@
     --primary: 249 100% 69%;        /* #7B61FF violet IA */
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 191 100% 50%;      /* #00C2FF bleu électrique */
+    --secondary: 32 100% 50%;       /* #FF8A00 orange chaud */
     --secondary-foreground: 0 0% 100%;
 
     --muted: 224 20% 14%;
@@ -117,12 +117,12 @@
     background-attachment: fixed;
   }
 
-  /* Ambiance dark — palette CreaFix #7B61FF / #00C2FF / #FF8A00 */
+  /* Ambiance dark — palette CreaFix #7B61FF / #FF8A00 (orange chaud) / #f15522 */
   .dark body {
     background-image:
       radial-gradient(ellipse 80% 50% at 50% -20%, rgba(123, 97, 255, 0.20), transparent),
-      radial-gradient(ellipse 60% 40% at 80% 100%, rgba(0, 194, 255, 0.10), transparent),
-      radial-gradient(ellipse 50% 30% at 10% 90%, rgba(255, 138, 0, 0.08), transparent);
+      radial-gradient(ellipse 60% 40% at 80% 100%, rgba(255, 138, 0, 0.12), transparent),
+      radial-gradient(ellipse 50% 30% at 10% 90%, rgba(241, 85, 34, 0.10), transparent);
   }
 
   /* Ambiance light — fond blanc pur sobre style CinetPay (pas d'aurora) */
@@ -178,20 +178,20 @@
       0 24px 60px -20px rgba(15, 23, 42, 0.18);
   }
 
-  /* Texte dégradé — visible dans les 2 thèmes */
+  /* Texte dégradé — visible dans les 2 thèmes (palette violet → orange) */
   .gradient-text {
     @apply bg-clip-text text-transparent;
   }
   .dark .gradient-text {
-    background-image: linear-gradient(135deg, #b9a8ff 0%, #80dfff 50%, #ffb966 100%);
+    background-image: linear-gradient(135deg, #b9a8ff 0%, #ffb966 50%, #ff8a8a 100%);
   }
   .light .gradient-text {
-    background-image: linear-gradient(135deg, #5a3dff 0%, #00a3d6 50%, #d97400 100%);
+    background-image: linear-gradient(135deg, #5a3dff 0%, #d97400 50%, #c4341a 100%);
   }
 
-  /* Gradient signature CreaFix : Violet IA → Bleu électrique → Orange accent */
+  /* Gradient signature CreaFix : Violet IA → Orange chaud → Orange CinetPay */
   .gradient-brand {
-    background-image: linear-gradient(135deg, #7B61FF 0%, #00C2FF 50%, #FF8A00 100%);
+    background-image: linear-gradient(135deg, #7B61FF 0%, #FF8A00 50%, #f15522 100%);
   }
 
   /* ─── CinetPay-style helpers ──────────────────────────────────── */
@@ -341,8 +341,8 @@
       from 0deg,
       transparent 0deg,
       #7B61FF 60deg,
-      #00C2FF 120deg,
-      #FF8A00 180deg,
+      #FF8A00 120deg,
+      #f15522 180deg,
       transparent 240deg
     );
     animation: spin-slow 6s linear infinite;
@@ -440,7 +440,7 @@
     background:
       radial-gradient(ellipse 60% 40% at 15% 5%, rgba(241,85,34,0.10), transparent 60%),
       radial-gradient(ellipse 50% 35% at 85% 20%, rgba(123,97,255,0.10), transparent 60%),
-      radial-gradient(ellipse 70% 50% at 50% 100%, rgba(0,194,255,0.07), transparent 70%),
+      radial-gradient(ellipse 70% 50% at 50% 100%, rgba(255,138,0,0.08), transparent 70%),
       radial-gradient(ellipse 40% 30% at 90% 70%, rgba(241,85,34,0.06), transparent 70%),
       #FBFBFD;
   }
@@ -573,7 +573,8 @@
   }
   .lg-orb-orange { background: #f15522; }
   .lg-orb-purple { background: #7B61FF; }
-  .lg-orb-cyan   { background: #00C2FF; }
+  .lg-orb-cyan   { background: #FF8A00; } /* alias legacy — orange chaud */
+  .lg-orb-warm   { background: #FF8A00; }
 
   @keyframes lg-orb-float {
     0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
@@ -595,7 +596,7 @@
       from 0deg,
       rgba(241,85,34,0.6),
       rgba(123,97,255,0.5),
-      rgba(0,194,255,0.5),
+      rgba(255,138,0,0.6),
       rgba(241,85,34,0.6)
     );
     opacity: 0;

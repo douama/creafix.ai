@@ -191,7 +191,7 @@ export default function ActionPlansPage() {
         <CardContent className="p-5 md:p-6">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div className="flex items-center gap-4">
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-[#7B61FF] to-[#00C2FF] shadow-lg shadow-[#7B61FF]/30">
+              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-[#7B61FF] to-[#FF8A00] shadow-lg shadow-[#7B61FF]/30">
                 <Target className="h-5 w-5 text-white" />
               </div>
               <div>
@@ -221,7 +221,7 @@ export default function ActionPlansPage() {
                   initial={{ width: 0 }}
                   animate={{ width: `${globalPct}%` }}
                   transition={{ duration: 0.6, ease: "easeOut" }}
-                  className="h-full rounded-full bg-gradient-to-r from-[#7B61FF] to-[#00C2FF]"
+                  className="h-full rounded-full bg-gradient-to-r from-[#7B61FF] to-[#FF8A00]"
                 />
               </div>
               <div className="mt-1 text-[10px] text-muted-foreground">

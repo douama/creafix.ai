@@ -105,7 +105,7 @@ export default async function UserDetailPage({
       <div className="rounded-2xl border border-border bg-card/40 p-6 backdrop-blur-xl">
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div className="flex items-center gap-4">
-            <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-[#7B61FF] to-[#00C2FF] text-base font-bold text-white shadow-lg shadow-[#7B61FF]/20">
+            <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-[#7B61FF] to-[#FF8A00] text-base font-bold text-white shadow-lg shadow-[#7B61FF]/20">
               {initials}
             </div>
             <div>
@@ -137,7 +137,7 @@ export default async function UserDetailPage({
       <div className="grid grid-cols-2 gap-3 md:grid-cols-5">
         <Kpi icon={Search} label="Audits totaux" value={audits.length.toString()} color="#7B61FF" />
         <Kpi icon={DollarSign} label="Revenue généré" value={`$${revenueGenerated.toFixed(2)}`} color="#10B981" />
-        <Kpi icon={Activity} label="API calls" value={apiUsage.length.toString()} color="#00C2FF" />
+        <Kpi icon={Activity} label="API calls" value={apiUsage.length.toString()} color="#FF8A00" />
         <Kpi icon={Smartphone} label="Devices" value={devices.length.toString()} color="#FF8A00" />
         <Kpi icon={Crown} label="Credits IA" value={String(profile.credits ?? 0)} color="#FBBF24" />
       </div>
@@ -360,7 +360,7 @@ function RoleBadge({ role }: { role: string | null }) {
   if (!role) return null;
   const colors: Record<string, string> = {
     SUPER_ADMIN: "#F43F5E", ADMIN: "#F43F5E", AGENCY: "#7B61FF",
-    INFLUENCER: "#FF8A00", CREATOR: "#10B981", MODERATOR: "#00C2FF",
+    INFLUENCER: "#FF8A00", CREATOR: "#10B981", MODERATOR: "#FF8A00",
     SUPPORT: "#FBBF24", ANALYST: "#94A3B8",
   };
   const color = colors[role] ?? "#94A3B8";

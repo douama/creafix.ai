@@ -102,7 +102,7 @@ export function UserMenu({ variant = "default" }: { variant?: "default" | "admin
     <DropdownMenu>
       <DropdownMenuTrigger className="group flex items-center gap-2 rounded-xl border border-transparent p-1 outline-none transition-colors hover:border-border hover:bg-card/40 focus-visible:border-foreground/30">
         <div
-          className={`flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-[#7B61FF] to-[#00C2FF] text-[10px] font-bold text-white shadow-lg shadow-[#7B61FF]/20`}
+          className={`flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-[#7B61FF] to-[#FF8A00] text-[10px] font-bold text-white shadow-lg shadow-[#7B61FF]/20`}
         >
           {initials || "?"}
         </div>
@@ -122,7 +122,7 @@ export function UserMenu({ variant = "default" }: { variant?: "default" | "admin
       <DropdownMenuContent align="end" className="w-64">
         <DropdownMenuLabel className="font-normal">
           <div className="flex items-center gap-2.5">
-            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-[#7B61FF] to-[#00C2FF] text-xs font-bold text-white">
+            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-[#7B61FF] to-[#FF8A00] text-xs font-bold text-white">
               {initials}
             </div>
             <div className="min-w-0">

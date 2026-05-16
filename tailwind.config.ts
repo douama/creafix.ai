@@ -47,7 +47,7 @@ const config: Config = {
         },
         brand: {
           violet: "#7B61FF",     // Violet IA
-          electric: "#00C2FF",   // Bleu électrique
+          electric: "#FF8A00",   // (legacy alias) Orange chaud — remplace l'ancien bleu électrique
           orange: "#FF8A00",     // Orange accent
           midnight: "#0B0F19",   // Noir profond
           ink: "#0F1320",
@@ -68,7 +68,7 @@ const config: Config = {
         "radial-fade":
           "radial-gradient(circle at top, rgba(123,97,255,0.25), transparent 60%)",
         "brand-gradient":
-          "linear-gradient(135deg, #7B61FF 0%, #00C2FF 50%, #FF8A00 100%)",
+          "linear-gradient(135deg, #7B61FF 0%, #FF8A00 50%, #FF8A00 100%)",
       },
       keyframes: {
         "accordion-down": {

@@ -43,7 +43,7 @@ export function AnalyticsClient({ data }: { data: Data }) {
       {/* Top KPIs */}
       <div className="grid grid-cols-2 gap-3 md:grid-cols-5">
         <Kpi label="Users totaux" value={data.totals.users.toLocaleString("fr-FR")} icon={Users} color="#7B61FF" />
-        <Kpi label="Audits totaux" value={data.totals.audits.toLocaleString("fr-FR")} icon={Search} color="#00C2FF" />
+        <Kpi label="Audits totaux" value={data.totals.audits.toLocaleString("fr-FR")} icon={Search} color="#FF8A00" />
         <Kpi label="Abos actifs" value={data.totals.subs.toLocaleString("fr-FR")} icon={Layers} color="#FF8A00" />
         <Kpi label="Paiements" value={data.totals.payments.toLocaleString("fr-FR")} icon={DollarSign} color="#10B981" />
         <Kpi label="MRR (30j)" value={`$${data.totals.mrr.toFixed(0)}`} icon={TrendingUp} color="#F43F5E" />
@@ -66,12 +66,12 @@ export function AnalyticsClient({ data }: { data: Data }) {
           </AreaChart>
         </ChartCard>
 
-        <ChartCard title="Audits / jour · 30j" color="#00C2FF">
+        <ChartCard title="Audits / jour · 30j" color="#FF8A00">
           <BarChart data={data.dailyAudits} margin={{ top: 4, right: 4, left: -28, bottom: 0 }}>
             <XAxis dataKey="d" hide />
             <YAxis hide />
             <Tooltip contentStyle={tooltipStyle} formatter={(v) => [v, "Audits"]} />
-            <Bar dataKey="v" fill="#00C2FF" radius={[4, 4, 0, 0]} isAnimationActive />
+            <Bar dataKey="v" fill="#FF8A00" radius={[4, 4, 0, 0]} isAnimationActive />
           </BarChart>
         </ChartCard>
 
@@ -113,7 +113,7 @@ export function AnalyticsClient({ data }: { data: Data }) {
                     <span className="w-12 font-mono">{c.key}</span>
                     <div className="relative h-2 flex-1 overflow-hidden rounded-full bg-muted/30">
                       <div
-                        className="h-full rounded-full bg-gradient-to-r from-[#7B61FF] to-[#00C2FF]"
+                        className="h-full rounded-full bg-gradient-to-r from-[#7B61FF] to-[#FF8A00]"
                         style={{ width: `${pct}%` }}
                       />
                     </div>

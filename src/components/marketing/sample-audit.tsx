@@ -63,7 +63,7 @@ const PROFILES: Profile[] = [
     globalScore: 61,
     badgeColor: "#7B61FF",
     badgeFrom: "#7B61FF",
-    badgeTo: "#00C2FF",
+    badgeTo: "#FF8A00",
     revenue: { current: 240, projected: 840 },
     scores: [
       { label: "Score viral", value: 64, color: "#FF8A00", trend: "+12" },
@@ -168,7 +168,7 @@ export function SampleAudit() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.4 }}
-            className="inline-flex items-center gap-1.5 rounded-full border border-[#00C2FF]/30 bg-[#00C2FF]/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-[#00C2FF]"
+            className="inline-flex items-center gap-1.5 rounded-full border border-[#FF8A00]/30 bg-[#FF8A00]/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-[#FF8A00]"
           >
             <Sparkles className="h-3 w-3" /> Audits réels
           </motion.div>
@@ -401,7 +401,7 @@ export function SampleAudit() {
                       key={i}
                       className="flex items-start gap-2.5 rounded-xl border border-border bg-background/40 p-3 text-xs"
                     >
-                      <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#7B61FF] to-[#00C2FF] text-[10px] font-bold text-white">
+                      <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#7B61FF] to-[#FF8A00] text-[10px] font-bold text-white">
                         {i + 1}
                       </span>
                       <span className="leading-snug">{rec}</span>
@@ -411,7 +411,7 @@ export function SampleAudit() {
 
                 <a
                   href="/signup"
-                  className="mt-2 inline-flex w-full items-center justify-center gap-1.5 rounded-xl border border-[#7B61FF]/50 bg-gradient-to-r from-[#7B61FF]/15 to-[#00C2FF]/15 px-4 py-2.5 text-xs font-semibold transition-colors hover:from-[#7B61FF]/25 hover:to-[#00C2FF]/25"
+                  className="mt-2 inline-flex w-full items-center justify-center gap-1.5 rounded-xl border border-[#7B61FF]/50 bg-gradient-to-r from-[#7B61FF]/15 to-[#FF8A00]/15 px-4 py-2.5 text-xs font-semibold transition-colors hover:from-[#7B61FF]/25 hover:to-[#FF8A00]/25"
                 >
                   Lancer mon audit personnalisé
                   <ArrowRight className="h-3.5 w-3.5" />

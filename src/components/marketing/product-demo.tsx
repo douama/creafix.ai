@@ -133,7 +133,7 @@ export function ProductDemo() {
                 >
                   <div className="group relative">
                     <div className="absolute inset-0 animate-ping rounded-full bg-[#7B61FF]/40" />
-                    <div className="relative flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-[#7B61FF] to-[#00C2FF] shadow-[0_20px_60px_-10px_rgba(123,97,255,0.7)] transition-transform group-hover:scale-110">
+                    <div className="relative flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-[#7B61FF] to-[#FF8A00] shadow-[0_20px_60px_-10px_rgba(123,97,255,0.7)] transition-transform group-hover:scale-110">
                       <Play className="h-7 w-7 fill-white text-white" />
                     </div>
                   </div>

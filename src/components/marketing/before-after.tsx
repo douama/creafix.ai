@@ -30,7 +30,7 @@ const RESULTS = [
     before: "$120",
     after: "$2 480",
     delta: "+1 967%",
-    color: "#00C2FF",
+    color: "#FF8A00",
   },
 ];
 

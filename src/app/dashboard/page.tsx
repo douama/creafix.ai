@@ -307,7 +307,7 @@ function KpiCard({
 }) {
   const colors: Record<typeof tone, { stroke: string; fill: string; bg: string }> = {
     violet:   { stroke: "#7B61FF", fill: "rgba(123,97,255,0.15)", bg: "bg-violet-500/15 text-violet-500 dark:text-violet-300" },
-    electric: { stroke: "#00C2FF", fill: "rgba(0,194,255,0.15)",  bg: "bg-sky-500/15 text-sky-500 dark:text-sky-300" },
+    electric: { stroke: "#FF8A00", fill: "rgba(0,194,255,0.15)",  bg: "bg-sky-500/15 text-sky-500 dark:text-sky-300" },
     orange:   { stroke: "#FF8A00", fill: "rgba(255,138,0,0.15)",  bg: "bg-orange-500/15 text-orange-500 dark:text-orange-300" },
     amber:    { stroke: "#F59E0B", fill: "rgba(245,158,11,0.15)", bg: "bg-amber-500/15 text-amber-500 dark:text-amber-300" },
     rose:     { stroke: "#F43F5E", fill: "rgba(244,63,94,0.15)",  bg: "bg-rose-500/15 text-rose-500 dark:text-rose-300" },

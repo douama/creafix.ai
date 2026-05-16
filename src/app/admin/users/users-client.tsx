@@ -156,7 +156,7 @@ export function UsersClient({ initialUsers }: { initialUsers: UserRow[] }) {
           <button
             type="button"
             onClick={() => setInviteOpen(true)}
-            className="inline-flex items-center gap-1.5 rounded-lg bg-gradient-to-r from-[#7B61FF] to-[#00C2FF] px-4 py-2 text-xs font-semibold text-white shadow-lg shadow-[#7B61FF]/20"
+            className="inline-flex items-center gap-1.5 rounded-lg bg-gradient-to-r from-[#7B61FF] to-[#FF8A00] px-4 py-2 text-xs font-semibold text-white shadow-lg shadow-[#7B61FF]/20"
           >
             <UserPlus className="h-3.5 w-3.5" />
             Inviter un user
@@ -262,7 +262,7 @@ export function UsersClient({ initialUsers }: { initialUsers: UserRow[] }) {
                   }`}
                 >
                   <div className="flex min-w-0 items-center gap-2.5">
-                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#7B61FF] to-[#00C2FF] text-[10px] font-bold text-white">
+                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#7B61FF] to-[#FF8A00] text-[10px] font-bold text-white">
                       {initials || "?"}
                     </div>
                     <div className="min-w-0">
@@ -406,7 +406,7 @@ function RoleBadge({ role }: { role: string | null }) {
   const colors: Record<string, string> = {
     SUPER_ADMIN: "#F43F5E", ADMIN: "#F43F5E",
     AGENCY: "#7B61FF", INFLUENCER: "#FF8A00",
-    CREATOR: "#10B981", MODERATOR: "#00C2FF",
+    CREATOR: "#10B981", MODERATOR: "#FF8A00",
     SUPPORT: "#FBBF24", ANALYST: "#94A3B8",
   };
   const color = colors[role] ?? "#94A3B8";
@@ -673,7 +673,7 @@ function InviteModal({
             type="button"
             onClick={submit}
             disabled={submitting || !email.trim()}
-            className="inline-flex items-center gap-1.5 rounded-lg bg-gradient-to-r from-[#7B61FF] to-[#00C2FF] px-4 py-1.5 text-xs font-semibold text-white shadow-lg shadow-[#7B61FF]/20 disabled:opacity-50"
+            className="inline-flex items-center gap-1.5 rounded-lg bg-gradient-to-r from-[#7B61FF] to-[#FF8A00] px-4 py-1.5 text-xs font-semibold text-white shadow-lg shadow-[#7B61FF]/20 disabled:opacity-50"
           >
             {submitting ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <UserPlus className="h-3.5 w-3.5" />}
             Créer le compte
@@ -802,7 +802,7 @@ function CredentialsModal({
           <button
             type="button"
             onClick={onClose}
-            className="rounded-lg bg-gradient-to-r from-[#7B61FF] to-[#00C2FF] px-4 py-1.5 text-xs font-semibold text-white shadow-lg shadow-[#7B61FF]/20"
+            className="rounded-lg bg-gradient-to-r from-[#7B61FF] to-[#FF8A00] px-4 py-1.5 text-xs font-semibold text-white shadow-lg shadow-[#7B61FF]/20"
           >
             J&apos;ai copié, fermer
           </button>

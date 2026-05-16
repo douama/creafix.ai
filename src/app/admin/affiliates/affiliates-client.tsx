@@ -118,7 +118,7 @@ export function AffiliatesClient({
       {/* Stats */}
       <div className="grid grid-cols-2 gap-3 md:grid-cols-5">
         <Stat label="Referrals" value={stats.total.toString()} color="#7B61FF" icon={Megaphone} />
-        <Stat label="Affiliés actifs" value={stats.uniqueAffiliates.toString()} color="#00C2FF" icon={Users} />
+        <Stat label="Affiliés actifs" value={stats.uniqueAffiliates.toString()} color="#FF8A00" icon={Users} />
         <Stat label="Commissions générées" value={`$${stats.totalEarned.toFixed(0)}`} color="#10B981" icon={DollarSign} />
         <Stat label="Payouts effectués" value={`$${stats.totalPaid.toFixed(0)}`} color="#FF8A00" icon={CheckCircle2} />
         <Stat label="À payer" value={`$${stats.pendingPayout.toFixed(0)}`} color="#F43F5E" icon={Clock} />
@@ -143,7 +143,7 @@ export function AffiliatesClient({
                     key={l.affiliate_id}
                     className="flex items-center gap-3 rounded-xl border border-border bg-background/40 p-3"
                   >
-                    <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-[#7B61FF] to-[#00C2FF] text-[10px] font-bold text-white">
+                    <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-[#7B61FF] to-[#FF8A00] text-[10px] font-bold text-white">
                       {(l.name ?? l.email ?? "?").slice(0, 2).toUpperCase()}
                     </div>
                     <div className="min-w-0 flex-1">
@@ -302,7 +302,7 @@ function FilterDropdown({ label, value, options, onChange }: {
 
 function StatusBadge({ status }: { status: string }) {
   const colors: Record<string, string> = {
-    pending: "#FF8A00", approved: "#00C2FF", paid: "#10B981", rejected: "#F43F5E",
+    pending: "#FF8A00", approved: "#FF8A00", paid: "#10B981", rejected: "#F43F5E",
   };
   const color = colors[status] ?? "#94A3B8";
   return (

@@ -172,9 +172,9 @@ export function AdminSidebar() {
         })}
       </nav>
 
-      <div className="m-3 rounded-2xl border border-[#7B61FF]/30 bg-gradient-to-br from-[#7B61FF]/15 to-[#00C2FF]/10 p-4">
+      <div className="m-3 rounded-2xl border border-[#7B61FF]/30 bg-gradient-to-br from-[#7B61FF]/15 to-[#FF8A00]/10 p-4">
         <div className="flex items-center gap-2">
-          <div className="flex h-7 w-7 items-center justify-center rounded-full bg-gradient-to-br from-[#7B61FF] to-[#00C2FF] text-[10px] font-bold text-white">
+          <div className="flex h-7 w-7 items-center justify-center rounded-full bg-gradient-to-br from-[#7B61FF] to-[#FF8A00] text-[10px] font-bold text-white">
             SA
           </div>
           <div className="min-w-0 flex-1 text-xs">

@@ -100,7 +100,7 @@ export function AuditsClient({ initialAudits }: { initialAudits: AuditRow[] }) {
         <Stat
           label="Score moyen"
           value={stats.avgScore ?? 0}
-          color="#00C2FF"
+          color="#FF8A00"
           icon={TrendingUp}
           suffix={stats.avgScore != null ? "/100" : ""}
         />
@@ -204,7 +204,7 @@ export function AuditsClient({ initialAudits }: { initialAudits: AuditRow[] }) {
                         <ScoreCard label="Monétisation" value={a.score_monetization} icon={DollarSign} color="#10B981" />
                         <ScoreCard label="Viral" value={a.score_viral} icon={Flame} color="#FF8A00" />
                         <ScoreCard label="Risque" value={a.score_risk} icon={ShieldOff} color="#F43F5E" invert />
-                        <ScoreCard label="Engagement" value={a.score_engagement} icon={Eye} color="#00C2FF" />
+                        <ScoreCard label="Engagement" value={a.score_engagement} icon={Eye} color="#FF8A00" />
                       </div>
                       <div className="mt-4 grid gap-2 text-[11px] md:grid-cols-3">
                         <Detail label="Audit ID" value={a.id} mono />

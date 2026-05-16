@@ -29,7 +29,7 @@ export function PlatformsSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.4 }}
-            className="inline-flex items-center gap-1.5 rounded-full border border-[#00C2FF]/30 bg-[#00C2FF]/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-[#00C2FF]"
+            className="inline-flex items-center gap-1.5 rounded-full border border-[#FF8A00]/30 bg-[#FF8A00]/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-[#FF8A00]"
           >
             <Sparkles className="h-3 w-3" /> {t("eyebrow")}
           </motion.div>

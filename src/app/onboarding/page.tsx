@@ -492,7 +492,7 @@ function Recap({ state }: { state: State }) {
                 </span>
                 <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-muted/30">
                   <div
-                    className="h-full rounded-full bg-gradient-to-r from-[#7B61FF] to-[#00C2FF]"
+                    className="h-full rounded-full bg-gradient-to-r from-[#7B61FF] to-[#FF8A00]"
                     style={{ width: `${((i + 1) / milestones.length) * 100}%` }}
                   />
                 </div>

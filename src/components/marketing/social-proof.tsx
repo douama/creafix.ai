@@ -20,7 +20,7 @@ const STATS = [
     icon: Activity,
     value: "4 500+",
     label: "audits IA complétés",
-    color: "#00C2FF",
+    color: "#FF8A00",
   },
   {
     icon: Globe2,

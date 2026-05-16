@@ -108,7 +108,7 @@ export function SecurityClient({
       {/* Stats */}
       <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
         <Stat label="Total logs" value={stats.total} color="#7B61FF" icon={Activity} />
-        <Stat label="Acteurs uniques" value={stats.actors} color="#00C2FF" icon={Users} />
+        <Stat label="Acteurs uniques" value={stats.actors} color="#FF8A00" icon={Users} />
         <Stat label="Aujourd'hui" value={stats.today} color="#10B981" icon={Calendar} />
         <Stat label="Types d'actions" value={stats.actions} color="#FF8A00" icon={Sparkles} />
       </div>

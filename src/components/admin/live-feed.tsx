@@ -18,7 +18,7 @@ type FeedEvent = {
 
 const KIND_META: Record<FeedEvent["kind"], { icon: typeof Activity; color: string }> = {
   audit:        { icon: Search,        color: "#7B61FF" },
-  user:         { icon: UserPlus,      color: "#00C2FF" },
+  user:         { icon: UserPlus,      color: "#FF8A00" },
   payment:      { icon: DollarSign,    color: "#10B981" },
   moderation:   { icon: AlertOctagon,  color: "#F43F5E" },
   notification: { icon: Bell,          color: "#FF8A00" },

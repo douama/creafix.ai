@@ -31,7 +31,7 @@ export type ModerationItem = {
 
 const KIND_META: Record<string, { icon: typeof FileText; label: string; color: string }> = {
   CONTENT:   { icon: FileText,  label: "Contenu",     color: "#7B61FF" },
-  COMMENT:   { icon: FileText,  label: "Commentaire", color: "#00C2FF" },
+  COMMENT:   { icon: FileText,  label: "Commentaire", color: "#FF8A00" },
   ACCOUNT:   { icon: Shield,    label: "Compte",      color: "#FF8A00" },
   AUDIO:     { icon: Music2,    label: "Audio",       color: "#F43F5E" },
   THUMBNAIL: { icon: ImageIcon, label: "Thumbnail",   color: "#FBBF24" },

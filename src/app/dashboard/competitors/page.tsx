@@ -178,7 +178,7 @@ export default function CompetitorsPage() {
                 followers="184K"
                 platform="TikTok"
                 country="🇸🇳 Sénégal"
-                gradient="from-[#7B61FF] to-[#00C2FF]"
+                gradient="from-[#7B61FF] to-[#FF8A00]"
                 badge="Toi"
               />
               <CompetitorCard
@@ -351,7 +351,7 @@ export default function CompetitorsPage() {
                       transition={{ duration: 0.3, delay: i * 0.06 }}
                       className="flex items-start gap-3 rounded-xl border border-border bg-background/40 p-4"
                     >
-                      <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#7B61FF] to-[#00C2FF] text-xs font-bold text-white">
+                      <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#7B61FF] to-[#FF8A00] text-xs font-bold text-white">
                         {i + 1}
                       </span>
                       <div className="min-w-0 flex-1">

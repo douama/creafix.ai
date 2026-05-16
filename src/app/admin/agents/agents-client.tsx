@@ -44,7 +44,7 @@ const CATEGORY_META: Record<string, { icon: typeof Bot; color: string }> = {
   VIRAL:           { icon: Flame, color: "#FF8A00" },
   SHADOWBAN:       { icon: ShieldOff, color: "#F43F5E" },
   HOOK_REWRITER:   { icon: Wand2, color: "#7B61FF" },
-  TREND_SCANNER:   { icon: TrendingUp, color: "#00C2FF" },
+  TREND_SCANNER:   { icon: TrendingUp, color: "#FF8A00" },
   THUMBNAIL:       { icon: ImageIcon, color: "#FBBF24" },
   VIDEO_ANALYZER:  { icon: Eye, color: "#A855F7" },
 };
@@ -111,7 +111,7 @@ export function AgentsClient({ initialAgents }: { initialAgents: AgentRow[] }) {
       <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
         <Stat label="Agents actifs" value={`${enabled}/${agents.length}`} color="#10B981" icon={CheckCircle2} />
         <Stat label="Runs totales" value={totalRuns.toLocaleString("fr-FR")} color="#7B61FF" icon={Activity} />
-        <Stat label="Taux de succès" value={`${successRate}%`} color="#00C2FF" icon={Sparkles} />
+        <Stat label="Taux de succès" value={`${successRate}%`} color="#FF8A00" icon={Sparkles} />
         <Stat label="Coût moyen / run" value={`$${avgCost(agents).toFixed(4)}`} color="#FF8A00" icon={DollarSign} />
       </div>
 

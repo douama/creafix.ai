@@ -138,7 +138,7 @@ export function CouponsClient({ initialCoupons }: { initialCoupons: CouponRow[] 
         <button
           type="button"
           onClick={() => setCreating(!creating)}
-          className="inline-flex items-center gap-1.5 rounded-lg bg-gradient-to-r from-[#7B61FF] to-[#00C2FF] px-4 py-2 text-xs font-semibold text-white shadow-lg shadow-[#7B61FF]/20"
+          className="inline-flex items-center gap-1.5 rounded-lg bg-gradient-to-r from-[#7B61FF] to-[#FF8A00] px-4 py-2 text-xs font-semibold text-white shadow-lg shadow-[#7B61FF]/20"
         >
           <Plus className="h-3.5 w-3.5" />
           Nouveau code
@@ -148,7 +148,7 @@ export function CouponsClient({ initialCoupons }: { initialCoupons: CouponRow[] 
       <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
         <Stat label="Total codes" value={stats.total} color="#7B61FF" icon={Ticket} />
         <Stat label="Actifs" value={stats.active} color="#10B981" icon={CheckCircle2} />
-        <Stat label="Utilisations" value={stats.used} color="#00C2FF" icon={Percent} />
+        <Stat label="Utilisations" value={stats.used} color="#FF8A00" icon={Percent} />
         <Stat label="Expirés" value={stats.expired} color="#94A3B8" icon={Calendar} />
       </div>
 
@@ -242,7 +242,7 @@ export function CouponsClient({ initialCoupons }: { initialCoupons: CouponRow[] 
             type="button"
             onClick={create}
             disabled={busy || !code.trim()}
-            className="mt-4 inline-flex items-center gap-1.5 rounded-lg bg-gradient-to-r from-[#7B61FF] to-[#00C2FF] px-4 py-2 text-xs font-semibold text-white shadow-lg shadow-[#7B61FF]/20 disabled:opacity-50"
+            className="mt-4 inline-flex items-center gap-1.5 rounded-lg bg-gradient-to-r from-[#7B61FF] to-[#FF8A00] px-4 py-2 text-xs font-semibold text-white shadow-lg shadow-[#7B61FF]/20 disabled:opacity-50"
           >
             {busy ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Plus className="h-3.5 w-3.5" />}
             Créer le coupon
