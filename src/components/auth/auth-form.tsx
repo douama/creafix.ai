@@ -1,15 +1,24 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { toast } from "sonner";
-import { Loader2 } from "lucide-react";
+import { Loader2, Eye, EyeOff } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 
-export function AuthForm({ mode }: { mode: "login" | "signup" }) {
+type AuthMode = "login" | "signup";
+type EmailMode = "magic" | "password";
+
+export function AuthForm({ mode }: { mode: AuthMode }) {
+  const router = useRouter();
+  const [emailMode, setEmailMode] = useState<EmailMode>("password");
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPwd, setShowPwd] = useState(false);
   const [loading, setLoading] = useState<null | "google" | "facebook" | "email">(null);
 
   async function signInWithOAuth(provider: "google" | "facebook") {
@@ -32,27 +41,52 @@ export function AuthForm({ mode }: { mode: "login" | "signup" }) {
     }
   }
 
-  async function signInWithEmail(e: React.FormEvent) {
+  async function handleEmailSubmit(e: React.FormEvent) {
     e.preventDefault();
     setLoading("email");
+    const supabase = createClient();
+
     try {
-      const supabase = createClient();
-      const { error } = await supabase.auth.signInWithOtp({
-        email,
-        options: {
-          emailRedirectTo: `${window.location.origin}/api/auth/callback?next=${mode === "signup" ? "/onboarding" : "/dashboard"}`,
-        },
-      });
-      if (error) throw error;
-      toast.success(`Lien magique envoyé à ${email}`, {
-        description: "Vérifie ta boîte mail (et les spams).",
-      });
+      if (emailMode === "magic") {
+        const { error } = await supabase.auth.signInWithOtp({
+          email,
+          options: {
+            emailRedirectTo: `${window.location.origin}/api/auth/callback?next=${mode === "signup" ? "/onboarding" : "/dashboard"}`,
+          },
+        });
+        if (error) throw error;
+        toast.success(`Lien magique envoyé à ${email}`, {
+          description: "Vérifie ta boîte mail (et les spams).",
+        });
+      } else if (mode === "login") {
+        const { error } = await supabase.auth.signInWithPassword({ email, password });
+        if (error) throw error;
+        toast.success("Connecté ✓");
+        router.push("/dashboard");
+        router.refresh();
+      } else {
+        const { error } = await supabase.auth.signUp({
+          email,
+          password,
+          options: {
+            emailRedirectTo: `${window.location.origin}/api/auth/callback?next=/onboarding`,
+          },
+        });
+        if (error) throw error;
+        toast.success("Compte créé ✓", {
+          description: "Vérifie ta boîte mail pour confirmer ton adresse.",
+        });
+      }
     } catch (e: any) {
-      toast.error(e.message ?? "Échec d'envoi du lien");
+      toast.error(e.message ?? "Échec");
     } finally {
       setLoading(null);
     }
   }
+
+  const passwordRequired = emailMode === "password";
+  const submitDisabled =
+    !!loading || !email || (passwordRequired && password.length < 6);
 
   return (
     <div className="space-y-4">
@@ -98,7 +132,7 @@ export function AuthForm({ mode }: { mode: "login" | "signup" }) {
         </span>
       </div>
 
-      <form onSubmit={signInWithEmail} className="space-y-3">
+      <form onSubmit={handleEmailSubmit} className="space-y-3">
         <Input
           type="email"
           placeholder="ton@email.com"
@@ -106,18 +140,61 @@ export function AuthForm({ mode }: { mode: "login" | "signup" }) {
           onChange={(e) => setEmail(e.target.value)}
           required
           disabled={!!loading}
+          autoComplete="email"
         />
-        <Button type="submit" variant="brand" className="w-full" disabled={!!loading || !email}>
+
+        {passwordRequired && (
+          <div className="relative">
+            <Input
+              type={showPwd ? "text" : "password"}
+              placeholder={mode === "signup" ? "Mot de passe (min. 6 caractères)" : "Mot de passe"}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              minLength={6}
+              disabled={!!loading}
+              autoComplete={mode === "signup" ? "new-password" : "current-password"}
+              className="pr-10"
+            />
+            <button
+              type="button"
+              onClick={() => setShowPwd((v) => !v)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+              aria-label={showPwd ? "Cacher" : "Afficher"}
+            >
+              {showPwd ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+            </button>
+          </div>
+        )}
+
+        <Button type="submit" variant="brand" className="w-full" disabled={submitDisabled}>
           {loading === "email" ? (
             <Loader2 className="mr-1 h-4 w-4 animate-spin" />
           ) : null}
-          {mode === "signup" ? "Recevoir mon lien magique" : "Recevoir mon lien de connexion"}
+          {emailMode === "magic"
+            ? mode === "signup"
+              ? "Recevoir mon lien magique"
+              : "Recevoir mon lien de connexion"
+            : mode === "signup"
+            ? "Créer mon compte"
+            : "Se connecter"}
         </Button>
       </form>
 
-      <p className="text-center text-xs text-muted-foreground">
-        Pas de mot de passe. Un lien sécurisé arrive sur ton email.
-      </p>
+      <div className="flex items-center justify-between text-xs text-muted-foreground">
+        <button
+          type="button"
+          onClick={() => setEmailMode((m) => (m === "password" ? "magic" : "password"))}
+          className="text-violet-300 hover:underline"
+        >
+          {emailMode === "password" ? "Utiliser un lien magique" : "Utiliser un mot de passe"}
+        </button>
+        {mode === "login" && emailMode === "password" && (
+          <Link href="/forgot-password" className="hover:text-foreground">
+            Mot de passe oublié ?
+          </Link>
+        )}
+      </div>
     </div>
   );
 }
