@@ -57,48 +57,50 @@
     --bg-glow-3: 249 115% 22 / 0.08;
   }
 
-  /* ─── Mode clair — ULTRA lisible, optimisé contraste ─── */
+  /* ─── Mode clair "CinetPay style" — orange primary + grand contraste ─── */
   .light {
-    --background: 0 0% 100%;
-    --foreground: 224 39% 10%;
+    --background: 0 0% 100%;          /* #FFFFFF */
+    --foreground: 222 22% 12%;        /* #18191e — proche #15171a CinetPay dark text */
 
     --card: 0 0% 100%;
-    --card-foreground: 224 39% 10%;
+    --card-foreground: 222 22% 12%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 224 39% 10%;
+    --popover-foreground: 222 22% 12%;
 
-    --primary: 249 80% 60%;            /* violet IA plus saturé pour contraste sur blanc */
+    /* Orange CinetPay #f15522 */
+    --primary: 14 87% 54%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 191 100% 40%;         /* bleu électrique assombri pour lisibilité */
+    --secondary: 200 80% 35%;          /* bleu navy léger pour info / liens */
     --secondary-foreground: 0 0% 100%;
 
-    --muted: 224 14% 96%;
-    --muted-foreground: 224 10% 38%;   /* gris foncé bien lisible (WCAG AAA) */
+    --muted: 210 16% 96%;              /* #F1F3F5 */
+    --muted-foreground: 220 10% 35%;   /* gris foncé lisible */
 
-    --accent: 32 100% 45%;             /* orange assombri */
+    /* Accent vert canard CinetPay #438d7c pour CTA secondaires */
+    --accent: 165 35% 40%;
     --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 84% 50%;
+    --destructive: 0 75% 50%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 224 14% 88%;
-    --input: 224 14% 90%;
-    --ring: 249 80% 60%;
+    --border: 210 14% 90%;             /* gris très clair */
+    --input: 210 14% 92%;
+    --ring: 14 87% 54%;                /* orange focus ring */
 
-    --radius: 0.85rem;
+    --radius: 0.75rem;                 /* 12px CinetPay */
 
     --surface-1: 0 0% 100%;
-    --surface-2: 240 8% 98%;
-    --surface-glass: 240 10% 100% / 0.7;
-    --surface-glass-strong: 240 10% 100% / 0.85;
-    --border-subtle: 240 10% 0% / 0.08;
-    --border-strong: 240 10% 0% / 0.14;
-    --grid-color: 240 10% 0% / 0.04;
-    --bg-glow-1: 124 58% 237 / 0.08;
-    --bg-glow-2: 59 130% 246 / 0.05;
-    --bg-glow-3: 249 115% 22 / 0.04;
+    --surface-2: 210 16% 98%;
+    --surface-glass: 0 0% 100% / 0.95;
+    --surface-glass-strong: 0 0% 100%;
+    --border-subtle: 220 10% 0% / 0.06;
+    --border-strong: 220 10% 0% / 0.10;
+    --grid-color: 220 10% 0% / 0.03;
+    --bg-glow-1: 14 87% 54% / 0.06;
+    --bg-glow-2: 14 87% 54% / 0.04;
+    --bg-glow-3: 14 87% 54% / 0.03;
   }
 
   * {
@@ -123,11 +125,10 @@
       radial-gradient(ellipse 50% 30% at 10% 90%, rgba(255, 138, 0, 0.08), transparent);
   }
 
-  /* Ambiance light — palette CreaFix sur fond blanc */
+  /* Ambiance light — fond blanc pur sobre style CinetPay (pas d'aurora) */
   .light body {
-    background-image:
-      radial-gradient(ellipse 80% 50% at 50% -10%, rgba(123, 97, 255, 0.08), transparent 60%),
-      radial-gradient(ellipse 60% 40% at 90% 90%, rgba(255, 138, 0, 0.05), transparent 60%);
+    background-image: none;
+    background-color: #FFFFFF;
   }
 
   ::selection {
@@ -191,6 +192,73 @@
   /* Gradient signature CreaFix : Violet IA → Bleu électrique → Orange accent */
   .gradient-brand {
     background-image: linear-gradient(135deg, #7B61FF 0%, #00C2FF 50%, #FF8A00 100%);
+  }
+
+  /* ─── CinetPay-style helpers ──────────────────────────────────── */
+
+  /* Panneau dark intercalaire (utilisé dans light theme pour démarquer) */
+  .panel-dark {
+    background-color: #15171a;
+    color: #ffffff;
+    border-radius: 1.5rem;
+  }
+  .panel-dark .text-muted-foreground {
+    color: rgba(255, 255, 255, 0.65);
+  }
+
+  /* Surligneur orange CinetPay (mots clés du H1) — incliné -2deg */
+  .highlight-orange {
+    background-image: linear-gradient(45deg, #f92c2c, #f15b25);
+    color: #ffffff;
+    padding: 0.15em 0.5em;
+    border-radius: 0.5rem;
+    display: inline-block;
+    transform: rotate(-2deg);
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+  }
+
+  /* Gradient orange CinetPay (45° rouge → orange) */
+  .gradient-orange {
+    background-image: linear-gradient(45deg, #f92c2c 0%, #f15b25 100%);
+  }
+  .text-gradient-orange {
+    background-image: linear-gradient(45deg, #f92c2c 0%, #f15b25 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Bouton pill orange (signature CTA primary) */
+  .btn-pill-orange {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    height: 3rem;
+    padding: 0 1.5rem;
+    border-radius: 9999px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #ffffff;
+    background-image: linear-gradient(45deg, #f92c2c 0%, #f15b25 100%);
+    box-shadow: 0 4px 12px -2px rgba(241, 85, 34, 0.35);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .btn-pill-orange:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 20px -4px rgba(241, 85, 34, 0.45);
+  }
+
+  /* Carte light "soft" — ombre ultra plate type CinetPay */
+  .card-soft {
+    background-color: #ffffff;
+    border: 1px solid hsl(var(--border));
+    border-radius: 0.75rem;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04), 0 1px 2px -1px rgba(0, 0, 0, 0.06);
+  }
+  .card-soft:hover {
+    box-shadow: 0 4px 8px -2px rgba(0, 0, 0, 0.06), 0 2px 4px -2px rgba(0, 0, 0, 0.04);
   }
 
   .text-balance {
