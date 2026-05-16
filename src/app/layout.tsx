@@ -2,8 +2,8 @@ import type { Metadata, Viewport } from "next";
 import { Inter, Sora } from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages } from "next-intl/server";
-import { Toaster } from "sonner";
 import { ThemeProvider } from "@/components/theme-provider";
+import { ThemedToaster } from "@/components/themed-toaster";
 import { JsonLd } from "@/components/seo/json-ld";
 import { organizationLd, websiteLd, softwareApplicationLd } from "@/lib/seo/structured-data";
 import "./globals.css";
@@ -87,12 +87,7 @@ export default async function RootLayout({
             {/* Structured data global (toutes pages) — Organization, Website, SoftwareApplication */}
             <JsonLd data={[organizationLd(), websiteLd(), softwareApplicationLd()]} />
             {children}
-            <Toaster
-              position="top-right"
-              toastOptions={{
-                className: "!border !backdrop-blur-xl !text-foreground",
-              }}
-            />
+            <ThemedToaster />
           </ThemeProvider>
         </NextIntlClientProvider>
       </body>
