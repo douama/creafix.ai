@@ -26,7 +26,10 @@ export function Logo({
   const width = Math.round(size * 3);
 
   return (
-    <div className={cn("inline-flex items-center", className)}>
+    <div
+      className={cn("flex items-center justify-center", className)}
+      style={{ height }}
+    >
       {/* Logo light — visible en thème clair (texte sombre) */}
       <Image
         src="/logos/logo-light.svg"
@@ -36,7 +39,7 @@ export function Logo({
         priority
         unoptimized
         className="block dark:hidden"
-        style={{ height, width: "auto" }}
+        style={{ height, width: "auto", display: "block", objectFit: "contain", objectPosition: "center" }}
       />
       {/* Logo dark — visible en thème sombre (texte clair) */}
       <Image
@@ -47,7 +50,7 @@ export function Logo({
         priority
         unoptimized
         className="hidden dark:block"
-        style={{ height, width: "auto" }}
+        style={{ height, width: "auto", display: "block", objectFit: "contain", objectPosition: "center" }}
       />
     </div>
   );

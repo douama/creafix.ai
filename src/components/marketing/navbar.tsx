@@ -46,7 +46,7 @@ export function Navbar() {
               : "bg-background/80 backdrop-blur-md",
           )}
         >
-          <Link href="/" aria-label="CreaFix AI">
+          <Link href="/" aria-label="CreaFix AI" className="flex items-center">
             <Logo showTagline={false} size={44} />
           </Link>
 
