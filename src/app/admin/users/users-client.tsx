@@ -15,6 +15,13 @@ import {
   Trash2,
   CheckCircle2,
   Loader2,
+  UserPlus,
+  Copy,
+  Check,
+  Eye,
+  EyeOff,
+  X,
+  Shield,
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -50,6 +57,10 @@ export function UsersClient({ initialUsers }: { initialUsers: UserRow[] }) {
   const [statusFilter, setStatusFilter] = useState("ALL");
   const [pending, startTransition] = useTransition();
   const [actingId, setActingId] = useState<string | null>(null);
+  const [inviteOpen, setInviteOpen] = useState(false);
+  const [credentialsModal, setCredentialsModal] = useState<{
+    email: string; password: string; role: string;
+  } | null>(null);
 
   const filtered = useMemo(() => {
     return users.filter((u) => {
@@ -132,16 +143,62 @@ export function UsersClient({ initialUsers }: { initialUsers: UserRow[] }) {
             Gestion complète des utilisateurs CreaFix AI · {users.length} comptes
           </p>
         </div>
-        <button
-          type="button"
-          onClick={refresh}
-          disabled={pending}
-          className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-card/40 px-3 py-1.5 text-xs font-semibold transition-colors hover:bg-card/70"
-        >
-          {pending ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <RefreshCcw className="h-3.5 w-3.5" />}
-          Refresh
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={refresh}
+            disabled={pending}
+            className="inline-flex items-center gap-1.5 rounded-lg border border-border bg-card/40 px-3 py-1.5 text-xs font-semibold transition-colors hover:bg-card/70"
+          >
+            {pending ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <RefreshCcw className="h-3.5 w-3.5" />}
+            Refresh
+          </button>
+          <button
+            type="button"
+            onClick={() => setInviteOpen(true)}
+            className="inline-flex items-center gap-1.5 rounded-lg bg-gradient-to-r from-[#7B61FF] to-[#00C2FF] px-4 py-2 text-xs font-semibold text-white shadow-lg shadow-[#7B61FF]/20"
+          >
+            <UserPlus className="h-3.5 w-3.5" />
+            Inviter un user
+          </button>
+        </div>
       </div>
+
+      {/* Invite modal */}
+      {inviteOpen && (
+        <InviteModal
+          onClose={() => setInviteOpen(false)}
+          onCreated={(newUser, password) => {
+            setUsers((prev) => [
+              {
+                id: newUser.id,
+                email: newUser.email,
+                full_name: newUser.full_name,
+                role: newUser.role,
+                plan: newUser.plan,
+                credits: 50,
+                country: null,
+                status: "ACTIVE",
+                created_at: new Date().toISOString(),
+                last_seen_at: null,
+              },
+              ...prev.filter((u) => u.id !== newUser.id),
+            ]);
+            if (password) {
+              setCredentialsModal({ email: newUser.email, password, role: newUser.role });
+            }
+            setInviteOpen(false);
+          }}
+        />
+      )}
+
+      {/* Credentials modal (affiché une fois après création) */}
+      {credentialsModal && (
+        <CredentialsModal
+          {...credentialsModal}
+          onClose={() => setCredentialsModal(null)}
+        />
+      )}
 
       {/* Stats */}
       <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
@@ -380,4 +437,371 @@ function timeAgo(iso: string) {
   if (diff < 86400) return `${Math.floor(diff / 3600)} h`;
   if (diff < 86400 * 30) return `${Math.floor(diff / 86400)} j`;
   return new Date(iso).toLocaleDateString("fr-FR", { day: "numeric", month: "short" });
+}
+
+/* ════════════════════════════════════════════════════════════════════
+ * Modal : créer un nouveau user / admin
+ * ════════════════════════════════════════════════════════════════════ */
+
+const ROLES_INVITE = [
+  { id: "CREATOR",     label: "Créateur",     desc: "Plan FREE, accès basique" },
+  { id: "INFLUENCER",  label: "Influenceur",  desc: "Stats étendues" },
+  { id: "AGENCY",      label: "Agence",       desc: "Multi-clients" },
+  { id: "ANALYST",     label: "Analyst",      desc: "Read-only analytics" },
+  { id: "SUPPORT",     label: "Support",      desc: "Gestion tickets" },
+  { id: "MODERATOR",   label: "Modérateur",   desc: "Modération contenus" },
+  { id: "ADMIN",       label: "Admin",        desc: "Accès complet admin panel" },
+  { id: "SUPER_ADMIN", label: "Super Admin",  desc: "Tous droits, irrévocable" },
+];
+
+const PLANS_INVITE = ["FREE", "PRO", "AGENCY"];
+
+function InviteModal({
+  onClose,
+  onCreated,
+}: {
+  onClose: () => void;
+  onCreated: (user: { id: string; email: string; full_name: string; role: string; plan: string }, password: string | null) => void;
+}) {
+  const [email, setEmail] = useState("");
+  const [fullName, setFullName] = useState("");
+  const [role, setRole] = useState("ADMIN");
+  const [plan, setPlan] = useState("AGENCY");
+  const [country, setCountry] = useState("");
+  const [customPassword, setCustomPassword] = useState("");
+  const [useCustomPwd, setUseCustomPwd] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+
+  async function submit() {
+    if (!email.trim() || !email.includes("@")) {
+      toast.error("Email valide requis");
+      return;
+    }
+    if (useCustomPwd && customPassword.length < 8) {
+      toast.error("Password min. 8 caractères");
+      return;
+    }
+    setSubmitting(true);
+    try {
+      const res = await fetch("/api/admin/users", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          email: email.trim(),
+          full_name: fullName.trim() || undefined,
+          role,
+          plan,
+          country: country.trim() || undefined,
+          password: useCustomPwd ? customPassword : undefined,
+        }),
+      });
+      const json = await res.json();
+      if (!res.ok) throw new Error(json.error ?? "Échec");
+
+      toast.success(json.isNew ? "Compte créé ✓" : "Compte mis à jour ✓");
+      onCreated(json.user, json.generatedPassword);
+    } catch (e: any) {
+      toast.error(e.message ?? "Erreur");
+      setSubmitting(false);
+    }
+  }
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 p-4 backdrop-blur-sm">
+      <div className="relative w-full max-w-lg overflow-hidden rounded-2xl border border-border bg-card shadow-2xl">
+        <button
+          type="button"
+          onClick={onClose}
+          className="absolute right-3 top-3 inline-flex h-8 w-8 items-center justify-center rounded-lg text-muted-foreground hover:bg-card hover:text-foreground"
+        >
+          <X className="h-4 w-4" />
+        </button>
+
+        <div className="border-b border-border bg-gradient-to-br from-[#7B61FF]/[0.08] to-transparent p-5">
+          <div className="flex items-center gap-2.5">
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-[#7B61FF]/40 bg-[#7B61FF]/15">
+              <UserPlus className="h-4 w-4 text-[#7B61FF]" />
+            </div>
+            <div>
+              <h2 className="font-display text-base font-bold">Inviter un user</h2>
+              <p className="text-[11px] text-muted-foreground">
+                Crée un compte directement avec role + plan choisis
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div className="space-y-3 p-5">
+          <div>
+            <label className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+              Email *
+            </label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="nouveau@creafix.ai"
+              className="mt-1.5 h-10 w-full rounded-lg border border-border bg-background/40 px-3 text-sm outline-none focus:border-foreground/30"
+            />
+          </div>
+
+          <div className="grid gap-3 md:grid-cols-2">
+            <div>
+              <label className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+                Nom complet
+              </label>
+              <input
+                type="text"
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
+                placeholder="(optionnel)"
+                className="mt-1.5 h-10 w-full rounded-lg border border-border bg-background/40 px-3 text-sm outline-none focus:border-foreground/30"
+              />
+            </div>
+            <div>
+              <label className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+                Pays (code ISO 2)
+              </label>
+              <input
+                type="text"
+                value={country}
+                onChange={(e) => setCountry(e.target.value.toUpperCase().slice(0, 2))}
+                placeholder="SN, NG, MA…"
+                className="mt-1.5 h-10 w-full rounded-lg border border-border bg-background/40 px-3 text-sm outline-none focus:border-foreground/30"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+              Rôle
+            </label>
+            <div className="mt-1.5 grid grid-cols-2 gap-1.5 md:grid-cols-3">
+              {ROLES_INVITE.map((r) => {
+                const active = role === r.id;
+                const isAdminish = ["ADMIN", "SUPER_ADMIN", "MODERATOR"].includes(r.id);
+                return (
+                  <button
+                    key={r.id}
+                    type="button"
+                    onClick={() => setRole(r.id)}
+                    title={r.desc}
+                    className={`rounded-lg border px-2.5 py-2 text-left text-xs transition-all ${
+                      active
+                        ? isAdminish
+                          ? "border-rose-500/50 bg-rose-500/15 text-foreground"
+                          : "border-[#7B61FF]/50 bg-[#7B61FF]/15 text-foreground"
+                        : "border-border bg-background/40 text-muted-foreground hover:text-foreground"
+                    }`}
+                  >
+                    <div className="flex items-center gap-1">
+                      {isAdminish && <Shield className="h-2.5 w-2.5" />}
+                      <span className="font-semibold">{r.label}</span>
+                    </div>
+                    <div className="mt-0.5 truncate text-[10px] text-muted-foreground">
+                      {r.desc}
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          <div>
+            <label className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+              Plan
+            </label>
+            <div className="mt-1.5 flex gap-1.5">
+              {PLANS_INVITE.map((p) => (
+                <button
+                  key={p}
+                  type="button"
+                  onClick={() => setPlan(p)}
+                  className={`flex-1 rounded-lg border px-3 py-1.5 text-xs font-semibold transition-all ${
+                    plan === p
+                      ? "border-[#7B61FF]/50 bg-[#7B61FF]/15 text-foreground"
+                      : "border-border bg-background/40 text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  {p}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="rounded-lg border border-border bg-background/40 p-3">
+            <label className="flex items-center gap-2 text-xs">
+              <input
+                type="checkbox"
+                checked={useCustomPwd}
+                onChange={(e) => setUseCustomPwd(e.target.checked)}
+                className="h-3.5 w-3.5 cursor-pointer rounded border-border accent-[#7B61FF]"
+              />
+              <span className="font-semibold">Définir un mot de passe custom</span>
+            </label>
+            {useCustomPwd ? (
+              <input
+                type="text"
+                value={customPassword}
+                onChange={(e) => setCustomPassword(e.target.value)}
+                placeholder="Min. 8 caractères"
+                className="mt-2 h-9 w-full rounded-lg border border-border bg-background px-3 font-mono text-xs outline-none focus:border-foreground/30"
+              />
+            ) : (
+              <p className="mt-1.5 text-[10px] text-muted-foreground">
+                Un mot de passe fort sera généré et affiché une seule fois après création.
+              </p>
+            )}
+          </div>
+        </div>
+
+        <div className="flex items-center justify-end gap-2 border-t border-border bg-background/40 px-5 py-3">
+          <button
+            type="button"
+            onClick={onClose}
+            className="rounded-lg border border-border bg-card/40 px-3 py-1.5 text-xs font-semibold hover:bg-card/70"
+          >
+            Annuler
+          </button>
+          <button
+            type="button"
+            onClick={submit}
+            disabled={submitting || !email.trim()}
+            className="inline-flex items-center gap-1.5 rounded-lg bg-gradient-to-r from-[#7B61FF] to-[#00C2FF] px-4 py-1.5 text-xs font-semibold text-white shadow-lg shadow-[#7B61FF]/20 disabled:opacity-50"
+          >
+            {submitting ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <UserPlus className="h-3.5 w-3.5" />}
+            Créer le compte
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ════════════════════════════════════════════════════════════════════
+ * Modal : affichage des credentials générées (une seule fois)
+ * ════════════════════════════════════════════════════════════════════ */
+
+function CredentialsModal({
+  email, password, role, onClose,
+}: {
+  email: string; password: string; role: string; onClose: () => void;
+}) {
+  const [showPwd, setShowPwd] = useState(false);
+  const [copied, setCopied] = useState<"email" | "password" | "all" | null>(null);
+
+  function copy(text: string, kind: typeof copied) {
+    navigator.clipboard.writeText(text);
+    setCopied(kind);
+    toast.success("Copié dans le presse-papier");
+    setTimeout(() => setCopied(null), 2000);
+  }
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 p-4 backdrop-blur-sm">
+      <div className="relative w-full max-w-md overflow-hidden rounded-2xl border border-emerald-500/30 bg-card shadow-2xl shadow-emerald-500/10">
+        <div className="border-b border-border bg-gradient-to-br from-emerald-500/[0.08] to-transparent p-5 text-center">
+          <div className="mx-auto flex h-10 w-10 items-center justify-center rounded-xl border border-emerald-500/40 bg-emerald-500/15">
+            <CheckCircle2 className="h-5 w-5 text-emerald-500 dark:text-emerald-300" />
+          </div>
+          <h2 className="mt-3 font-display text-base font-bold">Compte créé ✓</h2>
+          <p className="mt-1 text-xs text-muted-foreground">
+            ⚠️ Copie le mot de passe maintenant — il ne sera plus jamais affiché.
+          </p>
+        </div>
+
+        <div className="space-y-3 p-5">
+          <div>
+            <label className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+              Email
+            </label>
+            <div className="mt-1.5 flex items-center gap-2 rounded-lg border border-border bg-background/40 p-2.5">
+              <code className="flex-1 truncate font-mono text-xs">{email}</code>
+              <button
+                type="button"
+                onClick={() => copy(email, "email")}
+                className="text-muted-foreground hover:text-foreground"
+              >
+                {copied === "email" ? (
+                  <Check className="h-3.5 w-3.5 text-emerald-500" />
+                ) : (
+                  <Copy className="h-3.5 w-3.5" />
+                )}
+              </button>
+            </div>
+          </div>
+
+          <div>
+            <label className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+              Mot de passe
+            </label>
+            <div className="mt-1.5 flex items-center gap-2 rounded-lg border border-amber-500/40 bg-amber-500/[0.06] p-2.5">
+              <code className="flex-1 truncate font-mono text-xs font-bold">
+                {showPwd ? password : "•".repeat(password.length)}
+              </code>
+              <button
+                type="button"
+                onClick={() => setShowPwd((v) => !v)}
+                className="text-muted-foreground hover:text-foreground"
+              >
+                {showPwd ? <EyeOff className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />}
+              </button>
+              <button
+                type="button"
+                onClick={() => copy(password, "password")}
+                className="text-muted-foreground hover:text-foreground"
+              >
+                {copied === "password" ? (
+                  <Check className="h-3.5 w-3.5 text-emerald-500" />
+                ) : (
+                  <Copy className="h-3.5 w-3.5" />
+                )}
+              </button>
+            </div>
+          </div>
+
+          <div className="rounded-lg border border-border bg-background/40 p-2.5 text-xs">
+            <div className="flex items-center justify-between">
+              <span className="text-muted-foreground">Rôle assigné</span>
+              <RoleBadge role={role} />
+            </div>
+          </div>
+
+          <button
+            type="button"
+            onClick={() =>
+              copy(`Email: ${email}\nMot de passe: ${password}\nRôle: ${role}\nURL: ${
+                role === "ADMIN" || role === "SUPER_ADMIN" || role === "MODERATOR"
+                  ? "https://creafix-ai.vercel.app/login/admin"
+                  : "https://creafix-ai.vercel.app/login"
+              }`, "all")
+            }
+            className="w-full rounded-lg border border-border bg-background/40 px-3 py-2 text-xs font-semibold transition-colors hover:bg-background/70"
+          >
+            {copied === "all" ? (
+              <span className="inline-flex items-center gap-1.5">
+                <Check className="h-3.5 w-3.5 text-emerald-500" />
+                Tout copié !
+              </span>
+            ) : (
+              <span className="inline-flex items-center gap-1.5">
+                <Copy className="h-3.5 w-3.5" />
+                Copier email + password + URL
+              </span>
+            )}
+          </button>
+        </div>
+
+        <div className="border-t border-border bg-background/40 p-3 text-center">
+          <button
+            type="button"
+            onClick={onClose}
+            className="rounded-lg bg-gradient-to-r from-[#7B61FF] to-[#00C2FF] px-4 py-1.5 text-xs font-semibold text-white shadow-lg shadow-[#7B61FF]/20"
+          >
+            J&apos;ai copié, fermer
+          </button>
+        </div>
+      </div>
+    </div>
+  );
 }
