@@ -55,14 +55,17 @@ export function Hero() {
             <UrlAuditInput />
           </div>
 
-          <div className="mt-5 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <Link href="/signup" className="btn-pill-orange">
+          <div className="mt-5 flex flex-row flex-wrap items-center justify-center gap-2 sm:gap-3">
+            <Link
+              href="/signup"
+              className="btn-pill-orange !h-11 !px-4 text-[13px] sm:!h-12 sm:!px-6 sm:text-sm"
+            >
               {t("ctaPrimary")}
               <ArrowRight className="h-4 w-4" />
             </Link>
             <Link
               href="#how"
-              className="inline-flex h-12 items-center gap-1.5 rounded-full border border-border bg-background px-6 text-sm font-semibold text-foreground transition-colors hover:bg-muted/40"
+              className="inline-flex h-11 items-center gap-1.5 rounded-full border border-border bg-background px-4 text-[13px] font-semibold text-foreground transition-colors hover:bg-muted/40 sm:h-12 sm:px-6 sm:text-sm"
             >
               {t("ctaSecondary")}
             </Link>
