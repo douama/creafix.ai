@@ -19,6 +19,12 @@ export default function LoginPage() {
             Créer un compte gratuit
           </Link>
         </p>
+        <p className="border-t border-border/60 pt-3 text-center text-[11px] text-muted-foreground/70">
+          Tu es administrateur ?{" "}
+          <Link href="/login/admin" className="text-rose-400 hover:underline">
+            Accès Admin Panel →
+          </Link>
+        </p>
       </CardContent>
     </Card>
   );

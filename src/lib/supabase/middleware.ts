@@ -43,7 +43,8 @@ export async function updateSession(request: NextRequest) {
 
   if (!user && protectedPath) {
     const url = request.nextUrl.clone();
-    url.pathname = "/login";
+    // Si on tente d'accéder à /admin sans être connecté → /login/admin
+    url.pathname = path.startsWith("/admin") ? "/login/admin" : "/login";
     url.searchParams.set("redirectTo", path);
     return NextResponse.redirect(url);
   }
@@ -60,9 +61,12 @@ export async function updateSession(request: NextRequest) {
   }
 
   // Empêche un user connecté de revoir /login ou /signup
-  if (user && (path === "/login" || path === "/signup")) {
+  if (user && (path === "/login" || path === "/signup" || path === "/login/admin")) {
     const url = request.nextUrl.clone();
-    url.pathname = "/dashboard";
+    // Si admin → /admin, sinon → /dashboard
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { data: isAdmin } = await (supabase.rpc as any)("is_admin", { p_user_id: user.id });
+    url.pathname = isAdmin && path === "/login/admin" ? "/admin" : "/dashboard";
     return NextResponse.redirect(url);
   }
 
