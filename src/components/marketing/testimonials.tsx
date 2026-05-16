@@ -1,13 +1,17 @@
-import { createClient } from "@/lib/supabase/server";
 import { TestimonialsMarquee, type Review } from "./testimonials-marquee";
 import type { PlatformId } from "@/lib/platforms";
 
 /**
  * Server component — fetch dynamiquement les témoignages depuis
- * monetiq.testimonials, fallback hardcoded si vide ou erreur.
+ * public.testimonials (VIEW security_invoker=false vers monetiq.testimonials).
+ * Fallback hardcoded 3 reviews si DB vide/erreur.
  * Éditable depuis /admin/testimonials.
+ *
+ * Pourquoi raw fetch et pas supabase-js : le client server avec
+ * db.schema=monetiq + PostgREST Accept-Profile a un bug récurrent
+ * qui retournait 0 row alors que la VIEW publique fonctionne.
  */
-export const revalidate = 60; // ISR : refresh toutes les 60s
+export const revalidate = 60; // ISR 1min : push admin → landing
 
 type Row = {
   name: string;
@@ -55,31 +59,55 @@ const FALLBACK_REVIEWS: Review[] = [
   },
 ];
 
-export async function Testimonials() {
-  let reviews: Review[] = FALLBACK_REVIEWS;
-  try {
-    const sb = createClient();
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const { data, error } = await (sb.from("testimonials") as any)
-      .select("name, role, country, avatar_url, quote, rating, platforms, metric, active, sort_order")
-      .eq("active", true)
-      .order("sort_order", { ascending: true });
-
-    if (!error && data && data.length > 0) {
-      reviews = (data as Row[]).map((r) => ({
-        name: r.name,
-        role: r.role,
-        country: r.country,
-        avatar: r.avatar_url ?? "",
-        quote: r.quote,
-        rating: r.rating,
-        platforms: r.platforms as PlatformId[],
-        metric: r.metric,
-      }));
-    }
-  } catch {
-    // fallback silencieux
+async function fetchTestimonials(): Promise<Review[]> {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  if (!url || !key) {
+    console.error("[testimonials] env vars manquantes — fallback hardcoded");
+    return FALLBACK_REVIEWS;
   }
 
+  try {
+    // Query la VIEW public.testimonials (security_invoker=false → bypass RLS via owner)
+    // ?active=eq.true&order=sort_order.asc
+    const res = await fetch(
+      `${url}/rest/v1/testimonials?select=name,role,country,avatar_url,quote,rating,platforms,metric,active,sort_order&active=eq.true&order=sort_order.asc`,
+      {
+        headers: {
+          apikey: key,
+          Authorization: `Bearer ${key}`,
+        },
+        cache: "no-store",
+      },
+    );
+
+    if (!res.ok) {
+      console.error(`[testimonials] PostgREST ${res.status}:`, await res.text());
+      return FALLBACK_REVIEWS;
+    }
+
+    const rows = (await res.json()) as Row[];
+    console.log(`[testimonials] fetched ${rows.length} rows from DB`);
+
+    if (rows.length === 0) return FALLBACK_REVIEWS;
+
+    return rows.map((r) => ({
+      name: r.name,
+      role: r.role,
+      country: r.country,
+      avatar: r.avatar_url ?? "",
+      quote: r.quote,
+      rating: r.rating,
+      platforms: r.platforms as PlatformId[],
+      metric: r.metric,
+    }));
+  } catch (e) {
+    console.error("[testimonials] fetch error:", (e as Error).message);
+    return FALLBACK_REVIEWS;
+  }
+}
+
+export async function Testimonials() {
+  const reviews = await fetchTestimonials();
   return <TestimonialsMarquee reviews={reviews} />;
 }
