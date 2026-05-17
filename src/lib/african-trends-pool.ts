@@ -50,6 +50,8 @@ export const COUNTRY_POOLS: CountryPool[] = [
       { tag: "#xessal", baseVolume: 286_000 },
       { tag: "#lions2026", baseVolume: 728_000 },
       { tag: "#wakhal", baseVolume: 218_000 },
+      { tag: "#teranga", baseVolume: 392_000 },
+      { tag: "#dakarmood", baseVolume: 524_000 },
     ],
     slots: [
       { day: "Lun", hours: "20h–22h" },
@@ -75,6 +77,7 @@ export const COUNTRY_POOLS: CountryPool[] = [
       { artist: "Josey", track: "Diaspora", baseUses: 158_000 },
       { artist: "DJ Arafat (tribute)", track: "Moto Moto", baseUses: 224_000 },
       { artist: "Safarel Obiang", track: "Bonheur", baseUses: 132_000 },
+      { artist: "Yodé & Siro", track: "Travail", baseUses: 98_000 },
     ],
     hashtags: [
       { tag: "#abidjantiktok", baseVolume: 1_800_000 },
@@ -84,6 +87,9 @@ export const COUNTRY_POOLS: CountryPool[] = [
       { tag: "#ivorianfood", baseVolume: 286_000 },
       { tag: "#elephantsci", baseVolume: 538_000 },
       { tag: "#yopougon", baseVolume: 348_000 },
+      { tag: "#abidjanlife", baseVolume: 428_000 },
+      { tag: "#ivorycoast", baseVolume: 312_000 },
+      { tag: "#wolo226", baseVolume: 186_000 },
     ],
     slots: [
       { day: "Lun", hours: "19h–21h" },
@@ -120,6 +126,8 @@ export const COUNTRY_POOLS: CountryPool[] = [
       { tag: "#nairalife", baseVolume: 642_000 },
       { tag: "#nollywood", baseVolume: 1_280_000 },
       { tag: "#ekoatlantic", baseVolume: 468_000 },
+      { tag: "#naijadance", baseVolume: 892_000 },
+      { tag: "#lagosnight", baseVolume: 658_000 },
     ],
     slots: [
       { day: "Lun", hours: "21h–23h" },
@@ -144,6 +152,8 @@ export const COUNTRY_POOLS: CountryPool[] = [
       { artist: "Tagne", track: "Bayna", baseUses: 156_000 },
       { artist: "Issam Kamal", track: "Atlas", baseUses: 228_000 },
       { artist: "ToTo", track: "Rabat", baseUses: 184_000 },
+      { artist: "Wegz", track: "El Bakht", baseUses: 298_000 },
+      { artist: "Nouamane Lahlali", track: "Ghzali", baseUses: 172_000 },
     ],
     hashtags: [
       { tag: "#maroctiktok", baseVolume: 1_600_000 },
@@ -153,6 +163,9 @@ export const COUNTRY_POOLS: CountryPool[] = [
       { tag: "#dimaschelma", baseVolume: 286_000 },
       { tag: "#atlas2026", baseVolume: 524_000 },
       { tag: "#marrakech", baseVolume: 412_000 },
+      { tag: "#moroccolife", baseVolume: 482_000 },
+      { tag: "#casavibe", baseVolume: 318_000 },
+      { tag: "#blad2026", baseVolume: 248_000 },
     ],
     slots: [
       { day: "Lun", hours: "21h–00h" },
@@ -176,6 +189,9 @@ export const COUNTRY_POOLS: CountryPool[] = [
       { artist: "Tenor", track: "Da Vinci", baseUses: 218_000 },
       { artist: "Magasco", track: "Wule Bang", baseUses: 124_000 },
       { artist: "Stanley Enow", track: "Hein Père", baseUses: 162_000 },
+      { artist: "Locko", track: "Pas à la hauteur", baseUses: 94_000 },
+      { artist: "Sango", track: "Bolo", baseUses: 76_000 },
+      { artist: "Daphne", track: "Bébé", baseUses: 68_000 },
     ],
     hashtags: [
       { tag: "#camerountiktok", baseVolume: 780_000 },
@@ -185,6 +201,9 @@ export const COUNTRY_POOLS: CountryPool[] = [
       { tag: "#bikutsi", baseVolume: 186_000 },
       { tag: "#lionsindomptables", baseVolume: 542_000 },
       { tag: "#kamer237", baseVolume: 242_000 },
+      { tag: "#camerounlife", baseVolume: 196_000 },
+      { tag: "#douala237vibe", baseVolume: 148_000 },
+      { tag: "#cmr2026", baseVolume: 224_000 },
     ],
     slots: [
       { day: "Lun", hours: "20h–22h" },
@@ -209,6 +228,8 @@ export const COUNTRY_POOLS: CountryPool[] = [
       { artist: "Sho Madjozi", track: "John Cena 2", baseUses: 386_000 },
       { artist: "Cassper Nyovest", track: "Siyathandana", baseUses: 248_000 },
       { artist: "Nasty C", track: "Eazy", baseUses: 312_000 },
+      { artist: "Ami Faku", track: "Into Ingawe", baseUses: 184_000 },
+      { artist: "Black Motion", track: "Midnight Sun", baseUses: 148_000 },
     ],
     hashtags: [
       { tag: "#sazn", baseVolume: 1_400_000 },
@@ -218,6 +239,9 @@ export const COUNTRY_POOLS: CountryPool[] = [
       { tag: "#bafanabafana", baseVolume: 712_000 },
       { tag: "#capetown", baseVolume: 836_000 },
       { tag: "#yano", baseVolume: 542_000 },
+      { tag: "#samusic", baseVolume: 628_000 },
+      { tag: "#pretoriavibes", baseVolume: 312_000 },
+      { tag: "#zanele2026", baseVolume: 218_000 },
     ],
     slots: [
       { day: "Lun", hours: "19h–22h" },
