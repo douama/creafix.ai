@@ -184,6 +184,7 @@ export const COUNTRY_POOLS: CountryPool[] = [
       { tag: "#doualalife", baseVolume: 284_000 },
       { tag: "#bikutsi", baseVolume: 186_000 },
       { tag: "#lionsindomptables", baseVolume: 542_000 },
+      { tag: "#kamer237", baseVolume: 242_000 },
     ],
     slots: [
       { day: "Lun", hours: "20h–22h" },
@@ -285,14 +286,21 @@ export type Snapshot = {
  * Génère un snapshot déterministe pour un pays donné, basé sur le
  * bucket de 4 min courant. À chaque nouveau bucket : nouveau seed →
  * shuffle différent + perturbations différentes des volumes.
+ *
+ * maxSounds / maxHashtags / maxSlots : limites pour les différents contextes
+ * (marketing component = 6/7/4, full dashboard page = tous).
  */
-export function snapshotFor(country: CountryPool, nowMs: number = Date.now()): Snapshot {
+export function snapshotFor(
+  country: CountryPool,
+  nowMs: number = Date.now(),
+  { maxSounds = 6, maxHashtags = 7, maxSlots = 4 }: { maxSounds?: number; maxHashtags?: number; maxSlots?: number } = {},
+): Snapshot {
   const bucket = Math.floor(nowMs / REFRESH_INTERVAL_MS);
   const seed = hashStr(country.id) ^ bucket;
   const rng = rand(seed);
 
-  // Sounds : shuffle + take 4 + perturb ±15% + compute momentum
-  const sortedSounds = shuffleSeeded(country.sounds, rng).slice(0, 4);
+  // Sounds : shuffle + take maxSounds + perturb ±15% + compute momentum
+  const sortedSounds = shuffleSeeded(country.sounds, rng).slice(0, maxSounds);
   const sounds = sortedSounds
     .map((s) => {
       const variance = 0.85 + rng() * 0.30; // [0.85, 1.15]
@@ -316,8 +324,8 @@ export function snapshotFor(country: CountryPool, nowMs: number = Date.now()): S
       };
     });
 
-  // Hashtags : shuffle + take 4 + perturb + sort
-  const sortedHashtags = shuffleSeeded(country.hashtags, rand(seed + 1)).slice(0, 4);
+  // Hashtags : shuffle + take maxHashtags + perturb + sort
+  const sortedHashtags = shuffleSeeded(country.hashtags, rand(seed + 1)).slice(0, maxHashtags);
   const hashtags = sortedHashtags
     .map((h) => {
       const variance = 0.88 + rng() * 0.24;
@@ -331,8 +339,8 @@ export function snapshotFor(country: CountryPool, nowMs: number = Date.now()): S
       trend: (i === 0 ? "hot" : "up") as "up" | "hot",
     }));
 
-  // Schedule : pick 4 jours + intensité variable
-  const sortedSlots = shuffleSeeded(country.slots, rand(seed + 2)).slice(0, 4);
+  // Schedule : pick maxSlots jours + intensité variable
+  const sortedSlots = shuffleSeeded(country.slots, rand(seed + 2)).slice(0, maxSlots);
   const schedule = sortedSlots.map((s) => ({
     day: s.day,
     hours: s.hours,

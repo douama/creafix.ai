@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Music2,
@@ -349,9 +350,9 @@ export function AfricanTrendEngine() {
                   ))}
                 </div>
 
-                <a
-                  href="/signup"
-                  className="inline-flex w-full items-center justify-center gap-1.5 rounded-xl border px-3 py-2 text-[11px] font-semibold transition-colors"
+                <Link
+                  href="/creators/dashboard/African-Trend-Engine"
+                  className="inline-flex w-full items-center justify-center gap-1.5 rounded-xl border px-3 py-2 text-[11px] font-semibold transition-colors hover:opacity-90"
                   style={{
                     borderColor: `${country.color}55`,
                     backgroundColor: `${country.color}1A`,
@@ -360,7 +361,7 @@ export function AfricanTrendEngine() {
                 >
                   <Sparkles className="h-3 w-3" />
                   Accès complet à {country.name}
-                </a>
+                </Link>
               </div>
             </div>
           </motion.div>
