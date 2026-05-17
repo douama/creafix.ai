@@ -1,15 +1,75 @@
-import { CheckCircle2, CreditCard, Smartphone, Sparkles } from "lucide-react";
+import Link from "next/link";
+import { CreditCard, Plus, Receipt, Sparkles } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
+import { createClient } from "@/lib/supabase/server";
+import { getUserState } from "@/lib/dashboard/user-state";
 
-export default function BillingPage() {
+export const dynamic = "force-dynamic";
+
+/** Limites mensuelles par plan — alignées sur la grille pricing publique. */
+const PLAN_LIMITS: Record<string, { audits: number | null; ideas: number | null; credits: number | null; label: string; price: string }> = {
+  FREE:    { audits: 3,    ideas: 20,   credits: 100,  label: "Créateur · Gratuit", price: "0 FCFA / mois" },
+  PRO:     { audits: 30,   ideas: 500,  credits: 5000, label: "Pro",                price: "9 900 FCFA / mois" },
+  AGENCY:  { audits: null, ideas: null, credits: null, label: "Agency",             price: "29 900 FCFA / mois" },
+};
+
+export default async function BillingPage() {
+  const state = await getUserState();
+  const supabase = createClient();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const sb = supabase as any;
+
+  // Période courante : début du mois en cours
+  const monthStart = new Date();
+  monthStart.setUTCDate(1);
+  monthStart.setUTCHours(0, 0, 0, 0);
+  const monthStartIso = monthStart.toISOString();
+
+  const planKey = (state.plan ?? "FREE").toUpperCase();
+  const limits = PLAN_LIMITS[planKey] ?? PLAN_LIMITS.FREE;
+
+  const [{ count: monthAudits }, { count: monthIdeas }, { data: payments }] = await Promise.all([
+    sb
+      .from("audits")
+      .select("id", { count: "exact", head: true })
+      .eq("user_id", state.userId)
+      .gte("created_at", monthStartIso),
+    sb
+      .from("generated_contents")
+      .select("id", { count: "exact", head: true })
+      .eq("user_id", state.userId)
+      .gte("created_at", monthStartIso),
+    sb
+      .from("payments")
+      .select("id, amount, currency, status, description, created_at, provider")
+      .eq("user_id", state.userId)
+      .order("created_at", { ascending: false })
+      .limit(20),
+  ]);
+
+  const usedAudits = monthAudits ?? 0;
+  const usedIdeas = monthIdeas ?? 0;
+  const usedCredits = 0;
+  const paymentsList = (payments ?? []) as Array<{
+    id: string;
+    amount: number | string;
+    currency: string | null;
+    status: string;
+    description: string | null;
+    created_at: string;
+    provider: string | null;
+  }>;
+
   return (
     <div className="space-y-7">
       <div>
         <h1 className="font-display text-3xl font-bold tracking-tight">Facturation</h1>
-        <p className="mt-1 text-sm text-muted-foreground">Gère ton abonnement et tes paiements.</p>
+        <p className="mt-1 text-sm text-muted-foreground">
+          Gère ton abonnement et tes paiements.
+        </p>
       </div>
 
       <div className="grid gap-5 lg:grid-cols-3">
@@ -18,116 +78,112 @@ export default function BillingPage() {
             <CardTitle>Plan actuel</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col items-start justify-between gap-3 sm:flex-row sm:items-center">
               <div>
-                <div className="text-lg font-semibold">Créateur · Gratuit</div>
-                <div className="text-sm text-muted-foreground">Renouvelé automatiquement</div>
+                <div className="text-lg font-semibold">{limits.label}</div>
+                <div className="text-sm text-muted-foreground">{limits.price}</div>
               </div>
-              <Button variant="brand">
-                <Sparkles className="mr-1 h-4 w-4" /> Passer au Pro
-              </Button>
+              {planKey === "FREE" && (
+                <Button asChild variant="brand">
+                  <Link href="/pricing">
+                    <Sparkles className="mr-1 h-4 w-4" /> Passer au Pro
+                  </Link>
+                </Button>
+              )}
             </div>
 
             <div className="mt-6 space-y-4">
-              <Usage label="Audits IA" used={3} total={5} />
-              <Usage label="Idées virales générées" used={42} total={100} />
-              <Usage label="Crédits IA (images / voix)" used={120} total={500} />
+              <Usage label="Audits IA ce mois" used={usedAudits} total={limits.audits} />
+              <Usage label="Idées virales générées" used={usedIdeas} total={limits.ideas} />
+              <Usage label="Crédits IA (images / voix)" used={usedCredits} total={limits.credits} />
             </div>
           </CardContent>
         </Card>
 
         <Card>
-          <CardHeader>
+          <CardHeader className="flex-row items-center justify-between space-y-0">
             <CardTitle>Moyens de paiement</CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
-            <Method
-              icon={Smartphone}
-              brand="Wave"
-              desc="+221 77 ••• 04 12"
-              badge="Mobile Money"
-              active
-            />
-            <Method icon={Smartphone} brand="Orange Money" desc="+225 07 ••• 32 91" badge="Mobile Money" />
-            <Method icon={CreditCard} brand="Carte Visa" desc="•••• 4242 · 12/27" badge="Stripe" />
-            <Button variant="outline" className="w-full">
-              + Ajouter un moyen
+            <div className="rounded-xl border border-dashed border-border bg-card/30 p-5 text-center">
+              <div className="mx-auto flex h-10 w-10 items-center justify-center rounded-xl bg-card/60 text-muted-foreground">
+                <CreditCard className="h-4 w-4" />
+              </div>
+              <p className="mt-3 text-sm font-medium">Aucun moyen enregistré</p>
+              <p className="mt-1 text-[11px] text-muted-foreground">
+                Ajoute Wave, Orange Money, MTN MoMo, Carte bancaire ou PayPal pour passer à un plan payant.
+              </p>
+            </div>
+            <Button asChild variant="outline" className="w-full">
+              <Link href="/pricing">
+                <Plus className="mr-1 h-4 w-4" /> Ajouter un moyen
+              </Link>
             </Button>
           </CardContent>
         </Card>
       </div>
 
       <Card>
-        <CardHeader>
+        <CardHeader className="flex-row items-center justify-between space-y-0">
           <CardTitle>Historique de paiements</CardTitle>
+          {paymentsList.length > 0 && (
+            <Badge variant="outline" className="text-[10px]">
+              {paymentsList.length} transaction{paymentsList.length > 1 ? "s" : ""}
+            </Badge>
+          )}
         </CardHeader>
         <CardContent>
-          <div className="divide-y divide-border/60 text-sm">
-            {[
-              { d: "01/05/2026", a: "0 FCFA",     m: "Plan Créateur" },
-              { d: "01/04/2026", a: "9 900 FCFA", m: "Pro · Wave" },
-              { d: "01/03/2026", a: "9 900 FCFA", m: "Pro · Wave" },
-            ].map((p) => (
-              <div key={p.d} className="grid grid-cols-3 gap-3 py-3">
-                <span>{p.d}</span>
-                <span className="text-muted-foreground">{p.m}</span>
-                <span className="text-right font-medium">{p.a}</span>
+          {paymentsList.length === 0 ? (
+            <div className="flex flex-col items-center justify-center gap-3 rounded-xl border border-dashed border-border bg-card/30 p-10 text-center">
+              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-card/60 text-muted-foreground">
+                <Receipt className="h-5 w-5" />
               </div>
-            ))}
-          </div>
+              <div>
+                <p className="text-sm font-medium">Aucun paiement pour l&apos;instant</p>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  Tes factures apparaîtront ici dès que tu auras souscrit à un plan payant.
+                </p>
+              </div>
+            </div>
+          ) : (
+            <div className="divide-y divide-border/60 text-sm">
+              {paymentsList.map((p) => (
+                <div key={p.id} className="grid grid-cols-4 gap-3 py-3">
+                  <span className="text-xs text-muted-foreground sm:text-sm">
+                    {new Date(p.created_at).toLocaleDateString("fr-FR")}
+                  </span>
+                  <span className="truncate text-muted-foreground sm:col-span-2">
+                    {p.description ?? "Paiement"} {p.provider ? `· ${p.provider}` : ""}
+                  </span>
+                  <span className="text-right font-medium">
+                    {Number(p.amount).toLocaleString("fr-FR")} {p.currency ?? "FCFA"}
+                  </span>
+                </div>
+              ))}
+            </div>
+          )}
         </CardContent>
       </Card>
     </div>
   );
 }
 
-function Usage({ label, used, total }: { label: string; used: number; total: number }) {
-  const pct = Math.round((used / total) * 100);
+function Usage({ label, used, total }: { label: string; used: number; total: number | null }) {
+  const unlimited = total === null;
+  const pct = unlimited ? 0 : Math.min(100, Math.round((used / Math.max(total, 1)) * 100));
   return (
     <div>
       <div className="flex items-center justify-between text-sm">
         <span>{label}</span>
         <span className="text-muted-foreground">
-          {used} / {total}
+          {used} / {unlimited ? "∞" : total}
         </span>
       </div>
-      <Progress value={pct} tone={pct >= 80 ? "amber" : "brand"} className="mt-2" />
-    </div>
-  );
-}
-
-function Method({
-  icon: Icon,
-  brand,
-  desc,
-  badge,
-  active,
-}: {
-  icon: any;
-  brand: string;
-  desc: string;
-  badge: string;
-  active?: boolean;
-}) {
-  return (
-    <div
-      className={`flex items-center justify-between rounded-xl border p-3 ${
-        active ? "border-violet-500/40 bg-violet-500/[0.06]" : "border-border bg-card/40"
-      }`}
-    >
-      <div className="flex items-center gap-3">
-        <div className="flex h-9 w-9 items-center justify-center rounded-lg border border-border bg-card/60">
-          <Icon className="h-4 w-4" />
-        </div>
-        <div>
-          <div className="text-sm font-medium">{brand}</div>
-          <div className="text-xs text-muted-foreground">{desc}</div>
-        </div>
-      </div>
-      <div className="flex items-center gap-2">
-        <Badge variant="outline">{badge}</Badge>
-        {active && <CheckCircle2 className="h-4 w-4 text-emerald-400" />}
-      </div>
+      <Progress
+        value={unlimited ? 0 : pct}
+        tone={pct >= 80 ? "amber" : "brand"}
+        className="mt-2"
+      />
     </div>
   );
 }
