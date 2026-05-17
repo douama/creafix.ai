@@ -29,8 +29,14 @@ export async function POST(request: Request) {
       { status: 400 },
     );
   }
-  if (body.value.length < 8) {
+  // PAYDUNYA_MODE est un toggle "live"/"test" (4 chars) — exempt de la règle min-8.
+  // Les autres champs sont des secrets API → min 8 chars pour bloquer les typos.
+  const isModeToggle = body.key_name === "PAYDUNYA_MODE";
+  if (!isModeToggle && body.value.length < 8) {
     return NextResponse.json({ error: "Clé trop courte (min 8 caractères)" }, { status: 400 });
+  }
+  if (isModeToggle && body.value !== "live" && body.value !== "test") {
+    return NextResponse.json({ error: "PAYDUNYA_MODE doit être exactement 'live' ou 'test'" }, { status: 400 });
   }
 
   // Auth utilisateur (la RPC re-vérifie SUPER_ADMIN strict côté DB)
