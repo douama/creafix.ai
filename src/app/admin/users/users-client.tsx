@@ -79,7 +79,19 @@ export function UsersClient({ initialUsers }: { initialUsers: UserRow[] }) {
     });
   }, [users, search, roleFilter, planFilter, statusFilter]);
 
-  async function action(id: string, kind: "suspend" | "unsuspend" | "ban" | "reset" | "upgrade") {
+  async function action(
+    id: string,
+    kind: "suspend" | "unsuspend" | "ban" | "reset" | "upgrade" | "delete",
+    email?: string,
+  ) {
+    // Confirmation pour suppression définitive
+    if (kind === "delete") {
+      const ok = window.confirm(
+        `Supprimer définitivement le compte ${email ?? id} ?\n\nCette action est IRRÉVERSIBLE. L'utilisateur ne pourra plus se connecter et toutes ses données seront effacées.`,
+      );
+      if (!ok) return;
+    }
+
     setActingId(id);
     try {
       const res = await fetch(`/api/admin/users/${id}/action`, {
@@ -91,24 +103,30 @@ export function UsersClient({ initialUsers }: { initialUsers: UserRow[] }) {
       if (!res.ok) throw new Error(json.error ?? "Échec");
 
       // Optimistic local update
-      setUsers((prev) =>
-        prev.map((u) => {
-          if (u.id !== id) return u;
-          switch (kind) {
-            case "suspend": return { ...u, status: "SUSPENDED" };
-            case "unsuspend": return { ...u, status: "ACTIVE" };
-            case "ban": return { ...u, status: "BANNED" };
-            case "reset": return { ...u, credits: 50 };
-            case "upgrade": return { ...u, plan: "PRO" };
-          }
-        }),
-      );
+      if (kind === "delete") {
+        setUsers((prev) => prev.filter((u) => u.id !== id));
+      } else {
+        setUsers((prev) =>
+          prev.map((u) => {
+            if (u.id !== id) return u;
+            switch (kind) {
+              case "suspend": return { ...u, status: "SUSPENDED" };
+              case "unsuspend": return { ...u, status: "ACTIVE" };
+              case "ban": return { ...u, status: "BANNED" };
+              case "reset": return { ...u, credits: 50 };
+              case "upgrade": return { ...u, plan: "PRO" };
+              default: return u;
+            }
+          }),
+        );
+      }
 
       toast.success(
         kind === "suspend" ? "Utilisateur suspendu"
         : kind === "unsuspend" ? "Suspension levée"
         : kind === "ban" ? "Utilisateur banni"
         : kind === "reset" ? "Crédits remis à 50"
+        : kind === "delete" ? "Compte supprimé définitivement"
         : "Plan passé à PRO"
       );
     } catch (e: any) {
@@ -342,6 +360,14 @@ export function UsersClient({ initialUsers }: { initialUsers: UserRow[] }) {
                         >
                           <Ban className="mr-2 h-3.5 w-3.5" />
                           Bannir définitivement
+                        </DropdownMenuItem>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem
+                          onClick={() => action(u.id, "delete", u.email)}
+                          className="text-rose-600 focus:bg-rose-500/15 focus:text-rose-600 dark:text-rose-400"
+                        >
+                          <Trash2 className="mr-2 h-3.5 w-3.5" />
+                          Supprimer le compte
                         </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
