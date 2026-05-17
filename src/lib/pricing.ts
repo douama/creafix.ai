@@ -244,3 +244,28 @@ export function getPrice(plan: Plan, currency: CurrencyCode): string {
   if (plan === "enterprise") return "—"; // affiché comme "Custom" via i18n
   return formatPrice(amount, currency);
 }
+
+/**
+ * Convertit un slug de plan ("PRO", "AGENCY", "FREE", "ENTERPRISE")
+ * vers la clé interne (lowercase).
+ */
+export function slugToPlanKey(slug: string): Plan {
+  const lower = slug.toLowerCase();
+  if (lower === "pro" || lower === "agency" || lower === "free" || lower === "enterprise") {
+    return lower;
+  }
+  return "pro"; // fallback raisonnable
+}
+
+/**
+ * Montant numérique localisé d'un plan dans une devise donnée.
+ * Période "year" = mensuel × 12.
+ */
+export function getLocalizedAmount(
+  plan: Plan,
+  currency: CurrencyCode,
+  period: "month" | "year" = "month",
+): number {
+  const monthly = CURRENCIES[currency].pricing[plan];
+  return period === "year" ? monthly * 12 : monthly;
+}
