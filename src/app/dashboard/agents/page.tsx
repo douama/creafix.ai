@@ -1,19 +1,24 @@
 import { Bot, Coins, FileText, Flame, ImageIcon, ShieldAlert, TrendingUp } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
+import { EmptySection } from "@/components/dashboard/empty-section";
+import { getUserState } from "@/lib/dashboard/user-state";
+
+export const dynamic = "force-dynamic";
 
 const agents = [
-  { icon: Bot,         name: "Audit Agent",        status: "Actif",  conf: 96, color: "violet" },
-  { icon: Flame,       name: "Viral Agent",        status: "Actif",  conf: 91, color: "orange" },
-  { icon: Coins,       name: "Monetization Agent", status: "Actif",  conf: 88, color: "emerald" },
-  { icon: ShieldAlert, name: "Anti-Ban Agent",     status: "Actif",  conf: 94, color: "rose" },
-  { icon: TrendingUp,  name: "Trend Agent",        status: "Actif",  conf: 86, color: "sky" },
-  { icon: ImageIcon,   name: "Thumbnail Agent",    status: "En attente", conf: 78, color: "fuchsia" },
-  { icon: FileText,    name: "Script Agent",       status: "Actif",  conf: 92, color: "amber" },
+  { icon: Bot,         name: "Audit Agent",        color: "violet" },
+  { icon: Flame,       name: "Viral Agent",        color: "orange" },
+  { icon: Coins,       name: "Monetization Agent", color: "emerald" },
+  { icon: ShieldAlert, name: "Anti-Ban Agent",     color: "rose" },
+  { icon: TrendingUp,  name: "Trend Agent",        color: "sky" },
+  { icon: ImageIcon,   name: "Thumbnail Agent",    color: "fuchsia" },
+  { icon: FileText,    name: "Script Agent",       color: "amber" },
 ];
 
-export default function AgentsPage() {
+export default async function AgentsPage() {
+  const state = await getUserState();
+
   return (
     <div className="space-y-7">
       <div>
@@ -22,6 +27,16 @@ export default function AgentsPage() {
           Les 7 cerveaux qui travaillent pour toi en arrière-plan, 24/7.
         </p>
       </div>
+
+      {!state.hasData && (
+        <EmptySection
+          icon={Bot}
+          title="Active tes agents IA en connectant tes comptes"
+          description="Les 7 agents démarrent automatiquement dès que tu connectes ta première plateforme. Aucun n'a encore tourné sur ton compte."
+          primaryCta={{ label: "Connecter mes comptes", href: "/dashboard/settings?tab=connections" }}
+          accent="#EC4899"
+        />
+      )}
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         {agents.map((a) => (
@@ -39,23 +54,15 @@ export default function AgentsPage() {
                     </div>
                   </div>
                 </div>
-                <Badge variant={a.status === "Actif" ? "success" : "outline"}>{a.status}</Badge>
-              </div>
-
-              <div>
-                <div className="flex items-center justify-between text-xs">
-                  <span className="text-muted-foreground">Niveau de confiance</span>
-                  <span className="font-medium">{a.conf}%</span>
-                </div>
-                <Progress
-                  value={a.conf}
-                  tone={a.conf >= 90 ? "emerald" : a.conf >= 75 ? "brand" : "amber"}
-                  className="mt-2"
-                />
+                <Badge variant={state.hasData ? "success" : "outline"}>
+                  {state.hasData ? "Actif" : "En attente"}
+                </Badge>
               </div>
 
               <div className="text-xs text-muted-foreground">
-                Dernière exécution : il y a 4 minutes · 1 247 tokens
+                {state.hasData
+                  ? "Prêt à analyser ton contenu."
+                  : "Démarre dès que tu connectes une plateforme."}
               </div>
             </CardContent>
           </Card>
