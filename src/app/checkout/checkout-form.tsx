@@ -39,6 +39,19 @@ type ProviderCard = {
   mobileMoneyHint?: boolean;
 };
 
+/* ── Devises supportées par provider (sinon fallback USD) ──
+ * Sources : doc officielle de chaque gateway. Stripe 135+, PayPal ~25
+ * (très restrictif), PayDunya XOF only (UEMOA), CinetPay XOF/XAF,
+ * Flutterwave NGN/GHS/KES/ZAR/USD.
+ */
+const PROVIDER_CURRENCIES: Record<PaymentProviderId, CurrencyCode[]> = {
+  STRIPE:      ["USD", "EUR", "XOF", "XAF", "MAD", "NGN", "GHS", "ZAR", "KES", "EGP", "BRL", "MXN"],
+  PAYPAL:      ["USD", "EUR", "BRL", "MXN"],
+  PAYDUNYA:    ["XOF"],
+  CINETPAY:    ["XOF", "XAF"],
+  FLUTTERWAVE: ["NGN", "GHS", "KES", "ZAR", "USD"],
+};
+
 const PROVIDER_CARDS: Record<PaymentProviderId, ProviderCard> = {
   STRIPE: {
     title: "Carte bancaire",
@@ -190,6 +203,7 @@ export function CheckoutForm({
   amount,
   currency,
   xofAmount,
+  usdAmount,
   period,
   providers,
   userEmail,
@@ -198,10 +212,20 @@ export function CheckoutForm({
   amount: number;
   currency: CurrencyCode;
   xofAmount: number;
+  usdAmount: number;
   period: "month" | "year";
   providers: Provider[];
   userEmail: string;
 }) {
+  /** Résout (montant, devise) effectifs pour un provider donné. */
+  function resolveAmountForProvider(
+    providerId: PaymentProviderId,
+  ): { amount: number; currency: CurrencyCode } {
+    if (providerId === "PAYDUNYA") return { amount: xofAmount, currency: "XOF" };
+    const supported = PROVIDER_CURRENCIES[providerId] ?? [];
+    if (supported.includes(currency)) return { amount, currency };
+    return { amount: usdAmount, currency: "USD" }; // fallback universel
+  }
   const [selected, setSelected] = useState<PaymentProviderId | null>(null);
   const [phone, setPhone] = useState("");
   const [pending, startTransition] = useTransition();
@@ -247,14 +271,15 @@ export function CheckoutForm({
 
     startTransition(async () => {
       try {
-        // ── STRIPE : devise utilisateur, modal Elements inline ──
+        // ── STRIPE : devise utilisateur (fallback USD si non supportée) ──
         if (selected === "STRIPE") {
+          const eff = resolveAmountForProvider("STRIPE");
           const res = await fetch("/api/checkout/stripe/intent", {
             method: "POST",
             headers: { "content-type": "application/json" },
             body: JSON.stringify({
-              amount,
-              currency,
+              amount: eff.amount,
+              currency: eff.currency,
               description,
               planId: plan.id,
               customerEmail: userEmail,
@@ -266,20 +291,21 @@ export function CheckoutForm({
             clientSecret: j.clientSecret,
             publishableKey: j.publishableKey,
             paymentId: j.paymentId,
-            amount,
-            currency,
+            amount: eff.amount,
+            currency: eff.currency,
           });
           return;
         }
 
-        // ── PAYPAL : devise utilisateur, Smart Buttons popup ──
+        // ── PAYPAL : USD/EUR/BRL/MXN uniquement (fallback USD sinon) ──
         if (selected === "PAYPAL") {
+          const eff = resolveAmountForProvider("PAYPAL");
           const res = await fetch("/api/checkout/paypal/intent", {
             method: "POST",
             headers: { "content-type": "application/json" },
             body: JSON.stringify({
-              amount,
-              currency,
+              amount: eff.amount,
+              currency: eff.currency,
               description,
               planId: plan.id,
             }),
@@ -292,7 +318,7 @@ export function CheckoutForm({
             clientId: j.clientId,
             currency: j.currency,
             env: j.env,
-            amount,
+            amount: eff.amount,
           });
           return;
         }
@@ -323,14 +349,15 @@ export function CheckoutForm({
           return;
         }
 
-        // ── Autres providers : hosted page redirect ──
+        // ── Autres providers (CinetPay / Flutterwave) : hosted page redirect ──
+        const eff = resolveAmountForProvider(selected);
         const endpoint = `/api/checkout/${selected.toLowerCase()}`;
         const res = await fetch(endpoint, {
           method: "POST",
           headers: { "content-type": "application/json" },
           body: JSON.stringify({
-            amount,
-            currency,
+            amount: eff.amount,
+            currency: eff.currency,
             description,
             planId: plan.id,
             customerEmail: userEmail,
@@ -351,7 +378,8 @@ export function CheckoutForm({
   }
 
   const selectedCard = selected ? PROVIDER_CARDS[selected] : null;
-  const showPaydunyaCurrencyHint = selected === "PAYDUNYA" && currency !== "XOF";
+  const selectedEff = selected ? resolveAmountForProvider(selected) : null;
+  const showCurrencyMismatchHint = !!selectedEff && selectedEff.currency !== currency;
 
   return (
     <div className="relative overflow-hidden rounded-2xl border border-border bg-card/60 shadow-[0_8px_30px_-12px_rgba(31,190,175,0.18)] backdrop-blur-xl">
@@ -383,8 +411,9 @@ export function CheckoutForm({
               const card = PROVIDER_CARDS[p.id];
               if (!card) return null;
               const isActive = selected === p.id;
-              const displayAmount =
-                p.id === "PAYDUNYA" ? formatPrice(xofAmount, "XOF") : formatPrice(amount, currency);
+              const eff = resolveAmountForProvider(p.id);
+              const displayAmount = formatPrice(eff.amount, eff.currency);
+              const isFallback = eff.currency !== currency && p.id !== "PAYDUNYA";
 
               return (
                 <button
@@ -440,10 +469,10 @@ export function CheckoutForm({
                       </div>
                     )}
 
-                    {/* Footer : montant local */}
+                    {/* Footer : montant effectif (peut différer si fallback USD) */}
                     <div className="mt-3 flex items-center justify-between border-t border-border/60 pt-2.5">
                       <span className="text-[10.5px] text-muted-foreground">
-                        Tu paies
+                        {isFallback ? `Facturé en ${eff.currency}` : "Tu paies"}
                       </span>
                       <span className="font-display text-[13px] font-extrabold tabular-nums">
                         {displayAmount}
@@ -456,14 +485,16 @@ export function CheckoutForm({
           </div>
         )}
 
-        {/* ─── Notice devise XOF pour PayDunya ─── */}
-        {showPaydunyaCurrencyHint && (
+        {/* ─── Notice quand la devise locale n'est pas supportée par le provider ─── */}
+        {showCurrencyMismatchHint && selectedEff && selectedCard && (
           <div className="mt-4 flex items-start gap-2 rounded-xl border border-amber-500/30 bg-amber-500/[0.06] p-3 text-[11.5px] text-amber-700 dark:text-amber-300">
             <Info className="mt-0.5 h-3.5 w-3.5 shrink-0" />
             <p>
-              Mobile Money est facturé en{" "}
-              <b>{formatPrice(xofAmount, "XOF")}</b> (Franc CFA UEMOA), équivalent
-              à {formatPrice(amount, currency)}.
+              <b>{selectedCard.title}</b> ne supporte pas {currency} dans ta zone.
+              Tu seras facturé{" "}
+              <b>{formatPrice(selectedEff.amount, selectedEff.currency)}</b>
+              {" "}({selectedEff.currency}) — équivalent à{" "}
+              {formatPrice(amount, currency)}.
             </p>
           </div>
         )}

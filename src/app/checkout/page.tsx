@@ -78,6 +78,8 @@ export default async function CheckoutPage({
 
   // PayDunya force XOF (seule devise UEMOA supportée)
   const xofAmount = getLocalizedAmount(planKey, "XOF", period);
+  // USD fallback pour les providers qui ne supportent pas la devise locale (ex: PayPal hors USD/EUR/BRL/MXN)
+  const usdAmount = getLocalizedAmount(planKey, "USD", period);
 
   const providers = await getProvidersPublic();
   const currencyConfig = CURRENCIES[currency];
@@ -122,6 +124,7 @@ export default async function CheckoutPage({
             amount={amount}
             currency={currency}
             xofAmount={xofAmount}
+            usdAmount={usdAmount}
             period={period}
             providers={providers}
             userEmail={user.email ?? ""}
