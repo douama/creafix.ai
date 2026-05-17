@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { Lock, CreditCard, Smartphone, Globe2, Loader2, ArrowRight } from "lucide-react";
 import type { PaymentProviderId } from "@/lib/payments/providers";
 import { StripePaymentModal } from "./stripe-payment-modal";
+import { PaypalPaymentModal } from "./paypal-payment-modal";
 
 type Provider = {
   id: PaymentProviderId;
@@ -67,6 +68,16 @@ export function CheckoutForm({
     currency: string;
   } | null>(null);
 
+  // ── Modal PayPal Smart Buttons (popup login inline) ──
+  const [paypalModal, setPaypalModal] = useState<{
+    orderId: string;
+    paymentId: string;
+    clientId: string;
+    currency: string;
+    env: "sandbox" | "production";
+    amount: number;
+  } | null>(null);
+
   // Affiche seulement les providers actifs (clés API configurées dans Vault)
   const activeProviders = providers.filter((p) => p.enabled);
 
@@ -111,6 +122,31 @@ export function CheckoutForm({
             paymentId: j.paymentId,
             amount: convertedAmount,
             currency: cfg.currency,
+          });
+          return;
+        }
+
+        // ── PayPal : flow Smart Buttons (popup login inline) ──
+        if (selected === "PAYPAL") {
+          const res = await fetch("/api/checkout/paypal/intent", {
+            method: "POST",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify({
+              amount: convertedAmount,
+              currency: cfg.currency,
+              description,
+              planId: plan.id,
+            }),
+          });
+          const j = await res.json();
+          if (!res.ok) throw new Error(j.error ?? `HTTP ${res.status}`);
+          setPaypalModal({
+            orderId: j.orderId,
+            paymentId: j.paymentId,
+            clientId: j.clientId,
+            currency: j.currency,
+            env: j.env,
+            amount: convertedAmount,
           });
           return;
         }
@@ -279,6 +315,21 @@ export function CheckoutForm({
           paymentId={stripeModal.paymentId}
           amount={stripeModal.amount}
           currency={stripeModal.currency}
+          returnUrl={`${typeof window !== "undefined" ? window.location.origin : ""}/dashboard/billing`}
+        />
+      )}
+
+      {/* Modal PayPal Smart Buttons (popup login inline) */}
+      {paypalModal && (
+        <PaypalPaymentModal
+          open={true}
+          onClose={() => setPaypalModal(null)}
+          orderId={paypalModal.orderId}
+          paymentId={paypalModal.paymentId}
+          clientId={paypalModal.clientId}
+          currency={paypalModal.currency}
+          env={paypalModal.env}
+          amount={paypalModal.amount}
           returnUrl={`${typeof window !== "undefined" ? window.location.origin : ""}/dashboard/billing`}
         />
       )}
