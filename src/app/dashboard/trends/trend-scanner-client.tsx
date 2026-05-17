@@ -225,7 +225,7 @@ export function TrendScannerClient() {
       </div>
 
       {/* ─── Platform Tabs ─────────────────────────────────────────────────── */}
-      <div className="mb-5 flex flex-wrap gap-2">
+      <div className="mb-4 flex flex-wrap gap-2">
         {PLATFORMS.map((p) => {
           const active = p.id === platform;
           return (
@@ -233,28 +233,22 @@ export function TrendScannerClient() {
               key={p.id}
               type="button"
               onClick={() => setPlatform(p.id)}
-              className={`flex items-center gap-2 rounded-xl border px-3 py-2 text-xs font-semibold transition-all ${
-                active ? "shadow-lg" : "border-border bg-card/40 text-muted-foreground hover:text-foreground"
+              className={`flex items-center gap-2 rounded-full border px-3.5 py-2 text-xs font-semibold transition-all ${
+                active ? "" : "border-border bg-card/40 text-muted-foreground hover:border-foreground/20 hover:text-foreground"
               }`}
               style={
                 active
                   ? {
-                      borderColor: `${p.color}55`,
+                      borderColor: `${p.color}60`,
                       backgroundColor: `${p.color}12`,
                       color: p.color,
-                      boxShadow: `0 4px 20px -6px ${p.color}44`,
+                      boxShadow: `0 2px 16px -4px ${p.color}40`,
                     }
                   : undefined
               }
             >
-              <p.Icon color={active ? p.color : "currentColor"} size={14} />
+              <p.Icon color={active ? p.color : "currentColor"} size={13} />
               {p.name}
-              {active && (
-                <span
-                  className="h-1.5 w-1.5 rounded-full"
-                  style={{ backgroundColor: p.color }}
-                />
-              )}
             </button>
           );
         })}
@@ -265,11 +259,19 @@ export function TrendScannerClient() {
         <button
           type="button"
           onClick={() => setSelectedCountry("all")}
-          className={`rounded-full border px-3 py-1.5 text-[11px] font-semibold transition-all ${
-            selectedCountry === "all"
-              ? "bg-foreground text-background"
-              : "border-border bg-card/40 text-muted-foreground hover:text-foreground"
+          className={`flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-[11px] font-semibold transition-all ${
+            selectedCountry === "all" ? "" : "border-border bg-card/40 text-muted-foreground hover:border-foreground/20 hover:text-foreground"
           }`}
+          style={
+            selectedCountry === "all"
+              ? {
+                  borderColor: `${plat.color}60`,
+                  backgroundColor: `${plat.color}12`,
+                  color: plat.color,
+                  boxShadow: `0 2px 12px -4px ${plat.color}30`,
+                }
+              : undefined
+          }
         >
           🌍 Tous les pays
         </button>
@@ -280,15 +282,16 @@ export function TrendScannerClient() {
             onClick={() => setSelectedCountry(c.id)}
             className={`flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-[11px] font-semibold transition-all ${
               selectedCountry === c.id
-                ? "text-foreground"
-                : "border-border bg-card/40 text-muted-foreground hover:text-foreground"
+                ? ""
+                : "border-border bg-card/40 text-muted-foreground hover:border-foreground/20 hover:text-foreground"
             }`}
             style={
               selectedCountry === c.id
                 ? {
                     backgroundColor: `${c.color}14`,
-                    borderColor: `${c.color}55`,
+                    borderColor: `${c.color}60`,
                     color: c.color,
+                    boxShadow: `0 2px 12px -4px ${c.color}28`,
                   }
                 : undefined
             }
