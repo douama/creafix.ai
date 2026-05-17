@@ -13,7 +13,7 @@
 
 import { supabaseAdmin } from "@/lib/supabase/admin";
 
-type ProviderId = "STRIPE" | "PAYPAL" | "CINETPAY" | "FLUTTERWAVE";
+type ProviderId = "STRIPE" | "PAYPAL" | "CINETPAY" | "FLUTTERWAVE" | "PAYDUNYA";
 
 const CACHE = new Map<string, { value: string | null; expiresAt: number }>();
 const TTL_MS = 60 * 1000;
@@ -100,6 +100,13 @@ const KEYS: Record<ProviderId, KeyDef[]> = {
     { name: "FLUTTERWAVE_PUBLIC_KEY",     label: "Public Key",     required: false, format: "FLWPUBK-…-X / FLWPUBK_TEST-…",  hint: "Même endroit. Recommandée pour la consistance front." },
     { name: "FLUTTERWAVE_WEBHOOK_HASH",   label: "Webhook Secret Hash", required: false, format: "Chaîne arbitraire (ex: mySuperSecret_2026)", hint: "Settings → Webhooks → Secret hash. Requis pour vérifier les paiements." },
     { name: "FLUTTERWAVE_ENCRYPTION_KEY", label: "Encryption Key (3DES)", required: false, format: "~24 chars",              hint: "Optionnelle, requise UNIQUEMENT pour les charges directes par carte (pas pour Standard redirect)." },
+  ],
+  PAYDUNYA: [
+    { name: "PAYDUNYA_MASTER_KEY",  label: "Master Key",  required: true,  format: "alphanumérique ~32 chars", hint: "paydunya.com → Intégrations → API & Plugins → Clés API" },
+    { name: "PAYDUNYA_PUBLIC_KEY",  label: "Public Key",  required: true,  format: "live_public_… / test_public_…", hint: "Même section. Différente entre live et test." },
+    { name: "PAYDUNYA_PRIVATE_KEY", label: "Private Key", required: true,  format: "live_private_… / test_private_…", hint: "Même section. Garde-la secrète." },
+    { name: "PAYDUNYA_TOKEN",       label: "Token",       required: true,  format: "alphanumérique ~24 chars", hint: "Onglet 'Token' dans Intégrations. Différent entre live et test." },
+    { name: "PAYDUNYA_MODE",        label: "Mode (live/test)", required: false, format: "live | test", hint: "Par défaut 'live' si non précisé. Utilise 'test' pendant les tests sandbox." },
   ],
 };
 

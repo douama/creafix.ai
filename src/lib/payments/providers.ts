@@ -1,11 +1,12 @@
 /**
  * CreaFix AI — Configuration des providers de paiement.
  *
- * 4 providers supportés :
+ * 5 providers supportés :
  *   - STRIPE        : cartes internationales (Visa, MC, Amex)
  *   - PAYPAL        : compte PayPal + cartes via PayPal
  *   - CINETPAY      : Mobile Money zone CFA (Orange, MTN, Moov, Wave) + cartes
  *   - FLUTTERWAVE   : Mobile Money/cards Naira/KES/ZAR (anglophone Africa)
+ *   - PAYDUNYA      : Mobile Money UEMOA (Wave, Orange, Free, MTN, Moov, Expresso) + cartes
  *
  * Status :
  *   - enabled=true  : la clé API est set dans l'env
@@ -14,7 +15,7 @@
  * Toutes les clés sont SERVER-SIDE only (jamais exposées au browser).
  */
 
-export type PaymentProviderId = "STRIPE" | "PAYPAL" | "CINETPAY" | "FLUTTERWAVE";
+export type PaymentProviderId = "STRIPE" | "PAYPAL" | "CINETPAY" | "FLUTTERWAVE" | "PAYDUNYA";
 
 export type ProviderConfig = {
   id: PaymentProviderId;
@@ -65,6 +66,15 @@ const PROVIDER_META: Omit<ProviderConfig, "enabled" | "reason">[] = [
     methods: ["M-Pesa", "MTN MoMo", "Carte", "USSD", "Bank Transfer"],
     color: "#F5A623",
     emoji: "🟧",
+  },
+  {
+    id: "PAYDUNYA",
+    label: "PayDunya",
+    description: "Wave, Orange Money, Free Money, MTN, Moov, Expresso, cartes",
+    zones: ["🇸🇳", "🇨🇮", "🇧🇫", "🇲🇱", "🇹🇬", "🇧🇯"],
+    methods: ["Wave", "Orange Money", "Free Money", "MTN MoMo", "Moov", "Expresso", "Visa", "Mastercard"],
+    color: "#FF6B35",
+    emoji: "🟠",
   },
 ];
 
