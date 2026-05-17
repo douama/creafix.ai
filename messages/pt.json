@@ -266,7 +266,7 @@
     "titlePart1": "Preços",
     "titleHighlight": "transparentes",
     "titlePart2": ", simples.",
-    "subtitle": "Pague em USD, EUR ou Mobile Money africano (Wave, Orange Money, MTN MoMo). Cancele quando quiser.",
+    "subtitle": "Todos os preços em USD. Pague com cartão, PayPal ou Mobile Money africano. Cancele quando quiser.",
     "promo": "-50% para os primeiros 1 000 criadores",
     "paymentsAccepted": "Pagamentos aceitos:",
     "mostPopular": "Mais popular",
@@ -311,18 +311,17 @@
     },
     "enterprise": {
       "name": "Enterprise",
-      "unit": "",
-      "desc": "Para grupos de mídia e plataformas.",
-      "cta": "Falar com vendas",
-      "f1": "Tudo ilimitado",
-      "f2": "Contrato SLA & suporte 24/7",
-      "f3": "Integrações personalizadas",
-      "f4": "Opção on-premise",
-      "f5": "Infraestrutura dedicada",
-      "f6": "Modelos IA treinados sob medida",
-      "f7": "Reviews trimestrais",
-      "f8": "Conformidade multi-região",
-      "price": "Sob medida"
+      "unit": "/mês",
+      "desc": "Para grupos de mídia, TV, rádio e plataformas.",
+      "cta": "Teste 7 dias grátis",
+      "f1": "Criadores, mídias e páginas ilimitados",
+      "f2": "Painel multi-marca centralizado",
+      "f3": "API & Webhooks de alta disponibilidade",
+      "f4": "SLA 99,9% garantido + suporte 24/7",
+      "f5": "Modelos IA treinados com seus dados",
+      "f6": "Integrações CRM, ERP e ferramentas",
+      "f7": "Relatórios executivos e análises avançadas",
+      "f8": "Gerente de sucesso dedicado"
     }
   },
   "faq": {

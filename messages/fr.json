@@ -266,7 +266,7 @@
     "titlePart1": "Tarifs",
     "titleHighlight": "transparents",
     "titlePart2": ", simples.",
-    "subtitle": "Paie en USD, EUR ou Mobile Money africain (Wave, Orange Money, MTN MoMo). Annulable à tout moment.",
+    "subtitle": "Tous les tarifs en USD. Paye par carte, PayPal ou Mobile Money africain. Annulable à tout moment.",
     "promo": "-50% pour les 1 000 premiers créateurs",
     "paymentsAccepted": "Paiements acceptés :",
     "mostPopular": "Le + populaire",
@@ -311,18 +311,17 @@
     },
     "enterprise": {
       "name": "Enterprise",
-      "unit": "",
-      "desc": "Pour les groupes médias et plateformes.",
-      "cta": "Contacter l'équipe",
-      "f1": "Tout en illimité",
-      "f2": "Contrat SLA & support 24/7",
-      "f3": "Intégrations sur-mesure",
-      "f4": "Option on-premise",
-      "f5": "Infra dédiée",
-      "f6": "Modèles IA entraînés sur-mesure",
-      "f7": "Reviews trimestrielles",
-      "f8": "Conformité multi-régions",
-      "price": "Sur devis"
+      "unit": "/mois",
+      "desc": "Pour les groupes médias, TV, radios et plateformes.",
+      "cta": "Essai 7 jours gratuits",
+      "f1": "Créateurs, médias & pages illimités",
+      "f2": "Dashboard multi-marques centralisé",
+      "f3": "API & Webhooks haute disponibilité",
+      "f4": "SLA 99,9% garanti + support 24/7",
+      "f5": "Modèles IA entraînés sur vos données",
+      "f6": "Intégrations CRM, ERP et outils tiers",
+      "f7": "Rapports exécutifs & analytics avancés",
+      "f8": "Manager de succès dédié"
     }
   },
   "faq": {

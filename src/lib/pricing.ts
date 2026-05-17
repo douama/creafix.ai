@@ -51,7 +51,7 @@ export const CURRENCIES: Record<CurrencyCode, CurrencyConfig> = {
     symbolPosition: "before",
     flag: "🇺🇸",
     locale: "en-US",
-    pricing: { free: 0, pro: 29, agency: 99, enterprise: 0 },
+    pricing: { free: 0, pro: 29, agency: 99, enterprise: 199 },
     countries: ["US", "GB", "AU", "NZ", "SG", "HK", "AE", "SA", "IL"],
   },
   EUR: {
@@ -201,14 +201,9 @@ export const currencyCodes = Object.keys(CURRENCIES) as CurrencyCode[];
 
 /**
  * Résout la devise depuis un code pays ISO.
- * Fallback : USD.
+ * Tous les marchés utilisent USD (tarification unifiée).
  */
-export function resolveCurrencyFromCountry(country: string | null | undefined): CurrencyCode {
-  if (!country) return "USD";
-  const upper = country.toUpperCase();
-  for (const [code, config] of Object.entries(CURRENCIES)) {
-    if (config.countries.includes(upper)) return code as CurrencyCode;
-  }
+export function resolveCurrencyFromCountry(_country: string | null | undefined): CurrencyCode {
   return "USD";
 }
 
@@ -241,7 +236,6 @@ export function formatPrice(amount: number, currency: CurrencyCode): string {
 export function getPrice(plan: Plan, currency: CurrencyCode): string {
   const amount = CURRENCIES[currency].pricing[plan];
   if (plan === "free") return formatPrice(0, currency);
-  if (plan === "enterprise") return "—"; // affiché comme "Custom" via i18n
   return formatPrice(amount, currency);
 }
 

@@ -266,7 +266,7 @@
     "titlePart1": "Simple,",
     "titleHighlight": "transparent pricing",
     "titlePart2": ".",
-    "subtitle": "Pay in USD, EUR or African Mobile Money (Wave, Orange Money, MTN MoMo). Cancel anytime.",
+    "subtitle": "All prices in USD. Pay by card, PayPal or African Mobile Money. Cancel anytime.",
     "promo": "-50% for the first 1,000 creators",
     "paymentsAccepted": "Payments accepted:",
     "mostPopular": "Most popular",
@@ -311,18 +311,17 @@
     },
     "enterprise": {
       "name": "Enterprise",
-      "unit": "",
-      "desc": "For media groups and platforms.",
-      "cta": "Contact sales",
-      "f1": "Unlimited everything",
-      "f2": "SLA contract & 24/7 support",
-      "f3": "Custom integrations",
-      "f4": "On-premise option",
-      "f5": "Dedicated infrastructure",
-      "f6": "Custom AI models training",
-      "f7": "Quarterly business reviews",
-      "f8": "Multi-region compliance",
-      "price": "Custom"
+      "unit": "/month",
+      "desc": "For media groups, TV, radio and platforms.",
+      "cta": "Start 7-day free trial",
+      "f1": "Unlimited creators, media & pages",
+      "f2": "Centralized multi-brand dashboard",
+      "f3": "High-availability API & Webhooks",
+      "f4": "99.9% SLA guarantee + 24/7 support",
+      "f5": "Custom AI models trained on your data",
+      "f6": "CRM, ERP & third-party integrations",
+      "f7": "Executive reports & advanced analytics",
+      "f8": "Dedicated success manager"
     }
   },
   "faq": {

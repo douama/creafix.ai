@@ -2,25 +2,23 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Check, Sparkles } from "lucide-react";
+import { Check, Sparkles, Star } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { CurrencySwitch } from "@/components/currency-switch";
 import { CURRENCIES, formatPrice, type CurrencyCode, type Plan } from "@/lib/pricing";
 
-const PLAN_KEYS: { key: Plan; href: string; highlight?: boolean; features: number }[] = [
-  { key: "free",       href: "/signup",                          features: 5 },
-  { key: "pro",        href: "/checkout?plan=PRO",                highlight: true, features: 8 },
-  { key: "agency",     href: "/checkout?plan=AGENCY",             features: 8 },
-  { key: "enterprise", href: "/contact?topic=enterprise",         features: 8 },
+const PLAN_KEYS: { key: Plan; href: string; highlight?: boolean; enterpriseBadge?: boolean; features: number }[] = [
+  { key: "free",       href: "/signup",                        features: 5 },
+  { key: "pro",        href: "/checkout?plan=PRO",              highlight: true, features: 8 },
+  { key: "agency",     href: "/checkout?plan=AGENCY",           features: 8 },
+  { key: "enterprise", href: "/checkout?plan=ENTERPRISE",       enterpriseBadge: true, features: 8 },
 ];
 
 type Period = "month" | "year";
 
 export function PricingTable({ currency }: { currency: CurrencyCode }) {
   const t = useTranslations("pricing");
-  const c = CURRENCIES[currency];
   const [period, setPeriod] = useState<Period>("month");
 
   return (
@@ -33,19 +31,12 @@ export function PricingTable({ currency }: { currency: CurrencyCode }) {
           </h2>
           <p className="mt-3 text-sm text-muted-foreground">{t("subtitle")}</p>
 
-          {/* Promo + selector devise */}
+          {/* Promo badge */}
           <div className="mt-4 flex flex-wrap items-center justify-center gap-3">
             <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-xs text-emerald-500 dark:text-emerald-300">
               <Sparkles className="h-3 w-3" /> {t("promo")}
             </div>
-            <CurrencySwitch currency={currency} />
           </div>
-
-          {/* Indicateur devise détectée */}
-          <p className="mt-2 text-[11px] text-muted-foreground">
-            Prix affichés en <b className="text-foreground">{c.label}</b> ({c.code}){" "}
-            {c.flag} · ajusté à ton marché
-          </p>
 
           {/* ─── Toggle Mensuel / Annuel ─── */}
           <div className="mt-6 inline-flex items-center gap-1 rounded-full border border-border bg-card/60 p-1 backdrop-blur">
@@ -91,7 +82,6 @@ export function PricingTable({ currency }: { currency: CurrencyCode }) {
         <div className="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           {PLAN_KEYS.map((plan) => {
             const isFreePlan = plan.key === "free";
-            const isEnterprise = plan.key === "enterprise";
 
             // ── Calcul prix selon period ──
             // Annuel = mensuel × 10 (2 mois offerts sur 12)
@@ -102,28 +92,27 @@ export function PricingTable({ currency }: { currency: CurrencyCode }) {
               : period === "year"
                 ? yearlyAmount
                 : monthlyAmount;
-            const price = isEnterprise
-              ? t("enterprise.price")
-              : isFreePlan
-                ? formatPrice(0, currency)
-                : formatPrice(displayAmount, currency);
-            const unit = isEnterprise
-              ? ""
-              : isFreePlan
-                ? t("free.unit")
-                : period === "year"
-                  ? "/an"
-                  : t(`${plan.key}.unit` as "pro.unit" | "agency.unit");
 
-            // ── Sous-prix : montant mensuel équivalent quand on est en annuel ──
-            const subPrice =
-              period === "year" && !isFreePlan && !isEnterprise
-                ? `Soit ${formatPrice(Math.round(yearlyAmount / 12), currency)} / mois`
+            const price = isFreePlan
+              ? formatPrice(0, currency)
+              : formatPrice(displayAmount, currency);
+
+            const unit = isFreePlan
+              ? t("free.unit")
+              : period === "year"
+                ? "/an"
+                : "/mois";
+
+            // ── Sous-ligne sous le prix ──
+            const subPrice = period === "year" && !isFreePlan
+              ? `Soit ${formatPrice(Math.round(yearlyAmount / 12), currency)} / mois`
+              : !isFreePlan && period === "month"
+                ? "Essai 7 jours · Sans carte"
                 : null;
 
             // ── CTA href avec période ──
             const ctaHref =
-              !isFreePlan && !isEnterprise && period === "year"
+              !isFreePlan && period === "year"
                 ? `${plan.href}&period=year`
                 : plan.href;
 
@@ -138,7 +127,9 @@ export function PricingTable({ currency }: { currency: CurrencyCode }) {
                 className={`relative flex flex-col rounded-2xl border p-6 backdrop-blur-xl transition-all ${
                   plan.highlight
                     ? "border-[#EC4899]/50 bg-gradient-to-b from-[#EC4899]/[0.08] to-transparent shadow-2xl shadow-[#EC4899]/20"
-                    : "border-border bg-card/40"
+                    : plan.enterpriseBadge
+                      ? "border-[#1FBEAF]/40 bg-gradient-to-b from-[#1FBEAF]/[0.07] to-transparent shadow-xl shadow-[#1FBEAF]/10"
+                      : "border-border bg-card/40"
                 }`}
               >
                 {plan.highlight && (
@@ -148,6 +139,11 @@ export function PricingTable({ currency }: { currency: CurrencyCode }) {
                   >
                     {t("mostPopular")}
                   </Badge>
+                )}
+                {plan.enterpriseBadge && (
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap inline-flex items-center gap-1 rounded-full border border-[#1FBEAF]/50 bg-[#1FBEAF]/15 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-[#1FBEAF]">
+                    <Star className="h-2.5 w-2.5 fill-current" /> Médias & Plateformes
+                  </div>
                 )}
                 <h3 className="font-display text-xl font-bold">{t(`${plan.key}.name`)}</h3>
                 <p className="mt-1 text-sm text-muted-foreground">{t(`${plan.key}.desc`)}</p>
@@ -164,7 +160,7 @@ export function PricingTable({ currency }: { currency: CurrencyCode }) {
                     )}
                   </div>
                   {subPrice && (
-                    <div className="mt-1 text-[11px] text-muted-foreground">
+                    <div className={`mt-1 text-[11px] ${period === "month" && !isFreePlan ? "font-medium text-emerald-600 dark:text-emerald-400" : "text-muted-foreground"}`}>
                       {subPrice}
                     </div>
                   )}
@@ -173,7 +169,7 @@ export function PricingTable({ currency }: { currency: CurrencyCode }) {
                 <ul className="mt-6 flex-1 space-y-2.5 text-sm">
                   {features.map((f, i) => (
                     <li key={i} className="flex items-start gap-2">
-                      <Check className="mt-0.5 h-4 w-4 shrink-0 text-emerald-500" />
+                      <Check className={`mt-0.5 h-4 w-4 shrink-0 ${plan.enterpriseBadge ? "text-[#1FBEAF]" : "text-emerald-500"}`} />
                       <span className="text-muted-foreground">{f}</span>
                     </li>
                   ))}
@@ -183,7 +179,7 @@ export function PricingTable({ currency }: { currency: CurrencyCode }) {
                   asChild
                   size="lg"
                   variant={plan.highlight ? "brand" : "outline"}
-                  className="mt-7 w-full"
+                  className={`mt-7 w-full ${plan.enterpriseBadge ? "border-[#1FBEAF]/50 text-[#1FBEAF] hover:bg-[#1FBEAF]/10" : ""}`}
                 >
                   <Link href={ctaHref}>{t(`${plan.key}.cta`)}</Link>
                 </Button>
