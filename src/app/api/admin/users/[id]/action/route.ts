@@ -2,9 +2,9 @@ import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 
-type Action = "suspend" | "unsuspend" | "ban" | "reset" | "upgrade";
+type Action = "suspend" | "unsuspend" | "ban" | "reset" | "upgrade" | "delete";
 
-const VALID: Action[] = ["suspend", "unsuspend", "ban", "reset", "upgrade"];
+const VALID: Action[] = ["suspend", "unsuspend", "ban", "reset", "upgrade", "delete"];
 
 export async function POST(
   request: Request,
@@ -31,7 +31,7 @@ export async function POST(
   }
 
   // Actions destructrices/irréversibles → SUPER_ADMIN strict
-  if (action === "ban" || action === "reset") {
+  if (action === "ban" || action === "reset" || action === "delete") {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { data: isSuper } = await (supabase.rpc as any)("is_super_admin", { p_user_id: user.id });
     if (!isSuper) {
@@ -42,13 +42,13 @@ export async function POST(
     }
   }
 
-  // Empêche de s'auto-bannir
-  if (user.id === id && (action === "ban" || action === "suspend")) {
+  // Empêche de s'auto-bannir/supprimer
+  if (user.id === id && (action === "ban" || action === "suspend" || action === "delete")) {
     return NextResponse.json({ error: "Impossible d'appliquer cette action sur ton propre compte" }, { status: 400 });
   }
 
-  // Empêche de ban / reset un autre SUPER_ADMIN
-  if (action === "ban" || action === "reset") {
+  // Empêche de ban / reset / delete un autre SUPER_ADMIN
+  if (action === "ban" || action === "reset" || action === "delete") {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { data: targetIsSuper } = await (supabase.rpc as any)("is_super_admin", { p_user_id: id });
     if (targetIsSuper) {
@@ -61,6 +61,23 @@ export async function POST(
 
   // ── Apply action ──
   const sb = supabaseAdmin();
+
+  // Cas spécial : suppression définitive
+  if (action === "delete") {
+    const { error: delErr } = await sb.auth.admin.deleteUser(id);
+    if (delErr) {
+      return NextResponse.json({ error: delErr.message }, { status: 500 });
+    }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    await (sb.from("audit_logs") as any).insert({
+      actor_id: user.id,
+      action: "user.delete",
+      target_type: "auth.user",
+      target_id: id,
+      meta: { hard_delete: true },
+    });
+    return NextResponse.json({ ok: true, action, id });
+  }
 
   const updates: Record<string, unknown> = {};
   switch (action) {
