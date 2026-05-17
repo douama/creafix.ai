@@ -120,7 +120,7 @@ export function Sidebar() {
           Upgrade to <b>Pro</b> for unlimited audits.
         </div>
         <Link
-          href="/dashboard/billing"
+          href="/checkout?plan=PRO"
           className="mt-3 inline-flex w-full items-center justify-center rounded-lg bg-foreground px-3 py-1.5 text-xs font-medium text-background hover:bg-foreground/90"
         >
           Upgrade · $29/mo →

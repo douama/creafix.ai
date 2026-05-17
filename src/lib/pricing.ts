@@ -259,7 +259,7 @@ export function slugToPlanKey(slug: string): Plan {
 
 /**
  * Montant numérique localisé d'un plan dans une devise donnée.
- * Période "year" = mensuel × 12.
+ * Période "year" = mensuel × 10 (2 mois offerts sur 12).
  */
 export function getLocalizedAmount(
   plan: Plan,
@@ -267,5 +267,5 @@ export function getLocalizedAmount(
   period: "month" | "year" = "month",
 ): number {
   const monthly = CURRENCIES[currency].pricing[plan];
-  return period === "year" ? monthly * 12 : monthly;
+  return period === "year" ? monthly * 10 : monthly;
 }

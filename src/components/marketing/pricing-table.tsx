@@ -1,12 +1,13 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { Check, Sparkles } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { CurrencySwitch } from "@/components/currency-switch";
-import { CURRENCIES, getPrice, type CurrencyCode, type Plan } from "@/lib/pricing";
+import { CURRENCIES, formatPrice, type CurrencyCode, type Plan } from "@/lib/pricing";
 
 const PLAN_KEYS: { key: Plan; href: string; highlight?: boolean; features: number }[] = [
   { key: "free",       href: "/signup",                          features: 5 },
@@ -15,9 +16,12 @@ const PLAN_KEYS: { key: Plan; href: string; highlight?: boolean; features: numbe
   { key: "enterprise", href: "/contact?topic=enterprise",         features: 8 },
 ];
 
+type Period = "month" | "year";
+
 export function PricingTable({ currency }: { currency: CurrencyCode }) {
   const t = useTranslations("pricing");
   const c = CURRENCIES[currency];
+  const [period, setPeriod] = useState<Period>("month");
 
   return (
     <section id="pricing" className="relative py-10 md:py-14">
@@ -42,13 +46,89 @@ export function PricingTable({ currency }: { currency: CurrencyCode }) {
             Prix affichés en <b className="text-foreground">{c.label}</b> ({c.code}){" "}
             {c.flag} · ajusté à ton marché
           </p>
+
+          {/* ─── Toggle Mensuel / Annuel ─── */}
+          <div className="mt-6 inline-flex items-center gap-1 rounded-full border border-border bg-card/60 p-1 backdrop-blur">
+            <button
+              type="button"
+              onClick={() => setPeriod("month")}
+              className={[
+                "rounded-full px-4 py-1.5 text-xs font-semibold transition-colors",
+                period === "month"
+                  ? "bg-foreground text-background"
+                  : "text-muted-foreground hover:text-foreground",
+              ].join(" ")}
+              aria-pressed={period === "month"}
+            >
+              Mensuel
+            </button>
+            <button
+              type="button"
+              onClick={() => setPeriod("year")}
+              className={[
+                "relative rounded-full px-4 py-1.5 text-xs font-semibold transition-colors",
+                period === "year"
+                  ? "bg-foreground text-background"
+                  : "text-muted-foreground hover:text-foreground",
+              ].join(" ")}
+              aria-pressed={period === "year"}
+            >
+              Annuel
+              <span
+                className={[
+                  "ml-1.5 inline-block rounded-full px-1.5 py-0.5 text-[9px] font-extrabold uppercase tracking-wider",
+                  period === "year"
+                    ? "bg-[#FCD34D] text-[#0F0F0F]"
+                    : "bg-emerald-500/15 text-emerald-600 dark:text-emerald-300",
+                ].join(" ")}
+              >
+                −2 mois
+              </span>
+            </button>
+          </div>
         </div>
 
         <div className="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           {PLAN_KEYS.map((plan) => {
-            const price =
-              plan.key === "enterprise" ? t(`enterprise.price`) : getPrice(plan.key, currency);
+            const isFreePlan = plan.key === "free";
+            const isEnterprise = plan.key === "enterprise";
+
+            // ── Calcul prix selon period ──
+            // Annuel = mensuel × 10 (2 mois offerts sur 12)
+            const monthlyAmount = CURRENCIES[currency].pricing[plan.key];
+            const yearlyAmount = monthlyAmount * 10;
+            const displayAmount = isFreePlan
+              ? 0
+              : period === "year"
+                ? yearlyAmount
+                : monthlyAmount;
+            const price = isEnterprise
+              ? t("enterprise.price")
+              : isFreePlan
+                ? formatPrice(0, currency)
+                : formatPrice(displayAmount, currency);
+            const unit = isEnterprise
+              ? ""
+              : isFreePlan
+                ? t("free.unit")
+                : period === "year"
+                  ? "/an"
+                  : t(`${plan.key}.unit` as "pro.unit" | "agency.unit");
+
+            // ── Sous-prix : montant mensuel équivalent quand on est en annuel ──
+            const subPrice =
+              period === "year" && !isFreePlan && !isEnterprise
+                ? `Soit ${formatPrice(Math.round(yearlyAmount / 12), currency)} / mois`
+                : null;
+
+            // ── CTA href avec période ──
+            const ctaHref =
+              !isFreePlan && !isEnterprise && period === "year"
+                ? `${plan.href}&period=year`
+                : plan.href;
+
             const features = Array.from({ length: plan.features }, (_, i) =>
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
               t(`${plan.key}.f${i + 1}` as any),
             );
 
@@ -72,14 +152,21 @@ export function PricingTable({ currency }: { currency: CurrencyCode }) {
                 <h3 className="font-display text-xl font-bold">{t(`${plan.key}.name`)}</h3>
                 <p className="mt-1 text-sm text-muted-foreground">{t(`${plan.key}.desc`)}</p>
 
-                <div className="mt-5 flex flex-wrap items-baseline gap-x-1.5 gap-y-0.5">
-                  <span className="font-display text-2xl font-bold leading-none md:text-3xl">
-                    {price}
-                  </span>
-                  {plan.key !== "enterprise" && (
-                    <span className="text-xs text-muted-foreground md:text-sm">
-                      {t(`${plan.key}.unit`)}
+                <div className="mt-5">
+                  <div className="flex flex-wrap items-baseline gap-x-1.5 gap-y-0.5">
+                    <span className="font-display text-2xl font-bold leading-none md:text-3xl">
+                      {price}
                     </span>
+                    {unit && (
+                      <span className="text-xs text-muted-foreground md:text-sm">
+                        {unit}
+                      </span>
+                    )}
+                  </div>
+                  {subPrice && (
+                    <div className="mt-1 text-[11px] text-muted-foreground">
+                      {subPrice}
+                    </div>
                   )}
                 </div>
 
@@ -98,7 +185,7 @@ export function PricingTable({ currency }: { currency: CurrencyCode }) {
                   variant={plan.highlight ? "brand" : "outline"}
                   className="mt-7 w-full"
                 >
-                  <Link href={plan.href}>{t(`${plan.key}.cta`)}</Link>
+                  <Link href={ctaHref}>{t(`${plan.key}.cta`)}</Link>
                 </Button>
               </div>
             );
