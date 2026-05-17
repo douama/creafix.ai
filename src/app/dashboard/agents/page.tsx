@@ -1,7 +1,7 @@
 import { Bot, Coins, FileText, Flame, ImageIcon, ShieldAlert, TrendingUp } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import { EmptySection } from "@/components/dashboard/empty-section";
+import { ConnectAccountsEmpty } from "@/components/dashboard/connect-accounts-empty";
 import { getUserState } from "@/lib/dashboard/user-state";
 
 export const dynamic = "force-dynamic";
@@ -29,11 +29,10 @@ export default async function AgentsPage() {
       </div>
 
       {!state.hasData && (
-        <EmptySection
+        <ConnectAccountsEmpty
           icon={Bot}
           title="Active tes agents IA en connectant tes comptes"
           description="Les 7 agents démarrent automatiquement dès que tu connectes ta première plateforme. Aucun n'a encore tourné sur ton compte."
-          primaryCta={{ label: "Connecter mes comptes", href: "/dashboard/settings?tab=connections" }}
           accent="#EC4899"
         />
       )}

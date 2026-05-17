@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
 import {
   ArrowRight,
@@ -7,6 +10,7 @@ import {
   Sparkles,
   type LucideIcon,
 } from "lucide-react";
+import { ConnectAccountsModal } from "./connect-accounts-modal";
 
 type Step = {
   id: string;
@@ -15,7 +19,8 @@ type Step = {
   title: string;
   description: string;
   cta: string;
-  href: string;
+  href?: string;
+  onClick?: () => void;
   accent: string;
 };
 
@@ -26,16 +31,14 @@ type EmptyOnboardingProps = {
   firstAuditDone: boolean;
 };
 
-/**
- * Empty state affiché aux nouveaux inscrits sur /dashboard.
- * Trois étapes claires : 1) connecter comptes/pages, 2) configurer paiements, 3) lancer 1er audit.
- */
 export function EmptyOnboarding({
   fullName,
   socialConnected,
   paymentConfigured,
   firstAuditDone,
 }: EmptyOnboardingProps) {
+  const [connectOpen, setConnectOpen] = useState(false);
+
   const steps: Step[] = [
     {
       id: "connect",
@@ -45,7 +48,7 @@ export function EmptyOnboarding({
       description:
         "TikTok, Facebook, YouTube, Instagram… ajoute les plateformes que tu monétises pour activer l'analyse IA.",
       cta: socialConnected ? "Gérer mes comptes" : "Connecter mes comptes",
-      href: "/dashboard/settings?tab=connections",
+      onClick: () => setConnectOpen(true),
       accent: "#EC4899",
     },
     {
@@ -77,6 +80,8 @@ export function EmptyOnboarding({
 
   return (
     <div className="space-y-6">
+      <ConnectAccountsModal open={connectOpen} onOpenChange={setConnectOpen} />
+
       {/* Welcome hero */}
       <section className="relative overflow-hidden rounded-3xl border border-border bg-gradient-to-br from-[#EC4899]/[0.06] via-card to-card p-6 md:p-10">
         <div className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-[#EC4899]/15 blur-3xl" />
@@ -141,14 +146,10 @@ export function EmptyOnboarding({
 }
 
 function StepCard({ step, index }: { step: Step; index: number }) {
-  const { icon: Icon, title, description, cta, href, done, accent } = step;
-  return (
-    <Link
-      href={href}
-      className={`group relative flex flex-col rounded-2xl border bg-card/40 p-5 transition-all hover:-translate-y-0.5 hover:shadow-lg ${
-        done ? "border-emerald-500/40" : "border-border hover:border-foreground/20"
-      }`}
-    >
+  const { icon: Icon, title, description, cta, href, onClick, done, accent } = step;
+
+  const inner = (
+    <>
       <div className="flex items-start justify-between">
         <div
           className="flex h-11 w-11 items-center justify-center rounded-xl border"
@@ -183,6 +184,24 @@ function StepCard({ step, index }: { step: Step; index: number }) {
         {cta}
         <ArrowRight className="h-3.5 w-3.5" />
       </div>
+    </>
+  );
+
+  const cardClass = `group relative flex flex-col rounded-2xl border bg-card/40 p-5 transition-all hover:-translate-y-0.5 hover:shadow-lg ${
+    done ? "border-emerald-500/40" : "border-border hover:border-foreground/20"
+  }`;
+
+  if (onClick) {
+    return (
+      <button onClick={onClick} className={`${cardClass} text-left w-full`}>
+        {inner}
+      </button>
+    );
+  }
+
+  return (
+    <Link href={href!} className={cardClass}>
+      {inner}
     </Link>
   );
 }

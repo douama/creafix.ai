@@ -35,6 +35,14 @@ export async function POST(
   }
 
   const sb = supabaseAdmin();
+
+  // Récupère la config actuelle pour connaître le provider
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data: current } = await (sb.from("ai_model_configs") as any)
+    .select("provider, enabled")
+    .eq("id", id)
+    .single();
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const { data, error } = await (sb.from("ai_model_configs") as any)
     .update(updates)
@@ -43,6 +51,16 @@ export async function POST(
     .single();
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+
+  // Auto-activer les agents qui utilisent ce provider quand une clé est fournie et le provider est enabled
+  const providerNowEnabled = updates.enabled === true || (updates.api_key_set === true && (current?.enabled || updates.enabled !== false));
+  if (current?.provider && providerNowEnabled && updates.api_key_set === true) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    await (sb.from("ai_agents") as any)
+      .update({ enabled: true })
+      .eq("primary_provider", current.provider)
+      .eq("enabled", false);
+  }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   await (sb.from("audit_logs") as any).insert({
