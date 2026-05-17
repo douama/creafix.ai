@@ -1,12 +1,13 @@
 import Link from "next/link";
-import { ArrowLeft, Sparkles, ShieldCheck, Zap, Flame } from "lucide-react";
+import Image from "next/image";
+import { ArrowLeft, Sparkles } from "lucide-react";
 import { Logo } from "@/components/brand/logo";
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="relative min-h-screen bg-background">
+    <div className="relative min-h-screen lg:grid lg:grid-cols-[1fr_1.15fr]">
       {/* Mobile-only top bar */}
-      <header className="flex items-center justify-between px-4 py-4 md:hidden">
+      <header className="flex items-center justify-between border-b border-border px-4 py-3 lg:hidden">
         <Link href="/" className="inline-flex items-center gap-2">
           <Logo showTagline={false} />
         </Link>
@@ -19,124 +20,126 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
         </Link>
       </header>
 
-      <div className="grid min-h-screen lg:grid-cols-2">
-        {/* ─── LEFT : form column ─── */}
-        <div className="relative flex flex-col">
-          {/* Desktop header */}
-          <header className="hidden items-center justify-between px-8 py-6 lg:flex">
-            <Link href="/">
-              <Logo />
-            </Link>
-            <Link
-              href="/"
-              className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground"
-            >
-              <ArrowLeft className="h-3 w-3" />
-              Retour à l&apos;accueil
-            </Link>
-          </header>
-
-          <main className="flex flex-1 items-center justify-center px-4 pb-8 lg:px-12">
-            <div className="w-full max-w-md">{children}</div>
-          </main>
-
-          <footer className="hidden px-8 py-5 text-[11px] text-muted-foreground lg:flex lg:items-center lg:justify-between">
-            <span>© {new Date().getFullYear()} CreaFix AI</span>
-            <div className="flex items-center gap-4">
-              <Link href="/legal/privacy" className="hover:text-foreground">Confidentialité</Link>
-              <Link href="/legal/terms" className="hover:text-foreground">CGU</Link>
-            </div>
-          </footer>
+      {/* ───────────────────────  LEFT : form column  ─────────────────────── */}
+      <div className="relative flex min-h-screen flex-col bg-[#FAF7F5] dark:bg-background">
+        <div className="hidden items-center justify-start px-10 pt-10 lg:flex">
+          <Link href="/" aria-label="CreaFix AI">
+            <Logo showTagline={false} size={56} />
+          </Link>
         </div>
 
-        {/* ─── RIGHT : marketing panel (desktop only) ─── */}
-        <aside
-          aria-hidden
-          className="relative hidden overflow-hidden border-l border-border lg:flex lg:flex-col lg:justify-between"
-        >
-          <div
-            className="absolute inset-0 -z-10"
-            style={{
-              background:
-                "radial-gradient(ellipse 80% 50% at 50% 0%, rgba(236,72,153,0.20), transparent 70%), radial-gradient(ellipse 60% 40% at 80% 100%, rgba(0,194,255,0.12), transparent 60%), radial-gradient(ellipse 50% 30% at 10% 80%, rgba(255,138,0,0.10), transparent 60%), linear-gradient(135deg, hsl(var(--card)), hsl(var(--background)))",
-            }}
-          />
-          <div className="absolute inset-0 -z-10 grid-bg opacity-30" />
-          <div className="pointer-events-none absolute -left-32 -top-32 -z-10 h-96 w-96 rounded-full bg-[#EC4899]/30 blur-3xl" />
-          <div className="pointer-events-none absolute -right-32 -bottom-32 -z-10 h-96 w-96 rounded-full bg-[#FF8A00]/20 blur-3xl" />
+        <main className="flex flex-1 items-center justify-center px-5 pb-10 pt-6 lg:px-12 lg:pt-2">
+          <div className="w-full max-w-md">{children}</div>
+        </main>
 
-          <div className="relative flex flex-col gap-10 p-10 xl:p-14">
-            <div className="inline-flex w-fit items-center gap-1.5 rounded-full border border-[#EC4899]/30 bg-[#EC4899]/10 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-[#EC4899]">
-              <Sparkles className="h-3 w-3" />
-              The AI Revenue OS for African Creators
-            </div>
-
-            <h2 className="font-display text-3xl font-bold leading-tight tracking-tight xl:text-4xl">
-              Transforme ton contenu en{" "}
-              <span className="gradient-text">revenus prévisibles</span> grâce à l&apos;IA.
-            </h2>
-
-            <p className="max-w-md text-sm text-muted-foreground xl:text-base">
-              Audit IA en 60s, détection shadowban, score viral pré-publication, sons trending par
-              pays africain. Tout ce qu&apos;il te faut pour gagner plus avec ton contenu.
-            </p>
-
-            <ul className="space-y-3">
-              {[
-                { icon: Zap, text: "Audit IA complet en 60 secondes", color: "#FF8A00" },
-                { icon: ShieldCheck, text: "Détection shadowban + plan de récupération", color: "#10B981" },
-                { icon: Flame, text: "Score viral 0-100 avant publication", color: "#F43F5E" },
-                { icon: Sparkles, text: "Trends Afrique en temps réel · 9 pays", color: "#FF8A00" },
-              ].map(({ icon: Icon, text, color }) => (
-                <li key={text} className="flex items-center gap-3">
-                  <div
-                    className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border"
-                    style={{ backgroundColor: `${color}1A`, borderColor: `${color}55` }}
-                  >
-                    <Icon className="h-3.5 w-3.5" style={{ color }} />
-                  </div>
-                  <span className="text-sm">{text}</span>
-                </li>
-              ))}
-            </ul>
+        <footer className="hidden items-center justify-between px-10 pb-6 text-[11px] text-muted-foreground lg:flex">
+          <span>© {new Date().getFullYear()} CreaFix AI · Made in Africa</span>
+          <div className="flex items-center gap-4">
+            <Link href="/legal/privacy" className="hover:text-foreground">Privacy</Link>
+            <Link href="/legal/terms" className="hover:text-foreground">Terms</Link>
+            <Link href="/contact" className="hover:text-foreground">Help</Link>
           </div>
-
-          <div className="relative border-t border-border/60 bg-background/40 p-10 backdrop-blur-xl xl:p-14">
-            <figure>
-              <blockquote className="text-sm italic text-foreground/90">
-                « CreaFix a détecté un shadowban Facebook que je n&apos;avais pas vu. En 9 jours
-                ma page était réactivée avec un plan d&apos;action concret. »
-              </blockquote>
-              <figcaption className="mt-4 flex items-center gap-3">
-                <div className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-[#EC4899] to-[#FF8A00] text-xs font-bold text-white">
-                  IS
-                </div>
-                <div>
-                  <div className="text-sm font-semibold">Ibrahim Sow</div>
-                  <div className="text-[11px] text-muted-foreground">
-                    Page Facebook actualité · 🇸🇳 Dakar
-                  </div>
-                </div>
-              </figcaption>
-            </figure>
-
-            <div className="mt-6 flex flex-wrap items-center gap-4 text-[11px] text-muted-foreground">
-              <div className="flex items-center gap-0.5">
-                {[1, 2, 3, 4, 5].map((i) => (
-                  <svg key={i} className="h-3 w-3 fill-amber-400 text-amber-400" viewBox="0 0 20 20">
-                    <path d="M10 1l2.6 6h6.4l-5 4.5 1.9 6.5L10 14l-5.9 4 1.9-6.5-5-4.5h6.4z" />
-                  </svg>
-                ))}
-                <span className="ml-1 font-semibold text-foreground">4.9/5</span>
-              </div>
-              <span>·</span>
-              <span><b className="text-foreground">12 000+</b> créateurs</span>
-              <span>·</span>
-              <span><b className="text-foreground">9 pays</b> africains</span>
-            </div>
-          </div>
-        </aside>
+        </footer>
       </div>
+
+      {/* ───────────────────────  RIGHT : showcase (desktop only)  ─────────────────────── */}
+      <aside
+        aria-hidden
+        className="relative hidden overflow-hidden bg-[#0B0F19] lg:flex lg:flex-col lg:items-center lg:justify-center"
+      >
+        {/* Ambient radial orbs */}
+        <div
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(ellipse 60% 50% at 20% 15%, rgba(236,72,153,0.30), transparent 60%), radial-gradient(ellipse 60% 50% at 85% 85%, rgba(255,138,0,0.22), transparent 60%), radial-gradient(ellipse 80% 50% at 50% 50%, rgba(31,190,175,0.10), transparent 70%)",
+          }}
+        />
+
+        {/* Mosaic of 4 office photos */}
+        <div className="pointer-events-none absolute inset-0 opacity-[0.18]">
+          <div className="grid h-full grid-cols-2 grid-rows-2 gap-2 p-4">
+            {["dakar", "abidjan", "lagos", "casablanca"].map((city) => (
+              <div key={city} className="relative overflow-hidden rounded-3xl">
+                <Image
+                  src={`/offices/${city}.png`}
+                  alt=""
+                  fill
+                  sizes="(min-width:1280px) 30vw, 45vw"
+                  className="object-cover"
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Subtle bottom-to-top fade for content readability */}
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#0B0F19]/45 via-[#0B0F19]/85 to-[#0B0F19]/96" />
+
+        {/* Back-to-home top-right */}
+        <Link
+          href="/"
+          className="absolute right-6 top-6 z-20 inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/5 px-3 py-1.5 text-[11px] font-semibold text-white/80 backdrop-blur-md transition-colors hover:bg-white/10 hover:text-white"
+        >
+          <ArrowLeft className="h-3 w-3" />
+          Back to home
+        </Link>
+
+        {/* Centered content */}
+        <div className="relative z-10 mx-auto max-w-md px-8 py-12 text-center text-white">
+          <div className="inline-flex items-center gap-1.5 rounded-full border border-[#EC4899]/40 bg-[#EC4899]/15 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-[#EC4899] backdrop-blur-md">
+            <Sparkles className="h-3 w-3" />
+            #1 AI Revenue OS for African creators
+          </div>
+
+          <blockquote className="mt-8 text-balance font-display text-2xl font-semibold leading-snug tracking-tight xl:text-[28px]">
+            «&nbsp;CreaFix a détecté un shadowban Facebook que je n&apos;avais pas vu. En 9 jours
+            ma page était réactivée avec un plan concret.&nbsp;»
+          </blockquote>
+
+          <figcaption className="mt-6 flex items-center justify-center gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-[#EC4899] to-[#FF8A00] text-xs font-bold text-white shadow-lg shadow-[#EC4899]/30">
+              IS
+            </div>
+            <div className="text-left">
+              <div className="text-sm font-semibold">Ibrahim Sow</div>
+              <div className="text-[11px] text-white/60">
+                Page Facebook actualité · 🇸🇳 Dakar
+              </div>
+            </div>
+          </figcaption>
+
+          {/* Rating */}
+          <div className="mt-8 flex items-center justify-center gap-2 text-[12px] text-white/80">
+            <div className="flex items-center gap-0.5">
+              {[1, 2, 3, 4, 5].map((i) => (
+                <svg key={i} className="h-4 w-4 fill-amber-400 text-amber-400" viewBox="0 0 20 20">
+                  <path d="M10 1l2.6 6h6.4l-5 4.5 1.9 6.5L10 14l-5.9 4 1.9-6.5-5-4.5h6.4z" />
+                </svg>
+              ))}
+            </div>
+            <span className="font-semibold text-white">4.9/5</span>
+            <span className="text-white/40">·</span>
+            <span className="text-white/70">noté par les créateurs africains</span>
+          </div>
+
+          {/* Country flags strip */}
+          <div className="mt-8 flex items-center justify-center gap-2 text-2xl">
+            <span title="Sénégal">🇸🇳</span>
+            <span title="Côte d&apos;Ivoire">🇨🇮</span>
+            <span title="Nigéria">🇳🇬</span>
+            <span title="Ghana">🇬🇭</span>
+            <span title="Cameroun">🇨🇲</span>
+            <span title="Maroc">🇲🇦</span>
+            <span title="Kenya">🇰🇪</span>
+            <span title="Afrique du Sud">🇿🇦</span>
+            <span title="Égypte">🇪🇬</span>
+          </div>
+          <div className="mt-2 text-[11px] uppercase tracking-wider text-white/50">
+            9 pays · 5 langues · 1 monnaie : tes revenus
+          </div>
+        </div>
+      </aside>
     </div>
   );
 }

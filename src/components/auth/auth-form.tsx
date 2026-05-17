@@ -4,9 +4,8 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { toast } from "sonner";
-import { Loader2, Eye, EyeOff, Mail, Lock, Wand2 } from "lucide-react";
+import { Loader2, Eye, EyeOff, Mail, Lock, Wand2, ArrowRight } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { OAuthButtons } from "@/components/auth/oauth-buttons";
 
@@ -76,39 +75,51 @@ export function AuthForm({ mode }: { mode: Mode }) {
     }
   }
 
+  const isLogin = mode === "login";
+
   return (
-    <div className="space-y-5">
-      {/* Title */}
-      <div className="space-y-1.5">
-        <h1 className="font-display text-2xl font-bold tracking-tight md:text-3xl">
-          {mode === "login" ? "Bon retour 👋" : "Créer ton compte"}
+    <div className="space-y-7">
+      {/* ── Big gradient title ─────────────────────────────────────────── */}
+      <div className="space-y-3 text-center">
+        <h1 className="font-display text-[44px] font-bold leading-[1.05] tracking-tight md:text-[56px]">
+          <span
+            className="bg-clip-text text-transparent"
+            style={{
+              backgroundImage:
+                "linear-gradient(120deg, #EC4899 0%, #FF8A00 55%, #1FBEAF 100%)",
+            }}
+          >
+            {isLogin ? "Login" : "Sign up"}
+          </span>
         </h1>
-        <p className="text-sm text-muted-foreground">
-          {mode === "login"
-            ? "Connecte-toi à ton dashboard CreaFix AI."
-            : "Lance ton premier audit IA en 60 secondes. Sans carte bancaire."}
+        <p className="text-balance text-[15px] text-muted-foreground md:text-base">
+          {isLogin
+            ? "to the future of African creator monetization."
+            : "today to get 3 free AI audits — no credit card needed."}
         </p>
       </div>
 
-      {/* OAuth row */}
+      {/* ── OAuth flat stack ───────────────────────────────────────────── */}
       <OAuthButtons mode={mode} layout="row" />
 
-      {/* Divider */}
+      {/* ── Divider ────────────────────────────────────────────────────── */}
       <div className="relative">
         <div className="absolute inset-0 flex items-center">
-          <div className="w-full border-t border-border" />
+          <div className="w-full border-t border-border/70" />
         </div>
-        <div className="relative flex justify-center text-[10px] uppercase tracking-wider">
-          <span className="bg-background px-2 text-muted-foreground">ou par email</span>
+        <div className="relative flex justify-center text-[10px] uppercase tracking-[0.18em]">
+          <span className="bg-[#FAF7F5] px-3 text-muted-foreground dark:bg-background">
+            or {isLogin ? "login" : "sign up"} with email
+          </span>
         </div>
       </div>
 
-      {/* Email form */}
+      {/* ── Email form ─────────────────────────────────────────────────── */}
       <form onSubmit={handleSubmit} className="space-y-3">
         <Field
           icon={Mail}
           type="email"
-          placeholder="ton@email.com"
+          placeholder="your@email.com"
           value={email}
           onChange={setEmail}
           disabled={loading}
@@ -120,12 +131,12 @@ export function AuthForm({ mode }: { mode: Mode }) {
             <Field
               icon={Lock}
               type={showPwd ? "text" : "password"}
-              placeholder={mode === "signup" ? "Mot de passe (min. 6 caractères)" : "Mot de passe"}
+              placeholder={isLogin ? "Mot de passe" : "Mot de passe (min. 6 caractères)"}
               value={password}
               onChange={setPassword}
               disabled={loading}
               minLength={6}
-              autoComplete={mode === "signup" ? "new-password" : "current-password"}
+              autoComplete={isLogin ? "current-password" : "new-password"}
             />
             <button
               type="button"
@@ -139,68 +150,78 @@ export function AuthForm({ mode }: { mode: Mode }) {
           </div>
         )}
 
-        <Button
+        <button
           type="submit"
-          variant="brand"
-          className="h-11 w-full"
           disabled={submitDisabled}
+          className="group relative flex h-12 w-full items-center justify-center gap-2 overflow-hidden rounded-full text-[15px] font-semibold text-white shadow-lg shadow-[#EC4899]/25 transition-all hover:shadow-xl hover:shadow-[#EC4899]/40 disabled:cursor-not-allowed disabled:opacity-60"
+          style={{
+            background: "linear-gradient(120deg, #EC4899 0%, #FF8A00 100%)",
+          }}
         >
-          {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
-          {magicLink
-            ? mode === "signup" ? "M'envoyer un lien magique" : "Recevoir le lien de connexion"
-            : mode === "signup" ? "Créer mon compte" : "Se connecter"}
-        </Button>
+          {loading ? (
+            <Loader2 className="h-4 w-4 animate-spin" />
+          ) : (
+            <>
+              <span>
+                {magicLink
+                  ? isLogin ? "Recevoir mon lien" : "M'envoyer un lien magique"
+                  : isLogin ? "Login" : "Create my account"}
+              </span>
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+            </>
+          )}
+        </button>
 
         <div className="flex items-center justify-between pt-1 text-xs text-muted-foreground">
           <button
             type="button"
             onClick={() => setMagicLink((v) => !v)}
-            className="inline-flex items-center gap-1 text-violet-300 hover:underline"
+            className="inline-flex items-center gap-1 font-semibold text-[#EC4899] hover:underline"
           >
             <Wand2 className="h-3 w-3" />
-            {magicLink ? "Utiliser un mot de passe" : "Lien magique sans mot de passe"}
+            {magicLink ? "Use a password" : "Magic link (no password)"}
           </button>
-          {mode === "login" && !magicLink && (
-            <Link href="/forgot-password" className="hover:text-foreground">
-              Mot de passe oublié ?
+          {isLogin && !magicLink && (
+            <Link href="/forgot-password" className="font-semibold hover:text-foreground">
+              Forgot password?
             </Link>
           )}
         </div>
       </form>
 
-      {/* Footer links */}
-      <div className="space-y-3 border-t border-border/60 pt-4 text-center">
+      {/* ── Footer links ────────────────────────────────────────────────── */}
+      <div className="space-y-3 pt-2 text-center">
         <p className="text-sm text-muted-foreground">
-          {mode === "login" ? (
+          {isLogin ? (
             <>
-              Pas encore de compte ?{" "}
-              <Link href="/signup" className="text-violet-300 hover:underline">
-                Créer un compte gratuit
+              Don&apos;t have an account?{" "}
+              <Link href="/signup" className="font-semibold text-[#EC4899] hover:underline">
+                Sign up free
               </Link>
             </>
           ) : (
             <>
-              Déjà inscrit ?{" "}
-              <Link href="/login" className="text-violet-300 hover:underline">
-                Se connecter
+              Already have an account?{" "}
+              <Link href="/login" className="font-semibold text-[#EC4899] hover:underline">
+                Log in
               </Link>
             </>
           )}
         </p>
 
         <p className="text-[11px] text-muted-foreground/70">
-          Tu es administrateur ?{" "}
-          <Link href="/login/admin" className="text-rose-400 hover:underline">
-            Accès Admin Panel →
+          Administrator?{" "}
+          <Link href="/login/admin" className="font-semibold text-rose-500 hover:underline">
+            Admin Panel →
           </Link>
         </p>
 
-        {mode === "signup" && (
-          <p className="text-[10px] text-muted-foreground/70">
-            En créant un compte, tu acceptes nos{" "}
-            <Link href="/legal/terms" className="hover:text-foreground">CGU</Link>
-            {" "}et notre{" "}
-            <Link href="/legal/privacy" className="hover:text-foreground">politique de confidentialité</Link>.
+        {!isLogin && (
+          <p className="px-4 text-[10px] leading-relaxed text-muted-foreground/70">
+            By creating an account, you agree to our{" "}
+            <Link href="/legal/terms" className="underline hover:text-foreground">Terms</Link>
+            {" "}and{" "}
+            <Link href="/legal/privacy" className="underline hover:text-foreground">Privacy Policy</Link>.
           </p>
         )}
       </div>
@@ -209,7 +230,7 @@ export function AuthForm({ mode }: { mode: Mode }) {
 }
 
 /* ──────────────────────────────────────────────────────────────────
- * Champ avec icône à gauche
+ * Field with left icon
  * ────────────────────────────────────────────────────────────────── */
 function Field({
   icon: Icon,
@@ -232,7 +253,7 @@ function Field({
 }) {
   return (
     <div className="relative">
-      <Icon className="pointer-events-none absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" />
+      <Icon className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
       <Input
         type={type}
         placeholder={placeholder}
@@ -242,7 +263,7 @@ function Field({
         disabled={disabled}
         minLength={minLength}
         autoComplete={autoComplete}
-        className="h-11 pl-9 pr-10"
+        className="h-12 rounded-full border-border/80 bg-white pl-11 pr-10 text-[14px] shadow-sm focus-visible:border-[#EC4899]/40 focus-visible:ring-[#EC4899]/20 dark:bg-card/40"
       />
     </div>
   );
