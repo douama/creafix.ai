@@ -23,7 +23,7 @@ type KeyDef = {
 };
 
 type ProviderWithKeys = {
-  id: "STRIPE" | "PAYPAL" | "CINETPAY" | "FLUTTERWAVE";
+  id: "STRIPE" | "PAYPAL" | "CINETPAY" | "FLUTTERWAVE" | "PAYDUNYA";
   label: string;
   description: string;
   enabled: boolean;

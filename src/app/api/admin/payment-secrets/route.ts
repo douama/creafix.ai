@@ -2,8 +2,8 @@ import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { invalidateSecretCache, getAllKeyNames } from "@/lib/payments/secrets";
 
-type ProviderId = "STRIPE" | "PAYPAL" | "CINETPAY" | "FLUTTERWAVE";
-const VALID_PROVIDERS: ProviderId[] = ["STRIPE", "PAYPAL", "CINETPAY", "FLUTTERWAVE"];
+type ProviderId = "STRIPE" | "PAYPAL" | "CINETPAY" | "FLUTTERWAVE" | "PAYDUNYA";
+const VALID_PROVIDERS: ProviderId[] = ["STRIPE", "PAYPAL", "CINETPAY", "FLUTTERWAVE", "PAYDUNYA"];
 
 /**
  * POST /api/admin/payment-secrets
@@ -56,7 +56,7 @@ export async function POST(request: Request) {
   }
 
   // Invalide le cache server-side pour forcer re-fetch sur prochain checkout
-  invalidateSecretCache(body.provider as "STRIPE" | "PAYPAL" | "CINETPAY" | "FLUTTERWAVE", body.key_name);
+  invalidateSecretCache(body.provider as ProviderId, body.key_name);
 
   return NextResponse.json({ ok: true });
 }
@@ -88,6 +88,6 @@ export async function DELETE(request: Request) {
     return NextResponse.json({ error: msg }, { status: msg.includes("SUPER_ADMIN") ? 403 : 500 });
   }
 
-  invalidateSecretCache(provider as "STRIPE" | "PAYPAL" | "CINETPAY" | "FLUTTERWAVE", keyName);
+  invalidateSecretCache(provider as ProviderId, keyName);
   return NextResponse.json({ ok: true });
 }

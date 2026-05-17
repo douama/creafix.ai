@@ -27,12 +27,13 @@ type Plan = {
   credits_included: number;
 };
 
-/** Conversion approximative USD → devise locale (utilisée pour CinetPay + Flutterwave). */
+/** Conversion approximative USD → devise locale (utilisée pour CinetPay, Flutterwave, PayDunya). */
 const CURRENCY_MAP: Record<PaymentProviderId, { currency: string; usdRate: number; mobileMoneyHint?: boolean }> = {
   STRIPE:       { currency: "USD", usdRate: 1 },
   PAYPAL:       { currency: "USD", usdRate: 1 },
   CINETPAY:     { currency: "XOF", usdRate: 600, mobileMoneyHint: true }, // arrondi multiple de 5
   FLUTTERWAVE:  { currency: "NGN", usdRate: 1500, mobileMoneyHint: true },
+  PAYDUNYA:     { currency: "XOF", usdRate: 600, mobileMoneyHint: true },
 };
 
 const PROVIDER_META: Record<PaymentProviderId, { icon: React.ComponentType<{ className?: string; style?: React.CSSProperties }>; tagline: string }> = {
@@ -40,6 +41,7 @@ const PROVIDER_META: Record<PaymentProviderId, { icon: React.ComponentType<{ cla
   PAYPAL:      { icon: Globe2,     tagline: "Compte PayPal ou carte" },
   CINETPAY:    { icon: Smartphone, tagline: "Orange Money · MTN · Moov · Wave" },
   FLUTTERWAVE: { icon: Smartphone, tagline: "M-Pesa · MTN · USSD · Banque" },
+  PAYDUNYA:    { icon: Smartphone, tagline: "Wave · Orange · Free · MTN · Moov" },
 };
 
 export function CheckoutForm({
