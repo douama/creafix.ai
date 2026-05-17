@@ -38,7 +38,18 @@ async function loadConfig(): Promise<{ mode: Mode; base: string; headers: Header
   ]);
   if (!master || !privateKey || !token) return null;
 
-  const mode: Mode = modeRaw === "test" ? "test" : "live";
+  // 1. Si PAYDUNYA_MODE est exactement "live" ou "test" → on respecte le choix user
+  // 2. Sinon (vide / valeur invalide) → on auto-détecte depuis le préfixe de la Private Key
+  //    (PayDunya formate ses clés `live_private_…` ou `test_private_…`)
+  let mode: Mode;
+  if (modeRaw === "live" || modeRaw === "test") {
+    mode = modeRaw;
+  } else if (privateKey.startsWith("test_")) {
+    mode = "test";
+  } else {
+    mode = "live";
+  }
+
   return {
     mode,
     base: BASES[mode],
