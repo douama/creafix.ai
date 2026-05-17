@@ -1,21 +1,37 @@
 /**
  * PayPal REST API client — pas de SDK requis.
  * Doc : https://developer.paypal.com/docs/api/overview/
+ *
+ * Endpoint base (live vs sandbox) lu dynamiquement depuis le Vault DB via
+ * PAYPAL_ENV ("live" ou "sandbox"). Défaut : "live" si non configuré.
+ * Fallback : process.env.PAYPAL_ENV (legacy).
  */
 
 import { getSecret } from "./secrets";
 
-const PAYPAL_BASE = process.env.PAYPAL_ENV === "live"
-  ? "https://api-m.paypal.com"
-  : "https://api-m.sandbox.paypal.com";
+const ENDPOINTS = {
+  live:    "https://api-m.paypal.com",
+  sandbox: "https://api-m.sandbox.paypal.com",
+} as const;
+
+type Env = keyof typeof ENDPOINTS;
+
+async function getBaseUrl(): Promise<string> {
+  const fromVault = await getSecret("PAYPAL", "PAYPAL_ENV");
+  const fromEnv = process.env.PAYPAL_ENV;
+  const raw = (fromVault ?? fromEnv ?? "").toLowerCase();
+  const env: Env = raw === "sandbox" ? "sandbox" : "live";
+  return ENDPOINTS[env];
+}
 
 async function getAccessToken(): Promise<string> {
   const id = await getSecret("PAYPAL", "PAYPAL_CLIENT_ID");
   const secret = await getSecret("PAYPAL", "PAYPAL_CLIENT_SECRET");
   if (!id || !secret) throw new Error("PAYPAL_CLIENT_ID / PAYPAL_CLIENT_SECRET manquantes");
 
+  const base = await getBaseUrl();
   const auth = Buffer.from(`${id}:${secret}`).toString("base64");
-  const res = await fetch(`${PAYPAL_BASE}/v1/oauth2/token`, {
+  const res = await fetch(`${base}/v1/oauth2/token`, {
     method: "POST",
     headers: {
       "Authorization": `Basic ${auth}`,
@@ -23,7 +39,14 @@ async function getAccessToken(): Promise<string> {
     },
     body: "grant_type=client_credentials",
   });
-  if (!res.ok) throw new Error(`PayPal auth failed: ${res.status}`);
+  if (!res.ok) {
+    const env = base.includes("sandbox") ? "sandbox" : "live";
+    throw new Error(
+      `PayPal auth failed: ${res.status} sur endpoint ${env}. ` +
+      `Vérifie que tes clés Client ID + Client Secret sont du même environnement ` +
+      `(${env}) que PAYPAL_ENV dans /admin/payments-config.`,
+    );
+  }
   const { access_token } = await res.json();
   return access_token;
 }
@@ -42,8 +65,9 @@ export async function createOrder(args: {
   successUrl: string;
   cancelUrl: string;
 }): Promise<PaypalOrder> {
+  const base = await getBaseUrl();
   const token = await getAccessToken();
-  const res = await fetch(`${PAYPAL_BASE}/v2/checkout/orders`, {
+  const res = await fetch(`${base}/v2/checkout/orders`, {
     method: "POST",
     headers: { "Authorization": `Bearer ${token}`, "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -66,8 +90,9 @@ export async function createOrder(args: {
 }
 
 export async function captureOrder(orderId: string) {
+  const base = await getBaseUrl();
   const token = await getAccessToken();
-  const res = await fetch(`${PAYPAL_BASE}/v2/checkout/orders/${orderId}/capture`, {
+  const res = await fetch(`${base}/v2/checkout/orders/${orderId}/capture`, {
     method: "POST",
     headers: { "Authorization": `Bearer ${token}`, "Content-Type": "application/json" },
   });
@@ -78,8 +103,9 @@ export async function captureOrder(orderId: string) {
 export async function verifyWebhook(headers: Headers, rawBody: string): Promise<boolean> {
   const webhookId = await getSecret("PAYPAL", "PAYPAL_WEBHOOK_ID");
   if (!webhookId) return false;
+  const base = await getBaseUrl();
   const token = await getAccessToken();
-  const res = await fetch(`${PAYPAL_BASE}/v1/notifications/verify-webhook-signature`, {
+  const res = await fetch(`${base}/v1/notifications/verify-webhook-signature`, {
     method: "POST",
     headers: { "Authorization": `Bearer ${token}`, "Content-Type": "application/json" },
     body: JSON.stringify({

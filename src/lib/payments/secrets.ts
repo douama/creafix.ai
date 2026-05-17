@@ -89,6 +89,7 @@ const KEYS: Record<ProviderId, KeyDef[]> = {
     { name: "PAYPAL_CLIENT_ID",       label: "Client ID",       required: true,  format: "AeA1QIZ… (~80 chars)", hint: "developer.paypal.com → Dashboard → app → API credentials" },
     { name: "PAYPAL_CLIENT_SECRET",   label: "Client Secret",   required: true,  format: "EGnHDxD… (~80 chars)", hint: "Même endroit (live ou sandbox séparés)" },
     { name: "PAYPAL_WEBHOOK_ID",      label: "Webhook ID",      required: false, format: "8PT597… (13 chars)",   hint: "Dashboard → app → Webhooks → ID du webhook. Requis pour vérifier les paiements." },
+    { name: "PAYPAL_ENV",             label: "Environnement (live | sandbox)", required: false, format: "live | sandbox", hint: "Choisis l'endpoint PayPal selon le type de clés. Défaut 'live' si vide. Utilise 'sandbox' pour les tests." },
   ],
   CINETPAY: [
     { name: "CINETPAY_API_KEY",       label: "API Key",         required: true,  format: "~64 chars alphanumériques", hint: "app.cinetpay.com → Intégrations → Vos clés API" },

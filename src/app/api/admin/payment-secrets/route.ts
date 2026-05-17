@@ -29,14 +29,20 @@ export async function POST(request: Request) {
       { status: 400 },
     );
   }
-  // PAYDUNYA_MODE est un toggle "live"/"test" (4 chars) — exempt de la règle min-8.
-  // Les autres champs sont des secrets API → min 8 chars pour bloquer les typos.
-  const isModeToggle = body.key_name === "PAYDUNYA_MODE";
-  if (!isModeToggle && body.value.length < 8) {
+  // Les toggles d'environnement sont des chaînes courtes (4-7 chars), exempt de la règle min-8.
+  // PAYDUNYA_MODE accepte "live" | "test", PAYPAL_ENV accepte "live" | "sandbox".
+  const isPaydunyaMode = body.key_name === "PAYDUNYA_MODE";
+  const isPaypalEnv = body.key_name === "PAYPAL_ENV";
+  const isEnvToggle = isPaydunyaMode || isPaypalEnv;
+
+  if (!isEnvToggle && body.value.length < 8) {
     return NextResponse.json({ error: "Clé trop courte (min 8 caractères)" }, { status: 400 });
   }
-  if (isModeToggle && body.value !== "live" && body.value !== "test") {
+  if (isPaydunyaMode && body.value !== "live" && body.value !== "test") {
     return NextResponse.json({ error: "PAYDUNYA_MODE doit être exactement 'live' ou 'test'" }, { status: 400 });
+  }
+  if (isPaypalEnv && body.value !== "live" && body.value !== "sandbox") {
+    return NextResponse.json({ error: "PAYPAL_ENV doit être exactement 'live' ou 'sandbox'" }, { status: 400 });
   }
 
   // Auth utilisateur (la RPC re-vérifie SUPER_ADMIN strict côté DB)
