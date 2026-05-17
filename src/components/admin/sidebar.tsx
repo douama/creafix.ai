@@ -25,6 +25,7 @@ import {
   Settings,
   Sparkles,
   MessageSquare,
+  Wifi,
 } from "lucide-react";
 import { Logo } from "@/components/brand/logo";
 import { cn } from "@/lib/utils";
@@ -53,6 +54,7 @@ const NAV: { title: string; items: NavItem[] }[] = [
       { href: "/admin/viral-engine", label: "Viral Engine", icon: Flame },
       { href: "/admin/revenue-engine", label: "Revenue Engine", icon: DollarSign },
       { href: "/admin/trends", label: "African Trends", icon: MapPin },
+      { href: "/admin/platform-apis", label: "Platform APIs", icon: Wifi },
     ],
   },
   {

@@ -49,11 +49,35 @@ export default async function CheckoutPage({
 
   const admin = supabaseAdmin();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const { data: plan } = await (admin.from("plans_config") as any)
+  let { data: plan } = await (admin.from("plans_config") as any)
     .select("id, slug, name, description, price_monthly_usd, price_yearly_usd, features, credits_included, active")
     .eq("slug", slug)
     .eq("active", true)
     .single();
+
+  // Static fallback for ENTERPRISE — works even before migration 0005 is applied.
+  if (!plan && slug === "ENTERPRISE") {
+    plan = {
+      id: "enterprise-static",
+      slug: "ENTERPRISE",
+      name: "Enterprise",
+      description: "Pour les groupes médias, TV, radios et plateformes africaines.",
+      price_monthly_usd: 199,
+      price_yearly_usd: 1990,
+      features: [
+        "Créateurs, médias & pages illimités",
+        "Dashboard multi-marques centralisé",
+        "API & Webhooks haute disponibilité",
+        "SLA 99,9% garanti + support 24/7",
+        "Modèles IA entraînés sur vos données",
+        "Intégrations CRM, ERP et outils tiers",
+        "Rapports exécutifs & analytics avancés",
+        "Manager de succès dédié",
+      ],
+      credits_included: 999999,
+      active: true,
+    } satisfies PlanRow;
+  }
 
   if (!plan) {
     return (

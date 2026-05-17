@@ -41,6 +41,9 @@ export const ADMIN_ROUTE_ACCESS: Record<string, AdminRole[]> = {
   "/admin/support":        ["SUPER_ADMIN", "ADMIN", "SUPPORT"],
   "/admin/notifications":  ["SUPER_ADMIN", "ADMIN"],
 
+  // ── Platform APIs (African Trend Scanner) — SUPER_ADMIN strict
+  "/admin/platform-apis":  ["SUPER_ADMIN"],
+
   // ── Stricte : Security + Settings uniquement SUPER_ADMIN
   "/admin/security":       ["SUPER_ADMIN", "ADMIN"],
   "/admin/settings":       ["SUPER_ADMIN"],
