@@ -187,3 +187,154 @@ export async function isConfigured(): Promise<boolean> {
   const cfg = await loadConfig();
   return cfg !== null;
 }
+
+/* ──────────────────────────────────────────────────────────────────
+ * SOFTPAY — paiement direct mobile money (sans redirect hosted page)
+ * Doc : https://paydunya.com/developers#paiement-sur-place-softpay
+ *
+ * Chaque wallet a son endpoint dédié sous /api/v1/softpay/{slug}.
+ * Phone format : sans + ni espaces (ex: "770000000" pour le Sénégal).
+ * ────────────────────────────────────────────────────────────────── */
+
+export type WalletId =
+  | "WAVE_SN"
+  | "ORANGE_SN"
+  | "FREE_SN"
+  | "EXPRESSO_SN"
+  | "ORANGE_CI"
+  | "MTN_CI"
+  | "MOOV_CI";
+
+const WALLET_SLUGS: Record<WalletId, string> = {
+  WAVE_SN:     "wave-senegal",
+  ORANGE_SN:   "orange-money-senegal",
+  FREE_SN:     "free-money-senegal",
+  EXPRESSO_SN: "expresso-senegal",
+  ORANGE_CI:   "orange-money-ci",
+  MTN_CI:      "mtn-ci",
+  MOOV_CI:     "moov-ci",
+};
+
+export type SoftpayInput = {
+  wallet: WalletId;
+  token: string;          // invoice token from createInvoice()
+  customerName: string;
+  customerEmail: string;
+  phone: string;          // format local sans + (ex: "770000000")
+  otp?: string;           // requis pour Orange Money / Free Money / MTN / Moov
+};
+
+export type SoftpayResult =
+  | { ok: true; message: string; redirectUrl?: string }
+  | { ok: false; error: string };
+
+/**
+ * Charge un wallet mobile money via PayDunya softpay.
+ * - Wave : redirect vers wave.com (URL retournée dans `redirectUrl`)
+ * - Orange/Free/MTN/Moov : prompt USSD sur le téléphone → status devient "completed"
+ */
+export async function softpay(input: SoftpayInput): Promise<SoftpayResult> {
+  const cfg = await loadConfig();
+  if (!cfg) return { ok: false, error: "PayDunya non configuré" };
+
+  const slug = WALLET_SLUGS[input.wallet];
+  if (!slug) return { ok: false, error: `Wallet inconnu : ${input.wallet}` };
+
+  // Chaque endpoint a un body unique (préfixé par le nom du wallet).
+  // Voir https://paydunya.com/developers#paiement-sur-place-softpay
+  let body: Record<string, string>;
+  switch (input.wallet) {
+    case "WAVE_SN":
+      body = {
+        wave_senegal_fullName: input.customerName,
+        wave_senegal_email: input.customerEmail,
+        wave_senegal_phone: input.phone,
+        wave_senegal_payment_token: input.token,
+      };
+      break;
+    case "ORANGE_SN":
+      body = {
+        customer_name: input.customerName,
+        customer_email: input.customerEmail,
+        phone_number: input.phone,
+        authorization_code: input.otp ?? "",
+        invoice_token: input.token,
+      };
+      break;
+    case "FREE_SN":
+      body = {
+        customer_name: input.customerName,
+        customer_email: input.customerEmail,
+        phone_number: input.phone,
+        payment_token: input.token,
+      };
+      break;
+    case "EXPRESSO_SN":
+      body = {
+        expresso_sn_full_name: input.customerName,
+        expresso_sn_email: input.customerEmail,
+        expresso_sn_phone: input.phone,
+        payment_token: input.token,
+      };
+      break;
+    case "ORANGE_CI":
+      body = {
+        orange_money_ci_customer_fullname: input.customerName,
+        orange_money_ci_email: input.customerEmail,
+        orange_money_ci_phone_number: input.phone,
+        orange_money_ci_otp: input.otp ?? "",
+        payment_token: input.token,
+      };
+      break;
+    case "MTN_CI":
+      body = {
+        mtn_ci_customer_fullname: input.customerName,
+        mtn_ci_email: input.customerEmail,
+        mtn_ci_phone_number: input.phone,
+        payment_token: input.token,
+      };
+      break;
+    case "MOOV_CI":
+      body = {
+        moov_ci_customer_fullname: input.customerName,
+        moov_ci_email: input.customerEmail,
+        moov_ci_phone_number: input.phone,
+        payment_token: input.token,
+      };
+      break;
+  }
+
+  try {
+    const res = await fetch(`${cfg.base}/softpay/${slug}`, {
+      method: "POST",
+      headers: cfg.headers,
+      body: JSON.stringify(body),
+    });
+    const data = (await res.json()) as {
+      success?: boolean;
+      message?: string;
+      url?: string;
+      response_text?: string;
+    };
+    if (data.success === false) {
+      return { ok: false, error: data.message ?? data.response_text ?? "Échec softpay" };
+    }
+    return {
+      ok: true,
+      message: data.message ?? "Demande envoyée — confirme sur ton téléphone",
+      redirectUrl: data.url, // Wave only : URL deep-link à ouvrir
+    };
+  } catch (e) {
+    return { ok: false, error: (e as Error).message };
+  }
+}
+
+/** Wallets disponibles selon le préfixe du numéro de téléphone. */
+export function walletsForPhone(phone: string): WalletId[] {
+  const trimmed = phone.replace(/[\s+]/g, "");
+  if (trimmed.startsWith("221")) return ["WAVE_SN", "ORANGE_SN", "FREE_SN", "EXPRESSO_SN"];
+  if (trimmed.startsWith("225")) return ["ORANGE_CI", "MTN_CI", "MOOV_CI"];
+  // Par défaut on propose les wallets SN les plus communs
+  return ["WAVE_SN", "ORANGE_SN", "FREE_SN", "EXPRESSO_SN"];
+}
+

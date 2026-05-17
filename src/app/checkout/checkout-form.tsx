@@ -6,6 +6,7 @@ import { Lock, CreditCard, Smartphone, Globe2, Loader2, ArrowRight } from "lucid
 import type { PaymentProviderId } from "@/lib/payments/providers";
 import { StripePaymentModal } from "./stripe-payment-modal";
 import { PaypalPaymentModal } from "./paypal-payment-modal";
+import { PaydunyaPaymentModal } from "./paydunya-payment-modal";
 
 type Provider = {
   id: PaymentProviderId;
@@ -78,6 +79,17 @@ export function CheckoutForm({
     amount: number;
   } | null>(null);
 
+  // ── Modal PayDunya (sélecteur wallets mobile money) ──
+  const [paydunyaModal, setPaydunyaModal] = useState<{
+    token: string;
+    paymentId: string;
+    customerName: string;
+    customerEmail: string;
+    phone: string;
+    amount: number;
+    currency: string;
+  } | null>(null);
+
   // Affiche seulement les providers actifs (clés API configurées dans Vault)
   const activeProviders = providers.filter((p) => p.enabled);
 
@@ -147,6 +159,32 @@ export function CheckoutForm({
             currency: j.currency,
             env: j.env,
             amount: convertedAmount,
+          });
+          return;
+        }
+
+        // ── PayDunya : flow softpay (sélecteur wallets dans modal) ──
+        if (selected === "PAYDUNYA") {
+          const res = await fetch("/api/checkout/paydunya/intent", {
+            method: "POST",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify({
+              amount: convertedAmount,
+              description,
+              planId: plan.id,
+              customerPhone: phone,
+            }),
+          });
+          const j = await res.json();
+          if (!res.ok) throw new Error(j.error ?? `HTTP ${res.status}`);
+          setPaydunyaModal({
+            token: j.token,
+            paymentId: j.paymentId,
+            customerName: j.customerName,
+            customerEmail: j.customerEmail,
+            phone,
+            amount: convertedAmount,
+            currency: cfg.currency,
           });
           return;
         }
@@ -330,6 +368,22 @@ export function CheckoutForm({
           currency={paypalModal.currency}
           env={paypalModal.env}
           amount={paypalModal.amount}
+          returnUrl={`${typeof window !== "undefined" ? window.location.origin : ""}/dashboard/billing`}
+        />
+      )}
+
+      {/* Modal PayDunya (sélecteur wallets mobile money) */}
+      {paydunyaModal && (
+        <PaydunyaPaymentModal
+          open={true}
+          onClose={() => setPaydunyaModal(null)}
+          token={paydunyaModal.token}
+          paymentId={paydunyaModal.paymentId}
+          customerName={paydunyaModal.customerName}
+          customerEmail={paydunyaModal.customerEmail}
+          phone={paydunyaModal.phone}
+          amount={paydunyaModal.amount}
+          currency={paydunyaModal.currency}
           returnUrl={`${typeof window !== "undefined" ? window.location.origin : ""}/dashboard/billing`}
         />
       )}
