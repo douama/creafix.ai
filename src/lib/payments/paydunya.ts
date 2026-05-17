@@ -30,25 +30,22 @@ type Headers = {
 };
 
 async function loadConfig(): Promise<{ mode: Mode; base: string; headers: Headers } | null> {
-  const [master, privateKey, token, modeRaw] = await Promise.all([
-    getSecret("PAYDUNYA", "PAYDUNYA_MASTER_KEY"),
-    getSecret("PAYDUNYA", "PAYDUNYA_PRIVATE_KEY"),
-    getSecret("PAYDUNYA", "PAYDUNYA_TOKEN"),
-    getSecret("PAYDUNYA", "PAYDUNYA_MODE"),
-  ]);
-  if (!master || !privateKey || !token) return null;
+  const master = await getSecret("PAYDUNYA", "PAYDUNYA_MASTER_KEY");
+  if (!master) return null;
 
-  // 1. Si PAYDUNYA_MODE est exactement "live" ou "test" → on respecte le choix user
-  // 2. Sinon (vide / valeur invalide) → on auto-détecte depuis le préfixe de la Private Key
-  //    (PayDunya formate ses clés `live_private_…` ou `test_private_…`)
-  let mode: Mode;
-  if (modeRaw === "live" || modeRaw === "test") {
-    mode = modeRaw;
-  } else if (privateKey.startsWith("test_")) {
-    mode = "test";
-  } else {
-    mode = "live";
-  }
+  // Toggle MODE explicite ("live"/"test"). Défaut : "live".
+  const modeRaw = await getSecret("PAYDUNYA", "PAYDUNYA_MODE");
+  const mode: Mode = modeRaw === "test" ? "test" : "live";
+
+  // Pioche le trio (Private Key + Token) correspondant au mode actif.
+  // En live : PAYDUNYA_PRIVATE_KEY + PAYDUNYA_TOKEN
+  // En test : PAYDUNYA_PRIVATE_KEY_TEST + PAYDUNYA_TOKEN_TEST
+  const suffix = mode === "test" ? "_TEST" : "";
+  const [privateKey, token] = await Promise.all([
+    getSecret("PAYDUNYA", `PAYDUNYA_PRIVATE_KEY${suffix}`),
+    getSecret("PAYDUNYA", `PAYDUNYA_TOKEN${suffix}`),
+  ]);
+  if (!privateKey || !token) return null;
 
   return {
     mode,

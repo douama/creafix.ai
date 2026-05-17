@@ -102,11 +102,21 @@ const KEYS: Record<ProviderId, KeyDef[]> = {
     { name: "FLUTTERWAVE_ENCRYPTION_KEY", label: "Encryption Key (3DES)", required: false, format: "~24 chars",              hint: "Optionnelle, requise UNIQUEMENT pour les charges directes par carte (pas pour Standard redirect)." },
   ],
   PAYDUNYA: [
-    { name: "PAYDUNYA_MASTER_KEY",  label: "Master Key",  required: true,  format: "alphanumérique ~32 chars", hint: "paydunya.com → Intégrations → API & Plugins → Clés API" },
-    { name: "PAYDUNYA_PUBLIC_KEY",  label: "Public Key",  required: true,  format: "live_public_… / test_public_…", hint: "Même section. Différente entre live et test." },
-    { name: "PAYDUNYA_PRIVATE_KEY", label: "Private Key", required: true,  format: "live_private_… / test_private_…", hint: "Même section. Garde-la secrète." },
-    { name: "PAYDUNYA_TOKEN",       label: "Token",       required: true,  format: "alphanumérique ~24 chars", hint: "Onglet 'Token' dans Intégrations. Différent entre live et test." },
-    { name: "PAYDUNYA_MODE",        label: "Mode (live/test)", required: false, format: "live | test", hint: "Par défaut 'live' si non précisé. Utilise 'test' pendant les tests sandbox." },
+    // ── Clé Principale (partagée entre live et test) ──
+    { name: "PAYDUNYA_MASTER_KEY",       label: "Clé Principale (Master Key)", required: true,  format: "alphanumérique ~32 chars", hint: "paydunya.com → Intégrations → API & Plugins → Clé Principale (en haut). Identique pour Live et Test." },
+
+    // ── Clés API de Production (utilisées si MODE='live') ──
+    { name: "PAYDUNYA_PUBLIC_KEY",       label: "Clé Publique · Production",   required: true,  format: "live_public_…",  hint: "Section 'Clés API de Production' → Clé Publique." },
+    { name: "PAYDUNYA_PRIVATE_KEY",      label: "Clé Privée · Production",     required: true,  format: "live_private_…", hint: "Section 'Clés API de Production' → Clé Privée." },
+    { name: "PAYDUNYA_TOKEN",            label: "Token · Production",          required: true,  format: "alphanumérique ~24 chars", hint: "Section 'Clés API de Production' → Token." },
+
+    // ── Clés API de Test (utilisées si MODE='test'). Optionnelles si tu ne testes pas en sandbox. ──
+    { name: "PAYDUNYA_PUBLIC_KEY_TEST",  label: "Clé Publique · Test",         required: false, format: "test_public_…",  hint: "Section 'Clés API de Test' → Clé Publique. Requise seulement si MODE='test'." },
+    { name: "PAYDUNYA_PRIVATE_KEY_TEST", label: "Clé Privée · Test",           required: false, format: "test_private_…", hint: "Section 'Clés API de Test' → Clé Privée. Requise seulement si MODE='test'." },
+    { name: "PAYDUNYA_TOKEN_TEST",       label: "Token · Test",                required: false, format: "alphanumérique ~24 chars", hint: "Section 'Clés API de Test' → Token. Requis seulement si MODE='test'." },
+
+    // ── Toggle d'environnement ──
+    { name: "PAYDUNYA_MODE",             label: "Mode actif (live | test)",    required: false, format: "live | test", hint: "Choisis quel jeu de clés utiliser. Par défaut 'live' si vide." },
   ],
 };
 

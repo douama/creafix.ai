@@ -58,6 +58,27 @@ export async function POST(request: Request) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       await (sb.from("payments") as any).update({ status: "FAILED" }).eq("id", paymentId);
     }
+  } else if (event.type === "payment_intent.succeeded") {
+    // ── Flow inline Elements (modal carte) ──
+    const intent = event.data.object as Stripe.PaymentIntent;
+    const paymentId = intent.metadata?.payment_id;
+    if (paymentId) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      await (sb.from("payments") as any)
+        .update({
+          status: "SUCCEEDED",
+          paid_at: new Date().toISOString(),
+          external_id: intent.id,
+        })
+        .eq("id", paymentId);
+    }
+  } else if (event.type === "payment_intent.payment_failed" || event.type === "payment_intent.canceled") {
+    const intent = event.data.object as Stripe.PaymentIntent;
+    const paymentId = intent.metadata?.payment_id;
+    if (paymentId) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      await (sb.from("payments") as any).update({ status: "FAILED" }).eq("id", paymentId);
+    }
   }
 
   return NextResponse.json({ received: true });

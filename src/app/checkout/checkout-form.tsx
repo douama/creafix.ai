@@ -2,8 +2,9 @@
 
 import { useState, useTransition } from "react";
 import { toast } from "sonner";
-import { Lock, CreditCard, Smartphone, Globe2, Loader2, ArrowRight, AlertTriangle } from "lucide-react";
+import { Lock, CreditCard, Smartphone, Globe2, Loader2, ArrowRight } from "lucide-react";
 import type { PaymentProviderId } from "@/lib/payments/providers";
+import { StripePaymentModal } from "./stripe-payment-modal";
 
 type Provider = {
   id: PaymentProviderId;
@@ -57,6 +58,18 @@ export function CheckoutForm({
   const [phone, setPhone] = useState("");
   const [pending, startTransition] = useTransition();
 
+  // ── Modal Stripe Elements (carte inline) ──
+  const [stripeModal, setStripeModal] = useState<{
+    clientSecret: string;
+    publishableKey: string;
+    paymentId: string;
+    amount: number;
+    currency: string;
+  } | null>(null);
+
+  // Affiche seulement les providers actifs (clés API configurées dans Vault)
+  const activeProviders = providers.filter((p) => p.enabled);
+
   function startCheckout() {
     if (!selected) return;
     const cfg = CURRENCY_MAP[selected];
@@ -68,14 +81,41 @@ export function CheckoutForm({
     // Conversion USD → currency locale
     let convertedAmount = amount * cfg.usdRate;
     if (cfg.currency === "XOF" || cfg.currency === "XAF") {
-      // Arrondi au multiple de 5 (contrainte CinetPay)
       convertedAmount = Math.ceil(convertedAmount / 5) * 5;
     } else {
       convertedAmount = Math.round(convertedAmount);
     }
 
+    const description = `CreaFix AI · Plan ${plan.name} (${period === "year" ? "annuel" : "mensuel"})`;
+
     startTransition(async () => {
       try {
+        // ── Stripe : flow inline Elements (modal carte) ──
+        if (selected === "STRIPE") {
+          const res = await fetch("/api/checkout/stripe/intent", {
+            method: "POST",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify({
+              amount: convertedAmount,
+              currency: cfg.currency,
+              description,
+              planId: plan.id,
+              customerEmail: userEmail,
+            }),
+          });
+          const j = await res.json();
+          if (!res.ok) throw new Error(j.error ?? `HTTP ${res.status}`);
+          setStripeModal({
+            clientSecret: j.clientSecret,
+            publishableKey: j.publishableKey,
+            paymentId: j.paymentId,
+            amount: convertedAmount,
+            currency: cfg.currency,
+          });
+          return;
+        }
+
+        // ── Autres providers : redirect vers la hosted page ──
         const endpoint = `/api/checkout/${selected.toLowerCase()}`;
         const res = await fetch(endpoint, {
           method: "POST",
@@ -83,16 +123,14 @@ export function CheckoutForm({
           body: JSON.stringify({
             amount: convertedAmount,
             currency: cfg.currency,
-            description: `CreaFix AI · Plan ${plan.name} (${period === "year" ? "annuel" : "mensuel"})`,
+            description,
             planId: plan.id,
             customerEmail: userEmail,
             customerPhone: phone || undefined,
           }),
         });
         const j = await res.json();
-        if (!res.ok) {
-          throw new Error(j.error ?? `HTTP ${res.status}`);
-        }
+        if (!res.ok) throw new Error(j.error ?? `HTTP ${res.status}`);
         if (j.url) {
           window.location.href = j.url;
         } else {
@@ -116,71 +154,70 @@ export function CheckoutForm({
         Paiement 100% sécurisé. Aucune carte stockée chez nous.
       </p>
 
-      {/* Provider grid */}
-      <div className="mt-5 grid gap-2.5 sm:grid-cols-2">
-        {providers.map((p) => {
-          const Icon = PROVIDER_META[p.id].icon;
-          const tagline = PROVIDER_META[p.id].tagline;
-          const cfg = CURRENCY_MAP[p.id];
-          const isActive = selected === p.id;
-          const localAmount = cfg.usdRate === 1
-            ? `$${amount}`
-            : `${Math.ceil((amount * cfg.usdRate) / (cfg.currency === "XOF" || cfg.currency === "XAF" ? 5 : 1)) * (cfg.currency === "XOF" || cfg.currency === "XAF" ? 5 : 1)} ${cfg.currency}`;
+      {/* Provider grid — seulement les providers actifs (clés API configurées) */}
+      {activeProviders.length === 0 ? (
+        <div className="mt-5 rounded-xl border border-dashed border-border bg-background/30 p-6 text-center text-sm text-muted-foreground">
+          Aucun moyen de paiement disponible pour l&apos;instant. Reviens plus tard.
+        </div>
+      ) : (
+        <div className="mt-5 grid gap-2.5 sm:grid-cols-2">
+          {activeProviders.map((p) => {
+            const Icon = PROVIDER_META[p.id].icon;
+            const tagline = PROVIDER_META[p.id].tagline;
+            const cfg = CURRENCY_MAP[p.id];
+            const isActive = selected === p.id;
+            const localAmount = cfg.usdRate === 1
+              ? `$${amount}`
+              : `${Math.ceil((amount * cfg.usdRate) / (cfg.currency === "XOF" || cfg.currency === "XAF" ? 5 : 1)) * (cfg.currency === "XOF" || cfg.currency === "XAF" ? 5 : 1)} ${cfg.currency}`;
 
-          return (
-            <button
-              key={p.id}
-              type="button"
-              onClick={() => p.enabled && setSelected(p.id)}
-              disabled={!p.enabled || pending}
-              className={[
-                "group relative overflow-hidden rounded-xl border bg-background/40 p-4 text-left transition-all",
-                isActive
-                  ? "border-foreground ring-2 ring-foreground/15"
-                  : "border-border hover:border-foreground/30",
-                !p.enabled && "cursor-not-allowed opacity-60",
-              ].join(" ")}
-            >
-              <div
-                aria-hidden
-                className="pointer-events-none absolute -right-6 -top-6 h-20 w-20 rounded-full blur-2xl opacity-15"
-                style={{ backgroundColor: p.color }}
-              />
-              <div className="relative flex items-start justify-between">
-                <div className="flex items-center gap-2.5">
-                  <div
-                    className="grid h-10 w-10 place-items-center rounded-xl border"
-                    style={{ backgroundColor: `${p.color}15`, borderColor: `${p.color}40` }}
-                  >
-                    <Icon className="h-4 w-4" style={{ color: p.color }} />
+            return (
+              <button
+                key={p.id}
+                type="button"
+                onClick={() => setSelected(p.id)}
+                disabled={pending}
+                className={[
+                  "group relative overflow-hidden rounded-xl border bg-background/40 p-4 text-left transition-all",
+                  isActive
+                    ? "border-foreground ring-2 ring-foreground/15"
+                    : "border-border hover:border-foreground/30",
+                ].join(" ")}
+              >
+                <div
+                  aria-hidden
+                  className="pointer-events-none absolute -right-6 -top-6 h-20 w-20 rounded-full blur-2xl opacity-15"
+                  style={{ backgroundColor: p.color }}
+                />
+                <div className="relative flex items-start justify-between">
+                  <div className="flex items-center gap-2.5">
+                    <div
+                      className="grid h-10 w-10 place-items-center rounded-xl border"
+                      style={{ backgroundColor: `${p.color}15`, borderColor: `${p.color}40` }}
+                    >
+                      <Icon className="h-4 w-4" style={{ color: p.color }} />
+                    </div>
+                    <div>
+                      <div className="font-display text-[14px] font-bold">{p.label}</div>
+                      <div className="text-[10.5px] text-muted-foreground leading-tight">{tagline}</div>
+                    </div>
                   </div>
-                  <div>
-                    <div className="font-display text-[14px] font-bold">{p.label}</div>
-                    <div className="text-[10.5px] text-muted-foreground leading-tight">{tagline}</div>
-                  </div>
-                </div>
-                {p.enabled ? (
                   <span className="text-[10px] font-semibold uppercase tracking-wider text-emerald-600 dark:text-emerald-300">
                     Dispo
                   </span>
-                ) : (
-                  <span className="inline-flex items-center gap-1 text-[10px] font-semibold uppercase tracking-wider text-amber-600 dark:text-amber-300">
-                    <AlertTriangle className="h-2.5 w-2.5" /> Bientôt
+                </div>
+                <div className="mt-3 flex items-center justify-between border-t border-border/60 pt-2.5">
+                  <span className="text-[10.5px] text-muted-foreground">
+                    Tu paies en {cfg.currency}
                   </span>
-                )}
-              </div>
-              <div className="mt-3 flex items-center justify-between border-t border-border/60 pt-2.5">
-                <span className="text-[10.5px] text-muted-foreground">
-                  Tu paies en {cfg.currency}
-                </span>
-                <span className="font-display text-[13px] font-bold tabular-nums">
-                  {localAmount}
-                </span>
-              </div>
-            </button>
-          );
-        })}
-      </div>
+                  <span className="font-display text-[13px] font-bold tabular-nums">
+                    {localAmount}
+                  </span>
+                </div>
+              </button>
+            );
+          })}
+        </div>
+      )}
 
       {/* Mobile Money phone input */}
       {selected && CURRENCY_MAP[selected].mobileMoneyHint && (
@@ -231,6 +268,20 @@ export function CheckoutForm({
         <span>·</span>
         <span>Annulation 1 clic</span>
       </div>
+
+      {/* Modal Stripe Elements (carte inline) */}
+      {stripeModal && (
+        <StripePaymentModal
+          open={true}
+          onClose={() => setStripeModal(null)}
+          clientSecret={stripeModal.clientSecret}
+          publishableKey={stripeModal.publishableKey}
+          paymentId={stripeModal.paymentId}
+          amount={stripeModal.amount}
+          currency={stripeModal.currency}
+          returnUrl={`${typeof window !== "undefined" ? window.location.origin : ""}/dashboard/billing`}
+        />
+      )}
     </div>
   );
 }
