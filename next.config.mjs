@@ -16,12 +16,15 @@ const SECURITY_HEADERS = [
     key: "Content-Security-Policy",
     value: [
       "default-src 'self'",
-      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.vercel-insights.com https://*.vercel-analytics.com",
+      // Stripe.js + PayPal + Vercel analytics (script-src) ; Stripe Elements injecte des inline styles via 'unsafe-inline'
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://js.stripe.com https://*.paypal.com https://*.paypalobjects.com https://*.vercel-insights.com https://*.vercel-analytics.com",
       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
       "font-src 'self' data: https://fonts.gstatic.com",
       "img-src 'self' data: blob: https:",
-      "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://*.upstash.io https://api.anthropic.com https://api.openai.com https://generativelanguage.googleapis.com https://*.vercel-insights.com https://*.vercel-analytics.com",
-      "frame-src 'self'",
+      // Stripe API (api.stripe.com, m.stripe.network pour fraud detection) + PayPal API
+      "connect-src 'self' https://*.supabase.co wss://*.supabase.co https://*.upstash.io https://api.anthropic.com https://api.openai.com https://generativelanguage.googleapis.com https://api.stripe.com https://*.stripe.com https://*.paypal.com https://*.vercel-insights.com https://*.vercel-analytics.com",
+      // Iframes Stripe Elements (formulaire carte) + PayPal SDK
+      "frame-src 'self' https://js.stripe.com https://hooks.stripe.com https://*.stripe.com https://*.paypal.com",
       "object-src 'none'",
       "base-uri 'self'",
       "form-action 'self'",
