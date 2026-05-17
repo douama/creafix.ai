@@ -127,7 +127,7 @@ export function Features() {
   const t = useTranslations("features");
 
   return (
-    <section id="features" className="relative py-14 md:py-20">
+    <section id="features" className="relative py-10 md:py-14">
       <div className="container">
         <div className="mx-auto max-w-2xl text-center">
           <motion.div

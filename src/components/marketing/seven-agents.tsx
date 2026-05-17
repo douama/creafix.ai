@@ -1,0 +1,639 @@
+"use client";
+
+import { motion, useInView, useMotionValue, useTransform, animate } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import {
+  Search,
+  Flame,
+  Coins,
+  ShieldAlert,
+  TrendingUp,
+  Image as ImageIcon,
+  FileText,
+  Sparkles,
+  ArrowUpRight,
+  Activity,
+} from "lucide-react";
+
+/**
+ * "7 Agents IA travaillent pour toi" — version ultra-moderne animée.
+ * - Layout asymétrique : hero card (Audit) full-width + 6 cards grille
+ * - Framer-motion : stagger entry, hover rotations, count-up
+ * - Sparklines SVG animées dans chaque card
+ * - Gradient borders rotatifs au hover
+ * - Background : particles + orbs colorés
+ * - Compteur live "actions/heure" qui s'incrémente
+ */
+
+type Agent = {
+  icon: React.ComponentType<{ className?: string; style?: React.CSSProperties }>;
+  name: string;
+  role: string;
+  desc: string;
+  color: string;
+  badge: string;
+  runs: number;
+  spark: number[];
+};
+
+const AGENTS: Agent[] = [
+  {
+    icon: Search,
+    name: "Audit Agent",
+    role: "Diagnostic",
+    desc: "Scanne tes 5 dernières vidéos et identifie les fuites de RPM en 60 secondes.",
+    color: "#EC4899",
+    badge: "Analyse",
+    runs: 0,
+    spark: [4, 8, 6, 12, 10, 18, 16, 24, 22, 28, 26, 32],
+  },
+  {
+    icon: Flame,
+    name: "Viral Score Agent",
+    role: "Prédiction",
+    desc: "Note ton contenu 0-100 avant publication. Tu publies seulement le top 30%.",
+    color: "#f15522",
+    badge: "Growth",
+    runs: 0,
+    spark: [10, 14, 12, 18, 16, 22, 20, 26, 24, 28, 26, 30],
+  },
+  {
+    icon: Coins,
+    name: "Monetization Agent",
+    role: "Optimisation",
+    desc: "Détecte les vidéos sous-monétisées et te dit exactement comment les fixer.",
+    color: "#FF8A00",
+    badge: "Revenu",
+    runs: 0,
+    spark: [6, 10, 8, 14, 12, 20, 18, 26, 24, 30, 28, 34],
+  },
+  {
+    icon: ShieldAlert,
+    name: "Anti-Ban Agent",
+    role: "Protection",
+    desc: "Surveille TikTok/FB en continu et t'alerte AVANT un shadowban.",
+    color: "#E11D48",
+    badge: "Sécurité",
+    runs: 0,
+    spark: [12, 8, 16, 10, 20, 14, 24, 18, 28, 22, 32, 26],
+  },
+  {
+    icon: TrendingUp,
+    name: "Trend Scout",
+    role: "Veille",
+    desc: "Trouve les sons, hashtags et formats qui marchent dans 9 pays africains.",
+    color: "#EC4899",
+    badge: "Tendances",
+    runs: 0,
+    spark: [8, 12, 10, 16, 14, 22, 20, 28, 26, 32, 30, 36],
+  },
+  {
+    icon: ImageIcon,
+    name: "Thumbnail Agent",
+    role: "Création",
+    desc: "Génère 8 miniatures A/B-testées et te montre laquelle aura le meilleur CTR.",
+    color: "#FF8A00",
+    badge: "Création",
+    runs: 0,
+    spark: [4, 8, 6, 10, 8, 14, 12, 18, 16, 22, 20, 26],
+  },
+  {
+    icon: FileText,
+    name: "Script Agent",
+    role: "Création",
+    desc: "Réécrit tes hooks faibles + génère 3 variantes de scripts pour Reels/Shorts.",
+    color: "#f15522",
+    badge: "Création",
+    runs: 0,
+    spark: [6, 10, 8, 14, 12, 18, 16, 22, 20, 26, 24, 30],
+  },
+];
+
+export function SevenAgents() {
+  return (
+    <section id="agents" className="relative overflow-hidden py-12 md:py-16">
+      {/* Background orbs */}
+      <div className="pointer-events-none absolute inset-0 -z-10">
+        <motion.div
+          className="absolute -left-32 top-20 h-96 w-96 rounded-full bg-gradient-to-br from-[#EC4899] to-transparent opacity-20 blur-3xl"
+          animate={{ x: [0, 40, 0], y: [0, -20, 0] }}
+          transition={{ duration: 18, repeat: Infinity, ease: "easeInOut" }}
+        />
+        <motion.div
+          className="absolute -right-32 bottom-20 h-96 w-96 rounded-full bg-gradient-to-br from-[#f15522] to-transparent opacity-20 blur-3xl"
+          animate={{ x: [0, -40, 0], y: [0, 20, 0] }}
+          transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }}
+        />
+      </div>
+
+      <div className="container relative">
+        <Header />
+
+        {/* Hero card — Audit (premier agent, full-width) */}
+        <div className="mt-7">
+          <HeroAgentCard agent={AGENTS[0]} />
+        </div>
+
+        {/* Grid 6 cards */}
+        <div className="mt-2.5 grid gap-2.5 sm:grid-cols-2 lg:grid-cols-3">
+          {AGENTS.slice(1).map((agent, i) => (
+            <AgentCard key={agent.name} agent={agent} index={i + 1} />
+          ))}
+        </div>
+
+        {/* Live stats footer */}
+        <LiveStats />
+      </div>
+    </section>
+  );
+}
+
+/* ──────────────────────────────────────────────────────────────────
+ * Header
+ * ────────────────────────────────────────────────────────────────── */
+function Header() {
+  return (
+    <div className="mx-auto max-w-3xl text-center">
+      <motion.div
+        initial={{ opacity: 0, y: 12 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5 }}
+        className="relative inline-flex items-center gap-2 rounded-full border border-[#EC4899]/30 bg-[#EC4899]/10 px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.14em] text-[#EC4899] backdrop-blur"
+      >
+        <Sparkles className="h-3.5 w-3.5" />
+        <span>7 agents IA travaillent pour toi</span>
+        <motion.span
+          aria-hidden
+          className="ml-1 inline-block h-1.5 w-1.5 rounded-full bg-[#EC4899]"
+          animate={{ scale: [1, 1.5, 1], opacity: [0.6, 1, 0.6] }}
+          transition={{ duration: 2, repeat: Infinity }}
+        />
+      </motion.div>
+
+      <motion.h2
+        initial={{ opacity: 0, y: 16 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6, delay: 0.1 }}
+        className="mt-3 font-display text-[1.55rem] font-bold leading-[1.05] tracking-tight text-balance md:text-[2rem]"
+      >
+        Pas un outil.{" "}
+        <span className="relative inline-block">
+          <span className="text-gradient-orange">Une équipe IA complète.</span>
+          <motion.span
+            aria-hidden
+            className="absolute inset-x-0 -bottom-1 h-[3px] origin-left rounded-full"
+            style={{
+              background: "linear-gradient(90deg, #f15522, #FF8A00, #EC4899)",
+            }}
+            initial={{ scaleX: 0 }}
+            whileInView={{ scaleX: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.9, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
+          />
+        </span>
+      </motion.h2>
+
+      <motion.p
+        initial={{ opacity: 0, y: 12 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.5, delay: 0.2 }}
+        className="mx-auto mt-3 max-w-2xl text-balance text-[13px] text-muted-foreground md:text-sm"
+      >
+        Pendant que tu dors, 7 agents IA analysent, prédisent, optimisent et
+        protègent tes comptes 24/7. Chacun spécialisé dans une discipline précise.
+      </motion.p>
+    </div>
+  );
+}
+
+/* ──────────────────────────────────────────────────────────────────
+ * Hero card (full-width)
+ * ────────────────────────────────────────────────────────────────── */
+function HeroAgentCard({ agent }: { agent: Agent }) {
+  const Icon = agent.icon;
+  return (
+    <motion.article
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.3 }}
+      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+      className="no-lg-glass group relative overflow-hidden rounded-2xl border border-border bg-white p-4 shadow-sm transition-shadow duration-300 hover:shadow-xl md:p-5 dark:bg-card"
+    >
+      {/* Gradient ambient glow */}
+      <motion.div
+        aria-hidden
+        className="pointer-events-none absolute -right-32 -top-32 h-80 w-80 rounded-full blur-3xl"
+        style={{ backgroundColor: agent.color }}
+        initial={{ opacity: 0.10 }}
+        animate={{ opacity: [0.10, 0.25, 0.10] }}
+        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+      />
+      <motion.div
+        aria-hidden
+        className="pointer-events-none absolute -left-32 -bottom-32 h-72 w-72 rounded-full blur-3xl"
+        style={{ backgroundColor: "#EC4899" }}
+        initial={{ opacity: 0.08 }}
+        animate={{ opacity: [0.08, 0.18, 0.08] }}
+        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+      />
+
+      <div className="relative grid gap-4 md:grid-cols-[1fr_240px]">
+        {/* Left : copy + stats */}
+        <div>
+          <div className="flex items-center gap-2.5">
+            <IconBubble icon={Icon} color={agent.color} size="lg" />
+            <div>
+              <div className="inline-flex items-center gap-1.5 rounded-md bg-[#EC4899]/10 px-2 py-0.5 text-[9.5px] font-bold uppercase tracking-wider text-[#EC4899]">
+                Agent #1 · {agent.badge}
+              </div>
+              <h3 className="mt-0.5 font-display text-lg font-bold tracking-tight md:text-xl">
+                {agent.name}
+              </h3>
+            </div>
+          </div>
+
+          <p className="mt-2.5 max-w-xl text-[12.5px] leading-relaxed text-muted-foreground">
+            {agent.desc} <span className="text-foreground">Disponible 24/7, multi-plateformes.</span>
+          </p>
+
+          {/* Stat row — claims techniques modèle (gardés) + status live */}
+          <div className="mt-3.5 flex flex-wrap items-center gap-4">
+            <Stat label="Précision modèle" value={97} suffix="%" color="#10B981" />
+            <div className="h-8 w-px bg-border" />
+            <Stat label="Latence" value={1.2} suffix="s" decimal={1} color="#FF8A00" />
+            <div className="h-8 w-px bg-border" />
+            <div>
+              <div className="text-[9.5px] font-semibold uppercase tracking-wider text-muted-foreground">
+                Status
+              </div>
+              <div className="mt-0.5 font-display text-lg font-bold tabular-nums leading-none md:text-2xl text-emerald-500">
+                Prêt
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Right : sparkline mockup */}
+        <div className="relative rounded-xl border border-border bg-background/40 p-3 backdrop-blur">
+          <div className="flex items-center justify-between">
+            <span className="text-[9px] font-semibold uppercase tracking-wider text-muted-foreground">
+              Activité 12h
+            </span>
+            <span className="inline-flex items-center gap-1 text-[9px] font-semibold text-emerald-500 dark:text-emerald-300">
+              <Activity className="h-2.5 w-2.5" />
+              Live
+            </span>
+          </div>
+          <BigSparkline points={agent.spark} color={agent.color} />
+          <div className="mt-1 flex items-center justify-between text-[9px] text-muted-foreground">
+            <span>0h</span>
+            <span>6h</span>
+            <span>12h</span>
+          </div>
+        </div>
+      </div>
+    </motion.article>
+  );
+}
+
+/* ──────────────────────────────────────────────────────────────────
+ * Standard card (6 small)
+ * ────────────────────────────────────────────────────────────────── */
+function AgentCard({ agent, index }: { agent: Agent; index: number }) {
+  const Icon = agent.icon;
+  return (
+    <motion.article
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ duration: 0.5, delay: 0.05 + index * 0.06, ease: [0.16, 1, 0.3, 1] }}
+      whileHover={{ y: -6 }}
+      className="no-lg-glass group relative overflow-hidden rounded-xl border border-border bg-white p-3.5 shadow-sm transition-shadow duration-300 hover:shadow-lg dark:bg-card"
+    >
+      {/* Rotating gradient border on hover */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+        style={{
+          background: `conic-gradient(from 0deg, transparent 0deg, ${agent.color}, transparent 120deg)`,
+          padding: "1px",
+          WebkitMask: "linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0)",
+          WebkitMaskComposite: "xor",
+          maskComposite: "exclude",
+          animation: "spin-slow 4s linear infinite",
+        }}
+      />
+
+      {/* Background gradient hover */}
+      <motion.div
+        aria-hidden
+        className="pointer-events-none absolute -right-12 -top-12 h-32 w-32 rounded-full blur-2xl"
+        style={{ backgroundColor: agent.color, opacity: 0.15 }}
+        whileHover={{ opacity: 0.35, scale: 1.4 }}
+        transition={{ duration: 0.4 }}
+      />
+
+      <div className="relative">
+        <div className="flex items-start justify-between">
+          <IconBubble icon={Icon} color={agent.color} size="md" />
+          <span
+            className="inline-flex items-center rounded-full px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider"
+            style={{
+              color: agent.color,
+              backgroundColor: `${agent.color}15`,
+            }}
+          >
+            {agent.badge}
+          </span>
+        </div>
+
+        <h3 className="mt-2.5 font-display text-[14px] font-bold tracking-tight leading-tight">
+          {agent.name}
+        </h3>
+        <div className="mt-0.5 text-[9.5px] font-semibold uppercase tracking-wider text-muted-foreground">
+          {agent.role}
+        </div>
+
+        <p className="mt-1.5 min-h-[2.5rem] text-[11.5px] leading-snug text-muted-foreground">
+          {agent.desc}
+        </p>
+
+        {/* Mini sparkline */}
+        <div className="mt-2">
+          <MiniSparkline points={agent.spark} color={agent.color} />
+        </div>
+
+        {/* Status footer */}
+        <div className="mt-2 flex items-center justify-between border-t border-border/60 pt-2 text-[10px]">
+          <span className="flex items-center gap-1.5 text-muted-foreground">
+            <PulseDot color={agent.color} />
+            <span>
+              {agent.runs > 0 ? (
+                <>
+                  <b className="text-foreground tabular-nums">
+                    <CountUp value={agent.runs} />
+                  </b>
+                  {" "}exécutions/jour
+                </>
+              ) : (
+                <b className="text-foreground">Prêt · disponible 24/7</b>
+              )}
+            </span>
+          </span>
+          <ArrowUpRight
+            className="h-3.5 w-3.5 text-muted-foreground transition-all duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+            style={{ color: agent.color }}
+          />
+        </div>
+      </div>
+    </motion.article>
+  );
+}
+
+/* ──────────────────────────────────────────────────────────────────
+ * Atoms
+ * ────────────────────────────────────────────────────────────────── */
+
+function IconBubble({
+  icon: Icon, color, size,
+}: {
+  icon: React.ComponentType<{ className?: string; style?: React.CSSProperties }>;
+  color: string;
+  size: "md" | "lg";
+}) {
+  const dims = size === "lg" ? "h-11 w-11" : "h-9 w-9";
+  const iconDims = size === "lg" ? "h-5 w-5" : "h-4 w-4";
+  return (
+    <motion.div
+      whileHover={{ scale: 1.08, rotate: 6 }}
+      transition={{ type: "spring", stiffness: 300, damping: 15 }}
+      className={`relative ${dims} flex items-center justify-center rounded-2xl shadow-sm`}
+      style={{
+        backgroundColor: `${color}1A`,
+        border: `1px solid ${color}40`,
+        boxShadow: `0 0 0 4px ${color}08`,
+      }}
+    >
+      {/* Pulse ring */}
+      <motion.span
+        aria-hidden
+        className="absolute inset-0 rounded-2xl"
+        style={{ border: `1.5px solid ${color}` }}
+        animate={{ scale: [1, 1.3], opacity: [0.5, 0] }}
+        transition={{ duration: 2, repeat: Infinity, ease: "easeOut" }}
+      />
+      <Icon className={`${iconDims} relative`} style={{ color }} />
+    </motion.div>
+  );
+}
+
+function Stat({
+  label, value, suffix, color, decimal,
+}: {
+  label: string;
+  value: number;
+  suffix?: string;
+  color: string;
+  decimal?: number;
+}) {
+  return (
+    <div>
+      <div className="text-[9.5px] font-semibold uppercase tracking-wider text-muted-foreground">
+        {label}
+      </div>
+      <div className="mt-0.5 font-display text-lg font-bold tabular-nums leading-none md:text-2xl" style={{ color }}>
+        <CountUp value={value} decimal={decimal} />
+        {suffix && <span className="text-sm">{suffix}</span>}
+      </div>
+    </div>
+  );
+}
+
+function PulseDot({ color }: { color: string }) {
+  return (
+    <span className="relative flex h-1.5 w-1.5">
+      <motion.span
+        className="absolute inline-flex h-full w-full rounded-full"
+        style={{ backgroundColor: color }}
+        animate={{ scale: [1, 2.5], opacity: [0.7, 0] }}
+        transition={{ duration: 1.8, repeat: Infinity, ease: "easeOut" }}
+      />
+      <span className="relative inline-flex h-1.5 w-1.5 rounded-full" style={{ backgroundColor: color }} />
+    </span>
+  );
+}
+
+function MiniSparkline({ points, color }: { points: number[]; color: string }) {
+  const max = Math.max(...points);
+  const w = 200;
+  const h = 32;
+  const step = w / (points.length - 1);
+  const path = points
+    .map((p, i) => `${i === 0 ? "M" : "L"} ${i * step} ${h - (p / max) * h}`)
+    .join(" ");
+  const area = `${path} L ${w} ${h} L 0 ${h} Z`;
+  const gradientId = `spark-grad-${color.replace("#", "")}`;
+
+  return (
+    <svg viewBox={`0 0 ${w} ${h}`} className="h-6 w-full" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor={color} stopOpacity="0.35" />
+          <stop offset="100%" stopColor={color} stopOpacity="0" />
+        </linearGradient>
+      </defs>
+      <motion.path
+        d={area}
+        fill={`url(#${gradientId})`}
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6, delay: 0.2 }}
+      />
+      <motion.path
+        d={path}
+        fill="none"
+        stroke={color}
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        initial={{ pathLength: 0 }}
+        whileInView={{ pathLength: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
+      />
+      {/* Trailing dot */}
+      <motion.circle
+        cx={w}
+        cy={h - (points[points.length - 1] / max) * h}
+        r="2.5"
+        fill={color}
+        initial={{ scale: 0, opacity: 0 }}
+        whileInView={{ scale: 1, opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.3, delay: 1.4 }}
+      />
+    </svg>
+  );
+}
+
+function BigSparkline({ points, color }: { points: number[]; color: string }) {
+  const max = Math.max(...points);
+  const w = 280;
+  const h = 100;
+  const step = w / (points.length - 1);
+  const path = points
+    .map((p, i) => `${i === 0 ? "M" : "L"} ${i * step} ${h - (p / max) * h}`)
+    .join(" ");
+  const area = `${path} L ${w} ${h} L 0 ${h} Z`;
+  const gradientId = `bigspark-grad-${color.replace("#", "")}`;
+
+  return (
+    <svg viewBox={`0 0 ${w} ${h}`} className="mt-2 h-16 w-full" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id={gradientId} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor={color} stopOpacity="0.4" />
+          <stop offset="100%" stopColor={color} stopOpacity="0" />
+        </linearGradient>
+      </defs>
+      <motion.path
+        d={area}
+        fill={`url(#${gradientId})`}
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8, delay: 0.3 }}
+      />
+      <motion.path
+        d={path}
+        fill="none"
+        stroke={color}
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        initial={{ pathLength: 0 }}
+        whileInView={{ pathLength: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 1.8, ease: [0.16, 1, 0.3, 1] }}
+      />
+      <motion.circle
+        cx={w}
+        cy={h - (points[points.length - 1] / max) * h}
+        r="4"
+        fill={color}
+        initial={{ scale: 0, opacity: 0 }}
+        whileInView={{ scale: 1, opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.3, delay: 1.8 }}
+      />
+      {/* Pulse ring around last dot */}
+      <motion.circle
+        cx={w}
+        cy={h - (points[points.length - 1] / max) * h}
+        r="4"
+        fill="none"
+        stroke={color}
+        strokeWidth="1.5"
+        initial={{ r: 4, opacity: 0 }}
+        whileInView={{ r: [4, 12], opacity: [0.6, 0] }}
+        viewport={{ once: true }}
+        transition={{ duration: 1.5, repeat: Infinity, delay: 2 }}
+      />
+    </svg>
+  );
+}
+
+function CountUp({ value, decimal }: { value: number; decimal?: number }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const inView = useInView(ref, { once: true, amount: 0.5 });
+  const motionValue = useMotionValue(0);
+  const display = useTransform(motionValue, (v) =>
+    decimal
+      ? v.toFixed(decimal).replace(".", ",")
+      : Math.round(v).toLocaleString("fr-FR"),
+  );
+  const [text, setText] = useState(decimal ? "0" : "0");
+
+  useEffect(() => {
+    if (!inView) return;
+    const controls = animate(motionValue, value, { duration: 1.5, ease: [0.16, 1, 0.3, 1] });
+    const unsub = display.on("change", (v) => setText(String(v)));
+    return () => {
+      controls.stop();
+      unsub();
+    };
+  }, [inView, motionValue, value, display]);
+
+  return <span ref={ref}>{text}</span>;
+}
+
+/* ──────────────────────────────────────────────────────────────────
+ * Live stats footer
+ * ────────────────────────────────────────────────────────────────── */
+function LiveStats() {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 16 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.6, delay: 0.3 }}
+      className="mx-auto mt-6 flex max-w-md items-center justify-center gap-2.5 rounded-full border border-emerald-500/30 bg-emerald-500/5 px-4 py-2"
+    >
+      <span className="relative flex h-2 w-2">
+        <motion.span
+          className="absolute inline-flex h-full w-full rounded-full bg-emerald-400"
+          animate={{ scale: [1, 2.5], opacity: [0.7, 0] }}
+          transition={{ duration: 1.5, repeat: Infinity, ease: "easeOut" }}
+        />
+        <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
+      </span>
+      <span className="text-[12.5px] text-muted-foreground">
+        <b className="text-foreground">Système opérationnel</b>
+        {" "}— prêt à analyser tes comptes
+      </span>
+    </motion.div>
+  );
+}

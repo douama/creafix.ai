@@ -82,7 +82,7 @@ export function CurrencySwitch({
                   <span className="font-mono text-xs font-semibold">{c.code}</span>{" "}
                   <span className="text-[11px] text-muted-foreground">{c.label}</span>
                 </span>
-                {active && <Check className="h-3.5 w-3.5 text-[#7B61FF]" />}
+                {active && <Check className="h-3.5 w-3.5 text-[#EC4899]" />}
               </button>
             );
           })}

@@ -14,7 +14,7 @@ export function HowItWorks() {
   ];
 
   return (
-    <section id="how" className="relative py-14 md:py-20">
+    <section id="how" className="relative py-10 md:py-14">
       <div className="absolute inset-0 -z-10 bg-radial-fade opacity-40" />
       <div className="container">
         <div className="mx-auto max-w-2xl text-center">

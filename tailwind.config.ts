@@ -6,7 +6,13 @@ const config: Config = {
   theme: {
     container: {
       center: true,
-      padding: "1.5rem",
+      // Padding responsive : presque pleine largeur mobile, marges normales desktop
+      padding: {
+        DEFAULT: "0.75rem",  // 12px — mobile (≤ sm)
+        sm: "1rem",          // 16px — petits tablets
+        md: "1.5rem",        // 24px — tablets+
+        lg: "2rem",          // 32px — desktop+
+      },
       // Largeur max uniforme sur tous les breakpoints xl+
       screens: { "xl": "1280px", "2xl": "1280px" },
     },
@@ -46,11 +52,17 @@ const config: Config = {
           foreground: "hsl(var(--popover-foreground))",
         },
         brand: {
-          violet: "#7B61FF",     // Violet IA
-          electric: "#00C2FF",   // Bleu électrique
-          orange: "#FF8A00",     // Orange accent
-          midnight: "#0B0F19",   // Noir profond
-          ink: "#0F1320",
+          // ─── Palette officielle CreaFix AI (extraite du logo) ───
+          teal:    "#1FBEAF",    // Logo : arrow base (gauche)
+          pink:    "#EC4899",    // Logo : section centrale + "FIX" gradient
+          orange:  "#FF8A00",    // Logo : arrow tip (droite)
+          yellow:  "#FCD34D",    // Logo : sparkles/stars
+          ink:     "#0F0F0F",    // Logo : texte "CREA"
+          midnight:"#0B0F19",    // Background dark
+
+          // Aliases legacy (pour ne pas casser les imports existants)
+          violet:  "#EC4899",    // alias → pink
+          electric:"#1FBEAF",    // alias → teal
         },
       },
       fontFamily: {
@@ -66,9 +78,9 @@ const config: Config = {
         "grid-pattern":
           "linear-gradient(to right, rgba(255,255,255,0.06) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.06) 1px, transparent 1px)",
         "radial-fade":
-          "radial-gradient(circle at top, rgba(123,97,255,0.25), transparent 60%)",
+          "radial-gradient(circle at top, rgba(236,72,153,0.25), transparent 60%)",
         "brand-gradient":
-          "linear-gradient(135deg, #7B61FF 0%, #00C2FF 50%, #FF8A00 100%)",
+          "linear-gradient(135deg, #EC4899 0%, #FF8A00 50%, #FF8A00 100%)",
       },
       keyframes: {
         "accordion-down": {
@@ -88,8 +100,8 @@ const config: Config = {
           "50%": { transform: "translateY(-12px)" },
         },
         "pulse-glow": {
-          "0%, 100%": { boxShadow: "0 0 24px rgba(123,97,255,0.4)" },
-          "50%": { boxShadow: "0 0 48px rgba(123,97,255,0.7)" },
+          "0%, 100%": { boxShadow: "0 0 24px rgba(236,72,153,0.4)" },
+          "50%": { boxShadow: "0 0 48px rgba(236,72,153,0.7)" },
         },
       },
       animation: {

@@ -10,7 +10,7 @@ export default function ApiPage() {
   const [show, setShow] = useState(false);
   const [copied, setCopied] = useState(false);
 
-  const apiKey = "sk_live_cfx_5Yp3kQ8vR2nW7tH9mZ4xJ1bN6sL0aE";
+  const apiKey = "sk_live_cfx_XXXXXXXXXXXXXXXXXXXXXXXXXXXX";
 
   return (
     <div className="space-y-7">

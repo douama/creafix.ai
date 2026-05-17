@@ -9,8 +9,8 @@ import { cn } from "@/lib/utils";
 export function Sparkline({
   data,
   className,
-  stroke = "#7B61FF",
-  fill = "rgba(123, 97, 255, 0.15)",
+  stroke = "#EC4899",
+  fill = "rgba(236, 72, 153, 0.15)",
   width = 80,
   height = 28,
 }: {

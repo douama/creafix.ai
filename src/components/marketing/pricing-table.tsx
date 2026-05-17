@@ -9,10 +9,10 @@ import { CurrencySwitch } from "@/components/currency-switch";
 import { CURRENCIES, getPrice, type CurrencyCode, type Plan } from "@/lib/pricing";
 
 const PLAN_KEYS: { key: Plan; href: string; highlight?: boolean; features: number }[] = [
-  { key: "free",       href: "/signup",                  features: 5 },
-  { key: "pro",        href: "/signup?plan=pro",         highlight: true, features: 8 },
-  { key: "agency",     href: "/signup?plan=agency",      features: 8 },
-  { key: "enterprise", href: "/contact?topic=enterprise", features: 8 },
+  { key: "free",       href: "/signup",                          features: 5 },
+  { key: "pro",        href: "/checkout?plan=PRO",                highlight: true, features: 8 },
+  { key: "agency",     href: "/checkout?plan=AGENCY",             features: 8 },
+  { key: "enterprise", href: "/contact?topic=enterprise",         features: 8 },
 ];
 
 export function PricingTable({ currency }: { currency: CurrencyCode }) {
@@ -20,7 +20,7 @@ export function PricingTable({ currency }: { currency: CurrencyCode }) {
   const c = CURRENCIES[currency];
 
   return (
-    <section id="pricing" className="relative py-14 md:py-20">
+    <section id="pricing" className="relative py-10 md:py-14">
       <div className="container">
         <div className="mx-auto max-w-2xl text-center">
           <h2 className="font-display text-2xl font-bold tracking-tight md:text-4xl">
@@ -57,7 +57,7 @@ export function PricingTable({ currency }: { currency: CurrencyCode }) {
                 key={plan.key}
                 className={`relative flex flex-col rounded-2xl border p-6 backdrop-blur-xl transition-all ${
                   plan.highlight
-                    ? "border-[#7B61FF]/50 bg-gradient-to-b from-[#7B61FF]/[0.08] to-transparent shadow-2xl shadow-[#7B61FF]/20"
+                    ? "border-[#EC4899]/50 bg-gradient-to-b from-[#EC4899]/[0.08] to-transparent shadow-2xl shadow-[#EC4899]/20"
                     : "border-border bg-card/40"
                 }`}
               >

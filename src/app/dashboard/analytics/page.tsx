@@ -108,7 +108,7 @@ export default function AnalyticsPage() {
                   <div className="text-[10px] uppercase text-muted-foreground">{d}</div>
                   <div className="mt-1.5 h-20 overflow-hidden rounded-lg bg-muted/30">
                     <div
-                      className="ml-0 h-full bg-gradient-to-t from-[#7B61FF]/30 to-[#7B61FF] origin-bottom"
+                      className="ml-0 h-full bg-gradient-to-t from-[#EC4899]/30 to-[#EC4899] origin-bottom"
                       style={{ height: `${[40, 55, 48, 62, 78, 92, 84][i]}%` }}
                     />
                   </div>

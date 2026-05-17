@@ -21,14 +21,16 @@
     "openMenu": "Abrir menu"
   },
   "hero": {
-    "badge": "Conserte seu conteúdo. Escale sua receita.",
-    "titlePart1": "Transforme seu conteúdo em",
-    "titleHighlight": "receita",
-    "titlePart2": "com IA.",
-    "subtitle": "CreaFix AI audita, conserta e escala automaticamente sua monetização em 9 plataformas — YouTube, Facebook, Instagram, TikTok, X, Snapchat, Twitch, Pinterest, LinkedIn.",
+    "badge": "O OS de receita com IA para criadores africanos",
+    "titlePart1": "Descubra por que suas páginas TikTok e Facebook",
+    "titleHighlight": "não geram",
+    "titlePart2": "o dinheiro que deveriam.",
+    "subtitle": "CreaFix AI escaneia suas contas TikTok, Facebook, YouTube e Instagram em 60 segundos. Detecta shadowbans, conteúdo de baixo RPM, vazamentos de receita e oportunidades virais — feito para criadores africanos.",
+    "ctaPrimary": "Escanear minha conta",
+    "ctaSecondary": "Ver meus vazamentos de receita",
     "trustNoCard": "Sem cartão",
     "trustFast": "Auditoria em 60s",
-    "trustCreators": "+2 300 criadores",
+    "trustCreators": "+12 000 criadores",
     "stats": {
       "videos": "Vídeos analisados",
       "accuracy": "Precisão IA",

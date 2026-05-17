@@ -79,7 +79,7 @@ export function LocaleSwitch({ className }: { className?: string }) {
               >
                 <span className="text-base leading-none">{localeFlags[l]}</span>
                 <span className="flex-1 text-left">{localeNames[l]}</span>
-                {active && <Check className="h-3.5 w-3.5 text-[#7B61FF]" />}
+                {active && <Check className="h-3.5 w-3.5 text-[#EC4899]" />}
               </button>
             );
           })}

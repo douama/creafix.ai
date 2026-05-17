@@ -4,6 +4,7 @@ import { Bell, Search, Sparkles } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { UserMenu } from "@/components/auth/user-menu";
 
 export function Topbar() {
   return (
@@ -29,15 +30,7 @@ export function Topbar() {
           <Bell className="h-4 w-4" />
           <span className="absolute right-2 top-2 h-2 w-2 rounded-full bg-rose-500" />
         </button>
-        <div className="flex h-10 items-center gap-2.5 rounded-xl border border-border bg-card/40 px-2 pr-3">
-          <div className="flex h-7 w-7 items-center justify-center rounded-full gradient-brand text-xs font-semibold text-white">
-            S
-          </div>
-          <div className="hidden text-xs leading-tight md:block">
-            <div className="font-medium">Sobé K.</div>
-            <div className="text-muted-foreground">Plan Créateur</div>
-          </div>
-        </div>
+        <UserMenu />
       </div>
     </header>
   );

@@ -59,15 +59,24 @@ export function Footer() {
   return (
     <footer className="border-t border-border py-10">
       <div className="container">
-        <div className="grid gap-8 md:grid-cols-6">
-          <div className="md:col-span-2">
+        <div className="grid grid-cols-2 gap-x-6 gap-y-8 md:grid-cols-6">
+          <div className="col-span-2 md:col-span-2">
             <Logo />
             <p className="mt-4 max-w-xs text-sm text-muted-foreground">{t("tagline")}</p>
             <div className="mt-5 flex gap-2">
-              {[Twitter, Instagram, Youtube, Github].map((Icon, i) => (
+              {[
+                { Icon: Twitter,   href: "https://twitter.com/creafixai",            label: "Twitter / X" },
+                { Icon: Instagram, href: "https://instagram.com/creafix.ai",          label: "Instagram" },
+                { Icon: Youtube,   href: "https://youtube.com/@creafixai",            label: "YouTube" },
+                { Icon: Github,    href: "https://github.com/creafix-ai",             label: "GitHub" },
+              ].map(({ Icon, href, label }) => (
                 <a
-                  key={i}
-                  href="#"
+                  key={href}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={label}
+                  title={label}
                   className="flex h-9 w-9 items-center justify-center rounded-lg border border-border bg-card/40 text-muted-foreground transition-colors hover:bg-card/80 hover:text-foreground"
                 >
                   <Icon className="h-4 w-4" />
@@ -95,9 +104,9 @@ export function Footer() {
           ))}
         </div>
 
-        <div className="mt-8 flex flex-col items-start justify-between gap-4 border-t border-border pt-6 text-xs text-muted-foreground md:flex-row md:items-center">
-          <span>© {new Date().getFullYear()} CreaFix AI · {t("tagline2")}</span>
-          <span>Dakar · Abidjan · Lagos · Casablanca</span>
+        <div className="mt-8 flex flex-row items-center justify-between gap-3 border-t border-border pt-6 text-[10.5px] text-muted-foreground md:text-xs">
+          <span>© {new Date().getFullYear()} CreaFix AI</span>
+          <span className="text-right">Dakar · Abidjan · Lagos · Casablanca</span>
         </div>
       </div>
     </footer>

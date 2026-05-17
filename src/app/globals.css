@@ -3,12 +3,14 @@
 @tailwind utilities;
 
 @layer base {
-  /* ─── Palette CreaFix AI ─────────────────────────────────────
-     Couleurs de marque (référence) :
-       • Noir profond  #0B0F19  →  HSL 224 39% 7%
-       • Violet IA     #7B61FF  →  HSL 249 100% 69%
-       • Bleu électr.  #00C2FF  →  HSL 191 100% 50%
-       • Orange acc.   #FF8A00  →  HSL 32 100% 50%
+  /* ─── Palette officielle CreaFix AI (extraite du logo) ──────
+     • Teal      #1FBEAF  →  HSL 174 71% 43%   (arrow base gauche)
+     • Pink      #EC4899  →  HSL 330 81% 60%   (section centrale + "FIX")
+     • Orange    #FF8A00  →  HSL 32 100% 50%   (arrow tip droite)
+     • Orange-R  #f15522  →  HSL 14 87% 54%    (CinetPay accent CTA)
+     • Yellow    #FCD34D  →  HSL 48 96% 64%    (sparkles/stars)
+     • Ink       #0F0F0F  →  HSL 0 0% 6%       (texte "CREA")
+     • Midnight  #0B0F19  →  HSL 224 39% 7%    (dark bg)
      ─────────────────────────────────────────────────────────── */
 
   /* ─── Mode sombre (default) ─── */
@@ -23,10 +25,10 @@
     --popover: 224 39% 7%;
     --popover-foreground: 0 0% 98%;
 
-    --primary: 249 100% 69%;        /* #7B61FF violet IA */
+    --primary: 330 81% 60%;         /* #EC4899 pink (logo) */
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 191 100% 50%;      /* #00C2FF bleu électrique */
+    --secondary: 32 100% 50%;       /* #FF8A00 orange chaud */
     --secondary-foreground: 0 0% 100%;
 
     --muted: 224 20% 14%;
@@ -57,48 +59,50 @@
     --bg-glow-3: 249 115% 22 / 0.08;
   }
 
-  /* ─── Mode clair — ULTRA lisible, optimisé contraste ─── */
+  /* ─── Mode clair "CinetPay style" — orange primary + grand contraste ─── */
   .light {
-    --background: 0 0% 100%;
-    --foreground: 224 39% 10%;
+    --background: 0 0% 100%;          /* #FFFFFF */
+    --foreground: 222 22% 12%;        /* #18191e — proche #15171a CinetPay dark text */
 
     --card: 0 0% 100%;
-    --card-foreground: 224 39% 10%;
+    --card-foreground: 222 22% 12%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 224 39% 10%;
+    --popover-foreground: 222 22% 12%;
 
-    --primary: 249 80% 60%;            /* violet IA plus saturé pour contraste sur blanc */
+    /* Orange CinetPay #f15522 */
+    --primary: 14 87% 54%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 191 100% 40%;         /* bleu électrique assombri pour lisibilité */
+    --secondary: 200 80% 35%;          /* bleu navy léger pour info / liens */
     --secondary-foreground: 0 0% 100%;
 
-    --muted: 224 14% 96%;
-    --muted-foreground: 224 10% 38%;   /* gris foncé bien lisible (WCAG AAA) */
+    --muted: 210 16% 96%;              /* #F1F3F5 */
+    --muted-foreground: 220 10% 35%;   /* gris foncé lisible */
 
-    --accent: 32 100% 45%;             /* orange assombri */
+    /* Accent vert canard CinetPay #438d7c pour CTA secondaires */
+    --accent: 165 35% 40%;
     --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 84% 50%;
+    --destructive: 0 75% 50%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 224 14% 88%;
-    --input: 224 14% 90%;
-    --ring: 249 80% 60%;
+    --border: 210 14% 90%;             /* gris très clair */
+    --input: 210 14% 92%;
+    --ring: 14 87% 54%;                /* orange focus ring */
 
-    --radius: 0.85rem;
+    --radius: 0.75rem;                 /* 12px CinetPay */
 
     --surface-1: 0 0% 100%;
-    --surface-2: 240 8% 98%;
-    --surface-glass: 240 10% 100% / 0.7;
-    --surface-glass-strong: 240 10% 100% / 0.85;
-    --border-subtle: 240 10% 0% / 0.08;
-    --border-strong: 240 10% 0% / 0.14;
-    --grid-color: 240 10% 0% / 0.04;
-    --bg-glow-1: 124 58% 237 / 0.08;
-    --bg-glow-2: 59 130% 246 / 0.05;
-    --bg-glow-3: 249 115% 22 / 0.04;
+    --surface-2: 210 16% 98%;
+    --surface-glass: 0 0% 100% / 0.95;
+    --surface-glass-strong: 0 0% 100%;
+    --border-subtle: 220 10% 0% / 0.06;
+    --border-strong: 220 10% 0% / 0.10;
+    --grid-color: 220 10% 0% / 0.03;
+    --bg-glow-1: 14 87% 54% / 0.06;
+    --bg-glow-2: 14 87% 54% / 0.04;
+    --bg-glow-3: 14 87% 54% / 0.03;
   }
 
   * {
@@ -115,19 +119,18 @@
     background-attachment: fixed;
   }
 
-  /* Ambiance dark — palette CreaFix #7B61FF / #00C2FF / #FF8A00 */
+  /* Ambiance dark — palette CreaFix #EC4899 / #FF8A00 (orange chaud) / #f15522 */
   .dark body {
     background-image:
-      radial-gradient(ellipse 80% 50% at 50% -20%, rgba(123, 97, 255, 0.20), transparent),
-      radial-gradient(ellipse 60% 40% at 80% 100%, rgba(0, 194, 255, 0.10), transparent),
-      radial-gradient(ellipse 50% 30% at 10% 90%, rgba(255, 138, 0, 0.08), transparent);
+      radial-gradient(ellipse 80% 50% at 50% -20%, rgba(236, 72, 153, 0.20), transparent),
+      radial-gradient(ellipse 60% 40% at 80% 100%, rgba(255, 138, 0, 0.12), transparent),
+      radial-gradient(ellipse 50% 30% at 10% 90%, rgba(241, 85, 34, 0.10), transparent);
   }
 
-  /* Ambiance light — palette CreaFix sur fond blanc */
+  /* Ambiance light — fond blanc pur sobre style CinetPay (pas d'aurora) */
   .light body {
-    background-image:
-      radial-gradient(ellipse 80% 50% at 50% -10%, rgba(123, 97, 255, 0.08), transparent 60%),
-      radial-gradient(ellipse 60% 40% at 90% 90%, rgba(255, 138, 0, 0.05), transparent 60%);
+    background-image: none;
+    background-color: #FFFFFF;
   }
 
   ::selection {
@@ -177,20 +180,87 @@
       0 24px 60px -20px rgba(15, 23, 42, 0.18);
   }
 
-  /* Texte dégradé — visible dans les 2 thèmes */
+  /* Texte dégradé — visible dans les 2 thèmes (palette violet → orange) */
   .gradient-text {
     @apply bg-clip-text text-transparent;
   }
   .dark .gradient-text {
-    background-image: linear-gradient(135deg, #b9a8ff 0%, #80dfff 50%, #ffb966 100%);
+    background-image: linear-gradient(135deg, #5EEAD4 0%, #F472B6 50%, #FFB966 100%);
   }
   .light .gradient-text {
-    background-image: linear-gradient(135deg, #5a3dff 0%, #00a3d6 50%, #d97400 100%);
+    background-image: linear-gradient(135deg, #0D9488 0%, #DB2777 50%, #EA580C 100%);
   }
 
-  /* Gradient signature CreaFix : Violet IA → Bleu électrique → Orange accent */
+  /* Gradient signature CreaFix : Teal → Pink → Orange (palette logo "FIX") */
   .gradient-brand {
-    background-image: linear-gradient(135deg, #7B61FF 0%, #00C2FF 50%, #FF8A00 100%);
+    background-image: linear-gradient(135deg, #1FBEAF 0%, #EC4899 50%, #FF8A00 100%);
+  }
+
+  /* ─── CinetPay-style helpers ──────────────────────────────────── */
+
+  /* Panneau dark intercalaire (utilisé dans light theme pour démarquer) */
+  .panel-dark {
+    background-color: #15171a;
+    color: #ffffff;
+    border-radius: 1.5rem;
+  }
+  .panel-dark .text-muted-foreground {
+    color: rgba(255, 255, 255, 0.65);
+  }
+
+  /* Surligneur orange CinetPay (mots clés du H1) — incliné -2deg */
+  .highlight-orange {
+    background-image: linear-gradient(45deg, #f92c2c, #f15b25);
+    color: #ffffff;
+    padding: 0.15em 0.5em;
+    border-radius: 0.5rem;
+    display: inline-block;
+    transform: rotate(-2deg);
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+  }
+
+  /* Gradient orange CinetPay (45° rouge → orange) */
+  .gradient-orange {
+    background-image: linear-gradient(45deg, #f92c2c 0%, #f15b25 100%);
+  }
+  .text-gradient-orange {
+    background-image: linear-gradient(45deg, #f92c2c 0%, #f15b25 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Bouton pill orange (signature CTA primary) */
+  .btn-pill-orange {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    height: 3rem;
+    padding: 0 1.5rem;
+    border-radius: 9999px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: #ffffff;
+    background-image: linear-gradient(45deg, #f92c2c 0%, #f15b25 100%);
+    box-shadow: 0 4px 12px -2px rgba(241, 85, 34, 0.35);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .btn-pill-orange:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 8px 20px -4px rgba(241, 85, 34, 0.45);
+  }
+
+  /* Carte light "soft" — ombre ultra plate type CinetPay */
+  .card-soft {
+    background-color: #ffffff;
+    border: 1px solid hsl(var(--border));
+    border-radius: 0.75rem;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04), 0 1px 2px -1px rgba(0, 0, 0, 0.06);
+  }
+  .card-soft:hover {
+    box-shadow: 0 4px 8px -2px rgba(0, 0, 0, 0.06), 0 2px 4px -2px rgba(0, 0, 0, 0.04);
   }
 
   .text-balance {
@@ -225,6 +295,125 @@
       0 0 0 1px hsl(var(--primary) / 0.35),
       0 0 60px hsl(var(--primary) / 0.25);
   }
+
+  /* ─── Aurora background animé (dark premium) ─── */
+  .aurora-blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.5;
+    pointer-events: none;
+    will-change: transform;
+  }
+  .dark .aurora-blob {
+    opacity: 0.55;
+  }
+  .light .aurora-blob {
+    opacity: 0.18;
+  }
+
+  @keyframes aurora-1 {
+    0%, 100% { transform: translate3d(-10%, -20%, 0) scale(1); }
+    50% { transform: translate3d(15%, 10%, 0) scale(1.15); }
+  }
+  @keyframes aurora-2 {
+    0%, 100% { transform: translate3d(20%, 30%, 0) scale(1.1); }
+    50% { transform: translate3d(-10%, -10%, 0) scale(0.95); }
+  }
+  @keyframes aurora-3 {
+    0%, 100% { transform: translate3d(-30%, 40%, 0) scale(0.9); }
+    50% { transform: translate3d(20%, -20%, 0) scale(1.2); }
+  }
+
+  /* ─── Animated conic gradient border ─── */
+  @keyframes spin-slow {
+    to { transform: rotate(360deg); }
+  }
+  .shimmer-border {
+    position: relative;
+    isolation: isolate;
+  }
+  .shimmer-border::before {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    z-index: -1;
+    border-radius: inherit;
+    background: conic-gradient(
+      from 0deg,
+      transparent 0deg,
+      #1FBEAF 60deg,
+      #EC4899 120deg,
+      #FF8A00 180deg,
+      transparent 240deg
+    );
+    animation: spin-slow 6s linear infinite;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .shimmer-border:hover::before,
+  .shimmer-border[data-active="true"]::before {
+    opacity: 0.9;
+  }
+  .shimmer-border::after {
+    content: "";
+    position: absolute;
+    inset: 1px;
+    z-index: -1;
+    border-radius: inherit;
+    background-color: hsl(var(--background));
+  }
+
+  /* ─── Floating particles (subtil) ─── */
+  @keyframes float-particle {
+    0%, 100% { transform: translateY(0) translateX(0); opacity: 0.4; }
+    50% { transform: translateY(-30px) translateX(10px); opacity: 0.8; }
+  }
+  .particle {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: radial-gradient(circle, rgba(255,255,255,0.9), transparent);
+    border-radius: 50%;
+    pointer-events: none;
+  }
+  .light .particle {
+    background: radial-gradient(circle, rgba(236,72,153,0.6), transparent);
+  }
+
+  /* ─── Marquee testimonials (scroll infinite vertical) ─── */
+  @keyframes marquee-up {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-50%); }
+  }
+  @keyframes marquee-down {
+    0% { transform: translateY(-50%); }
+    100% { transform: translateY(0); }
+  }
+  .marquee-up {
+    animation: marquee-up 50s linear infinite;
+    will-change: transform;
+  }
+  .marquee-down {
+    animation: marquee-down 60s linear infinite;
+    will-change: transform;
+  }
+  .marquee-slow {
+    animation-duration: 70s;
+  }
+  .marquee-pause:hover {
+    animation-play-state: paused;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .aurora-blob,
+    .shimmer-border::before,
+    .particle,
+    .marquee-up,
+    .marquee-down {
+      animation: none !important;
+    }
+  }
 }
 
 @layer utilities {
@@ -236,4 +425,292 @@
   .surface-2 { background-color: hsl(var(--surface-2)); }
   .border-subtle { border-color: hsl(var(--border-subtle)); }
   .border-strong { border-color: hsl(var(--border-strong)); }
+}
+
+/* ════════════════════════════════════════════════════════════════════
+ * Liquid Glass (Apple Sequoia-style) — Landing only
+ * Wrapper : <div class="lg-shell">…</div> sur la home.
+ * Scope strict : ne touche pas dashboard/admin/auth.
+ * Conserve l'orange CinetPay (highlight, btn-pill-orange).
+ * ════════════════════════════════════════════════════════════════════ */
+
+@layer components {
+  /* ─── Shell : background ambient avec orbs colorés très subtils ─── */
+  /* Mode CLAIR (par défaut) */
+  .lg-shell {
+    position: relative;
+    isolation: isolate;
+    background:
+      radial-gradient(ellipse 60% 40% at 15% 5%, rgba(241,85,34,0.10), transparent 60%),
+      radial-gradient(ellipse 50% 35% at 85% 20%, rgba(236,72,153,0.10), transparent 60%),
+      radial-gradient(ellipse 70% 50% at 50% 100%, rgba(255,138,0,0.08), transparent 70%),
+      radial-gradient(ellipse 40% 30% at 90% 70%, rgba(241,85,34,0.06), transparent 70%),
+      #FBFBFD;
+  }
+  /* Mode SOMBRE — adapt à la palette CreaFix navy/violet */
+  .dark .lg-shell {
+    background:
+      radial-gradient(ellipse 60% 40% at 15% 5%, rgba(241,85,34,0.16), transparent 60%),
+      radial-gradient(ellipse 50% 35% at 85% 20%, rgba(236,72,153,0.18), transparent 60%),
+      radial-gradient(ellipse 70% 50% at 50% 100%, rgba(255,138,0,0.10), transparent 70%),
+      radial-gradient(ellipse 40% 30% at 90% 70%, rgba(241,85,34,0.10), transparent 70%),
+      #0B0F19;
+    color: #E6EEF9;
+  }
+  /* Fixed ambient layer — bouge pas au scroll */
+  .lg-shell::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+      radial-gradient(circle at 20% 30%, rgba(241,85,34,0.05), transparent 35%),
+      radial-gradient(circle at 80% 70%, rgba(236,72,153,0.06), transparent 40%);
+  }
+  .dark .lg-shell::before {
+    background:
+      radial-gradient(circle at 20% 30%, rgba(241,85,34,0.08), transparent 35%),
+      radial-gradient(circle at 80% 70%, rgba(236,72,153,0.10), transparent 40%);
+  }
+
+  /* ─── Override des sections opaques pour laisser passer l'ambiance ─── */
+  .lg-shell section {
+    background-color: transparent !important;
+  }
+  .lg-shell section.panel-dark,
+  .lg-shell .panel-dark {
+    background-color: #15171a !important; /* on garde les panels dark intercalaires */
+  }
+  /* Opt-out : section blanche qui bloque l'ambiance lg-shell (testimonials) */
+  .lg-shell section#temoignages {
+    background-color: #FFFFFF !important;
+  }
+  .dark .lg-shell section#temoignages {
+    background-color: #0B0F19 !important;
+  }
+
+  /* ─── Override des cards opaques → glass refractif ─── */
+  /* Opt-out : ajouter .no-lg-glass sur un élément pour échapper aux overrides */
+  .lg-shell .card-soft:not(.no-lg-glass),
+  .lg-shell .bg-card:not(.no-lg-glass),
+  .lg-shell .bg-white:not(.no-lg-glass) {
+    background-color: rgba(255, 255, 255, 0.55) !important;
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    border: 1px solid #000 !important;
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.9) inset,
+      0 8px 24px -8px rgba(0, 0, 0, 0.12),
+      0 16px 48px -16px rgba(0, 0, 0, 0.14) !important;
+  }
+  .dark .lg-shell .card-soft:not(.no-lg-glass),
+  .dark .lg-shell .bg-card:not(.no-lg-glass),
+  .dark .lg-shell .bg-white:not(.no-lg-glass) {
+    background-color: rgba(15, 19, 32, 0.55) !important;
+    border: 1px solid rgba(255, 255, 255, 0.10) !important;
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.06) inset,
+      0 8px 24px -8px rgba(0, 0, 0, 0.40),
+      0 16px 48px -16px rgba(0, 0, 0, 0.50) !important;
+  }
+  .lg-shell .bg-muted:not(.no-lg-glass),
+  .lg-shell .bg-background:not(.no-lg-glass) {
+    background-color: rgba(255, 255, 255, 0.35) !important;
+    backdrop-filter: blur(16px) saturate(140%);
+    -webkit-backdrop-filter: blur(16px) saturate(140%);
+  }
+  .dark .lg-shell .bg-muted:not(.no-lg-glass),
+  .dark .lg-shell .bg-background:not(.no-lg-glass) {
+    background-color: rgba(15, 19, 32, 0.45) !important;
+  }
+
+  /* ─── Glass natif renforcé ─── */
+  .lg-shell .glass {
+    background: rgba(255, 255, 255, 0.5) !important;
+    backdrop-filter: blur(28px) saturate(200%) !important;
+    -webkit-backdrop-filter: blur(28px) saturate(200%) !important;
+    border: 1px solid #000 !important;
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 1) inset,
+      0 20px 60px -20px rgba(0, 0, 0, 0.15) !important;
+  }
+  .dark .lg-shell .glass {
+    background: rgba(15, 19, 32, 0.5) !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.06) inset,
+      0 20px 60px -20px rgba(0, 0, 0, 0.5) !important;
+  }
+  .lg-shell .glass-strong {
+    background: rgba(255, 255, 255, 0.7) !important;
+    backdrop-filter: blur(36px) saturate(220%) !important;
+    -webkit-backdrop-filter: blur(36px) saturate(220%) !important;
+    border: 1px solid #000 !important;
+  }
+  .dark .lg-shell .glass-strong {
+    background: rgba(15, 19, 32, 0.7) !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  }
+
+  /* ─── Navbar floating capsule glass ─── */
+  .lg-shell > header,
+  .lg-shell nav[class*="fixed"],
+  .lg-shell nav[class*="sticky"] {
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+  }
+
+  /* ─── Bouton orange : on conserve mais on ajoute une couche glass ─── */
+  .lg-shell .btn-pill-orange {
+    background-image:
+      linear-gradient(180deg, rgba(255,255,255,0.18), rgba(255,255,255,0) 60%),
+      linear-gradient(45deg, #f92c2c 0%, #f15b25 100%) !important;
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.35) inset,
+      0 4px 14px -2px rgba(241, 85, 34, 0.40),
+      0 10px 28px -8px rgba(241, 85, 34, 0.35) !important;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+  }
+  .lg-shell .btn-pill-orange:hover {
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.45) inset,
+      0 8px 22px -4px rgba(241, 85, 34, 0.50),
+      0 14px 36px -10px rgba(241, 85, 34, 0.45) !important;
+  }
+
+  /* ─── Surligneur orange : touche glass refractive ─── */
+  .lg-shell .highlight-orange {
+    background-image:
+      linear-gradient(180deg, rgba(255,255,255,0.18), rgba(255,255,255,0) 50%),
+      linear-gradient(45deg, #f92c2c, #f15b25) !important;
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.4) inset,
+      0 8px 20px -6px rgba(241, 85, 34, 0.35);
+  }
+
+  /* ─── Inputs : glass (opt-out via .no-lg-glass sur l'input ou un parent) ─── */
+  .lg-shell input:not([type="checkbox"]):not([type="radio"]):not(.no-lg-glass),
+  .lg-shell textarea:not(.no-lg-glass),
+  .lg-shell select:not(.no-lg-glass) {
+    background-color: rgba(255, 255, 255, 0.7) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid #000;
+  }
+  .dark .lg-shell input:not([type="checkbox"]):not([type="radio"]):not(.no-lg-glass),
+  .dark .lg-shell textarea:not(.no-lg-glass),
+  .dark .lg-shell select:not(.no-lg-glass) {
+    background-color: rgba(15, 19, 32, 0.7) !important;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: #E6EEF9;
+  }
+  .lg-shell .no-lg-glass input,
+  .lg-shell .no-lg-glass textarea,
+  .lg-shell .no-lg-glass select {
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+  .lg-shell input:not(.no-lg-glass):focus,
+  .lg-shell textarea:not(.no-lg-glass):focus,
+  .lg-shell select:not(.no-lg-glass):focus {
+    background-color: rgba(255, 255, 255, 0.9) !important;
+    border-color: #f15522;
+    box-shadow: 0 0 0 3px rgba(241, 85, 34, 0.18);
+  }
+
+  /* ─── Borders noirs sur tout le shell pour différencier les sections ─── */
+  /* Override seulement les borders "neutres" (border-border).
+     Les borders colorés Tailwind (border-emerald-500/30, border-[#EC4899]/30,
+     border-amber-500, etc.) gardent leur teinte parce qu'ils sont des classes
+     distinctes avec une plus haute spécificité dans leur génération. */
+  .lg-shell .border-border {
+    border-color: #000 !important;
+  }
+  .dark .lg-shell .border-border {
+    border-color: rgba(255, 255, 255, 0.10) !important;
+  }
+  /* La règle de base @apply border-border sur * fait que le contour
+     par défaut sur tout élément utilisant .border devient noir aussi. */
+
+  /* ─── Orb component (floating ambient) ─── */
+  .lg-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.6;
+    animation: lg-orb-float 18s ease-in-out infinite;
+  }
+  /* Palette officielle logo : teal / pink / orange */
+  .lg-orb-orange { background: #FF8A00; }
+  .lg-orb-pink   { background: #EC4899; }
+  .lg-orb-teal   { background: #1FBEAF; }
+  /* Aliases legacy (back-compat sans casser les usages existants) */
+  .lg-orb-purple { background: #EC4899; }  /* alias → pink */
+  .lg-orb-cyan   { background: #1FBEAF; }  /* alias → teal */
+  .lg-orb-warm   { background: #FF8A00; }  /* alias → orange */
+
+  @keyframes lg-orb-float {
+    0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+    50%      { transform: translate3d(30px, -20px, 0) scale(1.1); }
+  }
+
+  /* ─── Prismatic conic border (cards premium) ─── */
+  .lg-prismatic {
+    position: relative;
+    isolation: isolate;
+  }
+  .lg-prismatic::before {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    z-index: -1;
+    border-radius: inherit;
+    background: conic-gradient(
+      from 0deg,
+      rgba(241,85,34,0.6),
+      rgba(236,72,153,0.5),
+      rgba(255,138,0,0.6),
+      rgba(241,85,34,0.6)
+    );
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+  .lg-prismatic:hover::before,
+  .lg-prismatic[data-active="true"]::before {
+    opacity: 0.7;
+  }
+  .lg-prismatic::after {
+    content: "";
+    position: absolute;
+    inset: 1px;
+    z-index: -1;
+    border-radius: inherit;
+    background: #FFFFFF;
+  }
+
+  /* ─── Refraction line (top highlight on glass surfaces) ─── */
+  .lg-shell .card-soft::before,
+  .lg-shell .bg-card::before {
+    content: none; /* opt-in via .lg-refract */
+  }
+  .lg-refract {
+    position: relative;
+    overflow: hidden;
+  }
+  .lg-refract::after {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,1), transparent);
+    pointer-events: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .lg-orb { animation: none !important; }
+  }
 }

@@ -19,7 +19,7 @@ export function PlatformsSection() {
   const soonCount = platformList.filter((p) => p.status === "soon").length;
 
   return (
-    <section id="platforms" className="relative py-14 md:py-20">
+    <section id="platforms" className="relative py-10 md:py-14">
       <div className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[500px] w-[1100px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-radial-fade opacity-40 blur-3xl" />
 
       <div className="container">
@@ -29,7 +29,7 @@ export function PlatformsSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.4 }}
-            className="inline-flex items-center gap-1.5 rounded-full border border-[#00C2FF]/30 bg-[#00C2FF]/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-[#00C2FF]"
+            className="inline-flex items-center gap-1.5 rounded-full border border-[#FF8A00]/30 bg-[#FF8A00]/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-[#FF8A00]"
           >
             <Sparkles className="h-3 w-3" /> {t("eyebrow")}
           </motion.div>
@@ -73,13 +73,13 @@ export function PlatformsSection() {
             </span>
             <span>·</span>
             <span className="flex items-center gap-1.5">
-              <TrendingUp className="h-3 w-3 text-[#7B61FF]" />
+              <TrendingUp className="h-3 w-3 text-[#EC4899]" />
               RPM moyen <b className="text-foreground">${avgRpm.toFixed(2)}</b>
             </span>
           </div>
         </div>
 
-        <div className="mx-auto mt-10 grid max-w-6xl gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {sorted.map((p, i) => (
             <PlatformCard
               key={p.id}
@@ -215,7 +215,7 @@ function PlatformCard({
             style={{
               backgroundImage:
                 platform.color === "#FFFFFF" || platform.color === "#000000"
-                  ? "linear-gradient(90deg, #7B61FF80, #7B61FF)"
+                  ? "linear-gradient(90deg, #EC489980, #EC4899)"
                   : `linear-gradient(90deg, ${platform.color}80, ${platform.color})`,
             }}
           />

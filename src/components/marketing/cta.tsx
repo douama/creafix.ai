@@ -10,7 +10,7 @@ export function CTA() {
   const t = useTranslations("cta");
 
   return (
-    <section className="relative py-10 md:py-14">
+    <section className="relative py-8 md:py-10">
       {/* Container par défaut 1280px */}
       <div className="container">
         <motion.div
@@ -29,7 +29,7 @@ export function CTA() {
 
           {/* Glow blobs colorés */}
           <div className="pointer-events-none absolute -bottom-32 -left-24 h-80 w-80 rounded-full bg-[#FF8A00]/40 blur-3xl" />
-          <div className="pointer-events-none absolute -top-32 right-1/4 h-72 w-72 rounded-full bg-[#00C2FF]/30 blur-3xl" />
+          <div className="pointer-events-none absolute -top-32 right-1/4 h-72 w-72 rounded-full bg-[#FF8A00]/30 blur-3xl" />
 
           {/* Grid pattern très subtle */}
           <div
@@ -58,20 +58,17 @@ export function CTA() {
               </p>
 
               <div className="mt-5 flex flex-wrap items-center justify-center gap-x-4 gap-y-1.5 text-[11px] text-white md:justify-start">
-                <span className="inline-flex items-center gap-1">
-                  <Star className="h-3.5 w-3.5 fill-amber-300 text-amber-300" />
-                  <Star className="h-3.5 w-3.5 fill-amber-300 text-amber-300" />
-                  <Star className="h-3.5 w-3.5 fill-amber-300 text-amber-300" />
-                  <Star className="h-3.5 w-3.5 fill-amber-300 text-amber-300" />
-                  <Star className="h-3.5 w-3.5 fill-amber-300 text-amber-300" />
-                  <b className="ml-1 text-sm">4.9</b>
+                <span className="inline-flex items-center gap-1.5">
+                  <span className="relative flex h-2 w-2">
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-300 opacity-75" />
+                    <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
+                  </span>
+                  <b className="text-sm">Launch en cours</b>
                 </span>
-                <span className="text-white/60">·</span>
-                <span><b>2 300+</b> créateurs</span>
                 <span className="text-white/60">·</span>
                 <span><b>9</b> plateformes</span>
                 <span className="text-white/60">·</span>
-                <span><b>9</b> pays</span>
+                <span><b>9</b> pays africains</span>
               </div>
             </div>
 
