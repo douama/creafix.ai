@@ -1,7 +1,6 @@
 import { Coins } from "lucide-react";
 import { PageShell, PageHero } from "@/components/marketing/page-shell";
 import { Pricing } from "@/components/marketing/pricing";
-import { PaymentMethods } from "@/components/marketing/payment-methods";
 import { FAQ } from "@/components/marketing/faq";
 
 export const metadata = {
@@ -34,7 +33,6 @@ export default function PricingPage() {
       }
     >
       <Pricing />
-      <PaymentMethods />
       <FAQ />
     </PageShell>
   );
