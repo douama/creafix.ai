@@ -207,7 +207,7 @@ export type WalletId =
 
 const WALLET_SLUGS: Record<WalletId, string> = {
   WAVE_SN:     "wave-senegal",
-  ORANGE_SN:   "orange-money-senegal",
+  ORANGE_SN:   "new-orange-money-senegal", // OTP supprimé, retourne om_url/maxit_url
   FREE_SN:     "free-money-senegal",
   EXPRESSO_SN: "expresso-senegal",
   ORANGE_CI:   "orange-money-ci",
@@ -225,7 +225,12 @@ export type SoftpayInput = {
 };
 
 export type SoftpayResult =
-  | { ok: true; message: string; redirectUrl?: string }
+  | {
+      ok: true;
+      message: string;
+      redirectUrl?: string;
+      deepLinks?: { om?: string; maxit?: string };
+    }
   | { ok: false; error: string };
 
 /**
@@ -253,11 +258,11 @@ export async function softpay(input: SoftpayInput): Promise<SoftpayResult> {
       };
       break;
     case "ORANGE_SN":
+      // New endpoint: pas d'OTP, retourne om_url/maxit_url pour redirect vers app
       body = {
         customer_name: input.customerName,
         customer_email: input.customerEmail,
         phone_number: input.phone,
-        authorization_code: input.otp ?? "",
         invoice_token: input.token,
       };
       break;
@@ -271,7 +276,7 @@ export async function softpay(input: SoftpayInput): Promise<SoftpayResult> {
       break;
     case "EXPRESSO_SN":
       body = {
-        expresso_sn_full_name: input.customerName,
+        expresso_sn_fullName: input.customerName,
         expresso_sn_email: input.customerEmail,
         expresso_sn_phone: input.phone,
         payment_token: input.token,
@@ -313,16 +318,24 @@ export async function softpay(input: SoftpayInput): Promise<SoftpayResult> {
     const data = (await res.json()) as {
       success?: boolean;
       message?: string;
-      url?: string;
+      url?: string;        // Wave : URL hosted wave.com — redirect cross-device OK
+      om_url?: string;     // Orange Money (new endpoint) : deep-link app OM
+      maxit_url?: string;  // Orange Money (new endpoint) : deep-link app Maxit
       response_text?: string;
     };
     if (data.success === false) {
       return { ok: false, error: data.message ?? data.response_text ?? "Échec softpay" };
     }
+    // Seul Wave retourne une URL hosted qu'on peut redirect en cross-device.
+    // om_url/maxit_url sont des deep-links app utiles seulement sur mobile —
+    // on les passe au front qui décide d'afficher un bouton "Ouvrir l'app".
     return {
       ok: true,
       message: data.message ?? "Demande envoyée — confirme sur ton téléphone",
-      redirectUrl: data.url, // Wave only : URL deep-link à ouvrir
+      redirectUrl: data.url,
+      deepLinks: data.om_url || data.maxit_url
+        ? { om: data.om_url, maxit: data.maxit_url }
+        : undefined,
     };
   } catch (e) {
     return { ok: false, error: (e as Error).message };

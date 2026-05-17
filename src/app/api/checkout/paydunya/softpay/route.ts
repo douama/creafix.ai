@@ -33,8 +33,15 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: `Wallet invalide : ${body.wallet}` }, { status: 400 });
   }
 
-  // Normalise le numéro : enlève + et espaces (PayDunya attend "770000000")
-  const phone = body.phone.replace(/[\s+]/g, "");
+  // Normalise le numéro : PayDunya softpay attend le numéro LOCAL sans code pays
+  // (ex: "778676477" pour SN, pas "221778676477"). Strip + / espaces puis le préfixe pays.
+  const phone = (() => {
+    let p = body.phone.replace(/[\s\-+()]/g, "");
+    if (p.startsWith("00")) p = p.slice(2);
+    if (p.startsWith("221") && p.length === 12) p = p.slice(3); // SN
+    else if (p.startsWith("225") && p.length === 13) p = p.slice(3); // CI (10 digits local)
+    return p;
+  })();
 
   const result = await softpay({
     wallet: body.wallet as WalletId,
@@ -53,5 +60,6 @@ export async function POST(request: Request) {
     ok: true,
     message: result.message,
     redirectUrl: result.redirectUrl ?? null,
+    deepLinks: result.deepLinks ?? null,
   });
 }
