@@ -13,96 +13,124 @@
      • Midnight  #0B0F19  →  HSL 224 39% 7%    (dark bg)
      ─────────────────────────────────────────────────────────── */
 
-  /* ─── Mode sombre (default) ─── */
+  /* ═══════════════════════════════════════════════════════════════════
+   * Liquid Glass tokens — Apple iOS/macOS style
+   * Light = off-white avec hint warm + accents satinés
+   * Dark  = near-black bleuté + accents vibrants
+   * Toutes les surfaces glass utilisent des hairline borders et un
+   * specular highlight inset pour le rendu "verre liquide".
+   * ═══════════════════════════════════════════════════════════════════ */
+
+  /* ─── Mode sombre ─── */
   :root,
   .dark {
-    --background: 224 39% 7%;       /* #0B0F19 noir profond */
-    --foreground: 0 0% 98%;
+    /* Base */
+    --background: 224 33% 6%;          /* #0A0D14 — near-black avec hint blue */
+    --foreground: 220 14% 96%;         /* #F1F2F5 — off-white lisible */
 
-    --card: 224 32% 10%;
-    --card-foreground: 0 0% 98%;
+    --card: 224 28% 9%;                /* #10131C */
+    --card-foreground: 220 14% 96%;
 
-    --popover: 224 39% 7%;
-    --popover-foreground: 0 0% 98%;
+    --popover: 224 33% 8%;
+    --popover-foreground: 220 14% 96%;
 
-    --primary: 330 81% 60%;         /* #EC4899 pink (logo) */
+    --primary: 330 81% 60%;            /* #EC4899 pink (logo) */
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 32 100% 50%;       /* #FF8A00 orange chaud */
+    --secondary: 32 100% 50%;          /* #FF8A00 orange chaud */
     --secondary-foreground: 0 0% 100%;
 
-    --muted: 224 20% 14%;
-    --muted-foreground: 224 10% 68%;
+    --muted: 224 18% 13%;
+    --muted-foreground: 220 12% 70%;   /* lisibilité accrue */
 
-    --accent: 32 100% 50%;          /* #FF8A00 orange accent */
+    --accent: 32 100% 50%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 224 20% 18%;
-    --input: 224 20% 18%;
-    --ring: 249 100% 69%;
+    --border: 220 16% 18%;
+    --input: 220 16% 18%;
+    --ring: 174 71% 50%;               /* teal du logo pour focus */
 
     --radius: 0.85rem;
 
-    /* Tokens supplémentaires pour cohérence inter-thèmes */
-    --surface-1: 240 12% 9%;     /* cards */
-    --surface-2: 240 10% 12%;    /* sub-panels */
-    --surface-glass: 240 30% 100% / 0.03;
-    --surface-glass-strong: 240 30% 100% / 0.06;
-    --border-subtle: 0 0% 100% / 0.10;
-    --border-strong: 0 0% 100% / 0.18;
+    --surface-1: 224 24% 10%;
+    --surface-2: 224 20% 13%;
+
+    /* Liquid Glass — dark */
+    --glass-bg: 224 30% 7% / 0.55;            /* fond translucide */
+    --glass-bg-thick: 224 30% 7% / 0.72;      /* opaque */
+    --glass-bg-thin: 224 30% 7% / 0.35;       /* léger */
+    --glass-bg-chrome: 224 30% 7% / 0.62;     /* navbar/toolbar */
+    --glass-border: 0 0% 100% / 0.10;         /* hairline blanc */
+    --glass-border-strong: 0 0% 100% / 0.16;
+    --glass-highlight: 0 0% 100% / 0.07;      /* specular top inset */
+    --glass-inner: 0 0% 100% / 0.04;          /* ring intérieur */
+    --glass-shadow-fine: 0 0% 0% / 0.35;
+    --glass-shadow-mid: 0 0% 0% / 0.45;
+    --glass-shadow-far: 0 0% 0% / 0.55;
+    --glass-refract: 0 0% 100% / 0.18;        /* ligne refraction top */
+
     --grid-color: 0 0% 100% / 0.04;
-    --bg-glow-1: 124 58% 237 / 0.18;
-    --bg-glow-2: 59 130% 246 / 0.10;
-    --bg-glow-3: 249 115% 22 / 0.08;
+    --bg-tint-1: 330 81% 60% / 0.18;
+    --bg-tint-2: 32 100% 50% / 0.10;
+    --bg-tint-3: 174 71% 50% / 0.10;
   }
 
-  /* ─── Mode clair "CinetPay style" — orange primary + grand contraste ─── */
+  /* ─── Mode clair ─── Off-white warm avec verre satiné */
   .light {
-    --background: 0 0% 100%;          /* #FFFFFF */
-    --foreground: 222 22% 12%;        /* #18191e — proche #15171a CinetPay dark text */
+    --background: 30 25% 98%;          /* #FBFAF8 off-white warm */
+    --foreground: 224 24% 9%;          /* #0E1019 near-black hint blue */
 
     --card: 0 0% 100%;
-    --card-foreground: 222 22% 12%;
+    --card-foreground: 224 24% 9%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222 22% 12%;
+    --popover-foreground: 224 24% 9%;
 
-    /* Orange CinetPay #f15522 */
-    --primary: 14 87% 54%;
+    --primary: 14 87% 54%;             /* #f15522 orange signature */
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 200 80% 35%;          /* bleu navy léger pour info / liens */
+    --secondary: 224 32% 14%;
     --secondary-foreground: 0 0% 100%;
 
-    --muted: 210 16% 96%;              /* #F1F3F5 */
-    --muted-foreground: 220 10% 35%;   /* gris foncé lisible */
+    --muted: 30 12% 94%;               /* off-white plus profond */
+    --muted-foreground: 224 10% 32%;   /* gris foncé bien lisible */
 
-    /* Accent vert canard CinetPay #438d7c pour CTA secondaires */
-    --accent: 165 35% 40%;
+    --accent: 174 60% 38%;             /* teal sombre lisible sur clair */
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 75% 50%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 210 14% 90%;             /* gris très clair */
-    --input: 210 14% 92%;
-    --ring: 14 87% 54%;                /* orange focus ring */
+    --border: 220 12% 86%;             /* gris froid clair */
+    --input: 220 12% 90%;
+    --ring: 14 87% 54%;
 
-    --radius: 0.75rem;                 /* 12px CinetPay */
+    --radius: 0.85rem;
 
     --surface-1: 0 0% 100%;
-    --surface-2: 210 16% 98%;
-    --surface-glass: 0 0% 100% / 0.95;
-    --surface-glass-strong: 0 0% 100%;
-    --border-subtle: 220 10% 0% / 0.06;
-    --border-strong: 220 10% 0% / 0.10;
-    --grid-color: 220 10% 0% / 0.03;
-    --bg-glow-1: 14 87% 54% / 0.06;
-    --bg-glow-2: 14 87% 54% / 0.04;
-    --bg-glow-3: 14 87% 54% / 0.03;
+    --surface-2: 30 20% 97%;
+
+    /* Liquid Glass — light */
+    --glass-bg: 0 0% 100% / 0.62;             /* verre crème */
+    --glass-bg-thick: 0 0% 100% / 0.82;
+    --glass-bg-thin: 0 0% 100% / 0.4;
+    --glass-bg-chrome: 0 0% 100% / 0.68;
+    --glass-border: 224 24% 9% / 0.08;        /* hairline sombre subtil */
+    --glass-border-strong: 224 24% 9% / 0.14;
+    --glass-highlight: 0 0% 100% / 0.9;       /* specular blanc lumineux */
+    --glass-inner: 0 0% 100% / 0.6;
+    --glass-shadow-fine: 224 24% 9% / 0.04;
+    --glass-shadow-mid: 224 24% 9% / 0.08;
+    --glass-shadow-far: 224 24% 9% / 0.12;
+    --glass-refract: 224 24% 9% / 0.12;
+
+    --grid-color: 224 24% 9% / 0.05;
+    --bg-tint-1: 14 87% 54% / 0.06;
+    --bg-tint-2: 330 81% 60% / 0.05;
+    --bg-tint-3: 174 71% 50% / 0.05;
   }
 
   * {
@@ -119,18 +147,20 @@
     background-attachment: fixed;
   }
 
-  /* Ambiance dark — palette CreaFix #EC4899 / #FF8A00 (orange chaud) / #f15522 */
+  /* Ambiance dark — orbs colorés diffus pour révéler le verre */
   .dark body {
     background-image:
-      radial-gradient(ellipse 80% 50% at 50% -20%, rgba(236, 72, 153, 0.20), transparent),
-      radial-gradient(ellipse 60% 40% at 80% 100%, rgba(255, 138, 0, 0.12), transparent),
-      radial-gradient(ellipse 50% 30% at 10% 90%, rgba(241, 85, 34, 0.10), transparent);
+      radial-gradient(ellipse 80% 50% at 50% -20%, hsl(var(--bg-tint-1)), transparent),
+      radial-gradient(ellipse 60% 40% at 85% 100%, hsl(var(--bg-tint-2)), transparent),
+      radial-gradient(ellipse 50% 30% at 10% 90%, hsl(var(--bg-tint-3)), transparent);
   }
 
-  /* Ambiance light — fond blanc pur sobre style CinetPay (pas d'aurora) */
+  /* Ambiance light — orbs colorés très subtils pour révéler le verre */
   .light body {
-    background-image: none;
-    background-color: #FFFFFF;
+    background-image:
+      radial-gradient(ellipse 70% 45% at 50% -10%, hsl(var(--bg-tint-1)), transparent),
+      radial-gradient(ellipse 55% 35% at 88% 100%, hsl(var(--bg-tint-2)), transparent),
+      radial-gradient(ellipse 45% 30% at 8% 90%, hsl(var(--bg-tint-3)), transparent);
   }
 
   ::selection {
@@ -147,37 +177,99 @@
 }
 
 @layer components {
-  /* Glass — adaptatif au thème */
+  /* ═══════════════════════════════════════════════════════════════════
+   * Liquid Glass — système Apple iOS/macOS
+   *
+   * Chaque variant combine :
+   *   1. Background translucide (HSL/alpha adapté light/dark)
+   *   2. backdrop-filter blur + saturate (boost couleurs sous-jacentes)
+   *   3. Hairline border (jamais noir massif)
+   *   4. Specular highlight inset top (catch de lumière)
+   *   5. Ring intérieur subtil (profondeur)
+   *   6. Stack de 3 ombres (close / mid / far) tintées sur la base
+   *
+   * Variants :
+   *   .glass         — base (cards, popovers, modals)
+   *   .glass-thick   — opaque, pour overlays au-dessus de contenu
+   *   .glass-thin    — légère (badges, chips, pills)
+   *   .glass-chrome  — navbar/toolbar (translucide haut)
+   *   .glass-refract — ajoute une ligne de réfraction au sommet
+   * ═══════════════════════════════════════════════════════════════════ */
   .glass {
-    @apply border backdrop-blur-xl;
-    border-color: hsl(var(--border-subtle));
-    background-color: hsl(var(--surface-glass));
-  }
-  .dark .glass {
+    background-color: hsl(var(--glass-bg));
+    backdrop-filter: blur(22px) saturate(180%);
+    -webkit-backdrop-filter: blur(22px) saturate(180%);
+    border: 1px solid hsl(var(--glass-border));
     box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.06),
-      0 24px 60px -20px rgba(0, 0, 0, 0.5);
-  }
-  .light .glass {
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.9),
-      0 12px 32px -16px rgba(15, 23, 42, 0.12);
+      inset 0 1px 0 hsl(var(--glass-highlight)),
+      inset 0 0 0 1px hsl(var(--glass-inner)),
+      0 1px 2px hsl(var(--glass-shadow-fine)),
+      0 10px 28px -10px hsl(var(--glass-shadow-mid)),
+      0 24px 56px -20px hsl(var(--glass-shadow-far));
   }
 
+  .glass-thick {
+    background-color: hsl(var(--glass-bg-thick));
+    backdrop-filter: blur(28px) saturate(190%);
+    -webkit-backdrop-filter: blur(28px) saturate(190%);
+    border: 1px solid hsl(var(--glass-border-strong));
+    box-shadow:
+      inset 0 1px 0 hsl(var(--glass-highlight)),
+      inset 0 0 0 1px hsl(var(--glass-inner)),
+      0 2px 4px hsl(var(--glass-shadow-fine)),
+      0 14px 36px -12px hsl(var(--glass-shadow-mid)),
+      0 32px 72px -24px hsl(var(--glass-shadow-far));
+  }
+
+  .glass-thin {
+    background-color: hsl(var(--glass-bg-thin));
+    backdrop-filter: blur(14px) saturate(160%);
+    -webkit-backdrop-filter: blur(14px) saturate(160%);
+    border: 1px solid hsl(var(--glass-border));
+    box-shadow:
+      inset 0 1px 0 hsl(var(--glass-highlight)),
+      0 4px 12px -4px hsl(var(--glass-shadow-fine));
+  }
+
+  .glass-chrome {
+    background-color: hsl(var(--glass-bg-chrome));
+    backdrop-filter: blur(28px) saturate(200%);
+    -webkit-backdrop-filter: blur(28px) saturate(200%);
+    border: 1px solid hsl(var(--glass-border));
+    box-shadow:
+      inset 0 1px 0 hsl(var(--glass-highlight)),
+      0 1px 2px hsl(var(--glass-shadow-fine)),
+      0 12px 32px -12px hsl(var(--glass-shadow-mid));
+  }
+
+  /* Refraction band — fine ligne lumineuse en haut, signature Apple */
+  .glass-refract {
+    position: relative;
+  }
+  .glass-refract::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 8%;
+    right: 8%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, hsl(var(--glass-refract)), transparent);
+    pointer-events: none;
+    border-radius: inherit;
+  }
+
+  /* Backwards-compatible alias — l'ancien `.glass-strong` mappe sur `.glass-thick` */
   .glass-strong {
-    @apply border backdrop-blur-2xl;
-    border-color: hsl(var(--border-strong));
-    background-color: hsl(var(--surface-glass-strong));
-  }
-  .dark .glass-strong {
+    background-color: hsl(var(--glass-bg-thick));
+    backdrop-filter: blur(28px) saturate(190%);
+    -webkit-backdrop-filter: blur(28px) saturate(190%);
+    border: 1px solid hsl(var(--glass-border-strong));
     box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.08),
-      0 32px 80px -24px rgba(0, 0, 0, 0.6);
-  }
-  .light .glass-strong {
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 1),
-      0 24px 60px -20px rgba(15, 23, 42, 0.18);
+      inset 0 1px 0 hsl(var(--glass-highlight)),
+      inset 0 0 0 1px hsl(var(--glass-inner)),
+      0 2px 4px hsl(var(--glass-shadow-fine)),
+      0 14px 36px -12px hsl(var(--glass-shadow-mid)),
+      0 32px 72px -24px hsl(var(--glass-shadow-far));
   }
 
   /* Texte dégradé — visible dans les 2 thèmes (palette violet → orange) */
@@ -435,29 +527,18 @@
  * ════════════════════════════════════════════════════════════════════ */
 
 @layer components {
-  /* ─── Shell : background ambient avec orbs colorés très subtils ─── */
-  /* Mode CLAIR (par défaut) */
+  /* ─── Shell : background ambient adaptatif aux 2 thèmes ─── */
   .lg-shell {
     position: relative;
     isolation: isolate;
-    background:
-      radial-gradient(ellipse 60% 40% at 15% 5%, rgba(241,85,34,0.10), transparent 60%),
-      radial-gradient(ellipse 50% 35% at 85% 20%, rgba(236,72,153,0.10), transparent 60%),
-      radial-gradient(ellipse 70% 50% at 50% 100%, rgba(255,138,0,0.08), transparent 70%),
-      radial-gradient(ellipse 40% 30% at 90% 70%, rgba(241,85,34,0.06), transparent 70%),
-      #FBFBFD;
+    background-color: hsl(var(--background));
+    background-image:
+      radial-gradient(ellipse 60% 40% at 15% 5%, hsl(var(--bg-tint-1)), transparent 60%),
+      radial-gradient(ellipse 50% 35% at 85% 20%, hsl(var(--bg-tint-2)), transparent 60%),
+      radial-gradient(ellipse 70% 50% at 50% 100%, hsl(var(--bg-tint-3)), transparent 70%);
+    color: hsl(var(--foreground));
   }
-  /* Mode SOMBRE — adapt à la palette CreaFix navy/violet */
-  .dark .lg-shell {
-    background:
-      radial-gradient(ellipse 60% 40% at 15% 5%, rgba(241,85,34,0.16), transparent 60%),
-      radial-gradient(ellipse 50% 35% at 85% 20%, rgba(236,72,153,0.18), transparent 60%),
-      radial-gradient(ellipse 70% 50% at 50% 100%, rgba(255,138,0,0.10), transparent 70%),
-      radial-gradient(ellipse 40% 30% at 90% 70%, rgba(241,85,34,0.10), transparent 70%),
-      #0B0F19;
-    color: #E6EEF9;
-  }
-  /* Fixed ambient layer — bouge pas au scroll */
+  /* Fixed ambient layer — bouge pas au scroll, suit le thème */
   .lg-shell::before {
     content: "";
     position: fixed;
@@ -465,13 +546,8 @@
     z-index: -1;
     pointer-events: none;
     background:
-      radial-gradient(circle at 20% 30%, rgba(241,85,34,0.05), transparent 35%),
-      radial-gradient(circle at 80% 70%, rgba(236,72,153,0.06), transparent 40%);
-  }
-  .dark .lg-shell::before {
-    background:
-      radial-gradient(circle at 20% 30%, rgba(241,85,34,0.08), transparent 35%),
-      radial-gradient(circle at 80% 70%, rgba(236,72,153,0.10), transparent 40%);
+      radial-gradient(circle at 20% 30%, hsl(var(--bg-tint-1)), transparent 35%),
+      radial-gradient(circle at 80% 70%, hsl(var(--bg-tint-2)), transparent 40%);
   }
 
   /* ─── Override des sections opaques pour laisser passer l'ambiance ─── */
@@ -480,77 +556,54 @@
   }
   .lg-shell section.panel-dark,
   .lg-shell .panel-dark {
-    background-color: #15171a !important; /* on garde les panels dark intercalaires */
+    background-color: #15171a !important; /* panels dark intercalaires conservés */
   }
-  /* Opt-out : section blanche qui bloque l'ambiance lg-shell (testimonials) */
+  /* Testimonials : suit le thème (background uni mais respecte light/dark) */
   .lg-shell section#temoignages {
-    background-color: #FFFFFF !important;
-  }
-  .dark .lg-shell section#temoignages {
-    background-color: #0B0F19 !important;
+    background-color: hsl(var(--background)) !important;
   }
 
-  /* ─── Override des cards opaques → glass refractif ─── */
-  /* Opt-out : ajouter .no-lg-glass sur un élément pour échapper aux overrides */
+  /* ─── Override des cards opaques → glass refractif (Apple-style) ─── */
+  /* Bordures = hairline tokens, jamais noir massif. Opt-out via .no-lg-glass */
   .lg-shell .card-soft:not(.no-lg-glass),
   .lg-shell .bg-card:not(.no-lg-glass),
   .lg-shell .bg-white:not(.no-lg-glass) {
-    background-color: rgba(255, 255, 255, 0.55) !important;
-    backdrop-filter: blur(24px) saturate(180%);
-    -webkit-backdrop-filter: blur(24px) saturate(180%);
-    border: 1px solid #000 !important;
+    background-color: hsl(var(--glass-bg)) !important;
+    backdrop-filter: blur(22px) saturate(180%);
+    -webkit-backdrop-filter: blur(22px) saturate(180%);
+    border: 1px solid hsl(var(--glass-border)) !important;
     box-shadow:
-      0 1px 0 rgba(255, 255, 255, 0.9) inset,
-      0 8px 24px -8px rgba(0, 0, 0, 0.12),
-      0 16px 48px -16px rgba(0, 0, 0, 0.14) !important;
-  }
-  .dark .lg-shell .card-soft:not(.no-lg-glass),
-  .dark .lg-shell .bg-card:not(.no-lg-glass),
-  .dark .lg-shell .bg-white:not(.no-lg-glass) {
-    background-color: rgba(15, 19, 32, 0.55) !important;
-    border: 1px solid rgba(255, 255, 255, 0.10) !important;
-    box-shadow:
-      0 1px 0 rgba(255, 255, 255, 0.06) inset,
-      0 8px 24px -8px rgba(0, 0, 0, 0.40),
-      0 16px 48px -16px rgba(0, 0, 0, 0.50) !important;
+      inset 0 1px 0 hsl(var(--glass-highlight)),
+      inset 0 0 0 1px hsl(var(--glass-inner)),
+      0 1px 2px hsl(var(--glass-shadow-fine)),
+      0 10px 28px -10px hsl(var(--glass-shadow-mid)),
+      0 24px 56px -20px hsl(var(--glass-shadow-far)) !important;
   }
   .lg-shell .bg-muted:not(.no-lg-glass),
   .lg-shell .bg-background:not(.no-lg-glass) {
-    background-color: rgba(255, 255, 255, 0.35) !important;
-    backdrop-filter: blur(16px) saturate(140%);
-    -webkit-backdrop-filter: blur(16px) saturate(140%);
-  }
-  .dark .lg-shell .bg-muted:not(.no-lg-glass),
-  .dark .lg-shell .bg-background:not(.no-lg-glass) {
-    background-color: rgba(15, 19, 32, 0.45) !important;
+    background-color: hsl(var(--glass-bg-thin)) !important;
+    backdrop-filter: blur(14px) saturate(160%);
+    -webkit-backdrop-filter: blur(14px) saturate(160%);
   }
 
-  /* ─── Glass natif renforcé ─── */
+  /* ─── Glass natif amplifié dans le shell ─── */
   .lg-shell .glass {
-    background: rgba(255, 255, 255, 0.5) !important;
+    background-color: hsl(var(--glass-bg)) !important;
     backdrop-filter: blur(28px) saturate(200%) !important;
     -webkit-backdrop-filter: blur(28px) saturate(200%) !important;
-    border: 1px solid #000 !important;
+    border: 1px solid hsl(var(--glass-border)) !important;
     box-shadow:
-      0 1px 0 rgba(255, 255, 255, 1) inset,
-      0 20px 60px -20px rgba(0, 0, 0, 0.15) !important;
-  }
-  .dark .lg-shell .glass {
-    background: rgba(15, 19, 32, 0.5) !important;
-    border: 1px solid rgba(255, 255, 255, 0.12) !important;
-    box-shadow:
-      0 1px 0 rgba(255, 255, 255, 0.06) inset,
-      0 20px 60px -20px rgba(0, 0, 0, 0.5) !important;
+      inset 0 1px 0 hsl(var(--glass-highlight)),
+      inset 0 0 0 1px hsl(var(--glass-inner)),
+      0 1px 2px hsl(var(--glass-shadow-fine)),
+      0 14px 36px -12px hsl(var(--glass-shadow-mid)),
+      0 32px 72px -24px hsl(var(--glass-shadow-far)) !important;
   }
   .lg-shell .glass-strong {
-    background: rgba(255, 255, 255, 0.7) !important;
+    background-color: hsl(var(--glass-bg-thick)) !important;
     backdrop-filter: blur(36px) saturate(220%) !important;
     -webkit-backdrop-filter: blur(36px) saturate(220%) !important;
-    border: 1px solid #000 !important;
-  }
-  .dark .lg-shell .glass-strong {
-    background: rgba(15, 19, 32, 0.7) !important;
-    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    border: 1px solid hsl(var(--glass-border-strong)) !important;
   }
 
   /* ─── Navbar floating capsule glass ─── */
@@ -589,21 +642,15 @@
       0 8px 20px -6px rgba(241, 85, 34, 0.35);
   }
 
-  /* ─── Inputs : glass (opt-out via .no-lg-glass sur l'input ou un parent) ─── */
+  /* ─── Inputs : verre satiné, focus orange CreaFix ─── */
   .lg-shell input:not([type="checkbox"]):not([type="radio"]):not(.no-lg-glass),
   .lg-shell textarea:not(.no-lg-glass),
   .lg-shell select:not(.no-lg-glass) {
-    background-color: rgba(255, 255, 255, 0.7) !important;
+    background-color: hsl(var(--glass-bg-thick)) !important;
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    border: 1px solid #000;
-  }
-  .dark .lg-shell input:not([type="checkbox"]):not([type="radio"]):not(.no-lg-glass),
-  .dark .lg-shell textarea:not(.no-lg-glass),
-  .dark .lg-shell select:not(.no-lg-glass) {
-    background-color: rgba(15, 19, 32, 0.7) !important;
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    color: #E6EEF9;
+    border: 1px solid hsl(var(--glass-border));
+    color: hsl(var(--foreground));
   }
   .lg-shell .no-lg-glass input,
   .lg-shell .no-lg-glass textarea,
@@ -615,24 +662,16 @@
   .lg-shell input:not(.no-lg-glass):focus,
   .lg-shell textarea:not(.no-lg-glass):focus,
   .lg-shell select:not(.no-lg-glass):focus {
-    background-color: rgba(255, 255, 255, 0.9) !important;
-    border-color: #f15522;
-    box-shadow: 0 0 0 3px rgba(241, 85, 34, 0.18);
+    background-color: hsl(var(--background)) !important;
+    border-color: hsl(var(--ring));
+    box-shadow: 0 0 0 3px hsl(var(--ring) / 0.18);
+    outline: none;
   }
 
-  /* ─── Borders noirs sur tout le shell pour différencier les sections ─── */
-  /* Override seulement les borders "neutres" (border-border).
-     Les borders colorés Tailwind (border-emerald-500/30, border-[#EC4899]/30,
-     border-amber-500, etc.) gardent leur teinte parce qu'ils sont des classes
-     distinctes avec une plus haute spécificité dans leur génération. */
+  /* Hairline borders pour les sections du shell — finit l'esthétique Apple */
   .lg-shell .border-border {
-    border-color: #000 !important;
+    border-color: hsl(var(--glass-border)) !important;
   }
-  .dark .lg-shell .border-border {
-    border-color: rgba(255, 255, 255, 0.10) !important;
-  }
-  /* La règle de base @apply border-border sur * fait que le contour
-     par défaut sur tout élément utilisant .border devient noir aussi. */
 
   /* ─── Orb component (floating ambient) ─── */
   .lg-orb {
@@ -689,7 +728,7 @@
     inset: 1px;
     z-index: -1;
     border-radius: inherit;
-    background: #FFFFFF;
+    background-color: hsl(var(--background));
   }
 
   /* ─── Refraction line (top highlight on glass surfaces) ─── */

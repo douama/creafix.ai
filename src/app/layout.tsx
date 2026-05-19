@@ -57,7 +57,10 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0B0F19",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#FBFAF8" },
+    { media: "(prefers-color-scheme: dark)", color: "#0A0D14" },
+  ],
   width: "device-width",
   initialScale: 1,
 };
@@ -80,7 +83,7 @@ export default async function RootLayout({
         <NextIntlClientProvider locale={locale} messages={messages}>
           <ThemeProvider
             attribute="class"
-            defaultTheme="light"
+            defaultTheme="system"
             enableSystem
             disableTransitionOnChange
           >
