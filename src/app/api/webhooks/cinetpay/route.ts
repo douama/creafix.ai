@@ -33,12 +33,18 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "cpm_trans_id manquant" }, { status: 400 });
   }
 
-  // ─── 1. HMAC validation (si CINETPAY_SECRET_KEY est configuré) ────
-  // On rend ce check OBLIGATOIRE en prod si la clé est définie. Si elle
-  // n'est pas définie (early setup), on log un warn mais on continue —
-  // l'API check ci-dessous reste la dernière barrière.
+  // ─── 1. HMAC validation ────
+  // Fail-close en prod : si CINETPAY_SECRET_KEY est absente, on refuse le
+  // webhook (sinon un attaquant pourrait poster n'importe quoi). En dev on
+  // tolère l'absence pour faciliter le bootstrap.
   const secretKey = await getSecret("CINETPAY", "CINETPAY_SECRET_KEY");
-  if (secretKey) {
+  if (!secretKey) {
+    if (process.env.NODE_ENV === "production") {
+      console.error("[cinetpay] CINETPAY_SECRET_KEY manquante en prod — webhook refusé");
+      return NextResponse.json({ error: "Webhook non configuré" }, { status: 503 });
+    }
+    console.warn("[cinetpay] CINETPAY_SECRET_KEY manquante (dev only) — HMAC skip");
+  } else {
     const receivedToken = request.headers.get("x-token") ?? "";
     if (!receivedToken) {
       console.error("[cinetpay] x-token header manquant");
@@ -69,11 +75,6 @@ export async function POST(request: Request) {
       console.error("[cinetpay] HMAC invalide pour transId:", String(transId));
       return NextResponse.json({ error: "Signature invalide" }, { status: 401 });
     }
-  } else {
-    console.warn(
-      "[cinetpay] CINETPAY_SECRET_KEY non configurée — webhook accepté sans HMAC. " +
-      "Configurer dans /admin/payments-config pour sécuriser.",
-    );
   }
 
   // ─── 2. Vérification via API check (source de vérité, anti-replay) ────

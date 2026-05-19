@@ -2,6 +2,19 @@ import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 
 /**
+ * Whitelist du paramètre ?next= pour empêcher l'open-redirect.
+ * On n'accepte qu'un path interne commençant par "/" et sans "//"
+ * (qui serait un protocol-relative URL → autre domaine).
+ */
+function sanitizeNext(raw: string | null, fallback = "/dashboard"): string {
+  if (!raw) return fallback;
+  if (!raw.startsWith("/")) return fallback;
+  if (raw.startsWith("//")) return fallback;
+  if (raw.startsWith("/\\")) return fallback;
+  return raw;
+}
+
+/**
  * Callback Supabase Auth — gère 3 cas :
  *   1. OAuth (Google/GitHub/etc) : ?code=...&next=...
  *   2. Email confirm avec code PKCE : ?code=...&next=...
@@ -15,7 +28,7 @@ export async function GET(request: Request) {
   const code = searchParams.get("code");
   const tokenHash = searchParams.get("token_hash");
   const type = searchParams.get("type") as "signup" | "recovery" | "invite" | "email_change" | null;
-  const next = searchParams.get("next") ?? "/dashboard";
+  const next = sanitizeNext(searchParams.get("next"));
 
   // Erreur retournée par Supabase (ex: token expired, otp expired)
   const errorCode = searchParams.get("error") || searchParams.get("error_code");

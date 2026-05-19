@@ -1,16 +1,6 @@
 import { NextResponse } from "next/server";
-import { createClient } from "@/lib/supabase/server";
 import { supabaseAdmin } from "@/lib/supabase/admin";
-
-async function guard() {
-  const supabase = createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return { error: NextResponse.json({ error: "Non authentifié" }, { status: 401 }) };
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const { data: isAdmin } = await (supabase.rpc as any)("is_admin", { p_user_id: user.id });
-  if (!isAdmin) return { error: NextResponse.json({ error: "Accès admin requis" }, { status: 403 }) };
-  return { user };
-}
+import { requireAdmin } from "@/lib/admin/guard";
 
 export async function POST(
   request: Request,
@@ -22,8 +12,9 @@ export async function POST(
     return NextResponse.json({ error: "active (boolean) requis" }, { status: 400 });
   }
 
-  const g = await guard();
-  if (g.error) return g.error;
+  const guard = await requireAdmin();
+  if (guard instanceof NextResponse) return guard;
+  const { user } = guard;
 
   const sb = supabaseAdmin();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -32,7 +23,7 @@ export async function POST(
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   await (sb.from("audit_logs") as any).insert({
-    actor_id: g.user!.id,
+    actor_id: user.id,
     action: body.active ? "coupon.activate" : "coupon.deactivate",
     target_type: "coupon",
     target_id: id,
@@ -46,8 +37,9 @@ export async function DELETE(
   context: { params: Promise<{ id: string }> },
 ) {
   const { id } = await context.params;
-  const g = await guard();
-  if (g.error) return g.error;
+  const guard = await requireAdmin();
+  if (guard instanceof NextResponse) return guard;
+  const { user } = guard;
 
   const sb = supabaseAdmin();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -56,7 +48,7 @@ export async function DELETE(
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   await (sb.from("audit_logs") as any).insert({
-    actor_id: g.user!.id,
+    actor_id: user.id,
     action: "coupon.delete",
     target_type: "coupon",
     target_id: id,

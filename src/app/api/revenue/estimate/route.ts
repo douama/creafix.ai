@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { createClient } from "@/lib/supabase/server";
+import { getClientIp, rateLimit, rateLimitResponse } from "@/lib/rate-limit";
 import {
   COUNTRIES,
   NICHE_MULTIPLIER,
@@ -24,7 +25,11 @@ const schema = z.object({
  * valeurs codées en dur dans `src/lib/africa-cpm.ts`.
  */
 export async function POST(req: Request) {
-  const body = await req.json();
+  // Rate limit public (par IP, bucket "public" = 30 req/min).
+  const rl = await rateLimit("public", `ip:${getClientIp(req)}`);
+  if (!rl.success) return rateLimitResponse(rl);
+
+  const body = await req.json().catch(() => null);
   const parsed = schema.safeParse(body);
   if (!parsed.success)
     return NextResponse.json({ error: parsed.error.flatten() }, { status: 400 });

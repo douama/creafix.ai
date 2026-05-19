@@ -15,10 +15,14 @@ import {
 
 /**
  * Middleware CreaFix AI :
- *  - Détecte la locale (cookie > IP-country > Accept-Language)
- *  - Rafraîchit la session Supabase
- *  - Protège /dashboard si non authentifié
- *  - Headers de sécurité de base
+ *  - Détecte la locale (cookie > IP-country > Accept-Language) + persiste cookie
+ *  - Détecte la devise (cookie > IP-country) + persiste cookie
+ *  - Rafraîchit la session Supabase (refresh token)
+ *  - Pose les headers de sécurité de base (X-Frame-Options, etc.)
+ *
+ * NB : la protection auth des segments (/dashboard, /admin, /onboarding, …)
+ * est faite côté layout RSC ou page (cf. src/app/admin/layout.tsx). Le
+ * middleware ne redirige PAS — il rafraîchit juste la session.
  */
 export async function middleware(request: NextRequest) {
   // 1. Détection de la locale + devise via géo-IP

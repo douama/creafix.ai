@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { createClient } from "@/lib/supabase/server";
 import { supabaseAdmin } from "@/lib/supabase/admin";
+import { requireAdmin } from "@/lib/admin/guard";
 
 export async function POST(
   request: Request,
@@ -12,13 +12,9 @@ export async function POST(
     return NextResponse.json({ error: "enabled (boolean) requis" }, { status: 400 });
   }
 
-  const supabase = createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return NextResponse.json({ error: "Non authentifié" }, { status: 401 });
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const { data: isAdmin } = await (supabase.rpc as any)("is_admin", { p_user_id: user.id });
-  if (!isAdmin) return NextResponse.json({ error: "Accès admin requis" }, { status: 403 });
+  const guard = await requireAdmin();
+  if (guard instanceof NextResponse) return guard;
+  const { user } = guard;
 
   const sb = supabaseAdmin();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

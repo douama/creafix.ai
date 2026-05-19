@@ -4,6 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 import { APP_URL } from "@/lib/payments/providers";
 import { getSecret } from "@/lib/payments/secrets";
+import { rateLimit, rateLimitResponse } from "@/lib/rate-limit";
 
 /**
  * POST /api/checkout/stripe
@@ -25,6 +26,10 @@ export async function POST(request: Request) {
   const supabase = createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user || !user.email) return NextResponse.json({ error: "Non authentifié" }, { status: 401 });
+
+  // Anti-abuse : 30 inits/min par utilisateur (bucket public).
+  const rl = await rateLimit("public", user.id);
+  if (!rl.success) return rateLimitResponse(rl);
 
   const amount = Number(body.amount);
   const currency = String(body.currency).toLowerCase();

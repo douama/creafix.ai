@@ -4,6 +4,7 @@ import { supabaseAdmin } from "@/lib/supabase/admin";
 import { APP_URL } from "@/lib/payments/providers";
 import { createOrder } from "@/lib/payments/paypal";
 import { getSecret } from "@/lib/payments/secrets";
+import { rateLimit, rateLimitResponse } from "@/lib/rate-limit";
 
 export async function POST(request: Request) {
   const ppId = await getSecret("PAYPAL", "PAYPAL_CLIENT_ID");
@@ -20,6 +21,9 @@ export async function POST(request: Request) {
   const supabase = createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: "Non authentifié" }, { status: 401 });
+
+  const rl = await rateLimit("public", user.id);
+  if (!rl.success) return rateLimitResponse(rl);
 
   const amount = Number(body.amount);
   const currency = String(body.currency).toUpperCase();

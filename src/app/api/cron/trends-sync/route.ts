@@ -4,8 +4,11 @@ import { supabaseAdmin } from "@/lib/supabase/admin";
 /**
  * GET /api/cron/trends-sync
  *
- * Cron Vercel — toutes les heures (vercel.json → "0 * * * *").
- * Collecte les trends réels pour chaque plateforme active via leurs APIs.
+ * Cron Vercel — quotidien (vercel.json → "0 0 * * *"), contraint par le plan
+ * Hobby qui n'autorise qu'1 cron/jour. À passer en horaire si upgrade vers Pro.
+ *
+ * État : collecte des APIs réelles encore TODO (cf. bloc commenté plus bas) —
+ * le job met juste à jour les statuts dans platform_api_configs.
  *
  * Auth : CRON_SECRET header (Bearer) — Vercel injecte automatiquement.
  */

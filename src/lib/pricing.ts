@@ -200,11 +200,26 @@ export const currencyList = Object.values(CURRENCIES);
 export const currencyCodes = Object.keys(CURRENCIES) as CurrencyCode[];
 
 /**
- * Résout la devise depuis un code pays ISO.
- * Tous les marchés utilisent USD (tarification unifiée).
+ * Index inverse country → currency, construit une fois au load.
+ * Permet une lookup O(1) sans re-scanner CURRENCIES à chaque requête middleware.
  */
-export function resolveCurrencyFromCountry(_country: string | null | undefined): CurrencyCode {
-  return "USD";
+const COUNTRY_TO_CURRENCY: Record<string, CurrencyCode> = (() => {
+  const map: Record<string, CurrencyCode> = {};
+  for (const [code, config] of Object.entries(CURRENCIES) as [CurrencyCode, CurrencyConfig][]) {
+    for (const country of config.countries) {
+      map[country.toUpperCase()] = code;
+    }
+  }
+  return map;
+})();
+
+/**
+ * Résout la devise depuis un code pays ISO-3166 alpha-2.
+ * Fallback USD pour les pays non mappés.
+ */
+export function resolveCurrencyFromCountry(country: string | null | undefined): CurrencyCode {
+  if (!country) return "USD";
+  return COUNTRY_TO_CURRENCY[country.toUpperCase()] ?? "USD";
 }
 
 export function isValidCurrency(value: string | null | undefined): value is CurrencyCode {

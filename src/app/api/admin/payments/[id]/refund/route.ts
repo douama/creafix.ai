@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { createClient } from "@/lib/supabase/server";
 import { supabaseAdmin } from "@/lib/supabase/admin";
+import { requireSuperAdmin } from "@/lib/admin/guard";
 
 /**
  * POST /api/admin/payments/[id]/refund
@@ -16,17 +16,9 @@ export async function POST(
   const { id } = await context.params;
 
   // Refund = action financière destructrice → SUPER_ADMIN strict
-  const supabase = createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) return NextResponse.json({ error: "Non authentifié" }, { status: 401 });
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const { data: isSuper } = await (supabase.rpc as any)("is_super_admin", { p_user_id: user.id });
-  if (!isSuper) {
-    return NextResponse.json(
-      { error: "Refund nécessite SUPER_ADMIN" },
-      { status: 403 },
-    );
-  }
+  const guard = await requireSuperAdmin();
+  if (guard instanceof NextResponse) return guard;
+  const { user } = guard;
 
   const sb = supabaseAdmin();
 

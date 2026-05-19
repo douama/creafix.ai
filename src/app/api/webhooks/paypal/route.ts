@@ -13,9 +13,15 @@ import { getSecret } from "@/lib/payments/secrets";
 export async function POST(request: Request) {
   const raw = await request.text();
 
+  // Signature obligatoire en prod ET en preview (Vercel preview = NODE_ENV=production
+  // déjà, mais on garde un fallback explicite : seul `development` local autorise
+  // le skip pour les tests sans Webhook ID configuré).
   const verified = await verifyWebhook(request.headers, raw).catch(() => false);
-  if (!verified && process.env.NODE_ENV === "production") {
-    return NextResponse.json({ error: "Signature PayPal invalide" }, { status: 400 });
+  if (!verified) {
+    if (process.env.NODE_ENV !== "development") {
+      return NextResponse.json({ error: "Signature PayPal invalide" }, { status: 400 });
+    }
+    console.warn("[paypal] verifyWebhook a échoué (dev only) — événement traité quand même");
   }
 
   const event = JSON.parse(raw);
