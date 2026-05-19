@@ -5,6 +5,7 @@ import {
   Copy,
   Flame,
   ImageIcon,
+  Loader2,
   Mic,
   Music2,
   RefreshCw,
@@ -12,12 +13,21 @@ import {
   Video,
   Wand2,
 } from "lucide-react";
+import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
+
+type Idea = {
+  title: string;
+  score: number;
+  duration: string;
+  niche: string;
+  hooks?: string[];
+};
 
 const niches = [
   "Humour",
@@ -75,13 +85,59 @@ const seedIdeas = [
 export default function GeneratorPage() {
   const [niche, setNiche] = useState("Humour");
   const [topic, setTopic] = useState("");
+  const [ideas, setIdeas] = useState<Idea[] | null>(null);
+  const [loading, setLoading] = useState(false);
+
+  async function handleGenerate() {
+    if (loading) return;
+    setLoading(true);
+    try {
+      const res = await fetch("/api/generator/ideas", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          niche,
+          topic: topic.trim() || undefined,
+          platform: "TIKTOK",
+          country: "SN",
+        }),
+      });
+      const json = (await res.json()) as { ok?: boolean; data?: Idea[]; error?: unknown; isMock?: boolean };
+      if (!res.ok) {
+        const msg = res.status === 429
+          ? "Trop de requêtes — réessaie dans une minute"
+          : typeof json.error === "string"
+            ? json.error
+            : "Erreur lors de la génération";
+        toast.error(msg);
+        return;
+      }
+      if (Array.isArray(json.data) && json.data.length > 0) {
+        setIdeas(json.data);
+        if (json.isMock) {
+          toast.message("Mode démo : clé IA non configurée, idées générées localement");
+        } else {
+          toast.success(`${json.data.length} idées générées`);
+        }
+      } else {
+        toast.error("Aucune idée renvoyée par l'agent");
+      }
+    } catch (err) {
+      toast.error((err as Error).message || "Erreur réseau");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  // Idées affichées : API si dispo, sinon seed pour ne pas montrer une page vide
+  const displayIdeas: Idea[] = ideas ?? seedIdeas;
 
   return (
     <div className="space-y-7">
       <div>
         <h1 className="font-display text-3xl font-bold tracking-tight">Générateur IA viral</h1>
         <p className="mt-1 text-sm text-muted-foreground">
-          Idées, hooks, scripts, miniatures et voix-off — calibrés pour l'Afrique.
+          Idées, hooks, scripts, miniatures et voix-off — calibrés pour l&apos;Afrique.
         </p>
       </div>
 
@@ -92,9 +148,15 @@ export default function GeneratorPage() {
               placeholder="Décris ton angle : 'argent', 'sortir d'Afrique', 'mariage Dakar'…"
               value={topic}
               onChange={(e) => setTopic(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && handleGenerate()}
             />
-            <Button variant="brand" size="lg">
-              <Wand2 className="mr-1 h-4 w-4" /> Générer 12 idées
+            <Button variant="brand" size="lg" onClick={handleGenerate} disabled={loading}>
+              {loading ? (
+                <Loader2 className="mr-1 h-4 w-4 animate-spin" />
+              ) : (
+                <Wand2 className="mr-1 h-4 w-4" />
+              )}
+              {loading ? "Génération…" : "Générer des idées"}
             </Button>
           </div>
           <div className="flex flex-wrap gap-2">
@@ -136,9 +198,14 @@ export default function GeneratorPage() {
         </TabsList>
 
         <TabsContent value="ideas">
+          {ideas === null && (
+            <p className="mb-3 text-xs text-muted-foreground">
+              Exemples ci-dessous — clique sur « Générer des idées » pour les remplacer par des idées IA en temps réel.
+            </p>
+          )}
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {seedIdeas.map((idea) => (
-              <Card key={idea.title} className="group transition-colors hover:bg-card/70">
+            {displayIdeas.map((idea, i) => (
+              <Card key={`${idea.title}-${i}`} className="group transition-colors hover:bg-card/70">
                 <CardContent className="space-y-3 p-5">
                   <div className="flex items-center justify-between">
                     <Badge variant="brand">{idea.score} viral</Badge>
@@ -146,11 +213,25 @@ export default function GeneratorPage() {
                   </div>
                   <p className="font-medium leading-snug">{idea.title}</p>
                   <div className="text-xs text-muted-foreground">{idea.niche}</div>
+                  {idea.hooks && idea.hooks.length > 0 && (
+                    <ul className="space-y-1 text-xs text-muted-foreground/90">
+                      {idea.hooks.slice(0, 2).map((h, idx) => (
+                        <li key={idx} className="line-clamp-2">→ {h}</li>
+                      ))}
+                    </ul>
+                  )}
                   <div className="flex gap-2 pt-1">
                     <Button size="sm" variant="outline" className="flex-1">
                       <Sparkles className="mr-1 h-3.5 w-3.5" /> Script
                     </Button>
-                    <Button size="sm" variant="ghost">
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      onClick={() => {
+                        void navigator.clipboard.writeText(idea.title);
+                        toast.success("Titre copié");
+                      }}
+                    >
                       <Copy className="h-3.5 w-3.5" />
                     </Button>
                   </div>

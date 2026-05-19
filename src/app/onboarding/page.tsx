@@ -2,15 +2,18 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import {
   ArrowRight,
   Check,
   Facebook,
+  Loader2,
   Music2,
   Sparkles,
   Target,
   TrendingUp,
 } from "lucide-react";
+import { toast } from "sonner";
 import { Logo } from "@/components/brand/logo";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -68,7 +71,9 @@ type State = {
 };
 
 export default function OnboardingPage() {
+  const router = useRouter();
   const [step, setStep] = useState(0);
+  const [saving, setSaving] = useState(false);
   const [state, setState] = useState<State>({
     profile: null,
     platforms: [],
@@ -80,6 +85,37 @@ export default function OnboardingPage() {
 
   const pct = Math.round(((step + 1) / STEPS.length) * 100);
   const canNext = canAdvance(step, state);
+
+  async function handleFinish() {
+    if (saving) return;
+    setSaving(true);
+    try {
+      const res = await fetch("/api/account/profile", {
+        method: "PATCH",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          country: state.country,
+          preferred_niches: state.niches,
+        }),
+      });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        // 401 = pas connecté : on bascule sur le dashboard quand même
+        // (le middleware/layout redirigera vers /login).
+        if (res.status !== 401) {
+          toast.error(typeof data.error === "string" ? data.error : "Sauvegarde impossible");
+          setSaving(false);
+          return;
+        }
+      }
+      // Le reste du state (profile, platforms, revenueTarget, horizon) reste
+      // local pour l'instant — pas de colonnes dédiées dans user_profiles.
+      router.push("/dashboard");
+    } catch {
+      toast.error("Erreur réseau");
+      setSaving(false);
+    }
+  }
 
   return (
     <div className="relative min-h-screen overflow-hidden">
@@ -151,10 +187,12 @@ export default function OnboardingPage() {
                   Suivant <ArrowRight className="ml-1 h-4 w-4" />
                 </Button>
               ) : (
-                <Button asChild variant="brand">
-                  <Link href="/dashboard">
-                    Accéder à mon dashboard <ArrowRight className="ml-1 h-4 w-4" />
-                  </Link>
+                <Button variant="brand" onClick={handleFinish} disabled={saving}>
+                  {saving ? (
+                    <Loader2 className="mr-1 h-4 w-4 animate-spin" />
+                  ) : null}
+                  {saving ? "Sauvegarde…" : "Accéder à mon dashboard"}
+                  {!saving && <ArrowRight className="ml-1 h-4 w-4" />}
                 </Button>
               )}
             </div>
