@@ -6,6 +6,8 @@ import { useTranslations } from "next-intl";
 import { ArrowRight, ShieldCheck, Zap, CheckCircle2 } from "lucide-react";
 import { DashboardPreview } from "./dashboard-preview";
 import { UrlAuditInput } from "./url-audit-input";
+import { PlatformIconBadge } from "@/components/brand/platform-icon";
+import type { PlatformId } from "@/lib/platforms";
 
 /**
  * Hero CinetPay-style — light, clean, structuré.
@@ -26,11 +28,14 @@ export function Hero() {
   return (
     <section className="relative overflow-hidden bg-background pt-24 pb-12 md:pt-32 md:pb-16">
       <div className="container relative">
+        {/* Icônes plateformes flottantes — gauche/droite du hero (xl+ uniquement) */}
+        <FloatingSocialIcons />
+
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="mx-auto max-w-5xl text-center"
+          className="relative z-10 mx-auto max-w-5xl text-center"
         >
           {/* Badge */}
           <div className="inline-flex items-center gap-1.5 rounded-full border border-border bg-muted/40 px-3 py-1 text-[11px] font-semibold text-foreground/70">
@@ -102,5 +107,61 @@ export function Hero() {
 
       </div>
     </section>
+  );
+}
+
+/* ──────────────────────────────────────────────────────────────────
+ * FloatingSocialIcons — 9 plateformes en lévitation autour du hero
+ * Affiché sur xl+ uniquement (≥ 1280px) pour éviter overlap avec le H1.
+ * Utilise PlatformIconBadge (vrais logos, couleurs marque officielles).
+ * ────────────────────────────────────────────────────────────────── */
+
+const FLOATING_PLATFORMS: ReadonlyArray<{ id: PlatformId; pos: string; delay: number }> = [
+  // Colonne gauche (5)
+  { id: "YOUTUBE",   pos: "left-2 top-[4%]",    delay: 0   },
+  { id: "INSTAGRAM", pos: "left-16 top-[22%]",  delay: 0.4 },
+  { id: "TIKTOK",    pos: "left-0 top-[44%]",   delay: 0.8 },
+  { id: "SNAPCHAT",  pos: "left-16 top-[64%]",  delay: 1.2 },
+  { id: "TWITCH",    pos: "left-2 top-[84%]",   delay: 1.6 },
+  // Colonne droite (4)
+  { id: "FACEBOOK",  pos: "right-2 top-[8%]",   delay: 0.2 },
+  { id: "LINKEDIN",  pos: "right-16 top-[28%]", delay: 0.6 },
+  { id: "X",         pos: "right-0 top-[50%]",  delay: 1.0 },
+  { id: "PINTEREST", pos: "right-16 top-[74%]", delay: 1.4 },
+];
+
+function FloatingSocialIcons() {
+  return (
+    <div
+      aria-hidden
+      className="pointer-events-none absolute inset-x-0 top-0 z-0 hidden h-[560px] xl:block"
+    >
+      {FLOATING_PLATFORMS.map((p) => (
+        <motion.div
+          key={p.id}
+          initial={{ opacity: 0, scale: 0.4 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{
+            duration: 0.55,
+            delay: 0.35 + p.delay * 0.12,
+            ease: [0.16, 1, 0.3, 1],
+          }}
+          className={`absolute ${p.pos}`}
+        >
+          <motion.div
+            animate={{ y: [0, -10, 0], rotate: [0, 2, 0] }}
+            transition={{
+              duration: 4.5 + p.delay,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: p.delay,
+            }}
+            className="drop-shadow-xl"
+          >
+            <PlatformIconBadge id={p.id} size={52} rounded="rounded-2xl" />
+          </motion.div>
+        </motion.div>
+      ))}
+    </div>
   );
 }
