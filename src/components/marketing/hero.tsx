@@ -88,12 +88,12 @@ export function Hero() {
           </div>
         </motion.div>
 
-        {/* Dashboard preview — ombre douce CinetPay style, pas d'aurora */}
+        {/* Dashboard preview — largeur container landing (1280px), pas de cap perso */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-          className="relative mx-auto mt-12 max-w-5xl"
+          className="relative mt-12"
         >
           <div className="card-soft overflow-hidden p-1.5 md:p-2">
             <DashboardPreview />
