@@ -13,3 +13,10 @@ next-env.d.ts
 coverage
 .vercel
 prisma/dev.db*
+
+# Local logs &amp; agent scratch
+build.log
+secrets.log
+typecheck.log
+.claude/
+agents/

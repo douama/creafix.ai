@@ -11,9 +11,10 @@ export const dynamic = "force-dynamic";
 
 /** Limites mensuelles par plan — alignées sur la grille pricing publique. */
 const PLAN_LIMITS: Record<string, { audits: number | null; ideas: number | null; credits: number | null; label: string; price: string }> = {
-  FREE:    { audits: 3,    ideas: 20,   credits: 100,  label: "Créateur · Gratuit", price: "0 FCFA / mois" },
-  PRO:     { audits: 30,   ideas: 500,  credits: 5000, label: "Pro",                price: "9 900 FCFA / mois" },
-  AGENCY:  { audits: null, ideas: null, credits: null, label: "Agency",             price: "29 900 FCFA / mois" },
+  FREE:       { audits: 3,    ideas: 20,   credits: 100,  label: "Créateur · Gratuit", price: "0 FCFA / mois" },
+  PRO:        { audits: 30,   ideas: 500,  credits: 5000, label: "Pro",                price: "9 900 FCFA / mois" },
+  AGENCY:     { audits: null, ideas: null, credits: null, label: "Agency",             price: "29 900 FCFA / mois" },
+  ENTERPRISE: { audits: null, ideas: null, credits: null, label: "Enterprise",         price: "Sur mesure" },
 };
 
 export default async function BillingPage() {

@@ -1,16 +1,16 @@
 "use client";
 
-import { useState } from "react";
-import { Check, Copy, Eye, EyeOff, Key, Trash2, Webhook } from "lucide-react";
+import { Key, Trash2, Webhook } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function ApiPage() {
-  const [show, setShow] = useState(false);
-  const [copied, setCopied] = useState(false);
-
-  const apiKey = "sk_live_cfx_XXXXXXXXXXXXXXXXXXXXXXXXXXXX";
+  // Les clés API personnelles ne sont pas encore émises côté backend
+  // (la table monetiq.api_keys existe mais l'endpoint de génération
+  // n'est pas branché). On affiche un état vide explicite plutôt qu'une
+  // fausse clé `sk_live_…` qui ressemblerait à un vrai secret.
+  const placeholderKey = "sk_live_cfx_•••••••••••••••";
 
   return (
     <div className="space-y-7">
@@ -28,35 +28,16 @@ export default function ApiPage() {
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-3">
-          <div className="flex items-center gap-2 rounded-xl border border-border bg-card/60 p-3">
-            <code className="flex-1 font-mono text-sm">
-              {show ? apiKey : "sk_live_cfx_••••••••••••••••••••••••••"}
-            </code>
-            <Button variant="ghost" size="icon" onClick={() => setShow(!show)}>
-              {show ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-            </Button>
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => {
-                navigator.clipboard.writeText(apiKey);
-                setCopied(true);
-                setTimeout(() => setCopied(false), 1500);
-              }}
-            >
-              {copied ? (
-                <Check className="h-4 w-4 text-emerald-500" />
-              ) : (
-                <Copy className="h-4 w-4" />
-              )}
-            </Button>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            <Button variant="outline" size="sm">
-              Régénérer la clé
-            </Button>
-            <Button variant="outline" size="sm">
-              + Créer une clé secondaire
+          <div className="rounded-xl border border-dashed border-border bg-card/40 p-5 text-center">
+            <Key className="mx-auto h-6 w-6 text-muted-foreground" />
+            <p className="mt-2 text-sm font-medium">
+              Aucune clé API émise pour le moment
+            </p>
+            <p className="mt-1 text-xs text-muted-foreground">
+              Les clés personnelles seront disponibles dans une prochaine mise à jour.
+            </p>
+            <Button variant="outline" size="sm" className="mt-3" disabled>
+              Générer une clé API · Bientôt disponible
             </Button>
           </div>
           <p className="text-xs text-muted-foreground">
@@ -75,7 +56,7 @@ export default function ApiPage() {
               Lancer un audit
             </div>
             <pre className="mt-2 overflow-x-auto rounded-xl border border-border bg-card/60 p-4 text-xs leading-relaxed">{`curl -X POST https://api.creafix.ai/v1/audits \\
-  -H "Authorization: Bearer ${show ? apiKey : "sk_live_cfx_..."}" \\
+  -H "Authorization: Bearer ${placeholderKey}" \\
   -H "Content-Type: application/json" \\
   -d '{
     "platform": "TIKTOK",
@@ -90,7 +71,7 @@ export default function ApiPage() {
               Récupérer un audit
             </div>
             <pre className="mt-2 overflow-x-auto rounded-xl border border-border bg-card/60 p-4 text-xs leading-relaxed">{`curl https://api.creafix.ai/v1/audits/aud_xxx \\
-  -H "Authorization: Bearer ${show ? apiKey : "sk_live_cfx_..."}"`}</pre>
+  -H "Authorization: Bearer ${placeholderKey}"`}</pre>
           </div>
         </CardContent>
       </Card>

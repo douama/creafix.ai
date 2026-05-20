@@ -4,6 +4,7 @@ import { supabaseAdmin } from "@/lib/supabase/admin";
 import { APP_URL } from "@/lib/payments/providers";
 import { createOrder } from "@/lib/payments/paypal";
 import { getSecret } from "@/lib/payments/secrets";
+import { rateLimit, rateLimitResponse, getClientIp } from "@/lib/rate-limit";
 
 /**
  * POST /api/checkout/paypal/intent
@@ -28,6 +29,11 @@ export async function POST(request: Request) {
   const supabase = createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: "Non authentifié" }, { status: 401 });
+
+  // Rate limit : 10 req/min par user
+  const rlId = user?.id ?? getClientIp(request);
+  const rl = await rateLimit("checkout", rlId);
+  if (!rl.success) return rateLimitResponse(rl);
 
   const amount = Number(body.amount);
   const currency = String(body.currency).toUpperCase();

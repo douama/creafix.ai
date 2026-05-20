@@ -200,7 +200,7 @@ export default function GeneratorPage() {
         <TabsContent value="ideas">
           {ideas === null && (
             <p className="mb-3 text-xs text-muted-foreground">
-              Exemples ci-dessous — clique sur « Générer des idées » pour les remplacer par des idées IA en temps réel.
+              Exemples ci-dessous — clique sur « Générer des idées » pour les remplacer par des idées générées par IA en quelques secondes.
             </p>
           )}
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">

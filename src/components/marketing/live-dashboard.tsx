@@ -60,7 +60,7 @@ export function LiveDashboard() {
             transition={{ duration: 0.4 }}
             className="inline-flex items-center gap-1.5 rounded-full border border-[#EC4899]/30 bg-[#EC4899]/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-[#EC4899]"
           >
-            <Activity className="h-3 w-3" /> Dashboard temps réel
+            <Activity className="h-3 w-3" /> Démo dashboard interactive
           </motion.div>
           <motion.h2
             initial={{ opacity: 0, y: 14 }}
@@ -70,7 +70,7 @@ export function LiveDashboard() {
             className="mt-3 font-display text-3xl font-bold tracking-tight text-balance md:text-4xl"
           >
             Ton dashboard,{" "}
-            <span className="gradient-text">en direct</span>.
+            <span className="gradient-text">en démo</span>.
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 14 }}
@@ -80,7 +80,7 @@ export function LiveDashboard() {
             className="mt-3 text-sm text-muted-foreground md:text-base"
           >
             Revenus, vues, score viral, RPM — actualisés en continu pour les 9
-            plateformes. Aperçu live d&apos;un compte créateur réel.
+            plateformes. Aperçu démo (données illustratives).
           </motion.p>
         </div>
 
@@ -107,7 +107,7 @@ export function LiveDashboard() {
                       <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-500 opacity-70" />
                       <span className="relative inline-flex h-1 w-1 rounded-full bg-emerald-500" />
                     </span>
-                    Live
+                    Démo
                   </span>
                 </div>
                 <p className="text-[10px] text-muted-foreground">

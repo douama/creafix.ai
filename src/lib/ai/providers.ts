@@ -15,6 +15,7 @@
 import Anthropic from "@anthropic-ai/sdk";
 import OpenAI from "openai";
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import { getAiSecret } from "@/lib/ai/secrets";
 
 export type LLMProvider = "ANTHROPIC" | "OPENAI" | "GOOGLE";
 
@@ -81,25 +82,26 @@ let _anthropic: Anthropic | null = null;
 let _openai: OpenAI | null = null;
 let _google: GoogleGenerativeAI | null = null;
 
-function getAnthropic(): Anthropic | null {
+async function getAnthropic(): Promise<Anthropic | null> {
   if (_anthropic) return _anthropic;
-  const key = process.env.ANTHROPIC_API_KEY;
+  // 1. Vault, 2. env (cf. lib/ai/secrets.ts).
+  const key = await getAiSecret("ANTHROPIC");
   if (!key) return null;
   _anthropic = new Anthropic({ apiKey: key });
   return _anthropic;
 }
 
-function getOpenAI(): OpenAI | null {
+async function getOpenAI(): Promise<OpenAI | null> {
   if (_openai) return _openai;
-  const key = process.env.OPENAI_API_KEY;
+  const key = await getAiSecret("OPENAI");
   if (!key) return null;
   _openai = new OpenAI({ apiKey: key });
   return _openai;
 }
 
-function getGoogle(): GoogleGenerativeAI | null {
+async function getGoogle(): Promise<GoogleGenerativeAI | null> {
   if (_google) return _google;
-  const key = process.env.GOOGLE_AI_API_KEY;
+  const key = await getAiSecret("GOOGLE");
   if (!key) return null;
   _google = new GoogleGenerativeAI(key);
   return _google;
@@ -182,7 +184,7 @@ async function callAnthropic(
   messages: ChatMessage[],
   opts: { json: boolean; temperature: number; maxTokens: number; cacheSystem: boolean },
 ): Promise<Omit<ChatResult, "latencyMs" | "attemptedProviders">> {
-  const client = getAnthropic();
+  const client = await getAnthropic();
   if (!client) throw new Error("ANTHROPIC_API_KEY missing");
 
   const systemMsg = messages.find((m) => m.role === "system")?.content ?? "";
@@ -226,7 +228,7 @@ async function callOpenAI(
   messages: ChatMessage[],
   opts: { json: boolean; temperature: number; maxTokens: number; cacheSystem: boolean },
 ): Promise<Omit<ChatResult, "latencyMs" | "attemptedProviders">> {
-  const client = getOpenAI();
+  const client = await getOpenAI();
   if (!client) throw new Error("OPENAI_API_KEY missing");
 
   const response = await client.chat.completions.create({
@@ -259,7 +261,7 @@ async function callGoogle(
   messages: ChatMessage[],
   opts: { json: boolean; temperature: number; maxTokens: number; cacheSystem: boolean },
 ): Promise<Omit<ChatResult, "latencyMs" | "attemptedProviders">> {
-  const client = getGoogle();
+  const client = await getGoogle();
   if (!client) throw new Error("GOOGLE_AI_API_KEY missing");
 
   const systemInstruction = messages.find((m) => m.role === "system")?.content;

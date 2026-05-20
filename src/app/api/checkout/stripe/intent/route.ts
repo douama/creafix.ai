@@ -3,6 +3,7 @@ import Stripe from "stripe";
 import { createClient } from "@/lib/supabase/server";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 import { getSecret } from "@/lib/payments/secrets";
+import { rateLimit, rateLimitResponse, getClientIp } from "@/lib/rate-limit";
 
 /**
  * POST /api/checkout/stripe/intent
@@ -35,6 +36,11 @@ export async function POST(request: Request) {
   if (!user || !user.email) {
     return NextResponse.json({ error: "Non authentifié" }, { status: 401 });
   }
+
+  // Rate limit : 10 req/min par user (ou IP si anonyme — ne devrait pas arriver ici)
+  const rlId = user?.id ?? getClientIp(request);
+  const rl = await rateLimit("checkout", rlId);
+  if (!rl.success) return rateLimitResponse(rl);
 
   const amount = Number(body.amount);
   const currency = String(body.currency).toLowerCase();

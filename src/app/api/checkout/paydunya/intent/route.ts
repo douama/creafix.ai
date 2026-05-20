@@ -3,6 +3,7 @@ import { createClient } from "@/lib/supabase/server";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 import { APP_URL } from "@/lib/payments/providers";
 import { createInvoice, isConfigured } from "@/lib/payments/paydunya";
+import { rateLimit, rateLimitResponse, getClientIp } from "@/lib/rate-limit";
 
 /**
  * POST /api/checkout/paydunya/intent
@@ -22,6 +23,11 @@ export async function POST(request: Request) {
   const supabase = createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user || !user.email) return NextResponse.json({ error: "Non authentifié" }, { status: 401 });
+
+  // Rate limit : 10 req/min par user
+  const rlId = user?.id ?? getClientIp(request);
+  const rl = await rateLimit("checkout", rlId);
+  if (!rl.success) return rateLimitResponse(rl);
 
   const amount = Math.round(Number(body.amount));
   if (!Number.isFinite(amount) || amount < 100) {

@@ -107,8 +107,8 @@
     "trend": {
       "badge": "Feito em África",
       "title": "Motor de Tendências Africanas",
-      "desc": "O único motor de tendências realmente treinado com conteúdo africano. Hashtags, sons e formatos — por país, em tempo real.",
-      "bullet1": "Atualização a cada 15 minutos",
+      "desc": "O único motor de tendências realmente treinado com conteúdo africano. Hashtags, sons e formatos — por país, atualizados a cada 4 minutos.",
+      "bullet1": "Atualização a cada 4 minutos",
       "bullet2": "9 países: SN, CI, CM, ML, NG, GH, ZA, MA, CD",
       "bullet3": "Detecção de tendências emergentes",
       "metric": "9 países",
@@ -240,7 +240,7 @@
     },
     "trend": {
       "name": "Trend Agent",
-      "desc": "Tendências africanas em tempo real — sons, hashtags, formatos por país.",
+      "desc": "Tendências africanas atualizadas continuamente — sons, hashtags, formatos por país.",
       "metric": "9",
       "metricLabel": "países monitorados"
     },
@@ -345,7 +345,7 @@
       "q7": "Funciona para minha agência?",
       "a7": "O plano Agência permite gerenciar clientes ilimitados nas 9 plataformas, exportar relatórios PDF em marca branca, compartilhar links privados e usar seu próprio branding. Perfeito para agências sociais multi-conta.",
       "q8": "Existe um app móvel?",
-      "a8": "Sim — um app Flutter (Android + iOS) está em beta privado com notificações push, upload de vídeo e análise em tempo real nas 9 plataformas. Disponível para assinantes Pro e Agência em acesso antecipado."
+      "a8": "Sim — um app Flutter (Android + iOS) está em beta privado com notificações push, upload de vídeo e análise rápida (beta privada — acesso antecipado por lista de espera) nas 9 plataformas. Disponível para assinantes Pro e Agência em acesso antecipado."
     }
   },
   "cta": {

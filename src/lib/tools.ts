@@ -186,7 +186,7 @@ export const TOOLS: Tool[] = [
   {
     slug: "africa-tiktok-trends",
     title: "Africa TikTok Trends 2026",
-    h1: "Tous les TikTok trends Afrique en temps réel",
+    h1: "Tous les TikTok trends Afrique mis à jour quotidiennement",
     description:
       "Sons, hashtags, niches et créneaux trending dans 9 pays africains. Mise à jour hebdomadaire par l'IA CreaFix.",
     inputLabel: "Choisis ton pays africain",
@@ -226,7 +226,7 @@ export const TOOLS: Tool[] = [
     ],
     metaTitle: "Africa TikTok Trends 2026 · Sons & hashtags par pays · CreaFix AI",
     metaDescription:
-      "Tous les TikTok trends Afrique 2026 en temps réel : sons, hashtags, niches, créneaux pour Sénégal, Nigeria, Côte d'Ivoire, Maroc.",
+      "Tous les TikTok trends Afrique 2026 mis à jour quotidiennement : sons, hashtags, niches, créneaux pour Sénégal, Nigeria, Côte d'Ivoire, Maroc.",
     keywords: [
       "TikTok trends Afrique",
       "sons trending Sénégal",

@@ -39,7 +39,7 @@ export function RevenueLeakScanner() {
             transition={{ duration: 0.4 }}
             className="inline-flex items-center gap-1.5 rounded-full border border-rose-500/30 bg-rose-500/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-rose-500 dark:text-rose-300"
           >
-            <AlertTriangle className="h-3 w-3" /> Détection en temps réel
+            <AlertTriangle className="h-3 w-3" /> Détection à chaque audit IA
           </motion.div>
           <motion.h2
             initial={{ opacity: 0, y: 14 }}

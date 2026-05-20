@@ -23,6 +23,12 @@ export async function GET(request: Request) {
 
   const sb = supabaseAdmin();
 
+  // ⚠️ STUB MODE — Les collectors réels (TikTok Research, YouTube Data v3,
+  // X v2 trends, IG Graph) nécessitent des accès API que nous n'avons pas
+  // encore. Le cron reste exposé pour conserver le contrat 200 OK avec Vercel
+  // mais ne fait que loguer + tracer un run no-op.
+  console.warn("[cron/trends-sync] stub mode, no collectors configured");
+
   // Charger toutes les plateformes actives
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const { data: configs, error: cfgErr } = await (sb.rpc as any)(
@@ -118,8 +124,22 @@ export async function GET(request: Request) {
 
   const okCount = Object.values(results).filter((v) => v === "ok").length;
 
+  // Trace le run en DB (table optionnelle, no-op si absente).
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    await (sb.from("trend_sync_runs") as any).insert({
+      mode: "stub",
+      platforms_attempted: enabled.length,
+      platforms_ok: okCount,
+      note: "Stub mode — no real collectors configured",
+    });
+  } catch {
+    // Table non déployée → silencieux, ne pas casser le cron.
+  }
+
   return NextResponse.json({
     ok: true,
+    mode: "stub",
     synced: okCount,
     results,
     timestamp: new Date().toISOString(),

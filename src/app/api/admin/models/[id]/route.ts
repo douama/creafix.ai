@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 import { requireAdmin } from "@/lib/admin/guard";
+import { invalidateAiSecretCache, type AiProvider } from "@/lib/ai/secrets";
 
 export async function POST(
   request: Request,
@@ -18,10 +19,11 @@ export async function POST(
   const { user } = guard;
 
   const updates: Record<string, unknown> = {};
+  const incomingKey = body.api_key && body.api_key.length > 8 ? body.api_key : null;
 
-  if (body.api_key && body.api_key.length > 8) {
-    // ⚠️ POC : on stocke juste un mask. En prod : chiffrer via Supabase Vault.
-    updates.api_key_mask = `…${body.api_key.slice(-4)}`;
+  if (incomingKey) {
+    // Le mask reste en table pour l'UI ; la valeur réelle part au Vault plus bas.
+    updates.api_key_mask = `…${incomingKey.slice(-4)}`;
     updates.api_key_set = true;
   }
   if (typeof body.enabled === "boolean") updates.enabled = body.enabled;
@@ -39,6 +41,29 @@ export async function POST(
     .select("provider, enabled")
     .eq("id", id)
     .single();
+
+  // Persiste la clé réelle dans Vault (RPC SECURITY DEFINER côté DB).
+  // Si la RPC n'est pas encore déployée (migration 0008), on log mais on
+  // n'échoue pas le PATCH — la mask/flag UI reste cohérente.
+  if (incomingKey && current?.provider) {
+    const providerName = String(current.provider).toUpperCase() as AiProvider;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { error: vaultErr } = await (sb.rpc as any)("set_ai_secret", {
+      p_provider: providerName,
+      p_value: incomingKey,
+    });
+    if (vaultErr) {
+      console.error(
+        `[admin/models] Vault set_ai_secret failed for ${providerName}:`,
+        vaultErr.message,
+      );
+      return NextResponse.json(
+        { error: `Échec stockage Vault : ${vaultErr.message}` },
+        { status: 500 },
+      );
+    }
+    invalidateAiSecretCache(providerName);
+  }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const { data, error } = await (sb.from("ai_model_configs") as any)

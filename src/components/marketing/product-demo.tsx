@@ -20,12 +20,6 @@ const CHAPTERS: Chapter[] = [
   { time: "03:00", title: "Projection revenus", seconds: 180 },
 ];
 
-const STATS = [
-  { label: "Durée", value: "3:42" },
-  { label: "Vues", value: "12 480" },
-  { label: "Note", value: "4.9/5" },
-];
-
 // TODO: une fois la vidéo enregistrée (Loom/YouTube), mets l'URL ici.
 // Exemple Loom : "https://www.loom.com/embed/abc123"
 // Exemple YouTube : "https://www.youtube.com/embed/dQw4w9WgXcQ"
@@ -66,8 +60,7 @@ export function ProductDemo() {
             transition={{ duration: 0.5, delay: 0.1 }}
             className="mt-3 text-sm text-muted-foreground md:text-base"
           >
-            3 min 42 pour comprendre comment l&apos;IA récupère $400+/mois
-            invisibles sur tes pages.
+            Démo vidéo bientôt disponible.
           </motion.p>
         </div>
 
@@ -191,19 +184,6 @@ export function ProductDemo() {
               </ol>
             </div>
 
-            <div className="grid grid-cols-3 gap-2">
-              {STATS.map((s) => (
-                <div
-                  key={s.label}
-                  className="rounded-xl border border-border bg-card/40 p-3 text-center backdrop-blur-xl"
-                >
-                  <div className="font-display text-base font-bold">{s.value}</div>
-                  <div className="mt-0.5 text-[10px] text-muted-foreground">
-                    {s.label}
-                  </div>
-                </div>
-              ))}
-            </div>
           </div>
         </motion.div>
       </div>

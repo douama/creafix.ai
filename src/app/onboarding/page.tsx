@@ -6,9 +6,7 @@ import { useRouter } from "next/navigation";
 import {
   ArrowRight,
   Check,
-  Facebook,
   Loader2,
-  Music2,
   Sparkles,
   Target,
   TrendingUp,
@@ -543,26 +541,6 @@ function Recap({ state }: { state: State }) {
         )}
       </div>
 
-      <div className="grid gap-3 md:grid-cols-2">
-        <button className="flex items-center gap-3 rounded-xl border border-border bg-card/40 p-4 transition-colors hover:bg-card/70">
-          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-500/15 ring-1 ring-blue-400/30">
-            <Facebook className="h-5 w-5 text-blue-400" />
-          </div>
-          <div className="text-left">
-            <div className="font-medium">Connecter Facebook</div>
-            <div className="text-xs text-muted-foreground">OAuth Meta · optionnel</div>
-          </div>
-        </button>
-        <button className="flex items-center gap-3 rounded-xl border border-border bg-card/40 p-4 transition-colors hover:bg-card/70">
-          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-pink-500/15 ring-1 ring-pink-400/30">
-            <Music2 className="h-5 w-5 text-pink-400" />
-          </div>
-          <div className="text-left">
-            <div className="font-medium">Connecter TikTok</div>
-            <div className="text-xs text-muted-foreground">OAuth TikTok · optionnel</div>
-          </div>
-        </button>
-      </div>
     </div>
   );
 }

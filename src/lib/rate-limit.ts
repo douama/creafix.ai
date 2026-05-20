@@ -20,13 +20,14 @@
 import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis";
 
-export type RateLimitBucket = "audits" | "admin" | "public" | "login";
+export type RateLimitBucket = "audits" | "admin" | "public" | "login" | "checkout";
 
 const LIMITS: Record<RateLimitBucket, { tokens: number; windowSec: number }> = {
-  audits: { tokens: 10, windowSec: 60 },
-  admin:  { tokens: 60, windowSec: 60 },
-  public: { tokens: 30, windowSec: 60 },
-  login:  { tokens: 5,  windowSec: 60 },
+  audits:   { tokens: 10, windowSec: 60 },
+  admin:    { tokens: 60, windowSec: 60 },
+  public:   { tokens: 30, windowSec: 60 },
+  login:    { tokens: 5,  windowSec: 60 },
+  checkout: { tokens: 10, windowSec: 60 },
 };
 
 let _redis: Redis | null = null;

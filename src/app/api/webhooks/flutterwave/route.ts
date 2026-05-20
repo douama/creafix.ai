@@ -14,8 +14,20 @@ export async function POST(request: Request) {
   const hash = await getSecret("FLUTTERWAVE", "FLUTTERWAVE_WEBHOOK_HASH");
   if (!secret) return NextResponse.json({ error: "Flutterwave non configuré" }, { status: 503 });
 
-  // Verify webhook signature
-  if (hash) {
+  // Verify webhook signature — fail-close en prod : si FLUTTERWAVE_WEBHOOK_HASH
+  // est absente, on refuse le webhook (sinon un attaquant pourrait poster
+  // n'importe quoi). En dev on tolère l'absence pour faciliter le bootstrap.
+  if (!hash) {
+    if (process.env.NODE_ENV === "production") {
+      console.error(
+        "[flutterwave] FLUTTERWAVE_WEBHOOK_HASH manquante en prod — webhook refusé",
+      );
+      return NextResponse.json({ error: "Webhook non configuré" }, { status: 503 });
+    }
+    console.warn(
+      "[flutterwave] FLUTTERWAVE_WEBHOOK_HASH manquante (dev only) — signature skip",
+    );
+  } else {
     const signature = request.headers.get("verif-hash");
     if (signature !== hash) {
       return NextResponse.json({ error: "Signature invalide" }, { status: 401 });

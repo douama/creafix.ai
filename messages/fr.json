@@ -107,8 +107,8 @@
     "trend": {
       "badge": "Fait en Afrique",
       "title": "Moteur de Tendances Africaines",
-      "desc": "Le seul moteur de tendances réellement entraîné sur les contenus africains. Hashtags, sons et formats — par pays, en temps réel.",
-      "bullet1": "Rafraîchissement toutes les 15 minutes",
+      "desc": "Le seul moteur de tendances réellement entraîné sur les contenus africains. Hashtags, sons et formats — par pays, mises à jour toutes les 4 minutes.",
+      "bullet1": "Rafraîchissement toutes les 4 minutes",
       "bullet2": "9 pays : SN, CI, CM, ML, NG, GH, ZA, MA, CD",
       "bullet3": "Détection des tendances naissantes",
       "metric": "9 pays",
@@ -240,7 +240,7 @@
     },
     "trend": {
       "name": "Trend Agent",
-      "desc": "Tendances africaines temps réel — sons, hashtags, formats par pays.",
+      "desc": "Tendances africaines actualisées en continu — sons, hashtags, formats par pays.",
       "metric": "9",
       "metricLabel": "pays surveillés"
     },
@@ -345,7 +345,7 @@
       "q7": "Est-ce que ça marche pour mon agence ?",
       "a7": "Le plan Agence te permet de gérer un nombre illimité de clients sur les 9 plateformes, d'exporter des rapports PDF en marque blanche, de partager des liens privés et d'utiliser ton propre branding. Idéal pour les agences sociales multi-comptes.",
       "q8": "Y a-t-il une app mobile ?",
-      "a8": "Oui — une app Flutter (Android + iOS) est en bêta privée avec notifications push, upload vidéo et analyse temps réel sur les 9 plateformes. Disponible aux abonnés Pro et Agence en accès anticipé."
+      "a8": "Oui — une app Flutter (Android + iOS) est en bêta privée avec notifications push, upload vidéo et analyse rapide (bêta privée — accès anticipé sur liste d'attente) sur les 9 plateformes. Disponible aux abonnés Pro et Agence en accès anticipé."
     }
   },
   "cta": {

@@ -20,7 +20,7 @@ export default async function AnalyticsPage() {
         <EmptySection
           icon={Activity}
           title="Aucune donnée à afficher pour l'instant"
-          description="Connecte tes comptes TikTok, Facebook, YouTube ou Instagram pour voir tes followers, vues, engagement et score viral en temps réel."
+          description="Connecte tes comptes TikTok, Facebook, YouTube ou Instagram pour voir tes followers, vues, engagement et score viral après chaque audit IA."
           primaryCta={{ label: "Connecter mes comptes", href: "/dashboard/settings?tab=connections" }}
           secondaryCta={{ label: "Lancer un audit IA →", href: "/dashboard/audits/new" }}
           accent="#EC4899"

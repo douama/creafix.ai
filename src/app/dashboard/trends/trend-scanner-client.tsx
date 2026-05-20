@@ -163,7 +163,7 @@ export function TrendScannerClient() {
                 African Trend Scanner
               </h1>
               <p className="mt-2 text-sm text-muted-foreground">
-                Tendances en temps réel sur{" "}
+                Tendances mises à jour quotidiennement sur{" "}
                 <span className="font-semibold text-foreground">{COUNTRY_POOLS.length} marchés africains</span>{" "}
                 — plateforme par plateforme.
               </p>

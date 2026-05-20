@@ -137,7 +137,7 @@ export function EmptyOnboarding({
         </p>
         <div className="mt-4 grid gap-2.5 sm:grid-cols-2 lg:grid-cols-3">
           <QuickLink href="/dashboard/revenue" title="RPM Predictor" desc="Estime tes revenus par pays / plateforme / niche" />
-          <QuickLink href="/dashboard/trends" title="Trend Scanner" desc="Sons + hashtags trending en Afrique en temps réel" />
+          <QuickLink href="/dashboard/trends" title="Trend Scanner" desc="Sons + hashtags trending en Afrique, mis à jour quotidiennement" />
           <QuickLink href="/dashboard/generator" title="Viral Lab" desc="Génère des hooks viraux avec l'IA" />
         </div>
       </section>

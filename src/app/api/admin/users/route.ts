@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { randomBytes, randomInt } from "node:crypto";
 import { createClient } from "@/lib/supabase/server";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 
@@ -152,15 +153,24 @@ function generateStrongPassword(length = 16): string {
   const symbols = "!@#$%^&*-_+=?";
   const all = upper + lower + digits + symbols;
 
-  let pwd = "";
+  // Pick a cryptographically secure index in [0, max).
+  const pick = (set: string) => set[randomInt(0, set.length)];
+
+  const chars: string[] = [];
   // Garantit au moins 1 de chaque
-  pwd += upper[Math.floor(Math.random() * upper.length)];
-  pwd += lower[Math.floor(Math.random() * lower.length)];
-  pwd += digits[Math.floor(Math.random() * digits.length)];
-  pwd += symbols[Math.floor(Math.random() * symbols.length)];
-  for (let i = pwd.length; i < length; i++) {
-    pwd += all[Math.floor(Math.random() * all.length)];
+  chars.push(pick(upper));
+  chars.push(pick(lower));
+  chars.push(pick(digits));
+  chars.push(pick(symbols));
+  for (let i = chars.length; i < length; i++) {
+    chars.push(pick(all));
   }
-  // Shuffle
-  return pwd.split("").sort(() => Math.random() - 0.5).join("");
+
+  // Fisher–Yates shuffle driven by crypto randomness.
+  const rand = randomBytes(chars.length * 4);
+  for (let i = chars.length - 1; i > 0; i--) {
+    const r = rand.readUInt32BE(i * 4 - 4) % (i + 1);
+    [chars[i], chars[r]] = [chars[r], chars[i]];
+  }
+  return chars.join("");
 }

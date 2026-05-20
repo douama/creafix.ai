@@ -107,8 +107,8 @@
     "trend": {
       "badge": "Made in Africa",
       "title": "African Trend Engine",
-      "desc": "The only trend engine truly trained on African content. Hashtags, sounds and formats — by country, in real-time.",
-      "bullet1": "Refresh every 15 minutes",
+      "desc": "The only trend engine truly trained on African content. Hashtags, sounds and formats — by country, updated every 4 minutes.",
+      "bullet1": "Refresh every 4 minutes",
       "bullet2": "9 countries: SN, CI, CM, ML, NG, GH, ZA, MA, CD",
       "bullet3": "Emerging trends detection",
       "metric": "9 countries",
@@ -240,7 +240,7 @@
     },
     "trend": {
       "name": "Trend Agent",
-      "desc": "Real-time African trends — sounds, hashtags, formats by country.",
+      "desc": "Continuously updated African trends — sounds, hashtags, formats by country.",
       "metric": "9",
       "metricLabel": "countries watched"
     },
@@ -345,7 +345,7 @@
       "q7": "Does it work for my agency?",
       "a7": "The Agency plan lets you manage unlimited clients across all 9 platforms, export white-label PDF reports, share private links and use your own branding. Perfect for multi-account social agencies.",
       "q8": "Is there a mobile app?",
-      "a8": "Yes — a Flutter app (Android + iOS) is in private beta with push notifications, video upload and real-time analysis on all 9 platforms. Available to Pro and Agency subscribers in early access."
+      "a8": "Yes — a Flutter app (Android + iOS) is in private beta with push notifications, video upload and fast analysis (private beta — early access via waitlist) on all 9 platforms. Available to Pro and Agency subscribers in early access."
     }
   },
   "cta": {

@@ -86,8 +86,8 @@ export function LiveActivity() {
               transition={{ duration: 0.5, delay: 0.1 }}
               className="mt-3 text-sm text-muted-foreground md:text-base"
             >
-              Audits IA, shadowbans détectés, revenus récupérés, sons viraux
-              repérés — en temps réel sur tout le réseau africain.
+              Exemples de signaux détectés par CreaFix AI — ton feed s&apos;active
+              après ton 1er audit.
             </motion.p>
           </div>
 
