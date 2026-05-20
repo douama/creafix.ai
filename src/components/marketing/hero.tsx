@@ -111,54 +111,94 @@ export function Hero() {
 }
 
 /* ──────────────────────────────────────────────────────────────────
- * FloatingSocialIcons — 9 plateformes en lévitation autour du hero
- * Affiché sur xl+ uniquement (≥ 1280px) pour éviter overlap avec le H1.
- * Utilise PlatformIconBadge (vrais logos, couleurs marque officielles).
+ * FloatingSocialIcons — 12 icônes plateformes circulant partout dans le hero
+ *
+ * Chaque icône a un anchor en % + un chemin (x/y/rotate) unique,
+ * désynchronisé, de durée 18-32s. Effet : nuage ambiant fluide qui
+ * couvre tout le hero. Opacité réduite + drop-shadow pour rester
+ * lisible derrière le texte central.
+ *
+ * Visible md+ (≥ 768px). Masqué en-dessous pour la perf et l'écran.
  * ────────────────────────────────────────────────────────────────── */
 
-const FLOATING_PLATFORMS: ReadonlyArray<{ id: PlatformId; pos: string; delay: number }> = [
-  // Colonne gauche (5)
-  { id: "YOUTUBE",   pos: "left-2 top-[4%]",    delay: 0   },
-  { id: "INSTAGRAM", pos: "left-16 top-[22%]",  delay: 0.4 },
-  { id: "TIKTOK",    pos: "left-0 top-[44%]",   delay: 0.8 },
-  { id: "SNAPCHAT",  pos: "left-16 top-[64%]",  delay: 1.2 },
-  { id: "TWITCH",    pos: "left-2 top-[84%]",   delay: 1.6 },
-  // Colonne droite (4)
-  { id: "FACEBOOK",  pos: "right-2 top-[8%]",   delay: 0.2 },
-  { id: "LINKEDIN",  pos: "right-16 top-[28%]", delay: 0.6 },
-  { id: "X",         pos: "right-0 top-[50%]",  delay: 1.0 },
-  { id: "PINTEREST", pos: "right-16 top-[74%]", delay: 1.4 },
+type Orbit = {
+  id: PlatformId;
+  anchor: { left: string; top: string };
+  size: number;
+  duration: number;
+  delay: number;
+  opacity: number;
+  path: { x: number[]; y: number[]; rotate: number[] };
+};
+
+const ORBITING_PLATFORMS: ReadonlyArray<Orbit> = [
+  // ─── Bandeau haut (au-dessus du H1) ───
+  { id: "YOUTUBE",   anchor: { left: "5%",  top: "3%"  }, size: 48, duration: 22, delay: 0,   opacity: 0.85,
+    path: { x: [0, 60, 30, -20, 0], y: [0, -10, 35, 20, 0], rotate: [0, 8, -5, 3, 0] } },
+  { id: "TIKTOK",    anchor: { left: "26%", top: "1%"  }, size: 42, duration: 26, delay: 2,   opacity: 0.75,
+    path: { x: [0, -50, 20, 45, 0], y: [0, 35, 55, 15, 0], rotate: [0, -6, 4, -2, 0] } },
+  { id: "FACEBOOK",  anchor: { left: "70%", top: "2%"  }, size: 50, duration: 24, delay: 1,   opacity: 0.8,
+    path: { x: [0, 40, -35, -15, 0], y: [0, 45, 25, -10, 0], rotate: [0, 5, -3, 6, 0] } },
+  { id: "X",         anchor: { left: "92%", top: "5%"  }, size: 44, duration: 20, delay: 3,   opacity: 0.85,
+    path: { x: [0, -60, -25, 15, 0], y: [0, 25, -15, 35, 0], rotate: [0, -8, 4, -2, 0] } },
+
+  // ─── Mi-hauteur (sides — proche du H1 mais reste en gutter) ───
+  { id: "INSTAGRAM", anchor: { left: "1%",  top: "32%" }, size: 50, duration: 28, delay: 4,   opacity: 0.75,
+    path: { x: [0, 55, 30, -10, 0], y: [0, -30, 25, 40, 0], rotate: [0, 6, -4, 3, 0] } },
+  { id: "LINKEDIN",  anchor: { left: "95%", top: "34%" }, size: 46, duration: 25, delay: 1.5, opacity: 0.8,
+    path: { x: [0, -50, -20, 15, 0], y: [0, 40, -25, 15, 0], rotate: [0, -5, 6, -3, 0] } },
+  { id: "SNAPCHAT",  anchor: { left: "3%",  top: "55%" }, size: 44, duration: 30, delay: 5,   opacity: 0.7,
+    path: { x: [0, 70, 35, -15, 0], y: [0, -35, 20, 30, 0], rotate: [0, 7, -3, 4, 0] } },
+  { id: "PINTEREST", anchor: { left: "93%", top: "56%" }, size: 48, duration: 26, delay: 0.5, opacity: 0.8,
+    path: { x: [0, -45, -20, 25, 0], y: [0, 25, -20, 10, 0], rotate: [0, -6, 5, -2, 0] } },
+
+  // ─── Bandeau bas (sous les CTAs, dans le gap avant le dashboard) ───
+  { id: "TWITCH",    anchor: { left: "12%", top: "82%" }, size: 44, duration: 23, delay: 2.5, opacity: 0.75,
+    path: { x: [0, 45, 20, -25, 0], y: [0, -20, 30, -10, 0], rotate: [0, 4, -6, 3, 0] } },
+  { id: "YOUTUBE",   anchor: { left: "82%", top: "84%" }, size: 38, duration: 27, delay: 4.5, opacity: 0.6,
+    path: { x: [0, -40, 20, -15, 0], y: [0, -30, 15, 25, 0], rotate: [0, -7, 4, -3, 0] } },
+  { id: "TIKTOK",    anchor: { left: "40%", top: "88%" }, size: 36, duration: 21, delay: 6,   opacity: 0.55,
+    path: { x: [0, 50, -20, 30, 0], y: [0, 20, -25, 10, 0], rotate: [0, 6, -4, 2, 0] } },
+  { id: "INSTAGRAM", anchor: { left: "58%", top: "90%" }, size: 36, duration: 29, delay: 3.5, opacity: 0.6,
+    path: { x: [0, -55, 25, -10, 0], y: [0, -20, 25, 15, 0], rotate: [0, -4, 6, -2, 0] } },
 ];
 
 function FloatingSocialIcons() {
   return (
     <div
       aria-hidden
-      className="pointer-events-none absolute inset-x-0 top-0 z-0 hidden h-[560px] xl:block"
+      className="pointer-events-none absolute inset-x-0 top-0 z-0 hidden h-[680px] md:block"
     >
-      {FLOATING_PLATFORMS.map((p) => (
+      {ORBITING_PLATFORMS.map((p, i) => (
         <motion.div
-          key={p.id}
+          key={`${p.id}-${i}`}
           initial={{ opacity: 0, scale: 0.4 }}
-          animate={{ opacity: 1, scale: 1 }}
+          animate={{ opacity: p.opacity, scale: 1 }}
           transition={{
-            duration: 0.55,
-            delay: 0.35 + p.delay * 0.12,
+            duration: 0.6,
+            delay: 0.3 + p.delay * 0.06,
             ease: [0.16, 1, 0.3, 1],
           }}
-          className={`absolute ${p.pos}`}
+          className="absolute"
+          style={{ left: p.anchor.left, top: p.anchor.top }}
         >
           <motion.div
-            animate={{ y: [0, -10, 0], rotate: [0, 2, 0] }}
+            animate={{
+              x: p.path.x,
+              y: p.path.y,
+              rotate: p.path.rotate,
+            }}
             transition={{
-              duration: 4.5 + p.delay,
+              duration: p.duration,
               repeat: Infinity,
               ease: "easeInOut",
               delay: p.delay,
+              times: [0, 0.25, 0.5, 0.75, 1],
             }}
             className="drop-shadow-xl"
+            style={{ willChange: "transform" }}
           >
-            <PlatformIconBadge id={p.id} size={52} rounded="rounded-2xl" />
+            <PlatformIconBadge id={p.id} size={p.size} rounded="rounded-2xl" />
           </motion.div>
         </motion.div>
       ))}
