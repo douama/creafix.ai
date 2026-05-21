@@ -68,14 +68,24 @@ export function ConnectAccountsModal({
         body: JSON.stringify({ platform: platformId }),
       });
       const json = await res.json();
-      if (!res.ok) throw new Error(json.error ?? "Erreur");
+
+      // Plateforme pas encore configurée côté serveur : message friendly
+      if (json.comingSoon) {
+        toast.info(json.message ?? "Cette plateforme arrive bientôt.");
+        setConnecting(null);
+        return;
+      }
+
+      if (!res.ok) throw new Error(typeof json.error === "string" ? json.error : "Erreur");
       if (json.redirectUrl) {
         window.location.href = json.redirectUrl;
       } else {
         toast.error("URL de connexion manquante");
+        setConnecting(null);
       }
-    } catch (e: any) {
-      toast.error(e.message ?? "Erreur de connexion");
+    } catch (e: unknown) {
+      const msg = e instanceof Error ? e.message : "Erreur de connexion";
+      toast.error(msg);
       setConnecting(null);
     }
   }

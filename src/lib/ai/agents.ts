@@ -1,15 +1,16 @@
 /**
- * CreaFix AI — Multi-agents orchestrator (Phase D · live LLM).
+ * CreaFix AI — Multi-agents orchestrator (Phase D · ultra-performant).
  *
- * Chaque agent :
- *   - encapsule un system prompt spécialisé
- *   - appelle `chat()` (Anthropic Claude par défaut)
- *   - parse la sortie JSON structurée
- *   - fallback automatique sur mock si pas de clé ou parse fail
+ * 7 agents spécialisés, chacun :
+ *   - encapsule un system prompt expert + few-shot
+ *   - appelle `chat()` via `cachedChat()` (dedup 60s pour les calls déterministes)
+ *   - model routing intelligent (Opus pour raisonnement profond, Sonnet pour
+ *     créativité, Haiku pour scans rapides) — optimise coût/latence/qualité
+ *   - parse JSON structuré + fallback mock si pas de clé ou parse fail
  *   - track ses métriques dans monetiq.ai_agents (cost/latency/success)
+ *   - retry 2× exponentiel sur erreurs transitoires (intégré dans providers.ts)
  *
- * `runFullAudit()` lance 5 agents en parallèle (Promise.all) pour produire
- * un rapport complet en ~3-8s (vs 15-40s en séquentiel).
+ * `runFullAudit()` lance les 7 agents en parallèle (~3-8s pour le tout).
  */
 
 import { chat, type ChatResult } from "./providers";
@@ -37,12 +38,14 @@ export interface AgentResult<T = unknown> {
   data: T;
   /** True si la réponse vient du mock (pas de clé Anthropic ou parse fail). */
   isMock: boolean;
-  /** Coût USD de cette run (0 si mock). */
+  /** Coût USD de cette run (0 si mock ou cache hit). */
   costUsd: number;
+  /** True si la réponse provient du cache request-level. */
+  cacheHit: boolean;
 }
 
 const AGENT_SLUG: Record<AgentName, string> = {
-  audit:          "monetization-agent", // pas de slug "audit", on map au global
+  audit:          "monetization-agent",
   monetization:   "monetization-agent",
   viral:          "viral-agent",
   "anti-ban":     "shadowban-agent",
@@ -52,7 +55,59 @@ const AGENT_SLUG: Record<AgentName, string> = {
 };
 
 /* ════════════════════════════════════════════════════════════════════
- * AGENT : AUDIT GLOBAL (Monetization Agent)
+ * Smart model routing — par tâche (coût/latence/qualité)
+ * ════════════════════════════════════════════════════════════════════ */
+
+const MODEL_AUDIT      = "claude-opus-4-7";   // raisonnement profond, 8 dimensions
+const MODEL_CREATIVE   = "claude-sonnet-4-6"; // viral, thumbnail, script (balance)
+const MODEL_ANALYTICAL = "claude-sonnet-4-6"; // monetization (déductions claires)
+const MODEL_FAST       = "claude-haiku-4-5";  // anti-ban + trend (scans rapides)
+
+/* ════════════════════════════════════════════════════════════════════
+ * Request-level cache — dedup 60s sur calls déterministes (temperature ≤ 0.5)
+ *
+ * Pour audit/monetization/anti-ban/trend : si le même contexte est ré-audité
+ * en rafale (re-run user, ré-affichage page), on évite le re-appel LLM.
+ * Pour viral/thumbnail/script (créatif, temperature 0.8+), pas de cache.
+ * ════════════════════════════════════════════════════════════════════ */
+
+interface CacheEntry { result: ChatResult; expiresAt: number }
+const requestCache = new Map<string, CacheEntry>();
+const CACHE_TTL_MS = 60_000;
+const CACHE_MAX_ENTRIES = 200;
+
+async function cachedChat(opts: Parameters<typeof chat>[0]): Promise<ChatResult & { cacheHit: boolean }> {
+  // Calls créatifs (haute température) : pas de dedup, on veut de la variété.
+  if ((opts.temperature ?? 0) > 0.5) {
+    const res = await chat(opts);
+    return { ...res, cacheHit: false };
+  }
+
+  const key = `${opts.provider ?? "ANTHROPIC"}:${opts.model ?? "default"}:${JSON.stringify(opts.messages)}:${opts.temperature ?? 0}:${opts.maxTokens ?? 0}`;
+  const now = Date.now();
+  const cached = requestCache.get(key);
+  if (cached && cached.expiresAt > now) {
+    return { ...cached.result, latencyMs: 0, costUsd: 0, cacheHit: true };
+  }
+
+  const result = await chat(opts);
+
+  // N'incache que les vraies réponses LLM (pas les mocks ou erreurs)
+  if (!result.isMock) {
+    requestCache.set(key, { result, expiresAt: now + CACHE_TTL_MS });
+    // Purge LRU naïf : si > MAX, drop tout ce qui est expiré
+    if (requestCache.size > CACHE_MAX_ENTRIES) {
+      for (const [k, v] of requestCache) {
+        if (v.expiresAt < now) requestCache.delete(k);
+      }
+    }
+  }
+
+  return { ...result, cacheHit: false };
+}
+
+/* ════════════════════════════════════════════════════════════════════
+ * AGENT 1 : AUDIT GLOBAL (Monetization Agent · OPUS)
  * ════════════════════════════════════════════════════════════════════ */
 
 export interface AuditAgentData {
@@ -63,9 +118,9 @@ export interface AuditAgentData {
 
 const AUDIT_SYSTEM_PROMPT = `Tu es un analyste senior de monétisation de contenus sociaux, spécialiste du marché africain (Sénégal, Côte d'Ivoire, Cameroun, Mali, Nigeria, Ghana, Afrique du Sud, Maroc, RD Congo).
 
-Tu reçois les métadonnées d'un compte créateur (handle, plateforme, pays, niche). Tu produis un audit IA structuré couvrant 8 dimensions et identifies 3 issues actionables.
+Tu reçois les métadonnées d'un compte créateur (handle, plateforme, pays, niche). Tu produis un audit IA structuré couvrant 8 dimensions et identifies 3 issues actionables priorisées par impact monétisation.
 
-Dimensions à scorer 0-100 :
+Dimensions à scorer 0-100 (sois rigoureux, pas de complaisance) :
 1. Conformité politiques (TOS, copyright, contenus interdits)
 2. Qualité vidéo & rétention
 3. Engagement authentique (vs fake)
@@ -76,6 +131,7 @@ Dimensions à scorer 0-100 :
 8. Qualité audience (géo, démographique)
 
 Issues : severity = low/medium/high. Scope = Anti-Ban / Monetization / SEO / Engagement.
+Trie par impact revenu décroissant (high d'abord).
 
 Tu DOIS répondre UNIQUEMENT en JSON valide, format strict :
 {
@@ -88,35 +144,37 @@ export async function auditAgent(ctx: AgentContext): Promise<AgentResult<AuditAg
   const start = Date.now();
   const userMsg = buildAuditUserMessage(ctx);
 
-  const res = await chat({
+  const res = await cachedChat({
     provider: "ANTHROPIC",
-    model: "claude-sonnet-4-6",
+    model: MODEL_AUDIT,
     cacheSystem: true,
     json: true,
     temperature: 0.3,
     maxTokens: 1500,
+    maxRetries: 2,
     messages: [
       { role: "system", content: AUDIT_SYSTEM_PROMPT },
       { role: "user", content: userMsg },
     ],
   });
 
-  const data = (parseOrFallback<AuditAgentData>(res, mockAudit(ctx)));
+  const data = parseOrFallback<AuditAgentData>(res, mockAudit(ctx));
   void trackAgentRun("monetization-agent", res, !res.isMock);
 
   return {
     agent: "audit",
     model: res.model,
     durationMs: Date.now() - start,
-    confidence: res.isMock ? 60 : 92,
+    confidence: confidenceFor(res, 94),
     data,
     isMock: res.isMock,
     costUsd: res.costUsd,
+    cacheHit: res.cacheHit,
   };
 }
 
 /* ════════════════════════════════════════════════════════════════════
- * AGENT : VIRAL
+ * AGENT 2 : VIRAL (Sonnet · creative)
  * ════════════════════════════════════════════════════════════════════ */
 
 export interface ViralIdea {
@@ -131,12 +189,12 @@ const VIRAL_SYSTEM_PROMPT = `Tu es un expert TikTok / Reels / Shorts viral conte
 
 Tu génères 3 idées de vidéo virales adaptées au contexte créateur (pays, niche, plateforme). Chaque idée doit avoir :
 - title : concept clair de la vidéo (max 100 char)
-- score : potentiel viral 0-100 estimé
+- score : potentiel viral 0-100 estimé (sois honnête, pas tout à 90+)
 - duration : durée optimale (ex "0:45", "1:10")
 - niche : niche précise
-- hooks : 2 hooks ultra-accrocheurs pour les 3 premières secondes (max 80 char)
+- hooks : 2 hooks ultra-accrocheurs pour les 3 premières secondes (max 80 char, doivent créer une curiosité gap)
 
-Tu connais les codes culturels locaux : Mobile Money, afrobeats, amapiano, mbalax, langues locales, références sportives.
+Tu connais les codes culturels locaux : Mobile Money (Wave/OM/MTN/Moov), afrobeats, amapiano, mbalax, coupé-décalé, langues locales (wolof, lingala, pidgin, wolof, bambara), références sportives (LDC d'Afrique, AFCON).
 
 Réponse UNIQUEMENT en JSON valide :
 [
@@ -150,13 +208,14 @@ export async function viralAgent(
   const start = Date.now();
   const userMsg = `Créateur: @${ctx.handle} · ${ctx.platform} · pays ${ctx.country} · niche ${ctx.niche ?? "générale"} · ${ctx.followers ?? "?"} abonnés${ctx.topic ? ` · sujet à explorer: ${ctx.topic}` : ""}`;
 
-  const res = await chat({
+  const res = await cachedChat({
     provider: "ANTHROPIC",
-    model: "claude-sonnet-4-6",
+    model: MODEL_CREATIVE,
     cacheSystem: true,
     json: true,
-    temperature: 0.8,
+    temperature: 0.85,
     maxTokens: 1200,
+    maxRetries: 2,
     messages: [
       { role: "system", content: VIRAL_SYSTEM_PROMPT },
       { role: "user", content: userMsg },
@@ -170,15 +229,16 @@ export async function viralAgent(
     agent: "viral",
     model: res.model,
     durationMs: Date.now() - start,
-    confidence: res.isMock ? 60 : 88,
+    confidence: confidenceFor(res, 88),
     data,
     isMock: res.isMock,
     costUsd: res.costUsd,
+    cacheHit: res.cacheHit,
   };
 }
 
 /* ════════════════════════════════════════════════════════════════════
- * AGENT : MONETIZATION
+ * AGENT 3 : MONETIZATION (Sonnet · analytical)
  * ════════════════════════════════════════════════════════════════════ */
 
 export interface MonetizationData {
@@ -195,7 +255,7 @@ Tu analyses l'éligibilité d'un créateur aux programmes :
 - Facebook In-Stream Ads : 10K followers + 600 min watch time / 60j + page éligible
 - TikTok Creator Rewards : 10K followers + 100K vues / 30j + vidéos > 1 min
 
-Pour chaque créateur, estime les critères actuels (basés sur followers déclarés et niche), détermine l'éligibilité, et propose 3 actions concrètes pour activer ou augmenter les revenus.
+Pour chaque créateur, estime les critères actuels (basés sur followers déclarés et niche), détermine l'éligibilité, et propose 3 actions concrètes et priorisées (impact × effort) pour activer ou augmenter les revenus.
 
 Réponse UNIQUEMENT en JSON valide :
 {
@@ -210,13 +270,14 @@ export async function monetizationAgent(ctx: AgentContext): Promise<AgentResult<
   const start = Date.now();
   const userMsg = `Compte: @${ctx.handle} · ${ctx.platform} · ${ctx.country} · niche ${ctx.niche ?? "?"} · followers ${ctx.followers ?? 12500}`;
 
-  const res = await chat({
+  const res = await cachedChat({
     provider: "ANTHROPIC",
-    model: "claude-sonnet-4-6",
+    model: MODEL_ANALYTICAL,
     cacheSystem: true,
     json: true,
     temperature: 0.4,
     maxTokens: 1024,
+    maxRetries: 2,
     messages: [
       { role: "system", content: MONET_SYSTEM_PROMPT },
       { role: "user", content: userMsg },
@@ -230,15 +291,16 @@ export async function monetizationAgent(ctx: AgentContext): Promise<AgentResult<
     agent: "monetization",
     model: res.model,
     durationMs: Date.now() - start,
-    confidence: res.isMock ? 60 : 90,
+    confidence: confidenceFor(res, 90),
     data,
     isMock: res.isMock,
     costUsd: res.costUsd,
+    cacheHit: res.cacheHit,
   };
 }
 
 /* ════════════════════════════════════════════════════════════════════
- * AGENT : ANTI-BAN (Shadowban Agent)
+ * AGENT 4 : ANTI-BAN (Haiku · fast scan)
  * ════════════════════════════════════════════════════════════════════ */
 
 export interface AntiBanData {
@@ -253,6 +315,8 @@ export interface AntiBanData {
 const ANTIBAN_SYSTEM_PROMPT = `Tu es un spécialiste de la détection de shadowban et démonétisation sur TikTok, Facebook, Instagram, YouTube.
 
 Tu identifies les risques sur un compte : copyright audio, fake engagement, contenu sensible, spam, recyclage, violation policy.
+
+Adapte au contexte de la plateforme (TikTok est plus strict sur l'audio commercial ; YouTube sur les claims ; Meta sur fake engagement).
 
 Score de risque global 0-100 (0 = aucun risque, 100 = compte en très grand danger).
 
@@ -269,13 +333,14 @@ export async function antiBanAgent(ctx: AgentContext): Promise<AgentResult<AntiB
   const start = Date.now();
   const userMsg = `Compte à scanner : @${ctx.handle} · ${ctx.platform} · ${ctx.country}`;
 
-  const res = await chat({
+  const res = await cachedChat({
     provider: "ANTHROPIC",
-    model: "claude-sonnet-4-6",
+    model: MODEL_FAST,
     cacheSystem: true,
     json: true,
     temperature: 0.2,
     maxTokens: 800,
+    maxRetries: 2,
     messages: [
       { role: "system", content: ANTIBAN_SYSTEM_PROMPT },
       { role: "user", content: userMsg },
@@ -289,15 +354,16 @@ export async function antiBanAgent(ctx: AgentContext): Promise<AgentResult<AntiB
     agent: "anti-ban",
     model: res.model,
     durationMs: Date.now() - start,
-    confidence: res.isMock ? 60 : 88,
+    confidence: confidenceFor(res, 88),
     data,
     isMock: res.isMock,
     costUsd: res.costUsd,
+    cacheHit: res.cacheHit,
   };
 }
 
 /* ════════════════════════════════════════════════════════════════════
- * AGENT : TREND SCANNER
+ * AGENT 5 : TREND SCANNER (Haiku · fast cultural lookup)
  * ════════════════════════════════════════════════════════════════════ */
 
 export interface TrendData {
@@ -322,13 +388,14 @@ Réponse UNIQUEMENT en JSON valide :
 export async function trendAgent(country: string): Promise<AgentResult<TrendData>> {
   const start = Date.now();
 
-  const res = await chat({
+  const res = await cachedChat({
     provider: "ANTHROPIC",
-    model: "claude-sonnet-4-6",
+    model: MODEL_FAST,
     cacheSystem: true,
     json: true,
     temperature: 0.5,
     maxTokens: 700,
+    maxRetries: 2,
     messages: [
       { role: "system", content: TREND_SYSTEM_PROMPT },
       { role: "user", content: `Pays cible : ${country}` },
@@ -342,10 +409,165 @@ export async function trendAgent(country: string): Promise<AgentResult<TrendData
     agent: "trend",
     model: res.model,
     durationMs: Date.now() - start,
-    confidence: res.isMock ? 60 : 85,
+    confidence: confidenceFor(res, 85),
     data,
     isMock: res.isMock,
     costUsd: res.costUsd,
+    cacheHit: res.cacheHit,
+  };
+}
+
+/* ════════════════════════════════════════════════════════════════════
+ * AGENT 6 : THUMBNAIL (Sonnet · creative — NEW)
+ *
+ * Génère 8 concepts miniatures A/B-testables avec CTR estimé.
+ * Sortie : descriptions précises (couleur fond, accent, expression,
+ * archetype, headline) — utilisables soit par un designer humain soit
+ * par un générateur d'images (DALL-E, Stability, Midjourney).
+ * ════════════════════════════════════════════════════════════════════ */
+
+export interface ThumbnailConcept {
+  headline: string;          // texte overlay (≤ 5 mots, MAJUSCULES OK)
+  bgColor: string;           // hex
+  accentColor: string;       // hex
+  emoji: string;             // emoji principal
+  faceExpression: string;    // "choquée", "défi", "rire", "victoire"
+  archetype: "shock" | "before-after" | "list" | "question" | "challenge" | "reveal" | "money" | "social-proof";
+  estimatedCtrLift: number;  // % uplift estimé vs baseline industry (3-5%)
+}
+
+const THUMBNAIL_SYSTEM_PROMPT = `Tu es un expert miniatures (thumbnails) YouTube/TikTok/Reels, spécialisé contenu créateurs africains.
+
+Tu génères 8 concepts miniatures A/B-testables variés. Pour chacun :
+- headline : texte overlay ≤ 5 mots, punchy, MAJUSCULES OK (ex "JE SUIS RUINÉ", "TON SECRET")
+- bgColor + accentColor : hex codes contrastés (ratio ≥ 4.5:1 pour lisibilité mobile)
+- emoji : 1 emoji principal qui amplifie l'émotion
+- faceExpression : expression faciale dominante (choquée, défi, rire, victoire, etc.)
+- archetype : un de [shock, before-after, list, question, challenge, reveal, money, social-proof]
+- estimatedCtrLift : % uplift estimé vs baseline (typiquement 3-25%)
+
+Varie les archetypes. N'utilise PAS deux fois le même. Mixe couleurs (warm/cool/neon/pastel).
+Pense mobile-first : la miniature doit lire en 80×80px.
+
+Réponse UNIQUEMENT en JSON valide :
+[
+  {"headline":"...","bgColor":"#RRGGBB","accentColor":"#RRGGBB","emoji":"🔥","faceExpression":"...","archetype":"...","estimatedCtrLift":<n>},
+  ... 8 items
+]`;
+
+export async function thumbnailAgent(
+  ctx: AgentContext & { topic?: string },
+): Promise<AgentResult<ThumbnailConcept[]>> {
+  const start = Date.now();
+  const userMsg = `Créateur : @${ctx.handle} · ${ctx.platform} · ${ctx.country} · niche ${ctx.niche ?? "générale"}${ctx.topic ? ` · sujet vidéo : ${ctx.topic}` : ""}`;
+
+  const res = await cachedChat({
+    provider: "ANTHROPIC",
+    model: MODEL_CREATIVE,
+    cacheSystem: true,
+    json: true,
+    temperature: 0.8,
+    maxTokens: 1500,
+    maxRetries: 2,
+    messages: [
+      { role: "system", content: THUMBNAIL_SYSTEM_PROMPT },
+      { role: "user", content: userMsg },
+    ],
+  });
+
+  const data = parseOrFallback<ThumbnailConcept[]>(res, mockThumbnail(ctx));
+  void trackAgentRun("thumbnail-agent", res, !res.isMock);
+
+  return {
+    agent: "thumbnail",
+    model: res.model,
+    durationMs: Date.now() - start,
+    confidence: confidenceFor(res, 86),
+    data,
+    isMock: res.isMock,
+    costUsd: res.costUsd,
+    cacheHit: res.cacheHit,
+  };
+}
+
+/* ════════════════════════════════════════════════════════════════════
+ * AGENT 7 : SCRIPT (Sonnet · creative writing — NEW)
+ *
+ * Réécrit le hook + génère 3 variantes de script court (~45-60s).
+ * Chaque variante : structure beats (timing + ligne + b-roll suggéré) + CTA + tone TTS.
+ * ════════════════════════════════════════════════════════════════════ */
+
+export interface ScriptVariant {
+  hookRewrite: string;                  // hook punchy 0-3s (≤ 80 char)
+  beats: { ts: string; line: string; bRoll: string }[];  // 4-6 beats
+  cta: string;                          // 5-15s final
+  ttsTone: "energetic" | "calm" | "dramatic" | "casual";
+  estimatedRetention: number;           // 0-100 — rétention attendue
+}
+
+const SCRIPT_SYSTEM_PROMPT = `Tu es un script writer expert Reels/Shorts/TikTok pour créateurs africains.
+
+Tu produis 3 variantes complètes de script court (~45-60s) à partir d'un sujet/hook donné.
+
+Pour chaque variante :
+- hookRewrite : hook 0-3s ultra-punchy (≤ 80 char), crée curiosity gap, MAJUSCULES OK
+- beats : 4-6 beats, chacun avec ts (mm:ss start), line (script ≤ 120 char), bRoll (description visuelle ≤ 60 char)
+- cta : call-to-action final (≤ 100 char) — abonne / commente / partage
+- ttsTone : un de [energetic, calm, dramatic, casual]
+- estimatedRetention : % rétention 0-100 attendue (calculé selon la qualité du hook et la progression)
+
+Varie les 3 variantes : un ton energetic short-form, un dramatique storytelling, un casual didactique.
+Codes locaux : afrobeats refs, mobile money, langues locales si pertinent, sport.
+
+Réponse UNIQUEMENT en JSON valide :
+[
+  {
+    "hookRewrite":"...",
+    "beats":[{"ts":"0:03","line":"...","bRoll":"..."}, ...4-6 items],
+    "cta":"...",
+    "ttsTone":"...",
+    "estimatedRetention":<n>
+  },
+  ... 3 variantes
+]`;
+
+export async function scriptAgent(
+  ctx: AgentContext & { topic?: string; existingHook?: string },
+): Promise<AgentResult<ScriptVariant[]>> {
+  const start = Date.now();
+  const userMsg = [
+    `Créateur : @${ctx.handle} · ${ctx.platform} · ${ctx.country} · niche ${ctx.niche ?? "générale"}`,
+    ctx.topic ? `Sujet vidéo : ${ctx.topic}` : null,
+    ctx.existingHook ? `Hook actuel à améliorer : "${ctx.existingHook}"` : null,
+    `Génère 3 variantes complètes selon ton system prompt.`,
+  ].filter(Boolean).join("\n");
+
+  const res = await cachedChat({
+    provider: "ANTHROPIC",
+    model: MODEL_CREATIVE,
+    cacheSystem: true,
+    json: true,
+    temperature: 0.85,
+    maxTokens: 2000,
+    maxRetries: 2,
+    messages: [
+      { role: "system", content: SCRIPT_SYSTEM_PROMPT },
+      { role: "user", content: userMsg },
+    ],
+  });
+
+  const data = parseOrFallback<ScriptVariant[]>(res, mockScript(ctx));
+  void trackAgentRun("hook-rewriter-agent", res, !res.isMock);
+
+  return {
+    agent: "script",
+    model: res.model,
+    durationMs: Date.now() - start,
+    confidence: confidenceFor(res, 87),
+    data,
+    isMock: res.isMock,
+    costUsd: res.costUsd,
+    cacheHit: res.cacheHit,
   };
 }
 
@@ -382,11 +604,21 @@ function parseOrFallback<T>(res: ChatResult, fallback: T): T {
   return fallback;
 }
 
+/** Confidence dynamique : haut si LLM réussit, bas si fallback mock. */
+function confidenceFor(res: { isMock: boolean; cacheHit: boolean }, hi: number): number {
+  if (res.isMock) return 60;
+  // Cache hit = même qualité que l'original
+  return hi;
+}
+
 /* ════════════════════════════════════════════════════════════════════
  * Metrics tracking — update monetiq.ai_agents après chaque run
  * ════════════════════════════════════════════════════════════════════ */
 
 async function trackAgentRun(slug: string, res: ChatResult, success: boolean): Promise<void> {
+  // Skip si cache hit ou mock (pas de vraie consommation)
+  if (res.costUsd === 0 && success) return;
+
   try {
     const sb = supabaseAdmin();
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -400,9 +632,8 @@ async function trackAgentRun(slug: string, res: ChatResult, success: boolean): P
     const total   = (agent.runs_total ?? 0) + 1;
     const ok      = (agent.runs_success ?? 0) + (success ? 1 : 0);
     const failed  = (agent.runs_failed ?? 0) + (success ? 0 : 1);
-    // Moyenne glissante simple (pas EMA pour simplicité)
-    const avgCost   = ((Number(agent.avg_cost_usd ?? 0) * (total - 1)) + res.costUsd) / total;
-    const avgLat    = ((Number(agent.avg_latency_ms ?? 0) * (total - 1)) + res.latencyMs) / total;
+    const avgCost = ((Number(agent.avg_cost_usd ?? 0) * (total - 1)) + res.costUsd) / total;
+    const avgLat  = ((Number(agent.avg_latency_ms ?? 0) * (total - 1)) + res.latencyMs) / total;
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     await (sb.from("ai_agents") as any)
@@ -432,7 +663,6 @@ async function trackAgentRun(slug: string, res: ChatResult, success: boolean): P
         .eq("id", providerConf.id);
     }
   } catch (err) {
-    // Métriques non critiques — log mais ne casse pas l'audit
     console.error("[ai/agents] trackAgentRun failed:", err);
   }
 }
@@ -548,25 +778,82 @@ function mockTrend(country: string): TrendData {
   };
 }
 
+function mockThumbnail(ctx: AgentContext): ThumbnailConcept[] {
+  const niche = ctx.niche ?? "lifestyle";
+  return [
+    { headline: "JE SUIS RUINÉ",      bgColor: "#F43F5E", accentColor: "#FCD34D", emoji: "😱", faceExpression: "choquée",  archetype: "shock",         estimatedCtrLift: 18 },
+    { headline: "AVANT vs APRÈS",     bgColor: "#1FBEAF", accentColor: "#0F172A", emoji: "⚡", faceExpression: "défi",     archetype: "before-after",  estimatedCtrLift: 14 },
+    { headline: "TOP 3 ERREURS",      bgColor: "#0F172A", accentColor: "#FF8A00", emoji: "🚨", faceExpression: "sérieux",  archetype: "list",          estimatedCtrLift: 11 },
+    { headline: "POURQUOI TU PERDS ?", bgColor: "#EC4899", accentColor: "#FFFFFF", emoji: "❓", faceExpression: "intriguée", archetype: "question",     estimatedCtrLift: 9  },
+    { headline: "RELÈVE LE DÉFI",     bgColor: "#FF8A00", accentColor: "#0F172A", emoji: "🔥", faceExpression: "défi",     archetype: "challenge",     estimatedCtrLift: 12 },
+    { headline: "LA VÉRITÉ CACHÉE",   bgColor: "#7C3AED", accentColor: "#FCD34D", emoji: "👀", faceExpression: "curieuse", archetype: "reveal",        estimatedCtrLift: 16 },
+    { headline: `500K FCFA · ${niche.toUpperCase()}`, bgColor: "#10B981", accentColor: "#FFFFFF", emoji: "💰", faceExpression: "victoire", archetype: "money", estimatedCtrLift: 13 },
+    { headline: "10K LE VEULENT",     bgColor: "#1877F2", accentColor: "#FCD34D", emoji: "🌍", faceExpression: "fier",     archetype: "social-proof",  estimatedCtrLift: 10 },
+  ];
+}
+
+function mockScript(ctx: AgentContext & { topic?: string }): ScriptVariant[] {
+  const topic = ctx.topic ?? "ma technique secrète";
+  return [
+    {
+      hookRewrite: `Si t'es au ${cityFor(ctx.country)}, écoute bien — ça change tout.`,
+      beats: [
+        { ts: "0:03", line: `Voici ${topic} que personne ne fait.`, bRoll: "close-up visage choqué" },
+        { ts: "0:10", line: "Étape 1 : tu fais l'exact opposé de ce que les gens font.", bRoll: "schéma main qui dessine" },
+        { ts: "0:22", line: "Étape 2 : tu attends 48h sans publier.", bRoll: "horloge timelapse" },
+        { ts: "0:35", line: "Étape 3 : tu lances avec ce hook précis.", bRoll: "phone affiche un hook" },
+      ],
+      cta: "Si ça t'a aidé, abonne-toi — je sors le détail demain.",
+      ttsTone: "energetic",
+      estimatedRetention: 78,
+    },
+    {
+      hookRewrite: `J'ai perdu 200K FCFA à cause de ça — apprends de mon erreur.`,
+      beats: [
+        { ts: "0:03", line: "Voilà ce qui m'est arrivé.", bRoll: "ralenti regard caméra" },
+        { ts: "0:12", line: `J'ai cru bien faire avec ${topic}.`, bRoll: "tableau noir avec mots barrés" },
+        { ts: "0:25", line: "Mais l'algo a complètement gelé mon compte.", bRoll: "graphique en chute" },
+        { ts: "0:40", line: "Voici les 3 signaux à surveiller absolument.", bRoll: "loupe sur écran phone" },
+      ],
+      cta: "Sauvegarde cette vidéo — tu vas en avoir besoin.",
+      ttsTone: "dramatic",
+      estimatedRetention: 82,
+    },
+    {
+      hookRewrite: `${topic} expliqué simplement — en 60 secondes.`,
+      beats: [
+        { ts: "0:03", line: `${topic} c'est quoi exactement ?`, bRoll: "intro texte centré écran" },
+        { ts: "0:10", line: "Le principe : on optimise un seul levier à la fois.", bRoll: "icône cible bouge" },
+        { ts: "0:25", line: "Exemple concret avec un créateur que je suis.", bRoll: "screenshot insights anonymisé" },
+        { ts: "0:42", line: "Résultat : x3 sur les vues monétisées en 30 jours.", bRoll: "graphique croissance" },
+      ],
+      cta: "Suis-moi pour la méthode complète demain.",
+      ttsTone: "casual",
+      estimatedRetention: 71,
+    },
+  ];
+}
+
 /* ════════════════════════════════════════════════════════════════════
- * Orchestrator — lance les 5 agents en parallèle
+ * Orchestrator — lance les 7 agents en parallèle (~3-8s vs 30-60s séquentiel)
  * ════════════════════════════════════════════════════════════════════ */
 
-export async function runFullAudit(ctx: AgentContext) {
-  const [audit, viral, monet, ban, trend] = await Promise.all([
+export async function runFullAudit(ctx: AgentContext & { topic?: string }) {
+  const [audit, viral, monet, ban, trend, thumbnail, script] = await Promise.all([
     auditAgent(ctx),
     viralAgent(ctx),
     monetizationAgent(ctx),
     antiBanAgent(ctx),
     trendAgent(ctx.country),
+    thumbnailAgent(ctx),
+    scriptAgent(ctx),
   ]);
 
-  // Total coût + isMock global
-  const totalCostUsd = audit.costUsd + viral.costUsd + monet.costUsd + ban.costUsd + trend.costUsd;
-  const anyMock = audit.isMock || viral.isMock || monet.isMock || ban.isMock || trend.isMock;
-  const totalLatencyMs = Math.max(
-    audit.durationMs, viral.durationMs, monet.durationMs, ban.durationMs, trend.durationMs,
-  );
+  const allAgents = [audit, viral, monet, ban, trend, thumbnail, script];
+  const totalCostUsd = allAgents.reduce((s, a) => s + a.costUsd, 0);
+  const totalLatencyMs = Math.max(...allAgents.map((a) => a.durationMs));
+  const anyMock = allAgents.some((a) => a.isMock);
+  const cacheHits = allAgents.filter((a) => a.cacheHit).length;
 
   return {
     audit,
@@ -574,10 +861,14 @@ export async function runFullAudit(ctx: AgentContext) {
     monetization: monet,
     antiBan: ban,
     trend,
+    thumbnail,
+    script,
     meta: {
       totalCostUsd: Math.round(totalCostUsd * 10000) / 10000,
       totalLatencyMs,
       anyMock,
+      cacheHits,
+      agentsCount: allAgents.length,
     },
   };
 }

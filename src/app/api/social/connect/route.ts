@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { createClient } from "@/lib/supabase/server";
 import { signState, generatePkce, randomNonce } from "@/lib/social/oauth-state";
+import { isPlatformConfigured } from "@/lib/social/callback-helpers";
 
 const schema = z.object({
   platform: z.enum(["FACEBOOK", "TIKTOK", "INSTAGRAM", "YOUTUBE", "X"]),
@@ -17,6 +18,20 @@ export async function POST(req: Request) {
   if (!parsed.success) return NextResponse.json({ error: parsed.error.flatten() }, { status: 400 });
 
   const { platform } = parsed.data;
+
+  // Gate env vars : si la plateforme n'est pas configurée (credentials OAuth
+  // manquants dans Vercel), on renvoie un payload comingSoon plutôt que de
+  // construire une URL OAuth cassée (client_id=undefined → erreur opaque).
+  if (!isPlatformConfigured(platform)) {
+    const pretty = { FACEBOOK: "Facebook", INSTAGRAM: "Instagram", TIKTOK: "TikTok", YOUTUBE: "YouTube", X: "X" }[platform];
+    return NextResponse.json({
+      ok: false,
+      comingSoon: true,
+      platform,
+      message: `${pretty} arrive très bientôt — rejoins la liste d'attente.`,
+    });
+  }
+
   const apiVersion = process.env.META_GRAPH_API_VERSION ?? "v21.0";
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL ?? process.env.NEXTAUTH_URL ?? "http://localhost:3000";
 
