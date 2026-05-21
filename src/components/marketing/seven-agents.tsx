@@ -307,7 +307,7 @@ function AgentCard({ agent, index }: { agent: Agent; index: number }) {
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 0.5, delay: 0.05 + index * 0.05, ease: [0.16, 1, 0.3, 1] }}
       whileHover={{ y: -4 }}
-      className="no-lg-glass group relative w-[270px] shrink-0 snap-start overflow-hidden rounded-2xl border border-border bg-white p-4 shadow-sm transition-shadow duration-300 hover:shadow-xl md:w-[290px] dark:bg-card"
+      className="group relative w-[270px] shrink-0 snap-start overflow-hidden rounded-2xl border border-border bg-transparent p-4 transition-shadow duration-300 hover:shadow-xl md:w-[290px]"
     >
       {/* Gradient border rotatif au hover */}
       <div
