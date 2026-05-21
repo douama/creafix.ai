@@ -296,7 +296,13 @@ function AgentsCarousel() {
 }
 
 /* ──────────────────────────────────────────────────────────────────
- * AgentCard — version compacte uniforme (carousel)
+ * AgentCard — frosted glass adaptatif light/dark, ultra-lisible
+ *
+ * Light : bg-white/65 + backdrop-blur-xl + hairline border noire/8%
+ * Dark  : bg-white/[0.04] + backdrop-blur-xl + hairline border blanche/10%
+ * Inner top highlight (signature liquid glass)
+ * Shadow colorée par agent au hover (tint au lieu de neutre)
+ * Texte forcé en text-foreground/* pour passer WCAG AA sur glass
  * ────────────────────────────────────────────────────────────────── */
 function AgentCard({ agent, index }: { agent: Agent; index: number }) {
   const Icon = agent.icon;
@@ -307,8 +313,18 @@ function AgentCard({ agent, index }: { agent: Agent; index: number }) {
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 0.5, delay: 0.05 + index * 0.05, ease: [0.16, 1, 0.3, 1] }}
       whileHover={{ y: -4 }}
-      className="group relative w-[270px] shrink-0 snap-start overflow-hidden rounded-2xl border border-border bg-transparent p-4 transition-shadow duration-300 hover:shadow-xl md:w-[290px]"
+      className="group relative w-[270px] shrink-0 snap-start overflow-hidden rounded-2xl border border-black/[0.06] bg-white/65 p-4 shadow-[0_1px_2px_rgba(0,0,0,0.04),0_8px_24px_-12px_rgba(0,0,0,0.08)] backdrop-blur-xl backdrop-saturate-150 transition-all duration-300 hover:-translate-y-1 md:w-[290px] dark:border-white/[0.08] dark:bg-white/[0.04] dark:shadow-[0_1px_2px_rgba(0,0,0,0.3),0_8px_24px_-12px_rgba(0,0,0,0.5)]"
+      style={{
+        // Hover shadow colorée par agent (CSS variable accessible au :hover)
+        ["--agent-color" as never]: agent.color,
+      }}
     >
+      {/* Inner top highlight — signature Apple Liquid Glass */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-3 top-0 h-px bg-gradient-to-r from-transparent via-white/70 to-transparent dark:via-white/15"
+      />
+
       {/* Gradient border rotatif au hover */}
       <div
         aria-hidden
@@ -323,13 +339,20 @@ function AgentCard({ agent, index }: { agent: Agent; index: number }) {
         }}
       />
 
-      {/* Glow d'ambiance hover */}
+      {/* Glow d'ambiance hover (tinté agent) */}
       <motion.div
         aria-hidden
         className="pointer-events-none absolute -right-12 -top-12 h-32 w-32 rounded-full blur-2xl"
-        style={{ backgroundColor: agent.color, opacity: 0.12 }}
-        whileHover={{ opacity: 0.3, scale: 1.4 }}
+        style={{ backgroundColor: agent.color, opacity: 0.10 }}
+        whileHover={{ opacity: 0.28, scale: 1.4 }}
         transition={{ duration: 0.4 }}
+      />
+
+      {/* Shadow colorée au hover (légère teinte agent) */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+        style={{ boxShadow: `0 12px 32px -8px ${agent.color}33` }}
       />
 
       <div className="relative">
@@ -337,23 +360,27 @@ function AgentCard({ agent, index }: { agent: Agent; index: number }) {
         <div className="flex items-start justify-between gap-2">
           <IconBubble icon={Icon} color={agent.color} />
           <span
-            className="inline-flex items-center rounded-full px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider"
-            style={{ color: agent.color, backgroundColor: `${agent.color}15` }}
+            className="inline-flex items-center rounded-full px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider ring-1"
+            style={{
+              color: agent.color,
+              backgroundColor: `${agent.color}1A`,
+              boxShadow: `inset 0 0 0 1px ${agent.color}33`,
+            }}
           >
             {agent.badge}
           </span>
         </div>
 
         {/* Title + role */}
-        <h3 className="mt-3 font-display text-[15px] font-bold leading-tight tracking-tight">
+        <h3 className="mt-3 font-display text-[15px] font-bold leading-tight tracking-tight text-foreground">
           {agent.name}
         </h3>
-        <div className="mt-0.5 text-[9.5px] font-semibold uppercase tracking-wider text-muted-foreground">
+        <div className="mt-0.5 text-[9.5px] font-semibold uppercase tracking-wider text-foreground/55">
           Agent #{index + 1} · {agent.role}
         </div>
 
-        {/* Description */}
-        <p className="mt-2 line-clamp-3 min-h-[3.4rem] text-[11.5px] leading-snug text-muted-foreground">
+        {/* Description — text-foreground/75 = contraste WCAG AA même sur glass */}
+        <p className="mt-2 line-clamp-3 min-h-[3.4rem] text-[11.5px] leading-snug text-foreground/75">
           {agent.desc}
         </p>
 
@@ -367,13 +394,13 @@ function AgentCard({ agent, index }: { agent: Agent; index: number }) {
           <span className="font-display text-base font-bold tabular-nums" style={{ color: agent.color }}>
             {agent.stat.value}
           </span>
-          <span className="text-[9.5px] uppercase tracking-wider text-muted-foreground">
+          <span className="text-[9.5px] uppercase tracking-wider text-foreground/55">
             {agent.stat.label}
           </span>
         </div>
 
         {/* Footer : status + arrow */}
-        <div className="mt-3 flex items-center justify-between border-t border-border/60 pt-2">
+        <div className="mt-3 flex items-center justify-between border-t border-foreground/[0.08] pt-2 dark:border-white/[0.08]">
           <span className="flex items-center gap-1.5 text-[10px]">
             <PulseDot color={agent.color} />
             <b className="text-foreground">Prêt · 24/7</b>
