@@ -23,24 +23,30 @@ export async function POST(req: Request) {
   // state = nonce aléatoire signé HMAC (anti CSRF / replay)
   const state = signState(randomNonce(), user.id);
 
-  // Gate env vars : si la plateforme n'est pas configurée (credentials OAuth
-  // manquants), on redirige vers une URL de simulation (mock) pour permettre
-  // le test de connexion en local et éviter le blocage.
+  // Gate env vars : si la plateforme n'est pas configurée côté serveur.
+  // En dev → on autorise le mock callback pour permettre le test du flow.
+  // En prod → on renvoie comingSoon (la modal affiche un toast friendly)
+  // pour éviter d'insérer des données fictives dans social_accounts.
   if (!isPlatformConfigured(platform)) {
-    const mockRedirectUrl = `${baseUrl}/api/social/callback/mock?platform=${platform}&state=${encodeURIComponent(state)}`;
-    const res = NextResponse.json({ ok: true, redirectUrl: mockRedirectUrl });
+    if (process.env.NODE_ENV !== "production") {
+      const mockRedirectUrl = `${baseUrl}/api/social/callback/mock?platform=${platform}&state=${encodeURIComponent(state)}`;
+      const res = NextResponse.json({ ok: true, redirectUrl: mockRedirectUrl });
+      const cookieOpts = {
+        httpOnly: true,
+        sameSite: "lax" as const,
+        secure: false,
+        path: "/api/social",
+        maxAge: 60 * 10,
+      };
+      res.cookies.set(`oauth_state_${platform.toLowerCase()}`, state, cookieOpts);
+      return res;
+    }
 
-    // Cookies httpOnly courts (10 min) — lus par le callback mock
-    const cookieOpts = {
-      httpOnly: true,
-      sameSite: "lax" as const,
-      secure: process.env.NODE_ENV === "production",
-      path: "/api/social",
-      maxAge: 60 * 10,
-    };
-    res.cookies.set(`oauth_state_${platform.toLowerCase()}`, state, cookieOpts);
-
-    return res;
+    return NextResponse.json({
+      ok: true,
+      comingSoon: true,
+      message: `La connexion ${platform} arrive bientôt — nous finalisons l'autorisation OAuth.`,
+    });
   }
 
   const apiVersion = process.env.META_GRAPH_API_VERSION ?? "v21.0";
