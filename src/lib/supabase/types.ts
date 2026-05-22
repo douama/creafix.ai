@@ -20,8 +20,9 @@ export type Json =
   | { [key: string]: Json | undefined }
   | Json[];
 
-type UserRole = "CREATOR" | "INFLUENCER" | "AGENCY" | "ADMIN";
-type Plan = "FREE" | "PRO" | "AGENCY";
+type UserRole = "CREATOR" | "INFLUENCER" | "AGENCY" | "ADMIN" | "SUPER_ADMIN" | "MODERATOR" | "SUPPORT" | "ANALYST";
+type Plan = "FREE" | "PRO" | "AGENCY" | "ENTERPRISE";
+
 type Platform =
   | "FACEBOOK"
   | "TIKTOK"

@@ -29,19 +29,20 @@ export function AdminLoginForm() {
       if (error) throw error;
       if (!data.user) throw new Error("Authentification échouée");
 
-      // 2. Vérifie le rôle ADMIN via RPC (cast any : RPC custom non typée)
+      // 2. Vérifie le rôle ADMIN ou SUPER_ADMIN via RPC (en parallèle)
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const { data: isAdmin, error: rpcErr } = await (supabase.rpc as any)(
-        "is_admin",
-        { p_user_id: data.user.id },
-      );
+      const rpc = supabase.rpc as any;
+      const [{ data: isAdmin, error: rpcErr }, { data: isSuperAdmin }] = await Promise.all([
+        rpc("is_admin",       { p_user_id: data.user.id }),
+        rpc("is_super_admin", { p_user_id: data.user.id }),
+      ]);
 
       if (rpcErr) {
         await supabase.auth.signOut();
         throw new Error("Impossible de vérifier les droits administrateur");
       }
 
-      if (!isAdmin) {
+      if (!isAdmin && !isSuperAdmin) {
         await supabase.auth.signOut();
         toast.error("Accès refusé", {
           description: "Ce compte n'a pas les droits administrateur. Utilise /login pour la connexion utilisateur.",
