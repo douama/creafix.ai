@@ -461,7 +461,7 @@ export async function antiBanAgent(ctx: AgentContext): Promise<AgentResult<AntiB
     ],
   });
 
-  const data = parseOrFallback<AntiBanData>(res, mockAntiBan());
+  const data = parseOrFallback<AntiBanData>(res, mockAntiBan(ctx));
   void trackAgentRun("shadowban-agent", res, !res.isMock);
 
   return {
@@ -844,6 +844,7 @@ function cityFor(country: string) {
 
 function mockAudit(ctx: AgentContext): AuditAgentData {
   const seed = hash(ctx.handle);
+  const pb = getPlaybook(ctx.platform);
   return {
     scoreGlobal: 50 + (seed % 45),
     dimensions: [
@@ -856,11 +857,7 @@ function mockAudit(ctx: AgentContext): AuditAgentData {
       { name: "SEO & métadonnées",         score: 55 + ((seed >> 7) % 35) },
       { name: "Qualité audience",          score: 75 + ((seed >> 8) % 20) },
     ],
-    issues: [
-      { severity: "high", title: "3 vidéos avec audio sous copyright", scope: "Anti-Ban" },
-      { severity: "medium", title: "Watch time insuffisant pour In-Stream Ads", scope: "Monetization" },
-      { severity: "low", title: "Hashtags génériques", scope: "SEO" },
-    ],
+    issues: pb.defaultIssues,
   };
 }
 
@@ -893,27 +890,21 @@ function mockViral(ctx: AgentContext & { topic?: string }): ViralIdea[] {
 
 function mockMonetization(ctx: AgentContext): MonetizationData {
   const followers = ctx.followers ?? 12500;
+  const pb = getPlaybook(ctx.platform);
   return {
-    eligibleFacebookInStream: false,
-    eligibleTikTokRewards: followers >= 10000,
+    eligibleFacebookInStream: ctx.platform === "FACEBOOK" && followers >= 10_000,
+    eligibleTikTokRewards: ctx.platform === "TIKTOK" && followers >= 10_000,
     fbCriteria: { followers, watchMin60d: 600, currentWatchMin60d: 513 },
     tikTokCriteria: { followers, views30d: 100_000, currentViews30d: 124_000 },
-    actions: [
-      "Atteindre 87 minutes de watch time supplémentaires sur 60 j",
-      "Activer In-Stream Ads dans Meta Business Suite",
-      "Lier ton compte créateur TikTok à Creator Rewards Program",
-    ],
+    actions: pb.defaultMonetActions,
   };
 }
 
-function mockAntiBan(): AntiBanData {
+function mockAntiBan(ctx?: AgentContext): AntiBanData {
+  const pb = getPlaybook(ctx?.platform);
   return {
     riskScore: 18,
-    risks: [
-      { type: "copyright", severity: "high", message: "Audio non commercial détecté sur 3 vidéos" },
-      { type: "fake_engagement", severity: "low", message: "Pas de signal suspect cette semaine" },
-      { type: "sensitive", severity: "low", message: "Conforme aux règles brand safety" },
-    ],
+    risks: pb.defaultAntibanRisks,
   };
 }
 

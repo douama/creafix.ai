@@ -32,6 +32,16 @@ export type PlatformPlaybook = {
     week23: string[];
     week4: string[];
   };
+  /** Issues par défaut (mock) — utilisées quand le LLM tombe en fallback. */
+  defaultIssues: { severity: "low" | "medium" | "high"; title: string; scope: string }[];
+  /** Actions monétisation par défaut (mock) — utilisées quand le LLM tombe en fallback. */
+  defaultMonetActions: string[];
+  /** Risques anti-ban par défaut (mock) — utilisés quand le LLM tombe en fallback. */
+  defaultAntibanRisks: {
+    type: "copyright" | "fake_engagement" | "sensitive" | "spam" | "recycled" | "policy";
+    severity: "low" | "medium" | "high";
+    message: string;
+  }[];
 };
 
 const FACEBOOK: PlatformPlaybook = {
@@ -74,6 +84,21 @@ const FACEBOOK: PlatformPlaybook = {
       "Pitcher 3 marques via Brand Collabs Manager pour 1 partenariat sponsorisé",
     ],
   },
+  defaultIssues: [
+    { severity: "high",   title: "Vidéos repostées tierce-partie — violation Original Content Policy", scope: "Anti-Ban" },
+    { severity: "medium", title: "Watch time 60j insuffisant pour activer In-Stream Ads", scope: "Monetization" },
+    { severity: "low",    title: "Aucun lien vers une Page Facebook éligible monétisation", scope: "SEO" },
+  ],
+  defaultMonetActions: [
+    "Vérifier l'éligibilité In-Stream Ads dans Meta Business Suite → Monétisation",
+    "Publier 2 vidéos natives 3-5 min/semaine pour cumuler le watch time 60j",
+    "Activer Facebook Stars en Live (sticker visible 3× par session)",
+  ],
+  defaultAntibanRisks: [
+    { type: "recycled", severity: "high",   message: "Vidéos repostées détectées — Original Content Policy déclenchée" },
+    { type: "copyright", severity: "medium", message: "Musique commerciale dans 2 vidéos — risque blocage régional" },
+    { type: "policy",   severity: "low",    message: "Conforme aux standards communautaires Meta cette semaine" },
+  ],
 };
 
 const INSTAGRAM: PlatformPlaybook = {
@@ -117,6 +142,21 @@ const INSTAGRAM: PlatformPlaybook = {
       "Pitcher 5 marques en DM avec media kit + tarif story/reel/post",
     ],
   },
+  defaultIssues: [
+    { severity: "high",   title: "Hashtags potentiellement bannis détectés — reach Reel divisé par 10",     scope: "SEO" },
+    { severity: "medium", title: "Musique commerciale dans Reels — risque blocage (autorisée en Story seulement)", scope: "Anti-Ban" },
+    { severity: "low",    title: "Compte non lié à une Page Facebook — Badges Live & Branded Content bloqués", scope: "Monetization" },
+  ],
+  defaultMonetActions: [
+    "Convertir en compte Créateur + activer Badges en Live",
+    "Configurer Brand Partner tag pour autoriser les Partnership Ads",
+    "Construire un media kit + pitcher 5 marques en DM cette semaine",
+  ],
+  defaultAntibanRisks: [
+    { type: "spam",      severity: "high",   message: "Hashtags bannis détectés — vérifier la liste Instagram dans Creator Studio" },
+    { type: "copyright", severity: "medium", message: "Musique commerciale dans Reels — autorisée en Story seulement pour comptes Pro" },
+    { type: "policy",    severity: "low",    message: "Pas de strikes Community Standards cette semaine" },
+  ],
 };
 
 const TIKTOK: PlatformPlaybook = {
@@ -161,6 +201,21 @@ const TIKTOK: PlatformPlaybook = {
       "Tester Series : 1 saison payante 3-5 épisodes sur un sujet niche fort",
     ],
   },
+  defaultIssues: [
+    { severity: "high",   title: "Sons commerciaux non-libres détectés — risque mute + exclusion Creator Rewards", scope: "Anti-Ban" },
+    { severity: "medium", title: "Vidéos < 1 min majoritaires — non éligibles aux Creator Rewards payouts",       scope: "Monetization" },
+    { severity: "low",    title: "Hashtags trop génériques (#fyp seul) — diluent le ciblage For You",             scope: "SEO" },
+  ],
+  defaultMonetActions: [
+    "Publier 3 vidéos ≥ 1 min cette semaine pour qualifier au Creator Rewards Program",
+    "Tenir 1 LIVE de 30+ min/sem pour activer LIVE Gifts (palier 1K abonnés)",
+    "Postuler au Creator Marketplace pour brand deals premium ≥ 10K abonnés",
+  ],
+  defaultAntibanRisks: [
+    { type: "copyright", severity: "high",   message: "Sons commerciaux dans 3 vidéos récentes — risque mute audio + drop reach For You" },
+    { type: "recycled",  severity: "medium", message: "Watermarks Reels/Shorts visibles — score qualité TikTok dégradé" },
+    { type: "spam",      severity: "low",    message: "Hashtags conformes à la liste autorisée TikTok cette semaine" },
+  ],
 };
 
 const YOUTUBE: PlatformPlaybook = {
@@ -205,6 +260,21 @@ const YOUTUBE: PlatformPlaybook = {
       "Planifier 1 série de 4 vidéos sur un mot-clé SEO ciblé (analyse VidIQ/TubeBuddy)",
     ],
   },
+  defaultIssues: [
+    { severity: "high",   title: "Content ID claims actifs sur 3 vidéos — revenus redirigés vers ayants-droit", scope: "Monetization" },
+    { severity: "medium", title: "CTR thumbnails < 4% — algo arrête de pousser les vidéos après 24h",          scope: "SEO" },
+    { severity: "low",    title: "Descriptions < 100 mots — opportunité SEO YouTube manquée",                  scope: "SEO" },
+  ],
+  defaultMonetActions: [
+    "Remplacer la musique sous Content ID par la YouTube Audio Library pour récupérer 100% des revenus",
+    "Atteindre les 4 000 heures de visionnage / 12 mois pour soumettre le dossier YouTube Partner Program",
+    "Activer Super Thanks et Channel Memberships dès validation YPP",
+  ],
+  defaultAntibanRisks: [
+    { type: "copyright", severity: "high",   message: "Content ID claims actifs — revenus redirigés vers ayants-droit (pas démon, mais 0 €)" },
+    { type: "policy",    severity: "medium", message: "Sujets sensibles potentiellement advertiser-unfriendly détectés sur 2 vidéos" },
+    { type: "spam",      severity: "low",    message: "Comportement abonnement et engagement organique cette semaine" },
+  ],
 };
 
 const X: PlatformPlaybook = {
@@ -246,6 +316,21 @@ const X: PlatformPlaybook = {
       "Booster 1 tweet phare (Promoted) pour test ROI brand awareness",
     ],
   },
+  defaultIssues: [
+    { severity: "high",   title: "Tweets avec liens externes — pénalité reach 30-50% par l'algo X",      scope: "SEO" },
+    { severity: "medium", title: "Sans abonnement X Premium — Revenue Share et badge bleu non actifs", scope: "Monetization" },
+    { severity: "low",    title: "Pas de threads (5-10 tweets) — engagement par tweet 4× plus faible",  scope: "Engagement" },
+  ],
+  defaultMonetActions: [
+    "Souscrire X Premium pour débloquer Revenue Share (5M impressions/3 mois requises)",
+    "Lancer Creator Subscriptions à 3-5$/mois sur contenu exclusif niche",
+    "Tenir 1 Space hebdo pour bâtir autorité + monétisation directe par Tips",
+  ],
+  defaultAntibanRisks: [
+    { type: "spam",            severity: "medium", message: "Tweets avec lien externe sans engagement — possible downrank algo" },
+    { type: "fake_engagement", severity: "low",    message: "Pas de patterns suspects sur les retweets cette semaine" },
+    { type: "policy",          severity: "low",    message: "Aucune violation hateful conduct détectée" },
+  ],
 };
 
 const SNAPCHAT: PlatformPlaybook = {
@@ -271,6 +356,21 @@ const SNAPCHAT: PlatformPlaybook = {
     week23: ["Publier 5 Spotlights ≥ 60s/semaine sur sujets viraux", "Tenir Story quotidienne 24/7"],
     week4: ["Postuler au programme Snap Stars (formulaire creators.snap.com)"],
   },
+  defaultIssues: [
+    { severity: "high",   title: "Watermarks tierce-partie sur Spotlights — exclu des payouts",            scope: "Anti-Ban" },
+    { severity: "medium", title: "Spotlights < 60s — non éligibles aux Spotlight Rewards",                 scope: "Monetization" },
+    { severity: "low",    title: "Story non quotidienne — algo Stories pénalise l'inconstance",            scope: "Engagement" },
+  ],
+  defaultMonetActions: [
+    "Publier 5 Spotlights ≥ 60s/semaine sans watermark pour qualifier aux Rewards",
+    "Tenir Story quotidienne pour bâtir audience engagée requise par Snap Stars",
+    "Postuler au programme Snap Stars dès audience établie",
+  ],
+  defaultAntibanRisks: [
+    { type: "recycled", severity: "high",   message: "Watermarks TikTok/Reels visibles — Spotlight Rewards bloqués" },
+    { type: "policy",   severity: "low",    message: "Contenu conforme aux Community Guidelines Snap" },
+    { type: "spam",     severity: "low",    message: "Pas de patterns spam détectés cette semaine" },
+  ],
 };
 
 const TWITCH: PlatformPlaybook = {
@@ -297,6 +397,21 @@ const TWITCH: PlatformPlaybook = {
     week23: ["Stream 4× semaine min 2h consistant horaire fixe", "Activer Channel Points + Bits"],
     week4: ["Pousser vers Partner (75 viewers moyens) via collabs/raids", "Monétiser Tier 1 subs"],
   },
+  defaultIssues: [
+    { severity: "high",   title: "Musique commerciale détectée en stream — risque DMCA strike + ban 24h", scope: "Anti-Ban" },
+    { severity: "medium", title: "Horaires de stream irréguliers — fidélisation viewers compromise",       scope: "Engagement" },
+    { severity: "low",    title: "Channel Points / Bits non activés — manque interaction monétisable",     scope: "Monetization" },
+  ],
+  defaultMonetActions: [
+    "Atteindre Affiliate (50 followers + 500 min + 7 jours uniques + 3 viewers moyens)",
+    "Maintenir un horaire de stream fixe 4×/semaine min 2h pour fidéliser viewers",
+    "Activer Tier 1 Subs + Bits dès Affiliate validé",
+  ],
+  defaultAntibanRisks: [
+    { type: "copyright", severity: "high",   message: "Musique commerciale en stream — DMCA strike imminent (3 = perma-ban)" },
+    { type: "policy",    severity: "low",    message: "Hateful conduct: aucune violation détectée" },
+    { type: "spam",      severity: "low",    message: "Pas de stream-sniping ni de patterns abusifs" },
+  ],
 };
 
 const PINTEREST: PlatformPlaybook = {
@@ -322,6 +437,21 @@ const PINTEREST: PlatformPlaybook = {
     week23: ["Publier 15 Idea Pins/semaine + 20 pins classiques/jour avec SEO description"],
     week4: ["Tester 3 partenariats affiliate (Amazon, etc.)", "Pitcher 3 marques pour partenariat"],
   },
+  defaultIssues: [
+    { severity: "high",   title: "Pins sans alt-text ni description SEO — moteur Pinterest aveugle", scope: "SEO" },
+    { severity: "medium", title: "Liens raccourcis (bit.ly) sur pins — reach divisé par 2",          scope: "Anti-Ban" },
+    { severity: "low",    title: "Pas d'Idea Pins (5-7 slides) — format favorisé 2024+ inutilisé",   scope: "Engagement" },
+  ],
+  defaultMonetActions: [
+    "Ajouter alt-text + description SEO 100+ mots sur tous les pins",
+    "Publier 15 Idea Pins verticaux/semaine pour maximiser portée",
+    "Lancer 3 campagnes affiliate (Amazon, ShareASale) sans liens raccourcis",
+  ],
+  defaultAntibanRisks: [
+    { type: "spam",   severity: "medium", message: "Liens affiliés raccourcis détectés — pins risquent suspension" },
+    { type: "policy", severity: "low",    message: "Contenu conforme aux Pinterest Community Guidelines" },
+    { type: "fake_engagement", severity: "low", message: "Aucun pattern de repins automatisés détecté" },
+  ],
 };
 
 const LINKEDIN: PlatformPlaybook = {
@@ -348,6 +478,21 @@ const LINKEDIN: PlatformPlaybook = {
     week23: ["Publier 5 posts/semaine 1000+ chars", "Commenter 10 posts virals/jour"],
     week4: ["Lancer newsletter hebdo (si > 150 abonnés)", "Pitcher 5 brand B2B"],
   },
+  defaultIssues: [
+    { severity: "high",   title: "Liens externes en début de post — algo LinkedIn pénalise (mettre lien en commentaire)", scope: "SEO" },
+    { severity: "medium", title: "Posts < 1000 chars — pas de \"See more\" → portée réduite",                              scope: "Engagement" },
+    { severity: "low",    title: "Creator Mode non activé — newsletter et follower count cachés",                          scope: "Monetization" },
+  ],
+  defaultMonetActions: [
+    "Activer Creator Mode + sélectionner 5 hashtags niche pour gain de portée",
+    "Tenir 5 posts 1000-1500 caractères/semaine avec hook ligne 1",
+    "Lancer une newsletter hebdo dès 150 abonnés pour bâtir audience qualifiée",
+  ],
+  defaultAntibanRisks: [
+    { type: "fake_engagement", severity: "medium", message: "Engagement pods suspectés — LinkedIn divise la portée si détecté" },
+    { type: "spam",            severity: "low",    message: "Cross-posting Twitter/IG : algo pénalise les contenus non-natifs" },
+    { type: "policy",          severity: "low",    message: "Aucune violation Professional Community Policies" },
+  ],
 };
 
 const FALLBACK: PlatformPlaybook = {
@@ -361,6 +506,21 @@ const FALLBACK: PlatformPlaybook = {
     week23: ["Tenir un calendrier régulier de publication", "Tester 3 hooks différents"],
     week4: ["Activer les outils de monétisation disponibles", "Pitcher 3 marques"],
   },
+  defaultIssues: [
+    { severity: "medium", title: "Plateforme non couverte spécifiquement — recommandations génériques", scope: "Monetization" },
+    { severity: "low",    title: "Audit basé sur estimations — connecter le compte pour analyse approfondie", scope: "Anti-Ban" },
+    { severity: "low",    title: "Hashtags à affiner selon le format natif de la plateforme",            scope: "SEO" },
+  ],
+  defaultMonetActions: [
+    "Auditer le tableau de bord créateur pour vérifier l'éligibilité monétisation",
+    "Tenir un calendrier régulier de publication avec format natif",
+    "Pitcher 3 marques pour partenariat sponsorisé",
+  ],
+  defaultAntibanRisks: [
+    { type: "copyright", severity: "low", message: "Vérifier la conformité musique sur les derniers posts" },
+    { type: "policy",    severity: "low", message: "Pas de violations community standards détectées" },
+    { type: "spam",      severity: "low", message: "Pas de patterns suspects cette semaine" },
+  ],
 };
 
 export const PLAYBOOKS: Record<PlatformId, PlatformPlaybook> = {
