@@ -6,7 +6,6 @@ import {
   Eye,
   Flame,
   Heart,
-  Plus,
   Sparkles,
   Users,
 } from "lucide-react";
@@ -14,6 +13,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { EmptyOnboarding } from "@/components/dashboard/empty-onboarding";
+import { ConnectAccountsCard } from "@/components/dashboard/connect-accounts-card";
 import { getUserState } from "@/lib/dashboard/user-state";
 
 export const dynamic = "force-dynamic";
@@ -94,28 +94,7 @@ export default async function DashboardHomePage() {
           </CardContent>
         </Card>
 
-        <Card>
-          <CardHeader className="flex-row items-center justify-between space-y-0">
-            <div>
-              <CardTitle>Plateformes connectées</CardTitle>
-              <p className="text-sm text-muted-foreground">
-                {state.socialAccountsCount} compte{state.socialAccountsCount > 1 ? "s" : ""}
-              </p>
-            </div>
-            <Button asChild variant="ghost" size="icon">
-              <Link href="/dashboard/settings?tab=connections">
-                <Plus className="h-3.5 w-3.5" />
-              </Link>
-            </Button>
-          </CardHeader>
-          <CardContent>
-            <Button asChild variant="outline" size="sm" className="w-full">
-              <Link href="/dashboard/settings?tab=connections">
-                Gérer mes connexions
-              </Link>
-            </Button>
-          </CardContent>
-        </Card>
+        <ConnectAccountsCard socialAccountsCount={state.socialAccountsCount} />
       </div>
 
       <Card>
