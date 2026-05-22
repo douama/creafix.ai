@@ -56,14 +56,20 @@ export async function POST(req: Request) {
   let pkce: { verifier: string; challenge: string } | null = null;
 
   switch (platform) {
-    case "FACEBOOK":
-      oauthUrl = `https://www.facebook.com/${apiVersion}/dialog/oauth?client_id=${process.env.META_APP_ID}&redirect_uri=${baseUrl}/api/social/callback/facebook&scope=pages_show_list,pages_read_engagement,read_insights,pages_read_user_content&response_type=code&state=${encodeURIComponent(state)}`;
+    case "FACEBOOK": {
+      const redirectUri = `${baseUrl}/api/social/callback/facebook`;
+      console.log("[oauth] FACEBOOK redirect_uri:", redirectUri, "| baseUrl env:", process.env.NEXT_PUBLIC_APP_URL ?? "(unset)");
+      oauthUrl = `https://www.facebook.com/${apiVersion}/dialog/oauth?client_id=${process.env.META_APP_ID}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=pages_show_list,pages_read_engagement,read_insights,pages_read_user_content&response_type=code&state=${encodeURIComponent(state)}`;
       break;
-    case "INSTAGRAM":
-      oauthUrl = `https://www.facebook.com/${apiVersion}/dialog/oauth?client_id=${process.env.META_APP_ID}&redirect_uri=${baseUrl}/api/social/callback/instagram&scope=instagram_basic,instagram_manage_insights,pages_show_list&response_type=code&state=${encodeURIComponent(state)}`;
+    }
+    case "INSTAGRAM": {
+      const redirectUri = `${baseUrl}/api/social/callback/instagram`;
+      console.log("[oauth] INSTAGRAM redirect_uri:", redirectUri, "| baseUrl env:", process.env.NEXT_PUBLIC_APP_URL ?? "(unset)");
+      oauthUrl = `https://www.facebook.com/${apiVersion}/dialog/oauth?client_id=${process.env.META_APP_ID}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=instagram_basic,instagram_manage_insights,pages_show_list&response_type=code&state=${encodeURIComponent(state)}`;
       break;
+    }
     case "TIKTOK":
-      oauthUrl = `https://www.tiktok.com/v2/auth/authorize/?client_key=${process.env.TIKTOK_CLIENT_KEY}&scope=user.info.basic,video.list&response_type=code&redirect_uri=${baseUrl}/api/social/callback/tiktok&state=${encodeURIComponent(state)}`;
+      oauthUrl = `https://www.tiktok.com/v2/auth/authorize/?client_key=${process.env.TIKTOK_CLIENT_KEY}&scope=user.info.basic,video.list&response_type=code&redirect_uri=${encodeURIComponent(`${baseUrl}/api/social/callback/tiktok`)}&state=${encodeURIComponent(state)}`;
       break;
     case "YOUTUBE":
       oauthUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${process.env.YOUTUBE_OAUTH_CLIENT_ID}&redirect_uri=${encodeURIComponent(`${baseUrl}/api/social/callback/youtube`)}&scope=${encodeURIComponent("https://www.googleapis.com/auth/youtube.readonly https://www.googleapis.com/auth/yt-analytics.readonly")}&response_type=code&access_type=offline&prompt=consent&state=${encodeURIComponent(state)}`;
