@@ -240,10 +240,6 @@ function AgentsCarousel() {
 
   return (
     <div className="relative mt-7">
-      {/* Fade edges */}
-      <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-8 bg-gradient-to-r from-background to-transparent md:w-12" />
-      <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-8 bg-gradient-to-l from-background to-transparent md:w-12" />
-
       {/* Scroll container */}
       <div
         ref={scrollRef}
