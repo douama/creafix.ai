@@ -3,6 +3,7 @@ import { z } from "zod";
 import { createClient } from "@/lib/supabase/server";
 import { runFullAudit } from "@/lib/ai/agents";
 import { rateLimit, rateLimitResponse, getClientIp } from "@/lib/rate-limit";
+import { fetchProfileSnapshot } from "@/lib/social/scraper";
 
 const schema = z.object({
   platform: z.enum([
@@ -43,17 +44,26 @@ export async function POST(req: Request) {
 
   // Mode démo : si pas de session, on retourne l'audit en mémoire
   if (!user) {
+    // 1. Récupère les vraies données publiques du profil (Apify si configuré)
+    const scrape = await fetchProfileSnapshot(parsed.data.platform, parsed.data.handle);
+    // 2. Lance les 7 agents en utilisant le snapshot réel comme contexte
     const result = await runFullAudit({
       platform: parsed.data.platform,
       handle: parsed.data.handle,
       country: parsed.data.country,
       niche: parsed.data.niche,
-      followers: parsed.data.followers,
+      followers: scrape.snapshot?.followers ?? parsed.data.followers,
+      snapshot: scrape.snapshot,
     });
     return NextResponse.json({
       ok: true,
       mode: "demo",
-      audit: { id: `demo_${Date.now()}`, status: "COMPLETED", ...result },
+      audit: {
+        id: `demo_${Date.now()}`,
+        status: "COMPLETED",
+        ...result,
+        scrape: { dataSource: scrape.dataSource, error: scrape.error?.code, snapshot: scrape.snapshot },
+      },
     });
   }
 
@@ -109,10 +119,21 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: insertErr?.message ?? "insert failed" }, { status: 500 });
   }
 
-  // 3. Run agents (5 en parallèle, ~3-8s avec Claude Sonnet 4.6)
-  const result = await runFullAudit({ platform, handle, country, niche, followers });
+  // 3a. Scrape les vraies données publiques du profil (Apify / fallback simulé)
+  const scrape = await fetchProfileSnapshot(platform, handle);
 
-  // 4. Update with results
+  // 3b. Run agents en parallèle avec le snapshot réel comme contexte
+  const result = await runFullAudit({
+    platform,
+    handle,
+    country,
+    niche,
+    followers: scrape.snapshot?.followers ?? followers,
+    snapshot: scrape.snapshot,
+  });
+
+  // 4. Update with results (on stocke le snapshot dans estimates.profileSnapshot
+  //    pour que la page de détail puisse afficher les vraies données)
   const { error: updateErr } = await supabase
     .from("audits")
     .update({
@@ -123,7 +144,12 @@ export async function POST(req: Request) {
       dimensions: result.audit.data.dimensions,
       issues: result.audit.data.issues,
       recommendations: result.monetization.data.actions,
-      estimates: result.monetization.data,
+      estimates: {
+        ...result.monetization.data,
+        dataSource: scrape.dataSource,
+        scrapeError: scrape.error?.code ?? null,
+        profileSnapshot: scrape.snapshot,
+      },
       completed_at: new Date().toISOString(),
     } as any)
     .eq("id", audit.id);

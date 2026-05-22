@@ -26,14 +26,46 @@ export default function NewAuditPage() {
   const [platform, setPlatform] = useState<PlatformId>("FACEBOOK");
   const [url, setUrl] = useState("");
   const [loading, setLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
   const selected = platformList.find((p) => p.id === platform)!;
 
   async function start() {
+    if (!url.trim()) {
+      setErrorMsg("Veuillez saisir un nom d'utilisateur ou une URL.");
+      return;
+    }
+    setErrorMsg(null);
     setLoading(true);
-    await new Promise((r) => setTimeout(r, 1500));
-    setLoading(false);
-    window.location.href = "/dashboard/audits/aud_01";
+    try {
+      const res = await fetch("/api/audits", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          platform,
+          handle: url.trim(),
+          mode: "COMPLETE",
+          country: "SN",
+        }),
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error?.message || data.error || "Une erreur est survenue lors du lancement de l'audit.");
+      }
+
+      let redirectUrl = `/dashboard/audits/${data.audit.id}`;
+      if (data.mode === "demo") {
+        redirectUrl = `/dashboard/audits/${data.audit.id}?platform=${platform}&handle=${encodeURIComponent(url.trim())}`;
+      }
+      window.location.href = redirectUrl;
+    } catch (err: any) {
+      console.error(err);
+      setErrorMsg(err.message || "Erreur de connexion au serveur.");
+      setLoading(false);
+    }
   }
 
   return (
@@ -68,8 +100,14 @@ export default function NewAuditPage() {
             <Input
               placeholder={placeholderByPlatform[platform] ?? "@moncompte"}
               value={url}
-              onChange={(e) => setUrl(e.target.value)}
+              onChange={(e) => {
+                setUrl(e.target.value);
+                if (errorMsg) setErrorMsg(null);
+              }}
             />
+            {errorMsg && (
+              <p className="text-xs font-semibold text-rose-500 animate-pulse">{errorMsg}</p>
+            )}
             <p className="text-xs text-muted-foreground">
               Pour un audit en profondeur, connecte aussi ton compte via OAuth officiel.
             </p>

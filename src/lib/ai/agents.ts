@@ -15,6 +15,7 @@
 
 import { chat, type ChatResult } from "./providers";
 import { supabaseAdmin } from "@/lib/supabase/admin";
+import type { ProfileSnapshot } from "@/lib/social/types";
 
 type Platform = "FACEBOOK" | "TIKTOK" | "INSTAGRAM" | "YOUTUBE" | "X" | "SNAPCHAT" | "TWITCH" | "PINTEREST" | "LINKEDIN";
 
@@ -28,6 +29,61 @@ export interface AgentContext {
   followers?: number;
   monthlyViews?: number;
   watchTimeMin?: number;
+  /** Données *réelles* scrappées du profil. Si présent, les agents
+   *  basent leur analyse dessus au lieu d'inventer. */
+  snapshot?: ProfileSnapshot | null;
+}
+
+/* ════════════════════════════════════════════════════════════════════
+ * Snapshot formatting — comprime le snapshot en bloc texte injectable
+ * dans les prompts LLM (sans noyer Claude sous du JSON brut massif).
+ * ════════════════════════════════════════════════════════════════════ */
+
+function formatSnapshotForPrompt(snap: ProfileSnapshot | null | undefined): string | null {
+  if (!snap) return null;
+  const lines: string[] = [];
+  lines.push(`=== DONNÉES RÉELLES DU PROFIL (scrapées via ${snap.source}) ===`);
+  lines.push(`URL: ${snap.url}`);
+  if (snap.displayName) lines.push(`Nom affiché: ${snap.displayName}`);
+  if (snap.bio)         lines.push(`Bio: ${truncate(snap.bio, 240)}`);
+  if (snap.category)    lines.push(`Catégorie déclarée: ${snap.category}`);
+  if (snap.verified !== undefined) lines.push(`Compte vérifié: ${snap.verified ? "oui" : "non"}`);
+  if (snap.followers !== undefined)  lines.push(`Followers: ${snap.followers.toLocaleString("fr-FR")}`);
+  if (snap.following !== undefined)  lines.push(`Following: ${snap.following.toLocaleString("fr-FR")}`);
+  if (snap.postsCount !== undefined) lines.push(`Total posts: ${snap.postsCount.toLocaleString("fr-FR")}`);
+  if (snap.totalLikes !== undefined) lines.push(`Total likes: ${snap.totalLikes.toLocaleString("fr-FR")}`);
+  if (snap.totalViews !== undefined) lines.push(`Vues totales chaîne: ${snap.totalViews.toLocaleString("fr-FR")}`);
+
+  const a = snap.aggregates;
+  if (a) {
+    lines.push(`--- AGRÉGATS POSTS RÉCENTS ---`);
+    if (a.avgViews !== undefined)            lines.push(`Vues moyennes/post: ${a.avgViews.toLocaleString("fr-FR")}`);
+    if (a.avgLikes !== undefined)            lines.push(`Likes moyens/post: ${a.avgLikes.toLocaleString("fr-FR")}`);
+    if (a.avgComments !== undefined)         lines.push(`Commentaires moyens/post: ${a.avgComments.toLocaleString("fr-FR")}`);
+    if (a.engagementRatePct !== undefined)   lines.push(`Engagement rate: ${a.engagementRatePct}%`);
+    if (a.postFrequencyPerWeek !== undefined) lines.push(`Fréquence: ${a.postFrequencyPerWeek} posts/semaine`);
+    if (a.topHashtags?.length)               lines.push(`Top hashtags: ${a.topHashtags.map(h => `${h.tag}(${h.count})`).join(", ")}`);
+  }
+
+  if (snap.recentPosts.length) {
+    lines.push(`--- ${Math.min(snap.recentPosts.length, 10)} POSTS RÉCENTS (échantillon) ---`);
+    snap.recentPosts.slice(0, 10).forEach((p, i) => {
+      const stats = [
+        p.views !== undefined ? `${p.views.toLocaleString("fr-FR")} vues` : null,
+        p.likes !== undefined ? `${p.likes.toLocaleString("fr-FR")} likes` : null,
+        p.comments !== undefined ? `${p.comments.toLocaleString("fr-FR")} comm.` : null,
+        p.durationSec ? `${p.durationSec}s` : null,
+      ].filter(Boolean).join(" · ");
+      const cap = truncate(p.caption ?? "(pas de légende)", 140);
+      lines.push(`${i + 1}. [${p.mediaType ?? "?"}] ${cap}${stats ? " — " + stats : ""}`);
+    });
+  }
+  return lines.join("\n");
+}
+
+function truncate(s: string, max: number): string {
+  if (s.length <= max) return s;
+  return s.slice(0, max - 1) + "…";
 }
 
 export interface AgentResult<T = unknown> {
@@ -118,26 +174,36 @@ export interface AuditAgentData {
 
 const AUDIT_SYSTEM_PROMPT = `Tu es un analyste senior de monétisation de contenus sociaux, spécialiste du marché africain (Sénégal, Côte d'Ivoire, Cameroun, Mali, Nigeria, Ghana, Afrique du Sud, Maroc, RD Congo).
 
-Tu reçois les métadonnées d'un compte créateur (handle, plateforme, pays, niche). Tu produis un audit IA structuré couvrant 8 dimensions et identifies 3 issues actionables priorisées par impact monétisation.
+Tu produis un audit IA structuré couvrant 8 dimensions et identifies 3 issues actionables priorisées par impact monétisation.
+
+RÈGLE CRITIQUE : si le user message contient un bloc "=== DONNÉES RÉELLES DU PROFIL ===", tu DOIS baser ton audit STRICTEMENT sur ces chiffres et ces posts observés. N'invente PAS de chiffres. Tes scores doivent refléter ce que les données démontrent :
+- Engagement rate observé → score Engagement authentique
+- Fréquence posts/semaine → score Fréquence & calendrier
+- Hashtags réellement utilisés → score SEO & métadonnées
+- Vues moyennes vs followers → score Watch time / CTR
+- Titre, bio, légendes réelles → score SEO et conformité
+- Mentions explicites de musique commerciale / sons trending dans les légendes → score Copyright
+Si une dimension n'est pas observable depuis les données fournies, donne un score moyen (50-60) et mentionne-le dans une issue.
+
+Si AUCUN bloc de données réelles n'est fourni, tu signales dans la 1ère issue (severity:"medium", title:"Audit basé sur estimations — connecter le compte pour analyse approfondie") et tu donnes des scores prudents basés sur la niche/pays.
 
 Dimensions à scorer 0-100 (sois rigoureux, pas de complaisance) :
-1. Conformité politiques (TOS, copyright, contenus interdits)
+1. Conformité politiques
 2. Qualité vidéo & rétention
-3. Engagement authentique (vs fake)
+3. Engagement authentique
 4. Watch time / CTR
-5. Copyright & musique (audio licensing)
-6. Fréquence & calendrier de publication
-7. SEO & métadonnées (titres, hashtags, descriptions)
-8. Qualité audience (géo, démographique)
+5. Copyright & musique
+6. Fréquence & calendrier
+7. SEO & métadonnées
+8. Qualité audience
 
-Issues : severity = low/medium/high. Scope = Anti-Ban / Monetization / SEO / Engagement.
-Trie par impact revenu décroissant (high d'abord).
+Issues : severity = low/medium/high. Scope = Anti-Ban / Monetization / SEO / Engagement. Cite des éléments observables (ex: "Hashtag #love utilisé sur 6 vidéos = trop générique").
 
 Tu DOIS répondre UNIQUEMENT en JSON valide, format strict :
 {
   "scoreGlobal": <0-100>,
   "dimensions": [{"name": "<exact>", "score": <0-100>}, ...8 items],
-  "issues": [{"severity": "high|medium|low", "title": "<court>", "scope": "<court>"}, ...3 items]
+  "issues": [{"severity": "high|medium|low", "title": "<court, factuel>", "scope": "<court>"}, ...3 items]
 }`;
 
 export async function auditAgent(ctx: AgentContext): Promise<AgentResult<AuditAgentData>> {
@@ -206,7 +272,12 @@ export async function viralAgent(
   ctx: AgentContext & { topic?: string },
 ): Promise<AgentResult<ViralIdea[]>> {
   const start = Date.now();
-  const userMsg = `Créateur: @${ctx.handle} · ${ctx.platform} · pays ${ctx.country} · niche ${ctx.niche ?? "générale"} · ${ctx.followers ?? "?"} abonnés${ctx.topic ? ` · sujet à explorer: ${ctx.topic}` : ""}`;
+  const snapshotBlock = formatSnapshotForPrompt(ctx.snapshot);
+  const followers = ctx.snapshot?.followers ?? ctx.followers;
+  const userMsg = [
+    `Créateur: @${ctx.handle} · ${ctx.platform} · pays ${ctx.country} · niche ${ctx.niche ?? "générale"} · ${followers ?? "?"} abonnés${ctx.topic ? ` · sujet à explorer: ${ctx.topic}` : ""}`,
+    snapshotBlock ? `\n${snapshotBlock}\n\nInspire-toi des sujets, ton et formats déjà performants chez ce créateur pour générer 3 nouvelles idées dans sa lignée mais avec un potentiel viral supérieur.` : null,
+  ].filter(Boolean).join("\n");
 
   const res = await cachedChat({
     provider: "ANTHROPIC",
@@ -268,7 +339,12 @@ Réponse UNIQUEMENT en JSON valide :
 
 export async function monetizationAgent(ctx: AgentContext): Promise<AgentResult<MonetizationData>> {
   const start = Date.now();
-  const userMsg = `Compte: @${ctx.handle} · ${ctx.platform} · ${ctx.country} · niche ${ctx.niche ?? "?"} · followers ${ctx.followers ?? 12500}`;
+  const snapshotBlock = formatSnapshotForPrompt(ctx.snapshot);
+  const followers = ctx.snapshot?.followers ?? ctx.followers ?? 12500;
+  const userMsg = [
+    `Compte: @${ctx.handle} · ${ctx.platform} · ${ctx.country} · niche ${ctx.niche ?? "?"} · followers ${followers}`,
+    snapshotBlock ? `\n${snapshotBlock}\n\nBase les critères d'éligibilité et les actions sur les chiffres réels ci-dessus.` : null,
+  ].filter(Boolean).join("\n");
 
   const res = await cachedChat({
     provider: "ANTHROPIC",
@@ -331,7 +407,11 @@ Réponse UNIQUEMENT en JSON valide :
 
 export async function antiBanAgent(ctx: AgentContext): Promise<AgentResult<AntiBanData>> {
   const start = Date.now();
-  const userMsg = `Compte à scanner : @${ctx.handle} · ${ctx.platform} · ${ctx.country}`;
+  const snapshotBlock = formatSnapshotForPrompt(ctx.snapshot);
+  const userMsg = [
+    `Compte à scanner : @${ctx.handle} · ${ctx.platform} · ${ctx.country}`,
+    snapshotBlock ? `\n${snapshotBlock}\n\nIdentifie les risques observables dans les légendes, hashtags et patterns d'engagement réels ci-dessus (ex : pic de likes suspect, hashtags bannis, contenu sensible).` : null,
+  ].filter(Boolean).join("\n");
 
   const res = await cachedChat({
     provider: "ANTHROPIC",
@@ -576,15 +656,19 @@ export async function scriptAgent(
  * ════════════════════════════════════════════════════════════════════ */
 
 function buildAuditUserMessage(ctx: AgentContext): string {
+  const snapshotBlock = formatSnapshotForPrompt(ctx.snapshot);
+  const followers = ctx.snapshot?.followers ?? ctx.followers;
   return [
     `Audit IA pour le compte créateur suivant :`,
     `• Handle: @${ctx.handle}`,
     `• Plateforme: ${ctx.platform}`,
     `• Pays: ${ctx.country}`,
     ctx.niche ? `• Niche: ${ctx.niche}` : null,
-    ctx.followers ? `• Followers: ${ctx.followers.toLocaleString("fr-FR")}` : null,
+    followers ? `• Followers: ${followers.toLocaleString("fr-FR")}` : null,
     ctx.monthlyViews ? `• Vues mensuelles: ${ctx.monthlyViews.toLocaleString("fr-FR")}` : null,
     ctx.watchTimeMin ? `• Watch time 60j: ${ctx.watchTimeMin} min` : null,
+    ``,
+    snapshotBlock ?? `(Aucune donnée temps-réel disponible — produit un audit basé sur niche/pays et signale-le dans une issue.)`,
     ``,
     `Génère l'audit JSON complet selon ton system prompt.`,
   ].filter(Boolean).join("\n");
@@ -855,6 +939,15 @@ export async function runFullAudit(ctx: AgentContext & { topic?: string }) {
   const anyMock = allAgents.some((a) => a.isMock);
   const cacheHits = allAgents.filter((a) => a.cacheHit).length;
 
+  // dataSource = "real" si on a un vrai snapshot, sinon "simulated"
+  const hasSnapshot = !!ctx.snapshot && (ctx.snapshot.recentPosts.length > 0 || ctx.snapshot.followers !== undefined);
+  const dataSource: "real" | "partial" | "simulated" =
+    hasSnapshot && ctx.snapshot!.recentPosts.length > 0 && ctx.snapshot!.followers !== undefined
+      ? "real"
+      : hasSnapshot
+        ? "partial"
+        : "simulated";
+
   return {
     audit,
     viral,
@@ -869,6 +962,8 @@ export async function runFullAudit(ctx: AgentContext & { topic?: string }) {
       anyMock,
       cacheHits,
       agentsCount: allAgents.length,
+      dataSource,
+      snapshotSource: ctx.snapshot?.source,
     },
   };
 }
