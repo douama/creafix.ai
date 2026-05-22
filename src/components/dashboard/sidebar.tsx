@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
   Activity,
+  BadgeCheck,
   Bot,
   Building2,
   Code2,
@@ -40,6 +41,7 @@ const nav = [
       { href: "/dashboard/anti-ban", label: "Shadowban Guard", icon: ShieldOff },
       { href: "/dashboard/ai-studio", label: "AI Studio", icon: Wand2 },
       { href: "/dashboard/agents", label: "AI Agents", icon: Bot },
+      { href: "/dashboard/verify", label: "Verify Assist", icon: BadgeCheck },
     ],
   },
   {

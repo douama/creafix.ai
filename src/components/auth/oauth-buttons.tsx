@@ -74,10 +74,10 @@ export function OAuthButtons({
             type="button"
             disabled={!!loading}
             onClick={() => signIn(p.id)}
-            className="inline-flex h-11 items-center justify-center gap-2 rounded-xl border border-border bg-card/60 text-sm font-semibold transition-all hover:border-foreground/20 hover:bg-card/80 disabled:opacity-60"
+            className="inline-flex h-12 items-center justify-center gap-2.5 rounded-2xl border border-black/[0.08] bg-white/50 text-sm font-semibold text-foreground/85 shadow-[0_1px_2px_rgba(0,0,0,0.02)] transition-all duration-300 hover:scale-[1.01] hover:border-black/15 hover:bg-white/90 hover:text-foreground hover:shadow-[0_8px_20px_-8px_rgba(0,0,0,0.08)] disabled:pointer-events-none disabled:opacity-50 dark:border-white/[0.08] dark:bg-white/[0.03] dark:hover:border-white/20 dark:hover:bg-white/[0.08] dark:hover:shadow-[0_8px_20px_-8px_rgba(0,0,0,0.4)]"
           >
-            {isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : p.icon}
-            {layout === "row" ? p.label : `Continuer avec ${p.label}`}
+            {isLoading ? <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" /> : p.icon}
+            <span>{layout === "row" ? p.label : `Continuer avec ${p.label}`}</span>
           </button>
         );
       })}

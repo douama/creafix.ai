@@ -78,24 +78,20 @@ export function AuthForm({ mode }: { mode: Mode }) {
   const isLogin = mode === "login";
 
   return (
-    <div className="space-y-7">
+    <div className="space-y-6">
       {/* ── Big gradient title ─────────────────────────────────────────── */}
-      <div className="space-y-3 text-center">
-        <h1 className="font-display text-[44px] font-bold leading-[1.05] tracking-tight md:text-[56px]">
+      <div className="space-y-2.5 text-center">
+        <h1 className="font-display text-4xl font-bold leading-tight tracking-tight md:text-5xl">
           <span
-            className="bg-clip-text text-transparent"
-            style={{
-              backgroundImage:
-                "linear-gradient(120deg, #EC4899 0%, #FF8A00 55%, #1FBEAF 100%)",
-            }}
+            className="bg-clip-text text-transparent bg-gradient-to-r from-[#EC4899] via-[#FF8A00] to-[#1FBEAF]"
           >
-            {isLogin ? "Login" : "Sign up"}
+            {isLogin ? "Connexion" : "Créer un compte"}
           </span>
         </h1>
-        <p className="text-balance text-[15px] text-muted-foreground md:text-base">
+        <p className="text-balance text-[14px] text-muted-foreground/80 md:text-[15px]">
           {isLogin
-            ? "to the future of African creator monetization."
-            : "today to get 3 free AI audits — no credit card needed."}
+            ? "Connecte-toi à ton dashboard CreaFix AI et booste tes revenus."
+            : "Rejoins CreaFix AI aujourd'hui et reçois 3 audits gratuits."}
         </p>
       </div>
 
@@ -105,11 +101,11 @@ export function AuthForm({ mode }: { mode: Mode }) {
       {/* ── Divider ────────────────────────────────────────────────────── */}
       <div className="relative">
         <div className="absolute inset-0 flex items-center">
-          <div className="w-full border-t border-border/70" />
+          <div className="w-full border-t border-black/[0.06] dark:border-white/[0.06]" />
         </div>
         <div className="relative flex justify-center text-[10px] uppercase tracking-[0.18em]">
-          <span className="bg-[#FAF7F5] px-3 text-muted-foreground dark:bg-background">
-            or {isLogin ? "login" : "sign up"} with email
+          <span className="bg-[#FAF7F5] px-3 text-muted-foreground/70 dark:bg-[#0B0F19]">
+            ou avec votre email
           </span>
         </div>
       </div>
@@ -153,66 +149,69 @@ export function AuthForm({ mode }: { mode: Mode }) {
         <button
           type="submit"
           disabled={submitDisabled}
-          className="group relative flex h-12 w-full items-center justify-center gap-2 overflow-hidden rounded-full text-[15px] font-semibold text-white shadow-lg shadow-[#EC4899]/25 transition-all hover:shadow-xl hover:shadow-[#EC4899]/40 disabled:cursor-not-allowed disabled:opacity-60"
+          className="group relative flex h-12 w-full items-center justify-center gap-2 overflow-hidden rounded-2xl text-[14px] font-semibold text-white shadow-lg shadow-[#EC4899]/15 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-[#EC4899]/25 disabled:pointer-events-none disabled:opacity-50"
           style={{
-            background: "linear-gradient(120deg, #EC4899 0%, #FF8A00 100%)",
+            background: "linear-gradient(135deg, #EC4899 0%, #FF8A00 100%)",
           }}
         >
+          {/* Subtle button shine effect */}
+          <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:animate-shimmer" />
+
           {loading ? (
             <Loader2 className="h-4 w-4 animate-spin" />
           ) : (
             <>
-              <span>
+              <span className="relative z-10">
                 {magicLink
-                  ? isLogin ? "Recevoir mon lien" : "M'envoyer un lien magique"
-                  : isLogin ? "Login" : "Create my account"}
+                  ? isLogin ? "Recevoir mon lien magique" : "M'envoyer un lien magique"
+                  : isLogin ? "Se connecter" : "Créer mon compte"}
               </span>
-              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 relative z-10" />
             </>
           )}
         </button>
 
-        <div className="flex items-center justify-between pt-1 text-xs text-muted-foreground">
+        <div className="flex items-center justify-between pt-1 text-xs text-muted-foreground/80">
           <button
             type="button"
             onClick={() => setMagicLink((v) => !v)}
-            className="inline-flex items-center gap-1 font-semibold text-[#EC4899] hover:underline"
+            className="inline-flex items-center gap-1.5 font-semibold text-[#EC4899] transition-colors hover:text-[#FF8A00]"
           >
             <Wand2 className="h-3 w-3" />
-            {magicLink ? "Use a password" : "Magic link (no password)"}
+            {magicLink ? "Se connecter par mot de passe" : "Connexion par lien magique"}
           </button>
           {isLogin && !magicLink && (
-            <Link href="/forgot-password" className="font-semibold hover:text-foreground">
-              Forgot password?
+            <Link href="/forgot-password" className="font-semibold transition-colors hover:text-foreground">
+              Mot de passe oublié ?
             </Link>
           )}
         </div>
       </form>
 
       {/* ── Footer links ────────────────────────────────────────────────── */}
-      <div className="space-y-3 pt-2 text-center">
-        <p className="text-sm text-muted-foreground">
+      <div className="space-y-2.5 pt-2 text-center border-t border-black/[0.04] dark:border-white/[0.04]">
+        <p className="text-[13px] text-muted-foreground/80">
           {isLogin ? (
             <>
-              Don&apos;t have an account?{" "}
-              <Link href="/signup" className="font-semibold text-[#EC4899] hover:underline">
-                Sign up free
+              Pas encore de compte ?{" "}
+              <Link href="/signup" className="font-semibold text-[#EC4899] transition-colors hover:text-[#FF8A00]">
+                Créer un compte gratuit
               </Link>
             </>
           ) : (
             <>
-              Already have an account?{" "}
-              <Link href="/login" className="font-semibold text-[#EC4899] hover:underline">
-                Log in
+              Déjà un compte ?{" "}
+              <Link href="/login" className="font-semibold text-[#EC4899] transition-colors hover:text-[#FF8A00]">
+                Se connecter
               </Link>
             </>
           )}
         </p>
 
-        <p className="text-[11px] text-muted-foreground/70">
-          Administrator?{" "}
-          <Link href="/login/admin" className="font-semibold text-rose-500 hover:underline">
-            Admin Panel →
+        <p className="text-[11px] text-muted-foreground/60">
+          Administrateur ?{" "}
+          <Link href="/login/admin" className="font-semibold text-rose-500 transition-colors hover:text-rose-600">
+            Espace Admin →
           </Link>
         </p>
 
@@ -251,9 +250,15 @@ function Field({
   minLength?: number;
   autoComplete?: string;
 }) {
+  const [isFocused, setIsFocused] = useState(false);
+
   return (
     <div className="relative">
-      <Icon className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+      <Icon 
+        className={`pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 transition-colors duration-300 ${
+          isFocused ? "text-[#EC4899]" : "text-muted-foreground/70"
+        }`} 
+      />
       <Input
         type={type}
         placeholder={placeholder}
@@ -263,7 +268,9 @@ function Field({
         disabled={disabled}
         minLength={minLength}
         autoComplete={autoComplete}
-        className="h-12 rounded-full border-border/80 bg-white pl-11 pr-10 text-[14px] shadow-sm focus-visible:border-[#EC4899]/40 focus-visible:ring-[#EC4899]/20 dark:bg-card/40"
+        onFocus={() => setIsFocused(true)}
+        onBlur={() => setIsFocused(false)}
+        className="h-12 rounded-2xl border-black/[0.08] bg-white/40 pl-11 pr-10 text-[14px] shadow-[0_1px_2px_rgba(0,0,0,0.01)] transition-all duration-300 focus-visible:border-[#EC4899]/40 focus-visible:bg-white focus-visible:ring-[#EC4899]/10 dark:border-white/[0.08] dark:bg-white/[0.03] dark:focus-visible:bg-[#070913]/60"
       />
     </div>
   );
