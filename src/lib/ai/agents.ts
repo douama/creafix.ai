@@ -174,20 +174,26 @@ export interface AuditAgentData {
 
 const AUDIT_SYSTEM_PROMPT = `Tu es un analyste senior de monétisation de contenus sociaux, spécialiste du marché africain (Sénégal, Côte d'Ivoire, Cameroun, Mali, Nigeria, Ghana, Afrique du Sud, Maroc, RD Congo).
 
-Tu produis un audit IA structuré couvrant 8 dimensions et identifies 3 issues actionables priorisées par impact monétisation.
+OBLIGATION ABSOLUE : tu DOIS toujours retourner exactement 8 dimensions ET 3 issues ET un scoreGlobal numérique. JAMAIS d'array vide, JAMAIS de scoreGlobal null. C'est non-négociable même si les données sont partielles ou absentes.
 
-RÈGLE CRITIQUE : si le user message contient un bloc "=== DONNÉES RÉELLES DU PROFIL ===", tu DOIS baser ton audit STRICTEMENT sur ces chiffres et ces posts observés. N'invente PAS de chiffres. Tes scores doivent refléter ce que les données démontrent :
-- Engagement rate observé → score Engagement authentique
-- Fréquence posts/semaine → score Fréquence & calendrier
-- Hashtags réellement utilisés → score SEO & métadonnées
-- Vues moyennes vs followers → score Watch time / CTR
-- Titre, bio, légendes réelles → score SEO et conformité
-- Mentions explicites de musique commerciale / sons trending dans les légendes → score Copyright
-Si une dimension n'est pas observable depuis les données fournies, donne un score moyen (50-60) et mentionne-le dans une issue.
+Stratégie de notation selon les données disponibles :
 
-Si AUCUN bloc de données réelles n'est fourni, tu signales dans la 1ère issue (severity:"medium", title:"Audit basé sur estimations — connecter le compte pour analyse approfondie") et tu donnes des scores prudents basés sur la niche/pays.
+CAS A — bloc "=== DONNÉES RÉELLES DU PROFIL ===" présent avec des posts et engagement :
+Base les scores STRICTEMENT sur ce que tu observes :
+- Engagement rate observé → Engagement authentique
+- Fréquence posts/semaine → Fréquence & calendrier
+- Hashtags réellement utilisés → SEO & métadonnées
+- Vues moyennes vs followers → Watch time / CTR
+- Bio, légendes → SEO et conformité
+- Musique commerciale / sons trending dans légendes → Copyright
 
-Dimensions à scorer 0-100 (sois rigoureux, pas de complaisance) :
+CAS B — bloc présent mais DONNÉES PARTIELLES (followers seuls, 0 post visible, bio absente) :
+Tu disposes des followers mais pas du contenu. Donne des scores prudents 45-70 estimés par la niche/pays/followers, et SIGNALE explicitement dans la 1ère issue : severity:"medium", title:"Audit limité — profil scrapé partiellement (0 post visible)", scope:"Anti-Ban".
+
+CAS C — AUCUN bloc fourni :
+Audit basé sur niche/pays/plateforme uniquement. 1ère issue obligatoire : severity:"medium", title:"Audit basé sur estimations — connecter le compte pour analyse approfondie", scope:"Monetization".
+
+Dimensions (toujours ces 8 noms exacts, scores 0-100) :
 1. Conformité politiques
 2. Qualité vidéo & rétention
 3. Engagement authentique
@@ -197,13 +203,13 @@ Dimensions à scorer 0-100 (sois rigoureux, pas de complaisance) :
 7. SEO & métadonnées
 8. Qualité audience
 
-Issues : severity = low/medium/high. Scope = Anti-Ban / Monetization / SEO / Engagement. Cite des éléments observables (ex: "Hashtag #love utilisé sur 6 vidéos = trop générique").
+Issues (toujours 3, triées par sévérité décroissante) : severity = low|medium|high. Scope = Anti-Ban|Monetization|SEO|Engagement.
 
-Tu DOIS répondre UNIQUEMENT en JSON valide, format strict :
+Tu DOIS répondre UNIQUEMENT en JSON valide, format strict (jamais vide) :
 {
-  "scoreGlobal": <0-100>,
-  "dimensions": [{"name": "<exact>", "score": <0-100>}, ...8 items],
-  "issues": [{"severity": "high|medium|low", "title": "<court, factuel>", "scope": "<court>"}, ...3 items]
+  "scoreGlobal": <0-100, JAMAIS null>,
+  "dimensions": [{"name": "<un des 8 ci-dessus>", "score": <0-100>}, ...EXACTEMENT 8 items],
+  "issues": [{"severity": "high|medium|low", "title": "<court, factuel>", "scope": "<court>"}, ...EXACTEMENT 3 items]
 }`;
 
 export async function auditAgent(ctx: AgentContext): Promise<AgentResult<AuditAgentData>> {
@@ -675,17 +681,53 @@ function buildAuditUserMessage(ctx: AgentContext): string {
 }
 
 function parseOrFallback<T>(res: ChatResult, fallback: T): T {
+  let parsed: unknown = null;
   if (res.parsed && typeof res.parsed === "object") {
-    return res.parsed as T;
-  }
-  // Tente un parse manuel sur le text (si Claude a juste oublié de wrapper)
-  if (res.text) {
+    parsed = res.parsed;
+  } else if (res.text) {
     try {
       const match = res.text.match(/\{[\s\S]*\}|\[[\s\S]*\]/);
-      if (match) return JSON.parse(match[0]) as T;
+      if (match) parsed = JSON.parse(match[0]);
     } catch { /* swallow */ }
   }
-  return fallback;
+
+  if (parsed === null || parsed === undefined) return fallback;
+
+  // Si le LLM a renvoyé un objet/array vide ou avec des champs critiques manquants,
+  // on merge avec le mock pour garantir une structure complète côté UI.
+  return mergeWithFallback(parsed, fallback) as T;
+}
+
+/** Merge récursif : prend les clés du LLM si non-null/non-empty, sinon celles du mock.
+ *  Empêche que score_global=null ou dimensions=[] ne casse l'UI. */
+function mergeWithFallback(llm: unknown, mock: unknown): unknown {
+  // Array : si LLM array vide → mock array. Sinon LLM gagne.
+  if (Array.isArray(mock)) {
+    if (Array.isArray(llm) && llm.length > 0) return llm;
+    return mock;
+  }
+  // Object : merge clé par clé
+  if (mock && typeof mock === "object") {
+    if (!llm || typeof llm !== "object" || Array.isArray(llm)) return mock;
+    const out: Record<string, unknown> = {};
+    const llmObj = llm as Record<string, unknown>;
+    const mockObj = mock as Record<string, unknown>;
+    for (const k of Object.keys(mockObj)) {
+      const lv = llmObj[k];
+      const mv = mockObj[k];
+      if (lv === undefined || lv === null) { out[k] = mv; continue; }
+      if (Array.isArray(mv)) { out[k] = mergeWithFallback(lv, mv); continue; }
+      if (mv && typeof mv === "object") { out[k] = mergeWithFallback(lv, mv); continue; }
+      out[k] = lv;
+    }
+    // Garde aussi les clés extra du LLM (au cas où)
+    for (const k of Object.keys(llmObj)) {
+      if (!(k in out)) out[k] = llmObj[k];
+    }
+    return out;
+  }
+  // Primitive : LLM gagne si défini
+  return llm ?? mock;
 }
 
 /** Confidence dynamique : haut si LLM réussit, bas si fallback mock. */

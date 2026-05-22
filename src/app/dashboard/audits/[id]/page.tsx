@@ -241,6 +241,17 @@ export default async function AuditDetailPage({
 
       <DataSourceBanner dataSource={dataSource} scrapeError={scrapeError} snapshot={snapshot} />
 
+      {snapshot?.warnings && snapshot.warnings.length > 0 && (
+        <div className="space-y-2">
+          {snapshot.warnings.map((w, i) => (
+            <div key={i} className="flex items-start gap-3 rounded-xl border border-amber-500/30 bg-amber-500/[0.06] p-3.5 text-sm">
+              <AlertCircle className="mt-0.5 h-4 w-4 shrink-0 text-amber-400" />
+              <span>{w}</span>
+            </div>
+          ))}
+        </div>
+      )}
+
       {snapshot && <SnapshotPanel snapshot={snapshot} />}
 
       {/* Hero scores */}

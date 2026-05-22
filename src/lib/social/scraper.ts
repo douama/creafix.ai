@@ -29,6 +29,12 @@ export async function fetchProfileSnapshot(
     };
   }
 
+  // Facebook profile.php?id=XXX = profil personnel (pas une Page).
+  // L'actor "facebook-pages-scraper" ne récupère que les followers, pas les posts.
+  // On flag explicitement pour que l'UI puisse afficher un message clair.
+  const isFacebookPersonalProfile =
+    platform === "FACEBOOK" && /profile\.php\?id=\d+/i.test(rawInput);
+
   // Provider 1 : Apify
   const apifyToken = process.env.APIFY_TOKEN || process.env.APIFY_API_TOKEN;
   if (apifyToken) {
@@ -36,6 +42,16 @@ export async function fetchProfileSnapshot(
     try {
       const res = await fetchViaApify(platform, handle, url, apifyToken);
       const ms = Date.now() - t0;
+
+      // Annote le snapshot d'un warning si profil perso FB (zéro post est attendu)
+      if (isFacebookPersonalProfile && res.snapshot) {
+        const warnings = res.snapshot.warnings ?? [];
+        warnings.push(
+          "URL Facebook de type profil personnel détectée — l'API publique ne retourne que les followers, pas les posts. Pour un audit complet, convertis le compte en Page Facebook ou connecte-toi via OAuth.",
+        );
+        res.snapshot.warnings = warnings;
+      }
+
       if (res.snapshot) {
         console.info(`[scraper/apify] ${platform} @${handle} → ${res.dataSource} in ${ms}ms (followers=${res.snapshot.followers ?? "?"}, posts=${res.snapshot.recentPosts.length})`);
         return res;
