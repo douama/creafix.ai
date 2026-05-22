@@ -18,25 +18,32 @@ export async function POST(req: Request) {
   if (!parsed.success) return NextResponse.json({ error: parsed.error.flatten() }, { status: 400 });
 
   const { platform } = parsed.data;
-
-  // Gate env vars : si la plateforme n'est pas configurée (credentials OAuth
-  // manquants dans Vercel), on renvoie un payload comingSoon plutôt que de
-  // construire une URL OAuth cassée (client_id=undefined → erreur opaque).
-  if (!isPlatformConfigured(platform)) {
-    const pretty = { FACEBOOK: "Facebook", INSTAGRAM: "Instagram", TIKTOK: "TikTok", YOUTUBE: "YouTube", X: "X" }[platform];
-    return NextResponse.json({
-      ok: false,
-      comingSoon: true,
-      platform,
-      message: `${pretty} arrive très bientôt — rejoins la liste d'attente.`,
-    });
-  }
-
-  const apiVersion = process.env.META_GRAPH_API_VERSION ?? "v21.0";
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL ?? process.env.NEXTAUTH_URL ?? "http://localhost:3000";
 
   // state = nonce aléatoire signé HMAC (anti CSRF / replay)
   const state = signState(randomNonce(), user.id);
+
+  // Gate env vars : si la plateforme n'est pas configurée (credentials OAuth
+  // manquants), on redirige vers une URL de simulation (mock) pour permettre
+  // le test de connexion en local et éviter le blocage.
+  if (!isPlatformConfigured(platform)) {
+    const mockRedirectUrl = `${baseUrl}/api/social/callback/mock?platform=${platform}&state=${encodeURIComponent(state)}`;
+    const res = NextResponse.json({ ok: true, redirectUrl: mockRedirectUrl });
+
+    // Cookies httpOnly courts (10 min) — lus par le callback mock
+    const cookieOpts = {
+      httpOnly: true,
+      sameSite: "lax" as const,
+      secure: process.env.NODE_ENV === "production",
+      path: "/api/social",
+      maxAge: 60 * 10,
+    };
+    res.cookies.set(`oauth_state_${platform.toLowerCase()}`, state, cookieOpts);
+
+    return res;
+  }
+
+  const apiVersion = process.env.META_GRAPH_API_VERSION ?? "v21.0";
 
   let oauthUrl: string;
   // X (Twitter) exige PKCE — on génère un vrai verifier + challenge S256
