@@ -238,8 +238,10 @@ export default async function AuditDetailPage({
         <Button variant="outline">
           <Download className="mr-1 h-4 w-4" /> Rapport PDF
         </Button>
-        <Button variant="brand">
-          <Sparkles className="mr-1 h-4 w-4" /> Plan d'action IA
+        <Button asChild variant="brand">
+          <Link href={`/dashboard/audits/${params.id}/plan${params.id.startsWith("demo_") ? `?platform=${platform}&handle=${encodeURIComponent(handle)}` : ""}`}>
+            <Sparkles className="mr-1 h-4 w-4" /> Plan d&apos;action IA
+          </Link>
         </Button>
       </div>
 
