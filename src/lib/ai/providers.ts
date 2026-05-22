@@ -37,6 +37,8 @@ export interface ChatOptions {
   cacheSystem?: boolean;
   /** Nombre max de retries par provider sur erreurs transitoires. Default: 1 */
   maxRetries?: number;
+  /** Bypass le request-level cache (cachedChat) — utilisé sur \"Régénérer\". */
+  bypassCache?: boolean;
 }
 
 export interface ChatResult {

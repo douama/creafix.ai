@@ -31,8 +31,9 @@ export default async function PlanPage({
   searchParams,
 }: {
   params: { id: string };
-  searchParams: { platform?: string; handle?: string };
+  searchParams: { platform?: string; handle?: string; regen?: string };
 }) {
+  const regenRequested = !!searchParams.regen;
   let platform: PlatformId;
   let handle: string;
   let country: string;
@@ -78,6 +79,7 @@ export default async function PlanPage({
     followers: scrape.snapshot?.followers,
     snapshot: scrape.snapshot,
     topic: issueTopic,
+    bypassCache: regenRequested,
   });
 
   const issues = result.audit.data.issues ?? storedIssues;
@@ -110,6 +112,35 @@ export default async function PlanPage({
   const cost = result.meta.totalCostUsd;
   const latencyS = Math.round(result.meta.totalLatencyMs / 100) / 10;
 
+  // Construit le plan 30 jours en composant les vraies sorties des 7 agents.
+  // Week 1 : neutraliser les risques + corriger les issues critiques (anti-ban + audit)
+  // Week 2-3 : produire les contenus (viral + script + thumbnail + trend)
+  // Week 4 : activer la monétisation (monetization + brand deals)
+  const week1 = [
+    ...antiBanRisks.filter((r) => r.severity === "high").map((r) => `Neutraliser : ${r.message}`),
+    ...issues.filter((i) => i.severity === "high").map((i) => `Corriger : ${i.title}`),
+    ...playbook.actionPlan30d.week1,
+  ].filter((v, i, a) => v && a.indexOf(v) === i).slice(0, 4);
+
+  const week23 = [
+    viralIdeas[0]?.title ? `Tourner « ${viralIdeas[0].title} » (${viralIdeas[0].duration})` : null,
+    scripts[0]?.hookRewrite ? `Tester le hook réécrit : « ${scripts[0].hookRewrite} »` : null,
+    trendData.hashtags[0]?.tag ? `Utiliser ${trendData.hashtags[0].tag} sur 2 contenus (${trendData.hashtags[0].velocity})` : null,
+    thumbnails[0] ? `Refondre les miniatures avec l'archetype "${thumbnails[0].archetype}" (+${thumbnails[0].estimatedCtrLift}% CTR estimé)` : null,
+    ...playbook.actionPlan30d.week23,
+  ].filter((v, i, a): v is string => !!v && a.indexOf(v) === i).slice(0, 4);
+
+  const week4 = [
+    ...monetActions,
+    ...playbook.actionPlan30d.week4,
+  ].filter((v, i, a) => v && a.indexOf(v) === i).slice(0, 4);
+
+  const plan30d = [
+    { w: "Semaine 1", subtitle: "Stabiliser & nettoyer", items: week1, tone: "rose" },
+    { w: "Semaine 2-3", subtitle: "Produire & tester", items: week23, tone: "amber" },
+    { w: "Semaine 4", subtitle: "Activer la monétisation", items: week4, tone: "emerald" },
+  ];
+
   return (
     <div className="space-y-7">
       {/* Header */}
@@ -130,6 +161,21 @@ export default async function PlanPage({
           </div>
         </div>
       </div>
+
+      {result.meta.anyMock && (
+        <div className="rounded-2xl border border-amber-500/40 bg-amber-500/[0.07] p-4">
+          <div className="flex items-start gap-3">
+            <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-amber-400" />
+            <div className="flex-1 text-sm">
+              <div className="font-semibold text-amber-300">Plan généré en mode démo (fallback)</div>
+              <p className="mt-1 text-muted-foreground">
+                Un ou plusieurs agents IA n&apos;ont pas pu joindre Claude — la clé <code className="rounded bg-card/60 px-1 py-0.5 text-foreground">ANTHROPIC_API_KEY</code> est probablement absente sur Vercel.
+                Pour un plan IA réel, ajoute la clé dans <strong>Vercel → Project Settings → Environment Variables</strong> (récupère-la depuis <em>console.anthropic.com</em>), puis redéploie.
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Top: Issues paired with IA fixes */}
       <Card>
@@ -334,6 +380,43 @@ export default async function PlanPage({
         </CardContent>
       </Card>
 
+      {/* 30-day execution plan — composed from real agent outputs */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Sparkles className="h-5 w-5 text-violet-400" />
+            Plan d&apos;exécution 30 jours · {playbook.name}
+          </CardTitle>
+          <p className="text-sm text-muted-foreground">
+            Roadmap synthétisée à partir des 7 agents : neutraliser d&apos;abord, produire ensuite, monétiser à la fin.
+          </p>
+        </CardHeader>
+        <CardContent>
+          <div className="grid gap-4 md:grid-cols-3">
+            {plan30d.map((b) => (
+              <div key={b.w} className="rounded-2xl border border-border bg-card/40 p-4">
+                <div className={`text-xs font-bold uppercase tracking-wider ${
+                  b.tone === "rose" ? "text-rose-300" : b.tone === "amber" ? "text-amber-300" : "text-emerald-300"
+                }`}>
+                  {b.w}
+                </div>
+                <div className="mt-0.5 text-sm font-semibold">{b.subtitle}</div>
+                <ul className="mt-3 space-y-2 text-sm">
+                  {b.items.map((it, idx) => (
+                    <li key={idx} className="flex items-start gap-2">
+                      <span className={`mt-1.5 inline-block h-1.5 w-1.5 shrink-0 rounded-full ${
+                        b.tone === "rose" ? "bg-rose-400" : b.tone === "amber" ? "bg-amber-400" : "bg-emerald-400"
+                      }`} />
+                      <span>{it}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
+
       {/* Final CTA */}
       <Card className="border-[#EC4899]/30 bg-gradient-to-br from-[#EC4899]/[0.06] to-[#F97316]/[0.06]">
         <CardContent className="flex flex-col items-center gap-4 p-8 text-center">
@@ -341,15 +424,21 @@ export default async function PlanPage({
           <div>
             <h3 className="font-display text-xl font-bold">Plan d&apos;action prêt à exécuter</h3>
             <p className="mt-1 text-sm text-muted-foreground">
-              Tu peux télécharger ce plan en PDF ou lancer un nouvel audit dans 30 jours pour mesurer les progrès.
+              Régénère pour de nouvelles idées (force un appel LLM frais) ou retourne à l&apos;audit pour consulter les scores.
             </p>
           </div>
           <div className="flex gap-2">
             <Button asChild variant="outline">
               <Link href={`/dashboard/audits/${params.id}`}>Retour à l&apos;audit</Link>
             </Button>
-            <Button variant="brand">
-              <Sparkles className="mr-1 h-4 w-4" /> Régénérer le plan
+            <Button asChild variant="brand">
+              <Link
+                href={`/dashboard/audits/${params.id}/plan?regen=${Date.now()}${
+                  params.id.startsWith("demo_") ? `&platform=${platform}&handle=${encodeURIComponent(handle)}` : ""
+                }`}
+              >
+                <Sparkles className="mr-1 h-4 w-4" /> Régénérer le plan
+              </Link>
             </Button>
           </div>
         </CardContent>

@@ -33,6 +33,8 @@ export interface AgentContext {
   /** Données *réelles* scrappées du profil. Si présent, les agents
    *  basent leur analyse dessus au lieu d'inventer. */
   snapshot?: ProfileSnapshot | null;
+  /** Force un re-run frais des agents (bypass cache 60s). */
+  bypassCache?: boolean;
 }
 
 /* ════════════════════════════════════════════════════════════════════
@@ -134,8 +136,8 @@ const CACHE_TTL_MS = 60_000;
 const CACHE_MAX_ENTRIES = 200;
 
 async function cachedChat(opts: Parameters<typeof chat>[0]): Promise<ChatResult & { cacheHit: boolean }> {
-  // Calls créatifs (haute température) : pas de dedup, on veut de la variété.
-  if ((opts.temperature ?? 0) > 0.5) {
+  // Bypass explicite (bouton Régénérer) ou créatifs haute température : pas de dedup.
+  if (opts.bypassCache || (opts.temperature ?? 0) > 0.5) {
     const res = await chat(opts);
     return { ...res, cacheHit: false };
   }
@@ -238,6 +240,7 @@ export async function auditAgent(ctx: AgentContext): Promise<AgentResult<AuditAg
     temperature: 0.3,
     maxTokens: 1500,
     maxRetries: 2,
+    bypassCache: ctx.bypassCache,
     messages: [
       { role: "system", content: buildAuditSystemPrompt(ctx.platform) },
       { role: "user", content: userMsg },
@@ -307,6 +310,7 @@ export async function viralAgent(
     temperature: 0.85,
     maxTokens: 1200,
     maxRetries: 2,
+    bypassCache: ctx.bypassCache,
     messages: [
       { role: "system", content: VIRAL_SYSTEM_PROMPT },
       { role: "user", content: userMsg },
@@ -382,6 +386,7 @@ export async function monetizationAgent(ctx: AgentContext): Promise<AgentResult<
     temperature: 0.4,
     maxTokens: 1024,
     maxRetries: 2,
+    bypassCache: ctx.bypassCache,
     messages: [
       { role: "system", content: buildMonetSystemPrompt(ctx.platform) },
       { role: "user", content: userMsg },
@@ -455,6 +460,7 @@ export async function antiBanAgent(ctx: AgentContext): Promise<AgentResult<AntiB
     temperature: 0.2,
     maxTokens: 800,
     maxRetries: 2,
+    bypassCache: ctx.bypassCache,
     messages: [
       { role: "system", content: buildAntiBanSystemPrompt(ctx.platform) },
       { role: "user", content: userMsg },
@@ -499,7 +505,7 @@ Réponse UNIQUEMENT en JSON valide :
   "sounds": [{"title": "<artiste — titre>", "uses": <n>}, ...2 items]
 }`;
 
-export async function trendAgent(country: string): Promise<AgentResult<TrendData>> {
+export async function trendAgent(country: string, opts?: { bypassCache?: boolean }): Promise<AgentResult<TrendData>> {
   const start = Date.now();
 
   const res = await cachedChat({
@@ -510,6 +516,7 @@ export async function trendAgent(country: string): Promise<AgentResult<TrendData
     temperature: 0.5,
     maxTokens: 700,
     maxRetries: 2,
+    bypassCache: opts?.bypassCache,
     messages: [
       { role: "system", content: TREND_SYSTEM_PROMPT },
       { role: "user", content: `Pays cible : ${country}` },
@@ -583,6 +590,7 @@ export async function thumbnailAgent(
     temperature: 0.8,
     maxTokens: 1500,
     maxRetries: 2,
+    bypassCache: ctx.bypassCache,
     messages: [
       { role: "system", content: THUMBNAIL_SYSTEM_PROMPT },
       { role: "user", content: userMsg },
@@ -664,6 +672,7 @@ export async function scriptAgent(
     temperature: 0.85,
     maxTokens: 2000,
     maxRetries: 2,
+    bypassCache: ctx.bypassCache,
     messages: [
       { role: "system", content: SCRIPT_SYSTEM_PROMPT },
       { role: "user", content: userMsg },
@@ -989,7 +998,7 @@ export async function runFullAudit(ctx: AgentContext & { topic?: string }) {
     viralAgent(ctx),
     monetizationAgent(ctx),
     antiBanAgent(ctx),
-    trendAgent(ctx.country),
+    trendAgent(ctx.country, { bypassCache: ctx.bypassCache }),
     thumbnailAgent(ctx),
     scriptAgent(ctx),
   ]);
