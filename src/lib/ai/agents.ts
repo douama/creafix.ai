@@ -16,6 +16,7 @@
 import { chat, type ChatResult } from "./providers";
 import { supabaseAdmin } from "@/lib/supabase/admin";
 import type { ProfileSnapshot } from "@/lib/social/types";
+import { getPlaybook } from "./platform-playbooks";
 
 type Platform = "FACEBOOK" | "TIKTOK" | "INSTAGRAM" | "YOUTUBE" | "X" | "SNAPCHAT" | "TWITCH" | "PINTEREST" | "LINKEDIN";
 
@@ -172,26 +173,36 @@ export interface AuditAgentData {
   issues: { severity: "low" | "medium" | "high"; title: string; scope: string }[];
 }
 
-const AUDIT_SYSTEM_PROMPT = `Tu es un analyste senior de monétisation de contenus sociaux, spécialiste du marché africain (Sénégal, Côte d'Ivoire, Cameroun, Mali, Nigeria, Ghana, Afrique du Sud, Maroc, RD Congo).
+function buildAuditSystemPrompt(platform: Platform): string {
+  const pb = getPlaybook(platform);
+  return `Tu es un analyste senior de monétisation de contenus sociaux SPÉCIALISÉ ${pb.name}, expert du marché africain (Sénégal, Côte d'Ivoire, Cameroun, Mali, Nigeria, Ghana, Afrique du Sud, Maroc, RD Congo).
+
+Tes recommandations et tes issues DOIVENT refléter les réalités opérationnelles de ${pb.name} — pas une plateforme générique.
+
+=== CONTEXTE ${pb.name.toUpperCase()} : LEVIERS DE VISIBILITÉ ===
+${pb.levers}
+
+=== CONTEXTE ${pb.name.toUpperCase()} : RISQUES PRINCIPAUX ===
+${pb.risks}
 
 OBLIGATION ABSOLUE : tu DOIS toujours retourner exactement 8 dimensions ET 3 issues ET un scoreGlobal numérique. JAMAIS d'array vide, JAMAIS de scoreGlobal null. C'est non-négociable même si les données sont partielles ou absentes.
 
 Stratégie de notation selon les données disponibles :
 
 CAS A — bloc "=== DONNÉES RÉELLES DU PROFIL ===" présent avec des posts et engagement :
-Base les scores STRICTEMENT sur ce que tu observes :
+Base les scores STRICTEMENT sur ce que tu observes, en appliquant les leviers ${pb.name} ci-dessus :
 - Engagement rate observé → Engagement authentique
 - Fréquence posts/semaine → Fréquence & calendrier
 - Hashtags réellement utilisés → SEO & métadonnées
 - Vues moyennes vs followers → Watch time / CTR
 - Bio, légendes → SEO et conformité
-- Musique commerciale / sons trending dans légendes → Copyright
+- Musique / sons utilisés → Copyright (sévérité variable selon ${pb.name})
 
 CAS B — bloc présent mais DONNÉES PARTIELLES (followers seuls, 0 post visible, bio absente) :
 Tu disposes des followers mais pas du contenu. Donne des scores prudents 45-70 estimés par la niche/pays/followers, et SIGNALE explicitement dans la 1ère issue : severity:"medium", title:"Audit limité — profil scrapé partiellement (0 post visible)", scope:"Anti-Ban".
 
 CAS C — AUCUN bloc fourni :
-Audit basé sur niche/pays/plateforme uniquement. 1ère issue obligatoire : severity:"medium", title:"Audit basé sur estimations — connecter le compte pour analyse approfondie", scope:"Monetization".
+Audit basé sur niche/pays/${pb.name} uniquement. 1ère issue obligatoire : severity:"medium", title:"Audit basé sur estimations — connecter le compte pour analyse approfondie", scope:"Monetization".
 
 Dimensions (toujours ces 8 noms exacts, scores 0-100) :
 1. Conformité politiques
@@ -203,14 +214,17 @@ Dimensions (toujours ces 8 noms exacts, scores 0-100) :
 7. SEO & métadonnées
 8. Qualité audience
 
-Issues (toujours 3, triées par sévérité décroissante) : severity = low|medium|high. Scope = Anti-Ban|Monetization|SEO|Engagement.
+Issues (toujours 3, triées par sévérité décroissante, FORMULÉES SPÉCIFIQUEMENT POUR ${pb.name}) :
+severity = low|medium|high. Scope = Anti-Ban|Monetization|SEO|Engagement.
+Les titres doivent mentionner des mécanismes propres à ${pb.name} (ex pour TikTok : "Sons commerciaux non-libres détectés — risque mute Creator Rewards" ; pour YouTube : "CTR thumbnail < 4% sur dernières vidéos — algo arrête de pousser").
 
 Tu DOIS répondre UNIQUEMENT en JSON valide, format strict (jamais vide) :
 {
   "scoreGlobal": <0-100, JAMAIS null>,
   "dimensions": [{"name": "<un des 8 ci-dessus>", "score": <0-100>}, ...EXACTEMENT 8 items],
-  "issues": [{"severity": "high|medium|low", "title": "<court, factuel>", "scope": "<court>"}, ...EXACTEMENT 3 items]
+  "issues": [{"severity": "high|medium|low", "title": "<court, factuel, spécifique ${pb.name}>", "scope": "<court>"}, ...EXACTEMENT 3 items]
 }`;
+}
 
 export async function auditAgent(ctx: AgentContext): Promise<AgentResult<AuditAgentData>> {
   const start = Date.now();
@@ -225,7 +239,7 @@ export async function auditAgent(ctx: AgentContext): Promise<AgentResult<AuditAg
     maxTokens: 1500,
     maxRetries: 2,
     messages: [
-      { role: "system", content: AUDIT_SYSTEM_PROMPT },
+      { role: "system", content: buildAuditSystemPrompt(ctx.platform) },
       { role: "user", content: userMsg },
     ],
   });
@@ -326,22 +340,30 @@ export interface MonetizationData {
   actions: string[];
 }
 
-const MONET_SYSTEM_PROMPT = `Tu es un expert monétisation sociale.
+function buildMonetSystemPrompt(platform: Platform): string {
+  const pb = getPlaybook(platform);
+  return `Tu es un expert monétisation sociale SPÉCIALISÉ ${pb.name}.
 
-Tu analyses l'éligibilité d'un créateur aux programmes :
+Tes 3 actions DOIVENT être spécifiques à ${pb.name} — pas génériques. Mentionne les programmes, seuils et leviers réels de ${pb.name} dans chaque action (pas "augmente ton engagement" mais "active Creator Rewards en publiant 3 vidéos ≥ 1 min cette semaine").
+
+=== PROGRAMMES DE MONÉTISATION ${pb.name.toUpperCase()} (réalité 2024+) ===
+${pb.monetization}
+
+Pour ce créateur, estime les critères actuels (basés sur followers et niche), détermine l'éligibilité aux 2 programmes ci-dessous (qui restent les références historiques, peu importe la plateforme audité), puis propose 3 actions concrètes priorisées (impact × effort) AXÉES SUR LES PROGRAMMES ${pb.name} ci-dessus.
+
+Référence historique (à conserver dans le JSON, MÊME pour les autres plateformes pour ne pas casser le schéma de la base) :
 - Facebook In-Stream Ads : 10K followers + 600 min watch time / 60j + page éligible
 - TikTok Creator Rewards : 10K followers + 100K vues / 30j + vidéos > 1 min
 
-Pour chaque créateur, estime les critères actuels (basés sur followers déclarés et niche), détermine l'éligibilité, et propose 3 actions concrètes et priorisées (impact × effort) pour activer ou augmenter les revenus.
-
 Réponse UNIQUEMENT en JSON valide :
 {
-  "eligibleFacebookInStream": <bool>,
-  "eligibleTikTokRewards": <bool>,
+  "eligibleFacebookInStream": <bool, true uniquement si plateforme=FACEBOOK et critères atteints>,
+  "eligibleTikTokRewards": <bool, true uniquement si plateforme=TIKTOK et critères atteints>,
   "fbCriteria": {"followers": <n>, "watchMin60d": 600, "currentWatchMin60d": <n>},
   "tikTokCriteria": {"followers": <n>, "views30d": 100000, "currentViews30d": <n>},
-  "actions": ["...", "...", "..."]
+  "actions": ["<action 1 ${pb.name}>", "<action 2 ${pb.name}>", "<action 3 ${pb.name}>"]
 }`;
+}
 
 export async function monetizationAgent(ctx: AgentContext): Promise<AgentResult<MonetizationData>> {
   const start = Date.now();
@@ -361,7 +383,7 @@ export async function monetizationAgent(ctx: AgentContext): Promise<AgentResult<
     maxTokens: 1024,
     maxRetries: 2,
     messages: [
-      { role: "system", content: MONET_SYSTEM_PROMPT },
+      { role: "system", content: buildMonetSystemPrompt(ctx.platform) },
       { role: "user", content: userMsg },
     ],
   });
@@ -394,11 +416,16 @@ export interface AntiBanData {
   }[];
 }
 
-const ANTIBAN_SYSTEM_PROMPT = `Tu es un spécialiste de la détection de shadowban et démonétisation sur TikTok, Facebook, Instagram, YouTube.
+function buildAntiBanSystemPrompt(platform: Platform): string {
+  const pb = getPlaybook(platform);
+  return `Tu es un spécialiste de la détection de shadowban et démonétisation SPÉCIALISÉ ${pb.name}.
 
-Tu identifies les risques sur un compte : copyright audio, fake engagement, contenu sensible, spam, recyclage, violation policy.
+Tes messages de risque DOIVENT mentionner des mécanismes spécifiques à ${pb.name}, pas des génériques type "attention copyright".
 
-Adapte au contexte de la plateforme (TikTok est plus strict sur l'audio commercial ; YouTube sur les claims ; Meta sur fake engagement).
+=== RISQUES DOMINANTS SUR ${pb.name.toUpperCase()} (réalité 2024+) ===
+${pb.risks}
+
+Identifie les risques observables sur le compte parmi : copyright audio, fake engagement, contenu sensible, spam, recyclage, violation policy — mais en formulant les messages avec le vocabulaire et les mécanismes de ${pb.name} ci-dessus.
 
 Score de risque global 0-100 (0 = aucun risque, 100 = compte en très grand danger).
 
@@ -406,10 +433,11 @@ Réponse UNIQUEMENT en JSON valide :
 {
   "riskScore": <0-100>,
   "risks": [
-    {"type": "copyright|fake_engagement|sensitive|spam|recycled|policy", "severity": "low|medium|high", "message": "<court>"},
+    {"type": "copyright|fake_engagement|sensitive|spam|recycled|policy", "severity": "low|medium|high", "message": "<court, spécifique ${pb.name}>"},
     ... 3 items
   ]
 }`;
+}
 
 export async function antiBanAgent(ctx: AgentContext): Promise<AgentResult<AntiBanData>> {
   const start = Date.now();
@@ -428,7 +456,7 @@ export async function antiBanAgent(ctx: AgentContext): Promise<AgentResult<AntiB
     maxTokens: 800,
     maxRetries: 2,
     messages: [
-      { role: "system", content: ANTIBAN_SYSTEM_PROMPT },
+      { role: "system", content: buildAntiBanSystemPrompt(ctx.platform) },
       { role: "user", content: userMsg },
     ],
   });

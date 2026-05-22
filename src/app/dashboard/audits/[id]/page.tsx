@@ -20,6 +20,7 @@ import { createClient } from "@/lib/supabase/server";
 import { PlatformIcon, PLATFORM_BRAND_COLORS } from "@/components/brand/platform-icon";
 import type { PlatformId } from "@/lib/platforms";
 import { runFullAudit } from "@/lib/ai/agents";
+import { getPlaybook } from "@/lib/ai/platform-playbooks";
 import { fetchProfileSnapshot } from "@/lib/social/scraper";
 import type { ProfileSnapshot } from "@/lib/social/types";
 
@@ -60,29 +61,31 @@ function getTone(score: number) {
   return "rose" as const;
 }
 
-function buildActionPlan(audit: any) {
+function buildActionPlan(audit: any, platform: PlatformId | undefined) {
+  const playbook = getPlaybook(platform);
   const issues = (audit.issues as { title: string }[]) || [];
   const recs = (audit.recommendations as string[]) || [];
-  
+
+  // Semaine 1 : on prend en priorité les issues IA-générées (ce sont déjà des
+  // problèmes spécifiques à la plateforme grâce au prompt platform-aware),
+  // complétées par le playbook si moins de 3 items.
   const week1Items = [
     ...issues.map(i => i.title),
-    "Vérifier la conformité de vos dernières vidéos",
+    ...playbook.actionPlan30d.week1,
   ].slice(0, 3);
-  if (week1Items.length < 3) {
-    week1Items.push("Suivre le calendrier optimal de publication");
-  }
 
+  // Semaines 2-3 : mix recommandation IA #1 + actions plateforme du playbook.
   const week23Items = [
-    recs[0] || "Optimiser les miniatures avec l'outil Thumbnail Agent",
-    "Produire 3 nouveaux contenus avec des hooks viraux suggérés",
-    "Surveiller les statistiques de rétention",
-  ].slice(0, 3);
+    recs[0] ?? playbook.actionPlan30d.week23[0],
+    ...playbook.actionPlan30d.week23,
+  ].filter((v, i, a) => v && a.indexOf(v) === i).slice(0, 3);
 
+  // Semaine 4 : mix recommandations IA #2/#3 + actions monétisation du playbook.
   const week4Items = [
-    recs[1] || recs[0] || "Activer et configurer les outils de monétisation",
-    "Faire un bilan des performances et des revenus générés",
-    "Ajuster la stratégie de hashtags et SEO local",
-  ].slice(0, 3);
+    recs[1] ?? playbook.actionPlan30d.week4[0],
+    recs[2] ?? playbook.actionPlan30d.week4[1],
+    ...playbook.actionPlan30d.week4,
+  ].filter((v, i, a) => v && a.indexOf(v) === i).slice(0, 3);
 
   return [
     { w: "Semaine 1", items: week1Items },
@@ -200,7 +203,8 @@ export default async function AuditDetailPage({
 
   const rawIssues = (audit.issues as { severity: "high" | "medium" | "low"; title: string; scope: string }[]) || [];
   const recommendations = (audit.recommendations as string[]) || [];
-  const actionPlan = buildActionPlan(audit);
+  const actionPlan = buildActionPlan(audit, platform);
+  const platformName = getPlaybook(platform).name;
 
   const estimates = (audit.estimates as Record<string, any> | null) ?? {};
   const dataSource: "real" | "partial" | "simulated" = estimates.dataSource ?? "simulated";
@@ -295,9 +299,9 @@ export default async function AuditDetailPage({
       <div className="grid gap-5 lg:grid-cols-2">
         <Card>
           <CardHeader>
-            <CardTitle>Problèmes critiques</CardTitle>
+            <CardTitle>Problèmes critiques · {platformName}</CardTitle>
             <p className="text-sm text-muted-foreground">
-              À régler en priorité pour éviter démonétisation ou ban.
+              À régler en priorité pour éviter démonétisation ou ban sur {platformName}.
             </p>
           </CardHeader>
           <CardContent className="space-y-3">
@@ -318,9 +322,9 @@ export default async function AuditDetailPage({
 
         <Card>
           <CardHeader>
-            <CardTitle>Opportunités IA</CardTitle>
+            <CardTitle>Opportunités IA · {platformName}</CardTitle>
             <p className="text-sm text-muted-foreground">
-              Actions à fort impact pour booster tes revenus.
+              Actions à fort impact pour booster tes revenus sur {platformName}.
             </p>
           </CardHeader>
           <CardContent className="space-y-3">
@@ -346,8 +350,8 @@ export default async function AuditDetailPage({
 
       <Card>
         <CardHeader>
-          <CardTitle>Plan d'action 30 jours</CardTitle>
-          <p className="text-sm text-muted-foreground">Roadmap IA personnalisée pour ton compte.</p>
+          <CardTitle>Plan d'action 30 jours · {platformName}</CardTitle>
+          <p className="text-sm text-muted-foreground">Roadmap IA personnalisée pour ton compte {platformName}.</p>
         </CardHeader>
         <CardContent>
           <div className="grid gap-4 md:grid-cols-3">
