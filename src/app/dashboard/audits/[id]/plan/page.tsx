@@ -109,7 +109,6 @@ export default async function PlanPage({
 
   const brandColor = PLATFORM_BRAND_COLORS[platform] || "#9146FF";
   const isWhiteBrand = brandColor === "#FFFFFF";
-  const cost = result.meta.totalCostUsd;
   const latencyS = Math.round(result.meta.totalLatencyMs / 100) / 10;
 
   // Construit le plan 30 jours en composant les vraies sorties des 7 agents.
@@ -156,7 +155,7 @@ export default async function PlanPage({
           </h1>
           <div className="mt-1 flex items-center gap-2 text-sm text-muted-foreground">
             <PlatformIcon id={platform} className="h-3.5 w-3.5" style={{ color: isWhiteBrand ? "currentColor" : brandColor }} />
-            {handle} · {result.meta.agentsCount} agents IA · {latencyS}s · ${cost.toFixed(4)}
+            {handle} · {result.meta.agentsCount} agents IA · généré en {latencyS}s
             {result.meta.anyMock && <Badge variant="warning">Mode démo (1 agent en fallback)</Badge>}
           </div>
         </div>
